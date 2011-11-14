@@ -364,8 +364,16 @@ package
 				inputTimer = 0;
 			} else {
 				inputTimer += FlxG.elapsed;
-				if (inputTimer > inputTime) {
-					inputTimer -= inputTime;
+				
+				var inputScale:Number = 1;
+				//var minoDist:int = Math.abs(currentMino.gridLoc.y - station.core.gridLoc.y);
+				//var nearby:int = C.B.getFurthest() * 0.5;
+				//if (minoDist > nearby)
+					//inputScale = Math.min(2, (minoDist - nearby) / (nearby * 2));
+				//C.log(minoDist, nearby, (minoDist - nearby) / (nearby * 2/3), inputScale);
+				
+				if (inputTimer >= inputTime / inputScale) {
+					inputTimer -= inputTime / inputScale;
 					
 					if (ControlSet.MINO_L_KEY.pressed())
 						currentMino.moveLeft();

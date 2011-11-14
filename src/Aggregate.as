@@ -155,16 +155,20 @@ package  {
 		protected function rotate(clockwise:Boolean):Mino {
 			var rotateCenter:Point = core.gridLoc.add(centroidOffset);
 			for each (var mino:Mino in members)
-				if (mino)
+				if (mino && mino.exists)
 					mino.rotateAbout(rotateCenter, clockwise);
 			
 			var hit:Mino = intersects();
 			if (hit) {
 				for each (mino in members)
-					if (mino)
+					if (mino && mino.exists)
 						mino.rotateAbout(rotateCenter, !clockwise);
-			} else
+			} else {
 				rotateCentroid(clockwise);
+				for each (mino in members)
+					if (mino && mino.exists)
+						mino.mergeNeighbors(); //this should probably be optimized
+			}
 			
 			return hit;
 		}

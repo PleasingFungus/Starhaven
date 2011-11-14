@@ -32,9 +32,9 @@ package Mining {
 			var grid:Point = new Point(Math.floor((x + width / 2) / C.BLOCK_SIZE), 
 									   Math.floor((y + height / 2) / C.BLOCK_SIZE + 1));
 			if (C.fluid.intersectsPoint(grid)) {
-				acceleration.y = -maxVelocity.y*3;
+				acceleration.y = -maxVelocity.y*2.5;
 			} else {
-				acceleration.y = maxVelocity.y*3;
+				acceleration.y = maxVelocity.y*2.5;
 				var mino:Mino = Mino.getGrid(grid.x, grid.y - 1);
 				if (mino is Smino) {
 					var smino:Smino = mino as Smino;

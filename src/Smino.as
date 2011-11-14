@@ -192,12 +192,6 @@ package  {
 				neighbor.addNeighbor(this);
 		}
 		
-		protected function mergeNeighbors():void {
-			for each (var mino:Mino in Mino.all_minos)
-				if (mino.exists && mino.parent && mino.parent != parent && adjacent(mino))
-					mino.parent.merge(parent);
-		}
-		
 		
 		
 		
