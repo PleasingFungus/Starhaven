@@ -16,8 +16,6 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
-    <class path="..\..\..\Programming\Flash\flixel 2" />
-    <class path="..\..\..\Documents\Flash\flixel 2" />
   </classpaths>
   <!-- Build options -->
   <build>
