@@ -52,8 +52,7 @@ package  {
 			
 			for each (var mino:Mino in other.members)
 				add(mino);
-			
-			exists = false;
+			other.exists = false;
 		}
 		
 		
