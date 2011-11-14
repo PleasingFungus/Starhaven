@@ -8,9 +8,9 @@ package SFX {
 	public class Pyrotechnic extends FlxSprite {
 		
 		protected var cycleTimer:Number = 0;
-		public function Pyrotechnic(X:int, Y:int, Direction:int) {
+		public function Pyrotechnic(X:int, Y:int, Direction:int, Color:uint = 0xbee93a0f) {
 			super(X * C.BLOCK_SIZE, Y * C.BLOCK_SIZE);
-			createGraphic(C.BLOCK_SIZE, C.BLOCK_SIZE, 0xbee93a0f);
+			createGraphic(C.BLOCK_SIZE, C.BLOCK_SIZE, Color);
 			facing = Direction;
 		}
 		

@@ -154,7 +154,7 @@ package
 		}
 		
 		protected function createTracker(Density:Number = 2, WaveSpacing:int = 16):void {
-			if (!rotateable) Density /= 2;
+			//if (!rotateable) Density /= 2;
 			tracker = new AsteroidTracker(minoLayer, spawner, station.core, 15, 1.5, Density, WaveSpacing);
 			add(tracker);
 		}

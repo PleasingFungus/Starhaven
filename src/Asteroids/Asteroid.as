@@ -53,6 +53,15 @@ package Asteroids {
 				explode(explosionRadius);
 				exists = false;
 			}
+			
+			if (C.fluid && C.fluid.intersect(this)) {
+				explode(explosionRadius - 1);
+				exists = false;
+				for each (var block:Block in blocks) {
+					var absBlock:Point = block.add(absoluteCenter);
+					Mino.layer.add(new Pyrotechnic(absBlock.x, absBlock.y, UP, 0xbec0c0c0));
+				}
+			}
 		}
 		
 		override public function intersects():Mino {

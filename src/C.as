@@ -10,10 +10,10 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "0.016";
+		public static const VERSION:String = "0.017";
 		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
-		public static const DEBUG_SEED:Number = 0.5089746117591858;
+		public static const DEBUG_SEED:Number = NaN//0.5089746117591858;
 		public static const DISPLAY_BOUNDS:Boolean = false;
 		public static const DISPLAY_DRAW_AREA:Boolean = false;
 		public static const ALWAYS_SHOW_ASTEROIDS:Boolean = false;
