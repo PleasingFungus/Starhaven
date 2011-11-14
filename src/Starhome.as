@@ -9,6 +9,8 @@ package {
 	import MainMenu.MainMenuThing;
 	
 	import org.flixel.*;
+	
+	
 	[SWF(width="480", height="480", backgroundColor="#000000")]
 	[Frame(factoryClass="Preloader")]
 	public class Starhome extends FlxGame

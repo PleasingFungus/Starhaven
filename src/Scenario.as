@@ -365,15 +365,15 @@ package
 			} else {
 				inputTimer += FlxG.elapsed;
 				
-				var inputScale:Number = 1;
-				//var minoDist:int = Math.abs(currentMino.gridLoc.y - station.core.gridLoc.y);
+				var minoDist:int = Math.abs(currentMino.gridLoc.y - station.core.gridLoc.y);
+				var inputScale:Number = Math.max(0.5, Math.min(1, 30 / minoDist));
 				//var nearby:int = C.B.getFurthest() * 0.5;
 				//if (minoDist > nearby)
 					//inputScale = Math.min(2, (minoDist - nearby) / (nearby * 2));
 				//C.log(minoDist, nearby, (minoDist - nearby) / (nearby * 2/3), inputScale);
 				
-				if (inputTimer >= inputTime / inputScale) {
-					inputTimer -= inputTime / inputScale;
+				if (inputTimer >= inputTime * inputScale) {
+					inputTimer -= inputTime * inputScale;
 					
 					if (ControlSet.MINO_L_KEY.pressed())
 						currentMino.moveLeft();
