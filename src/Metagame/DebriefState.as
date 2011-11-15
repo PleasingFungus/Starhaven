@@ -69,17 +69,12 @@ package Metagame {
 			super.update();
 			if (FlxG.mouse.justPressed() || FlxG.keys.anyKey()) {
 				if (C.campaign)
-					FlxG.state = new MissionSelectState;
+					FlxG.state = new CampaignState//MissionSelectState;
 				else
 					FlxG.state = new MenuState;
 			}
 			//C.music.update();
 		}
-		
-		public static const MISSION_ABORTED:int = 0;
-		public static const MISSION_TIMEOUT:int = 1;
-		public static const MISSION_MINEDOUT:int = 2;
-		public static const MISSION_EXPLODED:int = 3;
 	}
 
 }

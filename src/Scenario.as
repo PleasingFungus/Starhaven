@@ -15,7 +15,9 @@ package
 	import HUDs.Minimap;
 	import MainMenu.MenuState;
 	import MainMenu.StateThing;
-	import Metagame.DebriefState;
+	import Metagame.Campaign;
+	import Metagame.CampaignState;
+	import Metagame.CampaignVictoryState
 	import Meteoroids.MeteoroidTracker;
 	import Mining.ResourceSource;
 	import SFX.Fader;
@@ -575,12 +577,19 @@ package
 			hudLayer.update();
 		}
 		
-		protected function endGame():void {			
-			FlxG.state = new MenuState;//new DebriefState(station.mineralsMined, station.mineralsLaunched, getEndCause());
+		protected function endGame():void {		
+			if (C.campaign) {
+				C.campaign.endMission();
+				if (C.campaign.nextMission)
+					FlxG.state = new CampaignState;
+				else
+					FlxG.state = new CampaignVictoryState();
+			} else
+				FlxG.state = new MenuState;//new DebriefState(station.mineralsMined, station.mineralsLaunched, getEndCause());
 		}
 		
 		protected function exitToMenu():void {
-			var endCause:int = DebriefState.MISSION_ABORTED;
+			var endCause:int = Campaign.MISSION_ABORTED;
 			if (missionOver)
 				endCause = getEndCause();
 			FlxG.state = new MenuState;//new DebriefState(station.mineralsMined, station.mineralsLaunched, endCause);
@@ -588,11 +597,11 @@ package
 		
 		protected function getEndCause():int {
 			if (goalFraction >= 4)
-				return DebriefState.MISSION_MINEDOUT;
+				return Campaign.MISSION_MINEDOUT;
 			else if (GlobalCycleTimer.outOfTime())
-				return DebriefState.MISSION_TIMEOUT;
+				return Campaign.MISSION_TIMEOUT;
 			else
-				return DebriefState.MISSION_EXPLODED;
+				return Campaign.MISSION_EXPLODED;
 		}
 		
 		

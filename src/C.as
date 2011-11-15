@@ -135,6 +135,50 @@ package  {
 			return (alpha << 24) | (red << 16) | (green << 8 ) | blue;
 		}
 		
+		public static function HSVToRGB(H:Number, S:Number, V:Number):uint {
+			var Chroma:Number = S * V;
+			var Hp:Number = H * 6;
+			var X:Number = Chroma * (1 - Math.abs(Hp % 2 - 1));
+			var R:Number, G:Number, B:Number;
+			switch (Math.floor(Hp)) {
+				case 0: 
+					R = Chroma;
+					G = X;
+					B = 0;
+					break;
+				case 1:
+					R = X;
+					G = Chroma;
+					B = 0;
+					break;
+				case 2:
+					R = 0;
+					G = Chroma;
+					B = X;
+					break;
+				case 3:
+					R = 0;
+					G = X;
+					B = Chroma;
+					break;
+				case 4:
+					R = X;
+					G = 0;
+					B = Chroma;
+					break;
+				case 5:
+					R = Chroma;
+					G = 0;
+					B = X;
+					break;
+			}
+			
+			var r:int = R * 255;
+			var g:int = G * 255;
+			var b:int = B * 255;
+			return 0xff000000 | (r << 16) | (g << 8) | b;
+		}
+		
 		
 		public static const MINERALS:int = 0;
 		public static const PEOPLE:int = 1;

@@ -8,7 +8,7 @@ package MainMenu {
 	import Scenarios.PlanetScenario;
 	import Scenarios.NebulaScenario;
 	import InfoScreens.HelpState;
-	import Metagame.MissionSelectState;
+	import Metagame.CampaignState;
 
 	public class MenuState extends FlxState
 	{
@@ -27,7 +27,7 @@ package MainMenu {
 			MenuThing.menuThings = [];
 			add(new MainMenuThing("README", HelpState));
 			add(new MainMenuThing("Quick Play", QuickPlayState));
-			//add(new MainMenuThing("Campaign", MissionSelectState));
+			add(new MainMenuThing("Campaign", CampaignState));
 			add(new MainMenuThing("Controls", ControlsState));
 			add(new MainMenuThing("Credits", CreditsState));
 			

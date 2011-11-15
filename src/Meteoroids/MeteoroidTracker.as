@@ -67,7 +67,7 @@ package Meteoroids {
 				if (timer >= nextWave)
 					startWave();
 				else if (dangerFraction() == "V. High" && oldDanger != "V. High")
-					FlxG.state.add(new FlashText("Meteoroids Inbound!", 0xff2020, 2));
+					FlxG.state.add(new FlashText("Meteors Inbound!", 0xff2020, 2));
 			}
 		}
 		
