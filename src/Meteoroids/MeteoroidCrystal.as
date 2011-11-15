@@ -1,4 +1,4 @@
-package Asteroids {
+package Meteoroids {
 	import Mining.MineralBlock;
 	import Mining.ResourceSource;
 	import org.flixel.FlxSprite;
@@ -11,10 +11,10 @@ package Asteroids {
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
 	 */
-	public class AsteroidCrystal extends FlxSprite {
+	public class MeteoroidCrystal extends FlxSprite {
 		
 		protected var value:int = 5;
-		public function AsteroidCrystal(X:int, Y:int, Target:Point) {
+		public function MeteoroidCrystal(X:int, Y:int, Target:Point) {
 			super(X * C.BLOCK_SIZE, Y * C.BLOCK_SIZE , _minerals_sprite);
 			color = 0xff4c355b;
 			

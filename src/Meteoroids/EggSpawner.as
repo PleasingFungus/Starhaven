@@ -1,4 +1,4 @@
-package Asteroids {
+package Meteoroids {
 	import org.flixel.FlxU;
 	import org.flixel.FlxGroup;
 	/**
@@ -11,16 +11,16 @@ package Asteroids {
 			super( Warning, Target);
 		}
 		
-		override public function spawnAsteroid(asteroids:FlxGroup):void {
+		override public function spawnMeteoroid(asteroids:FlxGroup):void {
 			var furthest:int = C.B.getFurthest();
-			var travelDist:Number = warning / (C.CYCLE_TIME * Asteroid.period);
+			var travelDist:Number = warning / (C.CYCLE_TIME * Meteoroid.period);
 			
 			var radius:int = furthest + travelDist;
 			var angle:Number = FlxU.random() * 2 * Math.PI;
 			var X:int = Math.cos(angle) * radius
 			var Y:int = Math.sin(angle) * radius
 			
-			asteroids.add(new Asteroid(X, Y, target.absoluteCenter));
+			asteroids.add(new Meteoroid(X, Y, target.absoluteCenter));
 		}
 		
 	}

@@ -7,7 +7,7 @@ package Scenarios {
 	import Mining.Terrain;
 	import Missions.BeltMission;
 	import org.flixel.FlxU;
-	import Asteroids.AsteroidTracker;
+	import Meteoroids.MeteoroidTracker;
 	import org.flixel.FlxU;
 	/**
 	 * ...

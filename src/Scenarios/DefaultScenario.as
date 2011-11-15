@@ -1,5 +1,5 @@
 package Scenarios {
-	import Asteroids.EggSpawner;
+	import Meteoroids.EggSpawner;
 	import flash.geom.Point;
 	import GrabBags.BagType;
 	import GrabBags.GrabBag;

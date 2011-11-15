@@ -1,4 +1,4 @@
-package Asteroids {
+package Meteoroids {
 	import org.flixel.FlxU;
 	import Missions.TrenchMission;
 	import org.flixel.FlxGroup;
@@ -12,11 +12,11 @@ package Asteroids {
 			super(Warning, Target);
 		}
 		
-		override public function spawnAsteroid(asteroids:FlxGroup):void {
+		override public function spawnMeteoroid(asteroids:FlxGroup):void {
 			var Y:int = C.B.OUTER_BOUNDS.top - 10;
 			var X:int = C.B.OUTER_BOUNDS.left + TrenchMission.TRENCH_WIDTH / 2 + FlxU.random() * TrenchMission.TRENCH_WIDTH;
 			
-			asteroids.add(new Asteroid(X, Y, target.absoluteCenter));
+			asteroids.add(new Meteoroid(X, Y, target.absoluteCenter));
 		}
 		
 	}

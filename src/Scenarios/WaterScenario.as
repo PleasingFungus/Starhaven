@@ -7,7 +7,7 @@ package Scenarios {
 	import Mining.Water;
 	import Missions.WaterMission;
 	import org.flixel.FlxU;
-	import Asteroids.PlanetSpawner;
+	import Meteoroids.PlanetSpawner;
 	import Sminos.Scoop;
 	import GrabBags.BagType;
 	import Sminos.SmallBarracks;

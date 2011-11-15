@@ -1,4 +1,4 @@
-package Asteroids {
+package Meteoroids {
 	import org.flixel.FlxGroup;
 	/**
 	 * ...
@@ -13,7 +13,7 @@ package Asteroids {
 			target = Target;
 		}
 		
-		public function spawnAsteroid(asteroids:FlxGroup):void {
+		public function spawnMeteoroid(asteroids:FlxGroup):void {
 			
 		}
 	}

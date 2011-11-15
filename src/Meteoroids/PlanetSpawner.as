@@ -1,4 +1,4 @@
-package Asteroids {
+package Meteoroids {
 	import flash.geom.Point;
 	import org.flixel.FlxU;
 	import org.flixel.FlxGroup;
@@ -14,7 +14,7 @@ package Asteroids {
 			malevolent = false;
 		}
 		
-		override public function spawnAsteroid(asteroids:FlxGroup):void {
+		override public function spawnMeteoroid(asteroids:FlxGroup):void {
 			var Y:int = C.B.OUTER_BOUNDS.top - 10;
 			
 			var X:int, targetCenter:Point;
@@ -29,7 +29,7 @@ package Asteroids {
 										 C.B.OUTER_BOUNDS.bottom);
 			}
 			
-			asteroids.add(new Asteroid(X, Y, targetCenter));
+			asteroids.add(new Meteoroid(X, Y, targetCenter));
 		}
 		
 	}

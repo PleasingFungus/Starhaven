@@ -1,6 +1,6 @@
 package HUDs {
+	import Meteoroids.MeteoroidTracker;
 	import org.flixel.*;
-	import Asteroids.AsteroidTracker;
 	
 	/**
 	 * ...
@@ -15,8 +15,8 @@ package HUDs {
 		
 		private var station:Station;
 		private var goal:int;
-		private var tracker:AsteroidTracker;
-		public function HUD(station:Station, goalFraction:Number, tracker:AsteroidTracker) {
+		private var tracker:MeteoroidTracker;
+		public function HUD(station:Station, goalFraction:Number, tracker:MeteoroidTracker) {
 			super();
 			
 			this.station = station;

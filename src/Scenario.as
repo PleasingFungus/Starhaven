@@ -1,7 +1,5 @@
 package
 {
-	import Asteroids.AsteroidTracker;
-	import Asteroids.Spawner;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.BlendMode;
@@ -18,6 +16,7 @@ package
 	import MainMenu.MenuState;
 	import MainMenu.StateThing;
 	import Metagame.DebriefState;
+	import Meteoroids.MeteoroidTracker;
 	import Mining.ResourceSource;
 	import SFX.Fader;
 	import Sminos.Bomb;
@@ -44,7 +43,7 @@ package
 		
 		protected var spawnTimer:Number = SPAWN_TIME * 1.5;
 		protected var spawner:Class;
-		protected var tracker:AsteroidTracker;
+		protected var tracker:MeteoroidTracker;
 		protected var hud:HUD;
 		protected var minimap:Minimap;
 		
@@ -155,7 +154,7 @@ package
 		
 		protected function createTracker(Density:Number = 2, WaveSpacing:int = 16):void {
 			//if (!rotateable) Density /= 2;
-			tracker = new AsteroidTracker(minoLayer, spawner, station.core, 15, 1.5, Density, WaveSpacing);
+			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, Density, WaveSpacing);
 			add(tracker);
 		}
 		

@@ -1,4 +1,4 @@
-package Asteroids {
+package Meteoroids {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import org.flixel.FlxSprite;
@@ -9,14 +9,14 @@ package Asteroids {
 	 * ...
 	 * @author Nicholas Feinberg
 	 */
-	public class Asteroid extends Mino {
+	public class Meteoroid extends Mino {
 		
 		protected var semigridLoc:Point;
 		protected var target:Point;
 		protected var direction:Point;
 		protected var rotation:int;
 		protected var explosionRadius:int = 3;
-		public function Asteroid(X:int, Y:int, Target:Point = null) {
+		public function Meteoroid(X:int, Y:int, Target:Point = null) {
 			var blocks:Array = [new Block(0, 0), new Block(1, 0),
 								new Block(0, 1), new Block(1, 1)];
 			super(X, Y, blocks, new Point(0, 0), 0xff8e4b35, _sprite);
@@ -33,7 +33,7 @@ package Asteroids {
 			rotation = FlxU.random() * 3;
 			
 			all_minos.push(this);
-			name = "Asteroid";
+			name = "Meteoroid";
 		}
 		
 		override protected function executeCycle():void {
@@ -121,7 +121,7 @@ package Asteroids {
 		override protected function beDamaged():void {
 			explode(1);
 			for (var i:int = 0; i < 4; i++)
-				Mino.layer.add(new AsteroidCrystal(absoluteCenter.x, absoluteCenter.y, target));
+				Mino.layer.add(new MeteoroidCrystal(absoluteCenter.x, absoluteCenter.y, target));
 		}
 		
 		public static function get period():Number {

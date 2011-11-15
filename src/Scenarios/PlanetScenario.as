@@ -6,7 +6,7 @@ package Scenarios {
 	import Mining.Terrain;
 	import Missions.PlanetMission;
 	import org.flixel.FlxU;
-	import Asteroids.PlanetSpawner;
+	import Meteoroids.PlanetSpawner;
 	/**
 	 * ...
 	 * @author ...
