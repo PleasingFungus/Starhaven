@@ -345,7 +345,7 @@ package
 		}
 		
 		protected function checkContinuousInput():void {
-			if (currentMino)
+			if (currentMino && currentMino.falling)
 				checkMinoMoveInput();
 			else
 				checkMinoSpawnInput();
