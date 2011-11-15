@@ -376,7 +376,7 @@ package  {
 				errorIcons.push(SubmergedIcon.instance);
 			else if (!transmitsPower && !powered)
 				errorIcons.push(NoPowerIcon.instance);
-			else if (crew < crewReq) {
+			else if (crewEmployed < crewReq) {
 				InsufficientCrewIcon.instance.text = crewDeficit+"";
 				errorIcons.push(InsufficientCrewIcon.instance);
 			}
