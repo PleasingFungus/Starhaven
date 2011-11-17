@@ -110,7 +110,7 @@ package Meteoroids {
 				//TODO?
 				return Math.floor(nextWave - timer) + "s";
 			else 
-				return "Meteoroid Danger: \n" + dangerFraction();
+				return "Danger: " + dangerFraction();
 			//return "ERROR";
 		}
 		

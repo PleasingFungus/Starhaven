@@ -11,7 +11,7 @@ package  {
 	 */
 	public class C {
 		public static const VERSION:String = "0.100";
-		public static const DEBUG:Boolean = true;
+		public static const DEBUG:Boolean = false;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN//0.5089746117591858;
 		public static const DISPLAY_BOUNDS:Boolean = false;
@@ -25,6 +25,7 @@ package  {
 		public static const ANNOYING_NEW_PIECE_POPUP:Boolean = true;
 		public static const FORGET_PIECES:Boolean = false;
 		public static const NO_CREW:Boolean = false;
+		public static const FINITE_BOMBS:Boolean = false;
 		public static var HUD_ENABLED:Boolean = true;
 		
 		public static var DRAW_GLOW:Boolean = true;

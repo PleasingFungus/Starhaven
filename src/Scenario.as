@@ -48,7 +48,6 @@ package
 		protected var spawner:Class;
 		protected var tracker:MeteoroidTracker;
 		protected var hud:HUD;
-		protected var minimap:Minimap;
 		
 		protected var bg:FlxSprite;
 		protected var bg_sprite:Class;
@@ -164,9 +163,6 @@ package
 		protected function createHUD():void {
 			//hudLayer.add(new MapBounds());
 			minoLayer.add(new MapBounds());
-			
-			minimap = new Minimap(0, 0, station);
-			hudLayer.add(minimap);
 			
 			if (C.campaign)
 				goal *= C.campaign.difficultyFactor;
@@ -437,7 +433,8 @@ package
 							currentMino.exists = false;
 						//TODO: adjust minos dropped? (remove last one?)
 						
-						bombs--;
+						if (C.FINITE_BOMBS)
+							bombs--;
 						hud.updateBombs(bombs);
 						
 						minoLayer.add(currentMino = new Bomb(0, - C.B.getFurthest() - 1));
@@ -523,6 +520,7 @@ package
 			if (newFraction > goalFraction)
 				hudLayer.add(new FlashText((newFraction * 25) + "% of goal reached!", 0x80ffd000, 2));
 			goalFraction = newFraction;
+			hud.updateGoal(station.mineralsLaunched / (initialMinerals * goal));
 		}
 		
 		protected function checkEndConditions():void {

@@ -11,7 +11,7 @@ package Sminos {
 	public class AsteroidGun extends Smino {
 		
 		protected var charge:Number = 0;
-		protected var chargeTime:Number = 1.2 * 1.25;
+		protected var chargeTime:Number = 1.4;
 		protected var range:int = 20;
 		
 		protected var shot:RailgunShot;

@@ -32,6 +32,17 @@ package HUDs {
 			
 			x += width / 2;
 			y += width / 2;
+			setScale();
+		}
+		
+		protected function setScale():void {
+			if (width * 2 < FlxG.width / 3 && height * 2 < FlxG.height / 3) {
+				scale.x = scale.y = 2;
+				x = y = width / 2;
+			} else {
+				scale.x = scale.y = 1;
+				x = y = 0;
+			}
 		}
 		
 		//public function rotate(clockwise:Boolean):void {
@@ -98,14 +109,7 @@ package HUDs {
 			drawMino(station.core); //deals with issue if station is not center cored, for some reason
 			drawCurrent();
 			drawViewbox();
-			
-			if (width * 2 < FlxG.width / 3 && height * 2 < FlxG.height / 3) {
-				scale.x = scale.y = 2;
-				x = y = width / 2;
-			} else {
-				scale.x = scale.y = 1;
-				x = y = 0;
-			}
+			setScale();
 			super.render();
 		}
 		
