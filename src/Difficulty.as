@@ -26,6 +26,12 @@ package  {
 			return setting == HARD;
 		}
 		
+		public function name(forSetting:int = -1):String {
+			if (forSetting == -1)
+				forSetting = setting;
+			return ["Normal", "Hard"][forSetting];
+		}
+		
 		public static const NORMAL:int = 0;
 		public static const HARD:int = 1;
 	}

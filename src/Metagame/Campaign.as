@@ -25,6 +25,10 @@ package Metagame {
 			return SCENARIO_TYPES[missionNo];
 		}
 		
+		public function get difficultyFactor():Number {
+			return 1 + (missionNo - SCENARIO_TYPES.length / 2) * (0.1 / (SCENARIO_TYPES.length / 2));
+		}
+		
 		public function endMission():void {
 			missionNo++;
 			

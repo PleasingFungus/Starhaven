@@ -41,7 +41,7 @@ package Scenarios {
 			C.log("Full Map Size: "+mission.fullMapSize.y);
 		}
 		
-		override protected function createGCT(miningTime:Number = 60):void {
+		override protected function createGCT(miningTime:Number = 55):void {
 			super.createGCT(miningTime);
 		}
 		
@@ -87,12 +87,12 @@ package Scenarios {
 		}
 		
 		protected var conduits:int;
-		override protected function getAssortment():Array {
-			var assortment:Array = super.getAssortment();
-			conduits++;
-			//if (conduits < 
-			assortment.push(new BagType(null, 1, [SmallBarracks, SmallFab]));
-			return assortment;
+		override protected function makeBag(primarySmino:Class):BagType {
+			if (conduits < 8) {
+				conduits++;
+				return super.makeBag(primarySmino);
+			} else
+				return new BagType(null, 1, [primarySmino]);
 		}
 		
 		[Embed(source = "../../lib/art/backgrounds/planetside.png")] private static const _bg:Class;

@@ -167,6 +167,8 @@ package
 			minimap = new Minimap(0, 0, station);
 			hudLayer.add(minimap);
 			
+			if (C.campaign)
+				goal *= C.campaign.difficultyFactor;
 			hud = new HUD(station, goal, tracker);
 			hud.updateBombs(bombs);
 			hudLayer.add(hud);
