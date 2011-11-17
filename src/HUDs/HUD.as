@@ -45,7 +45,7 @@ package HUDs {
 			HUDBar.alpha = 0.4;
 			add(HUDBar);
 			
-			goalText = new HUDText(10, FlxG.height - 18, 85, "Goal: 0%");
+			goalText = new HUDText(10, FlxG.height - 18, 160, "Goal: 0%");
 			goalText.color = 0xffd000;
 			blockText = new HUDText(FlxG.width / 2, FlxG.height - 18, 160);
 			trackerText = new HUDText(FlxG.width - 170, FlxG.height - 18, 160);

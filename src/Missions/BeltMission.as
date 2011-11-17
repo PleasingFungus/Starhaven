@@ -18,7 +18,7 @@ package Missions {
 			//var currentBounds:Rectangle = new Rectangle(int.MAX_VALUE, int.MAX_VALUE, int.MIN_VALUE, int.MIN_VALUE);
 			//currentBounds = setDim(currentBounds, rawMap.mapDim, new Point);
 			
-			belt = new Array(C.difficulty.hard ? 3 : 1);
+			belt = new Array(C.difficulty.hard ? 2 : 1);
 			//var angularDelta:Number = Math.PI * 2 / belt.length;
 			//var thetaOff:Number = angularDelta * FlxU.random();
 			var station_core_radius:int = 3;

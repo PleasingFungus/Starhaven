@@ -520,7 +520,7 @@ package
 			if (newFraction > goalFraction)
 				hudLayer.add(new FlashText((newFraction * 25) + "% of goal reached!", 0x80ffd000, 2));
 			goalFraction = newFraction;
-			hud.updateGoal(station.mineralsLaunched / (initialMinerals * goal));
+			hud.updateGoal(station.mineralsLaunched * 100 / (initialMinerals * goal));
 		}
 		
 		protected function checkEndConditions():void {
