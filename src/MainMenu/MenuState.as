@@ -41,6 +41,7 @@ package MainMenu {
 			add(t);
 			
 			//C.music.intendedMusic = Music.MENU_MUSIC;
+			bgColor = 0x0;
 			FlxG.mouse.show();
 		}
 		

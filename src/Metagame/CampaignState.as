@@ -10,6 +10,7 @@ package Metagame {
 	 */
 	public class CampaignState extends FlxState {
 		
+		private var livesText:FlxText;
 		override public function create():void {
 			if (!C.campaign)
 				C.campaign = new Campaign();
@@ -43,9 +44,20 @@ package Metagame {
 				
 				add(new StateThing("Play", C.campaign.nextMission));
 				add(new StateThing("Quit", MenuState));
+				MenuThing.menuThings[0].select();
 			}
 			
-			
+			livesText = new FlxText(10, FlxG.height - 25, FlxG.width - 20, "Lives: " + C.campaign.lives);
+			livesText.setFormat(C.FONT, 16, 0xffffff, 'center');
+			add(livesText);
+		}
+		
+		override public function update():void {
+			super.update();
+			if (!C.campaign.missionNo) {
+				C.campaign.lives = C.difficulty.hard ? 1 : 2;
+				livesText.text = "Lives: " + C.campaign.lives;
+			}
 		}
 		
 	}

@@ -22,6 +22,7 @@ package Metagame {
 			
 			MenuThing.menuThings = [];
 			add(new StateThing("End", MenuState));
+			MenuThing.menuThings[0].select();
 		}
 		
 		private var H:Number = 0;

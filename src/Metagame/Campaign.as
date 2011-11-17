@@ -9,11 +9,14 @@ package Metagame {
 		
 		public var missionNo:int;
 		public var upgrades:Array;
+		public var lives:int;
+		//public var started:Boolean;
 		public function Campaign() {
 			upgrades = [/*new Upgrade(SmallBarracks, LargeBarracks),
 						new Upgrade(SmallFab, LargeFactory),
 						new Upgrade(Conduit, SecondaryReactor) */ ];
 			missionNo = 0;
+			lives = 2;
 		}
 		
 		public function refresh():void {
@@ -28,6 +31,10 @@ package Metagame {
 		public function get difficultyFactor():Number {
 			return 1 + (missionNo - SCENARIO_TYPES.length / 2) * (0.1 / (SCENARIO_TYPES.length / 2));
 		}
+		
+		//public function startMission():void {
+			//started = true;
+		//}
 		
 		public function endMission():void {
 			missionNo++;

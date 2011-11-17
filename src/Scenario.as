@@ -16,6 +16,7 @@ package
 	import MainMenu.MenuState;
 	import MainMenu.StateThing;
 	import Metagame.Campaign;
+	import Metagame.CampaignDefeatState;
 	import Metagame.CampaignState;
 	import Metagame.CampaignVictoryState
 	import Meteoroids.MeteoroidTracker;
@@ -525,7 +526,7 @@ package
 		}
 		
 		protected function checkEndConditions():void {
-			if (goalFraction >= 4 ||
+			if (won() ||
 					GlobalCycleTimer.outOfTime() ||
 					station.core.damaged)
 				
@@ -544,7 +545,7 @@ package
 			var endText:FlxText = new FlxText(20, FlxG.height / 2 - 30, FlxG.width - 40, " ");
 			endText.setFormat(C.FONT, 48, 0xffffff, 'center');
 			
-			if (goalFraction >= 4) {
+			if (won()) {
 				endText.text = "Victory!";
 				endText.color = 0x10ff18;
 			} else {
@@ -554,7 +555,7 @@ package
 			hudLayer.add(endText);
 			
 			var endSub:FlxText = new FlxText(20, endText.y + endText.height + 5, FlxG.width - 40, " ");
-			if (goalFraction >= 4)
+			if (won())
 				endSub.text = "Mineral goal reached!";
 			else if (GlobalCycleTimer.outOfTime())
 				endSub.text = "Out of blocks!";
@@ -581,24 +582,31 @@ package
 		
 		protected function endGame():void {		
 			if (C.campaign) {
-				C.campaign.endMission();
-				if (C.campaign.nextMission)
+				if (won()) {
+					C.campaign.endMission();
+					if (C.campaign.nextMission)
+						FlxG.state = new CampaignState;
+					else
+						FlxG.state = new CampaignVictoryState;
+				} else if (C.campaign.lives) {
+					C.campaign.lives--;
 					FlxG.state = new CampaignState;
-				else
-					FlxG.state = new CampaignVictoryState();
+				} else
+					FlxG.state = new CampaignDefeatState;
 			} else
-				FlxG.state = new MenuState;//new DebriefState(station.mineralsMined, station.mineralsLaunched, getEndCause());
+				FlxG.state = new MenuState;
 		}
 		
 		protected function exitToMenu():void {
-			var endCause:int = Campaign.MISSION_ABORTED;
-			if (missionOver)
-				endCause = getEndCause();
-			FlxG.state = new MenuState;//new DebriefState(station.mineralsMined, station.mineralsLaunched, endCause);
+			FlxG.state = new MenuState;
+		}
+		
+		protected function won():Boolean {
+			return goalFraction >= 4;
 		}
 		
 		protected function getEndCause():int {
-			if (goalFraction >= 4)
+			if (won())
 				return Campaign.MISSION_MINEDOUT;
 			else if (GlobalCycleTimer.outOfTime())
 				return Campaign.MISSION_TIMEOUT;
