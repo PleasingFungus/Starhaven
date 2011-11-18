@@ -42,7 +42,7 @@ package Mining {
 				draw(Stamp, X, Y);
 			}
 			
-			alpha = 1 / 3;
+			alpha = 2 / 3;
 		}
 		
 		public function totalResources():int {

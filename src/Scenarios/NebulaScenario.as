@@ -17,6 +17,7 @@ package Scenarios {
 			if (C.difficulty.normal)
 				goal = 0.4;
 			miningTool = NebularAccumulator;
+			bg_sprites = _bgs;
 		}
 		
 		override public function create():void {
@@ -58,6 +59,14 @@ package Scenarios {
 			
 			minoLayer.add(nebula);
 		}
+		
+		[Embed(source = "../../lib/art/backgrounds/nebula_1.jpg")] private static const _bg01:Class;
+		[Embed(source = "../../lib/art/backgrounds/nebula_2.jpg")] private static const _bg0:Class;
+		[Embed(source = "../../lib/art/backgrounds/nebula_3.jpg")] private static const _bg1:Class;
+		[Embed(source = "../../lib/art/backgrounds/nebula_4.jpg")] private static const _bg2:Class;
+		[Embed(source = "../../lib/art/backgrounds/nebula_5.jpg")] private static const _bg3:Class;
+		[Embed(source = "../../lib/art/backgrounds/nebula_6.jpg")] private static const _bg4:Class;
+		private static const _bgs:Array = [_bg0, _bg01, _bg1, _bg2, _bg3, _bg4];
 	}
 
 }

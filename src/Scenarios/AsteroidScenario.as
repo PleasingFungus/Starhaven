@@ -118,7 +118,8 @@ package Scenarios {
 		[Embed(source = "../../lib/art/backgrounds/garradd_4.jpg")] private static const _bg2:Class;
 		[Embed(source = "../../lib/art/backgrounds/garradd_5.jpg")] private static const _bg3:Class;
 		[Embed(source = "../../lib/art/backgrounds/garradd_6.jpg")] private static const _bg4:Class;
-		private static const _bgs:Array = [_bg1, _bg2, _bg3, _bg4];
+		[Embed(source = "../../lib/art/backgrounds/garradd_7.jpg")] private static const _bg5:Class;
+		private static const _bgs:Array = [_bg1, _bg2, _bg3, _bg4, _bg5];
 	}
 	
 
