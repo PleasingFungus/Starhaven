@@ -53,6 +53,7 @@ package Sminos {
 			generateSprite();
 			
 			MinedText.mine(storedMinerals);
+			powerReq = 1;
 		}
 		
 		protected var wasOperational:Boolean;

@@ -16,7 +16,6 @@ package Sminos {
 		protected var mineralText:Icontext;
 		protected var targetResource:ResourceSource;
 		public function Drill(X:int, Y:int, Blocks:Array, Center:Point, OpSprite:Class=null, InopSprite:Class=null) {
-			powerReq = 1;
 			super(X, Y, Blocks, Center, 0xff64448f, 0xff9348f4, OpSprite, InopSprite);
 			cladeName = "Drill";
 			description = "Drill into purple mineral clusters to harvest them; then hook them up to power to collect the minerals!";

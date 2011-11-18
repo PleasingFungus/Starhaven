@@ -81,6 +81,7 @@ package Sminos {
 			}
 			
 			MinedText.mine(storedMinerals);
+			powerReq = 1;
 		}
 		
 		[Embed(source = "../../lib/art/sminos/drill.png")] private static const _sprite:Class;
