@@ -23,6 +23,7 @@ package Scenarios {
 				bombs = 3;
 			}
 			bg_sprites = _bgs;
+			mapBuffer = 20;
 		}
 		
 		override public function create():void {

@@ -106,7 +106,7 @@ package Meteoroids {
 				return "METEORS!";
 			else if (waveDanger)
 				return "INCOMING!";
-			else if (C.DEBUG && C.ALWAYS_SHOW_ASTEROIDS)
+			else if (C.DEBUG && C.ALWAYS_SHOW_METEOROIDS)
 				//TODO?
 				return Math.floor(nextWave - timer) + "s";
 			else 
@@ -128,7 +128,7 @@ package Meteoroids {
 			if (fraction < 0)
 				fraction = 0;
 			
-			var levels:Array = ["V. Low", "Low", "Normal", "High", "V. High"];
+			var levels:Array = ["Low", "Med.", "High"];
 			return levels[Math.floor(fraction * levels.length)];
 			//return fraction*100+"%";
 		}

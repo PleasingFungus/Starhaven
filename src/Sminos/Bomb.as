@@ -34,10 +34,12 @@ package Sminos {
 		}
 		
 		override protected function anchorTo(Parent:Aggregate):void {
+			GlobalCycleTimer.minosDropped--;
 			explode(radius);
 		}
 		
 		public function manuallyDetonate():void {
+			GlobalCycleTimer.minosDropped--;
 			explode(radius);
 		}
 		

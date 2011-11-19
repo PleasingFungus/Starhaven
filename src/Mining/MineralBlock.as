@@ -24,7 +24,7 @@ package Mining {
 		private const BEDROCK_COLOR:uint = 0xff2d2d30;
 		private const ROCK_COLOR:uint = 0xffe8e8e8;
 		private const WEAK_MINERAL_COLOR:uint = 0xff4c355b;
-		private const MED_MINERAL_COLOR:uint = 0xff552daa;
+		private const MED_MINERAL_COLOR:uint = 0xff402daa;
 		private const STRONG_MINERAL_COLOR:uint = 0xffd800ff;
 		private const VSTRONG_MINERAL_COLOR:uint = 0xffff2b6a;
 		private const COLORS:Array = [BEDROCK_COLOR, ROCK_COLOR,

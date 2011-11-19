@@ -10,13 +10,13 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "0.100";
-		public static const DEBUG:Boolean = false;
+		public static const VERSION:String = "0.110";
+		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
-		public static const DEBUG_SEED:Number = NaN//0.5089746117591858;
+		public static const DEBUG_SEED:Number = NaN;
 		public static const DISPLAY_BOUNDS:Boolean = false;
 		public static const DISPLAY_DRAW_AREA:Boolean = false;
-		public static const ALWAYS_SHOW_ASTEROIDS:Boolean = false;
+		public static const ALWAYS_SHOW_METEOROIDS:Boolean = false;
 		public static const ALWAYS_SHOW_INCOMING:Boolean = false;
 		public static const DISPLAY_FIRE_AREA:Boolean = false;
 		public static const FORGET_EVENTS:Boolean = false;
@@ -63,6 +63,8 @@ package  {
 			ICONS[HOUSING] = _housing_icon;
 			ICONS[WATER] = _water_icon;
 			ICONS[GOODS] = _goods_icon;
+			ICONS[METEOROIDS] = _meteoroids_icon;
+			ICONS[MINOS] = _minos_icon;
 			
 			save = new FlxSave();
 			save.bind("Starhaven");
@@ -188,6 +190,8 @@ package  {
 		public static const HOUSING:int = 4;
 		public static const WATER:int = 5;
 		public static const GOODS:int = 6;
+		public static const METEOROIDS:int = 7;
+		public static const MINOS:int = 8;
 		public static const ICONS:Array = [];
 		[Embed(source = "../lib/art/ui/icon_person_2.png")] private static const _crew_icon:Class;
 		[Embed(source = "../lib/art/ui/icon_minerals_2.png")] private static const _minerals_icon:Class;
@@ -196,6 +200,8 @@ package  {
 		[Embed(source = "../lib/art/ui/icon_person_2.png")] private static const _housing_icon:Class;
 		[Embed(source = "../lib/art/ui/icon_water.png")] private static const _water_icon:Class;
 		[Embed(source = "../lib/art/ui/icon_goods.png")] private static const _goods_icon:Class;
+		[Embed(source = "../lib/art/ui/icon_asteroid2.png")] private static const _meteoroids_icon:Class;
+		[Embed(source = "../lib/art/ui/icon_mino.png")] private static const _minos_icon:Class;
 	}
 
 }

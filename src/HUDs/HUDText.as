@@ -20,15 +20,19 @@ package HUDs {
 		public function loadIcon(Icon:Class):HUDText {
 			icon = new FlxSprite();
 			icon.loadGraphic(Icon);
-			y += icon.height + 2;
+			x += icon.width + 4;
 			return this;
 		}
 		
 		override public function render():void {
 			super.render();
 			if (icon) {
-				icon.x = x + width / 2 - icon.width / 2;
-				icon.y = y - (icon.height + 2);
+				//icon.x = x + width / 2 - icon.width / 2;
+				//icon.y = y - (icon.height + 2);
+				icon.x = x - icon.width - 4;
+				if (alignment == 'right')
+					icon.x += width - textWidth;
+				icon.y = y + height / 2 - icon.height / 2 - 2;
 				icon.render();
 			}
 		}

@@ -441,7 +441,7 @@ package
 							bombs--;
 						hud.updateBombs(bombs);
 						
-						minoLayer.add(currentMino = new Bomb(0, - C.B.getFurthest() - 1));
+						minoLayer.add(currentMino = new Bomb(currentMino.gridLoc.x, currentMino.gridLoc.y))//0, - C.B.getFurthest() - 1));
 						currentMino.current = true;
 						if (arrowHint)
 							arrowHint.parent = currentMino;

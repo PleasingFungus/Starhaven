@@ -34,6 +34,7 @@ package Missions {
 			rawMap = new Terrain(nebulaBlocks, fullMapSize.clone());
 			fullMapSize.x /= 2;
 			fullMapSize.y /= 2;
+			fullMapSize.offset(5, 5);
 		}
 		
 		override protected function genCluster(radius:int, _:int = -1):void {

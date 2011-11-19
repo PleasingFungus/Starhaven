@@ -18,6 +18,7 @@ package Scenarios {
 				goal = 0.4;
 			miningTool = NebularAccumulator;
 			bg_sprites = _bgs;
+			mapBuffer = 20;
 		}
 		
 		override public function create():void {
