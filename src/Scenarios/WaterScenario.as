@@ -78,6 +78,9 @@ package Scenarios {
 			station.resourceSource = planet;
 			initialMinerals = station.mineralsAvailable;
 			
+			var planet_bg:Mino = new Mino(planet.gridLoc.x, planet.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030);
+			
+			minoLayer.add(planet_bg);
 			minoLayer.add(planet);
 			station.add(planet);
 			Mino.all_minos.push(planet);

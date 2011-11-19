@@ -168,6 +168,8 @@ package
 			//hudLayer.add(new MapBounds());
 			minoLayer.add(new MapBounds());
 			
+			minoLayer.add(new Minimap(0, 0, station));
+			
 			if (C.campaign)
 				goal *= C.campaign.difficultyFactor;
 			hud = new HUD(station, goal, tracker);
@@ -435,7 +437,7 @@ package
 					else if (bombs > 0) {
 						if (currentMino && !currentMino.parent)
 							currentMino.exists = false;
-						//TODO: adjust minos dropped? (remove last one?)
+						bag.repush(); //replace current mino in bag
 						
 						if (C.FINITE_BOMBS)
 							bombs--;

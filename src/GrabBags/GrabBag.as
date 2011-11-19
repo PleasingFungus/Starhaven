@@ -7,6 +7,7 @@ package GrabBags {
 	 */
 	public class GrabBag {
 		
+		private var last:Class;
 		private var minos:Array;
 		public function GrabBag(sminos:Array) {
 			for (var i:int = 0; i < sminos.length; i++)
@@ -64,7 +65,12 @@ package GrabBags {
 				choice = randomConduit();
 			if (choice == null)
 				C.log("Bad choice!");
-			return choice as Class;
+			last = choice as Class;
+			return last;
+		}
+		
+		public function repush():void {
+			minos.push(last);
 		}
 		
 		protected function randomConduit():Class {

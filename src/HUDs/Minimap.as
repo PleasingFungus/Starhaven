@@ -104,7 +104,7 @@ package HUDs {
 			if (dirty)
 				resetMap();
 			
-			_framePixels.fillRect(_flashRect, 0x80000000);
+			_framePixels.fillRect(_flashRect, 0x40000000);
 			_framePixels.draw(map, null, map_ct);
 			drawMino(station.core); //deals with issue if station is not center cored, for some reason
 			drawCurrent();

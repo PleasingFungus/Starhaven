@@ -12,7 +12,7 @@ package Sminos {
 			var blocks:Array = [new Block(0, 0), 				  new Block(2, 0),
 								new Block(0, 1), new Block(1, 1), new Block(2, 1),
 												 new Block(1, 2)];
-			super(X, Y, blocks, new Point(1, 1), 0xff64448f, 0xff9348f4);
+			super(X, Y, blocks, new Point(1, 1), 0xff64448f, 0xff9348f4, _sprite, _sprite_in);
 			cladeName = "Scoop";
 			name = "Scoop";
 			description = "Smash into purple mineral clusters to dislodge them; then use conduits to collect them when the minerals bob to the surface!";
@@ -76,6 +76,9 @@ package Sminos {
 		}
 		
 		override protected function getErrorIcons():Array { return [] }
+		
+		[Embed(source = "../../lib/art/sminos/scoop.png")] private static const _sprite:Class;
+		[Embed(source = "../../lib/art/sminos/scoop_in.png")] private static const _sprite_in:Class;
 	}
 
 }

@@ -7,7 +7,7 @@ package HUDs {
 	 * @author Nicholas Feinberg
 	 */
 	public class HUD extends FlxGroup {
-		private var minimap:Minimap;
+		//private var minimap:Minimap;
 		
 		private var mineralText:HUDText;
 		private var lifeText:FlxText;
@@ -27,8 +27,8 @@ package HUDs {
 			goal = goalFraction * station.mineralsAvailable;
 			this.tracker = tracker;
 			
-			minimap = new Minimap(0, 0, station);
-			add(minimap);
+			//minimap = new Minimap(0, 0, station);
+			//add(minimap);
 			
 			mineralText = new HUDText(5, 220, 100).loadIcon(C.ICONS[C.MINERALS]);
 			lifeText = new HUDText(FlxG.width - 90, 20, 85, "TIME: 0:00");

@@ -5,8 +5,10 @@ package Scenarios {
 	import Mining.MineralBlock;
 	import Mining.Terrain;
 	import Missions.PlanetMission;
+	import org.flixel.FlxSprite;
 	import org.flixel.FlxU;
 	import Meteoroids.PlanetSpawner;
+	import org.flixel.FlxG;
 	/**
 	 * ...
 	 * @author ...
@@ -20,9 +22,10 @@ package Scenarios {
 			mapBuffer = 0;
 			bombs = 3;
 			spawner = PlanetSpawner;
-			bg_sprite = _bg;
 			if (C.difficulty.hard)
 				goal = 0.65; //should be higher?
+			bg_sprite = _bg;
+			//bg_sprites = _bgs;
 			rotateable = false;
 		}
 		
@@ -70,12 +73,30 @@ package Scenarios {
 			station.resourceSource = planet;
 			initialMinerals = station.mineralsAvailable;
 			
+			var planet_bg:Mino = new Mino(planet.gridLoc.x, planet.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030);
+			
+			minoLayer.add(planet_bg);
 			minoLayer.add(planet);
 			station.add(planet);
 			Mino.all_minos.push(planet);
 			planet.addToGrid();
 		}
 		
+		//override protected function createBG():void {
+			//super.createBG();
+			//var skyColor:uint = C.HSVToRGB(FlxU.random(), .3, .95);
+			//var sky:FlxSprite = new FlxSprite().createGraphic(FlxG.width, FlxG.height, skyColor);
+			//sky.alpha = 0.75;
+			//bg.draw(sky);
+		//}
+		
+		//[Embed(source = "../../lib/art/backgrounds/bg_1.jpg")] private static const _bg01:Class;
+		//[Embed(source = "../../lib/art/backgrounds/bg_2.jpg")] private static const _bg0:Class;
+		//[Embed(source = "../../lib/art/backgrounds/bg_3.jpg")] private static const _bg1:Class;
+		//[Embed(source = "../../lib/art/backgrounds/bg_4.jpg")] private static const _bg2:Class;
+		//[Embed(source = "../../lib/art/backgrounds/bg_5.jpg")] private static const _bg3:Class;
+		//[Embed(source = "../../lib/art/backgrounds/bg_6.jpg")] private static const _bg4:Class;
+		//private static const _bgs:Array = [_bg0, _bg01, _bg1, _bg2, _bg3, _bg4];
 		[Embed(source = "../../lib/art/backgrounds/planetside.png")] private static const _bg:Class;
 	}
 
