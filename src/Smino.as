@@ -24,6 +24,7 @@ package  {
 		public var crew:int = 0;
 		public var crewEmployed:int = 0;
 		public var description:String = "Placeholder description.";
+		public var audioDescription:Class;
 		
 		protected var leech:IconLeech;
 		protected var powerIcon:Icontext;

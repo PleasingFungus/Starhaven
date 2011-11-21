@@ -29,7 +29,6 @@ package Sminos {
 			super(X, Y, blocks, center, spr, spr_in);
 			
 			name = "Launcher";
-			description = "When fully crewed and powered, Launchers send minerals you've gathered back to your home base (score!)!";
 		}
 		
 		[Embed(source = "../../lib/art/sminos/med_launch.png")] private static const _sprite:Class;

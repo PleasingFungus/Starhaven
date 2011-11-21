@@ -15,8 +15,8 @@ package Sminos {
 			super(X, Y, blocks, new Point(1, 1), 0xff64448f, 0xff9348f4, _sprite, _sprite_in);
 			cladeName = "Scoop";
 			name = "Scoop";
-			description = "Smash into purple mineral clusters to dislodge them; then use conduits to collect them when the minerals bob to the surface!";
-			
+			description = "Use scoops to smash into purple mineral clusters and dislodge them; then use conduits to collect the minerals when they bob to the surface!";
+			audioDescription = _desc;
 		}
 		
 		override protected function anchorTo(Parent:Aggregate):void {
@@ -79,6 +79,7 @@ package Sminos {
 		
 		[Embed(source = "../../lib/art/sminos/scoop.png")] private static const _sprite:Class;
 		[Embed(source = "../../lib/art/sminos/scoop_in.png")] private static const _sprite_in:Class;
+		[Embed(source = "../../lib/sound/vo/scoops.mp3")] public static const _desc:Class;
 	}
 
 }

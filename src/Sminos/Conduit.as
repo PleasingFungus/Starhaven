@@ -15,7 +15,8 @@ package Sminos {
 			transmitsPower = true;
 			
 			cladeName = "Conduit";
-			description = "Conduits come in many shapes and sizes, but they all do the same thing: transmit power from generators that produce it to areas that need it.";
+			description = "Conduits transmit power from the station core, powering other pieces.";
+			audioDescription = _desc;
 		}
 		
 		override protected function executeCycle():void {
@@ -55,6 +56,8 @@ package Sminos {
 			glowsprite.y = block.y * C.BLOCK_SIZE + C.B.drawShift.y;
 			glowsprite.render();
 		}
+		
+		[Embed(source = "../../lib/sound/vo/conduits.mp3")] public static const _desc:Class;
 	}
 
 }

@@ -10,7 +10,8 @@ package Sminos {
 		protected var shroud:Mino;
 		public function Bomb(X:int, Y:int ) {
 			super(X, Y, [new Block], new Point, 0xff201818, 0xff403030, _sprite, _sprite);
-			description = "Bombs blow up! You can use them to expose deep mineral deposits. Hit 'space' to manually detonate, or let them hit!";
+			description = "Bombs explode on impact, or manually by pressing 'space'. Use them to expose buried mineral pockets!";
+			audioDescription = _desc;
 			genResourceShroud();
 		}
 		
@@ -44,6 +45,7 @@ package Sminos {
 		}
 		
 		[Embed(source = "../../lib/art/sminos/bomb.png")] private static const _sprite:Class;
+		[Embed(source = "../../lib/sound/vo/bombs.mp3")] public static const _desc:Class;
 	}
 
 }

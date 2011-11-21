@@ -18,7 +18,8 @@ package Sminos {
 		public function Drill(X:int, Y:int, Blocks:Array, Center:Point, OpSprite:Class=null, InopSprite:Class=null) {
 			super(X, Y, Blocks, Center, 0xff64448f, 0xff9348f4, OpSprite, InopSprite);
 			cladeName = "Drill";
-			description = "Drill into purple mineral clusters to harvest them; then hook them up to power to collect the minerals!";
+			description = "Drill point-first into purplish mineral clusters to harvest them; then hook the drills up to power to collect the minerals!";
+			audioDescription = _desc;
 			
 			mineralText = new Icontext(x, y + height / 2 - 8, width, storedMinerals+"", C.ICONS[C.MINERALS]);
 		}
@@ -69,6 +70,8 @@ package Sminos {
 			mineralText.update();
 			mineralText.render();
 		}
+		
+		[Embed(source = "../../lib/sound/vo/drills.mp3")] public static const _desc:Class;
 		
 	}
 

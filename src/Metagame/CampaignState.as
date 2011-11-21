@@ -1,4 +1,5 @@
 package Metagame {
+	import Controls.ControlSet;
 	import org.flixel.*;
 	import MainMenu.StateThing;
 	import MainMenu.MenuState;
@@ -54,10 +55,14 @@ package Metagame {
 		
 		override public function update():void {
 			super.update();
+			if (!C.campaign)
+				C.campaign = new Campaign();
 			if (!C.campaign.missionNo) {
 				C.campaign.lives = C.difficulty.hard ? 1 : 2;
 				livesText.text = "Lives: " + C.campaign.lives;
 			}
+			if (ControlSet.CANCEL_KEY.justPressed())
+				FlxG.state = new MenuState;
 		}
 		
 	}

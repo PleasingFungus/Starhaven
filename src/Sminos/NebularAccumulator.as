@@ -23,7 +23,8 @@ package Sminos {
 			super(X, Y, blocks, new Point(1, 1), 0xff64448f, 0xff9348f4, _sprite, _sprite_in);
 			
 			name = "Nebular Accumulator";
-			description = "Nebular Accumulators suck up minerals from the nebula in the surrounding area. Then connect them with conduits to collect the minerals!";
+			description = "Nebular Accumulators suck up minerals from the surrounding area. Once connected with conduits, you'll collect the minerals!";
+			audioDescription = _desc;
 			
 			mineralText = new Icontext(x, y + height / 2 - 8, width, storedMinerals + "", C.ICONS[C.MINERALS]);
 			
@@ -113,6 +114,7 @@ package Sminos {
 		
 		[Embed(source = "../../lib/art/sminos/nebaccum.png")] private static const _sprite:Class;
 		[Embed(source = "../../lib/art/sminos/nebaccum_in.png")] private static const _sprite_in:Class;
+		[Embed(source = "../../lib/sound/vo/nebulaccum.mp3")] public static const _desc:Class;
 	}
 
 }

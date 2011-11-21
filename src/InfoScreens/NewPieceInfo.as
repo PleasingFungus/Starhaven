@@ -17,6 +17,7 @@ package InfoScreens {
 		
 		protected var title:FlxText;
 		protected var description:FlxText;
+		protected var audioDescription:FlxSound;
 		protected var htext:FlxText;
 		public function NewPieceInfo(mino:Smino) {
 			super();
@@ -36,7 +37,12 @@ package InfoScreens {
 			
 			htext = new FlxText( 0, -1, FlxG.width, ControlSet.MINO_HELP_KEY.toString()+" to see this screen again later");
 			htext.setFormat(C.FONT, 12, 0xffffff, 'center');
-			
+			if (C.AUDIO_DESCRIPTIONS && mino.audioDescription) {
+				audioDescription = new FlxSound();
+				audioDescription.loadEmbedded(mino.audioDescription);
+				audioDescription.play();
+				FlxG.state.add(audioDescription);
+			}
 			if (!seenPieces[name]) {
 				visible = false;
 				saveSeen(mino);
@@ -47,7 +53,13 @@ package InfoScreens {
 		override protected function create():void { }
 		
 		override public function update():void {
-			if (visible) {
+			if (audioDescription) {
+				if (!mino.current) {
+					audioDescription.stop();
+					exists = false;
+				} else if (!audioDescription.playing)
+					exists = false;
+			} else if (visible) {
 				super.update();
 			} else if (C.B.PlayArea.containsRect(mino.bounds)) {
 				visibilityTimer += FlxG.elapsed;

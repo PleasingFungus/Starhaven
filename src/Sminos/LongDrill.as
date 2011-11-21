@@ -28,7 +28,10 @@ package Sminos {
 			var target:Mino = Mino.getGrid(tip.x, tip.y);
 			if (target && target is ResourceSource)
 				targetResource = target as ResourceSource;
-			else {
+			else if (station && station.resourceSource is Mino) {
+				targetResource = station.resourceSource;
+				target = targetResource as Mino;
+			} else {
 				//mine();
 				return;
 			}
@@ -41,35 +44,43 @@ package Sminos {
 				gridLoc = gridLoc.add(forward); //move forward
 				tip = tip.add(forward);
 				
-				if (!minedTip)
+				if (minedTip && minedTip.type == MineralBlock.BEDROCK)
 					break;
 				
-				target.solid = false;
 				if (intersects())
 					break;
-				target.solid = true;
-			} while (!intersect(target));
+			} while (hasNeighbor(target, Parent));
 			
 			if (minedTip)
 				targetResource.unmine(tip.subtract(forward));
 			gridLoc = gridLoc.subtract(forward);
 			
 			parent = Parent;
-			target.solid = true;
 			
 			mine();
 		}
 		
 		protected function drillTip(tip:Point):MineralBlock {
 			var block:MineralBlock = targetResource.resourceAt(tip);
-			if (!block || block.damaged || block.type == MineralBlock.BEDROCK)
+			if (!block || block.damaged)
 				return null;
+			if (block.type == MineralBlock.BEDROCK)
+				return block;
 			
 			if (block.type > 0)
 				storedMinerals += block.value;
 			
 			targetResource.mine(tip);
 			return block;
+		}
+		
+		protected function hasNeighbor(target:Mino, parent:Aggregate):Boolean {
+			if (adjacent(target))
+				return true;
+			for each (var mino:Mino in parent.members)
+				if (mino != this && mino.exists && adjacent(mino))
+					return true;
+			return false;
 		}
 		
 		protected function mine():void {

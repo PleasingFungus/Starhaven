@@ -16,8 +16,10 @@ package Sminos {
 			
 			cladeName = "Barracks";
 			description = "Barracks are used to provide crew to adjacent modules. Each has room for as many crewmembers as it has blocks.";
+			audioDescription = _desc;
 		}
 		
+		[Embed(source = "../../lib/sound/vo/barracks.mp3")] public static const _desc:Class;
 	}
 
 }

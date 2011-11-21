@@ -31,7 +31,7 @@ package InfoScreens {
 					
 					var premise:FlxText = new FlxText(10, title.y + 50, FlxG.width - 20, "");
 					premise.setFormat(C.BLOCKFONT, 16);
-					premise.text += "Welcome to STARHAVEN! Starhaven is a game about MINING IN SPACE. Pieces of your MINING RIG fall from above. ";
+					premise.text += "Starhaven is a game about MINING IN SPACE. Pieces of your MINING RIG fall from above. ";
 					premise.text += "Your job is to assemble the pieces to extract as many BLUE-PURPLE MINERALS from the terrain as possible!\n\n\n";
 					premise.text += "The core to your station is the CORE - this 5x5 orange block. It powers everything else. ";
 					premise.text += "If it's damaged, that's it!";

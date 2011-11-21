@@ -33,7 +33,8 @@ package Sminos {
 			super(X, Y, blocks, new Point(1, 1), 0xff6b2020, 0xffb32828, _sprite, _sprite_in);
 			
 			name = "Defense Beam";
-			description = "Defense Beams, shoot down dangerous incoming asteroids! Point them outward and keep their fields of fire clear for best effect.";
+			description = "Defense Beams shoot down dangerous incoming meteoroids! Crew and power them, point them outward and keep their fields of fire clear for best effect.";
+			audioDescription = _desc;
 			
 			shot = new RailgunShot(gridLoc.clone(), new Point(gridLoc.x + 1, gridLoc.y), this); //harmless, won't render
 			if (C.DEBUG && C.DISPLAY_FIRE_AREA)
@@ -237,6 +238,7 @@ package Sminos {
 		
 		[Embed(source = "../../lib/art/sminos/agun.png")] private static const _sprite:Class;
 		[Embed(source = "../../lib/art/sminos/agun_in.png")] private static const _sprite_in:Class;
+		[Embed(source = "../../lib/sound/vo/agun.mp3")] public static const _desc:Class;
 		
 		
 		

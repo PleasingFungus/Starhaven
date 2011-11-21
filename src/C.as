@@ -10,8 +10,8 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "0.110";
-		public static const DEBUG:Boolean = false;
+		public static const VERSION:String = "0.120";
+		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
 		public static const DISPLAY_BOUNDS:Boolean = false;
@@ -23,6 +23,7 @@ package  {
 		public static const DEBUG_TEST_STATION:Boolean = false;
 		public static const DISPLAY_COLLISION:Boolean = false;
 		public static const ANNOYING_NEW_PIECE_POPUP:Boolean = true;
+		public static const AUDIO_DESCRIPTIONS:Boolean = true;
 		public static const FORGET_PIECES:Boolean = false;
 		public static const NO_CREW:Boolean = false;
 		public static const FINITE_BOMBS:Boolean = false;
@@ -34,7 +35,8 @@ package  {
 		
 		[Embed(source = "../lib/fonts/CryptOfTomorrow.ttf", fontFamily = "FUTUR")] private const _1:String;
 		public static const TITLEFONT:String = "FUTUR";
-		[Embed(source = "../lib/fonts/StarPerv.ttf", fontFamily = "BLOCK")] private const _2:String;
+		//[Embed(source = "../lib/fonts/StarPerv.ttf", fontFamily = "BLOCK")] private const _2:String;	//Old
+		[Embed(source = "../lib/fonts/CPMono_v07_Plain.otf", fontFamily = "BLOCK")] private const _2:String; //+1
 		public static const BLOCKFONT:String = "BLOCK";
 		public static const FONT:String = "BLOCK";
 		

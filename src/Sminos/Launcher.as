@@ -23,6 +23,7 @@ package Sminos {
 			
 			cladeName = "Launcher";
 			description = "When fully crewed and powered, Launchers send minerals you've gathered back to your home base (score!)!";
+			audioDescription = _desc;
 		}
 		
 		override protected function executeCycle():void {
@@ -69,6 +70,7 @@ package Sminos {
 		
 		public static const LAUNCH_SIZE:int = 25; //10 for pre-multiminerals
 		[Embed(source = "../../lib/art/other/rocket_unlit.png")] private static const _rocket_sprite:Class;
+		[Embed(source = "../../lib/sound/vo/launchers.mp3")] public static const _desc:Class;
 	}
 
 }
