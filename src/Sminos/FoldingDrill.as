@@ -21,7 +21,8 @@ package Sminos {
 			name = "Folding Drill";
 		}
 		
-		override protected function drill(forward:Point):void {
+		override protected function drill():void {
+			var forward:Point = forwardDir();
 			if (station.resourceSource.resourceAt(gridLoc/*.add(center)*/.add(forward)))
 				extend(forward);
 			else if (station.resourceSource.resourceAt(gridLoc/*.add(center)*/.subtract(forward)))
@@ -51,9 +52,7 @@ package Sminos {
 			sprite = inopSprite = null;
 			resetSprites();
 			generateSprite();
-			
-			MinedText.mine(storedMinerals);
-			powerReq = 1;
+			finishDrill();
 		}
 		
 		protected var wasOperational:Boolean;

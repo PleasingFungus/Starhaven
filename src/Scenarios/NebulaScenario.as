@@ -54,6 +54,7 @@ package Scenarios {
 			//erase overlapping asteroid blocks
 			for each (var block:Block in station.core.blocks)
 				nebula.mine(block.add(station.core.absoluteCenter));
+			nebula.forceSpriteReset();
 			
 			station.resourceSource = nebula;
 			initialMinerals = station.mineralsAvailable;

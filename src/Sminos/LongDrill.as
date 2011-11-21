@@ -4,6 +4,7 @@ package Sminos {
 	import Mining.ResourceSource;
 	import org.flixel.FlxSprite;
 	import HUDs.MinedText;
+	import org.flixel.FlxG;
 	/**
 	 * ...
 	 * @author ...
@@ -20,9 +21,9 @@ package Sminos {
 			name = "Long Drill";
 			//sidewaysAttachable = false;
 		}
-			
-		//rewrite me!
-		override protected function drill(forward:Point):void {
+		
+		override protected function drillOne():Boolean {			
+			var forward:Point = forwardDir();
 			var tip:Point = new Point(gridLoc.x /*- center.x*/ + forward.x * length,
 									  gridLoc.y /*- center.y*/ + forward.y * length);
 			var target:Mino = Mino.getGrid(tip.x, tip.y);
@@ -33,37 +34,44 @@ package Sminos {
 				target = targetResource as Mino;
 			} else {
 				//mine();
-				return;
+				return false;
 			}
+			
+			var minedTip:MineralBlock = drillTip(tip);
+			if (minedTip && minedTip.type == MineralBlock.BEDROCK)
+				return false;
+			
+			gridLoc = gridLoc.add(forward); //move forward
 			
 			var Parent:Aggregate = parent;
 			parent = null;
-			do {
-				var minedTip:MineralBlock = drillTip(tip);
-				
-				gridLoc = gridLoc.add(forward); //move forward
-				tip = tip.add(forward);
-				
-				if (minedTip && minedTip.type == MineralBlock.BEDROCK)
-					break;
-				
-				if (intersects())
-					break;
-			} while (hasNeighbor(target, Parent));
-			
-			if (minedTip)
-				targetResource.unmine(tip.subtract(forward));
-			gridLoc = gridLoc.subtract(forward);
-			
+			var hit:Boolean = intersects() != null;
 			parent = Parent;
 			
-			mine();
+			if (hit) {
+				gridLoc = gridLoc.subtract(forward);
+				if (minedTip)
+					targetResource.unmine(tip);
+				return false;
+			}
+			
+			var neighbor:Boolean = hasNeighbor(target, Parent);
+			if (neighbor) {
+				FlxG.quake.start(0.012, 0.065);
+				return true;
+			}
+			gridLoc = gridLoc.subtract(forward);
+			return false;
 		}
 		
 		protected function drillTip(tip:Point):MineralBlock {
 			var block:MineralBlock = targetResource.resourceAt(tip);
-			if (!block || block.damaged)
+			if (!block || block.damaged) {
+				var mino:Mino = Mino.getGrid(tip.x, tip.y);
+				if (mino && mino.exists && !(mino is StationCore))
+					mino.takeExplodeDamage(tip.x, tip.y, this)
 				return null;
+			}
 			if (block.type == MineralBlock.BEDROCK)
 				return block;
 			
@@ -83,6 +91,11 @@ package Sminos {
 			return false;
 		}
 		
+		override protected function finishDrill():void { 
+			mine();
+			super.finishDrill();
+		}
+		
 		protected function mine():void {
 			var directions:Array = [new Point(1,0), new Point(0,1), new Point(-1,0), new Point(0,-1)];
 			for each (var block:Block in blocks) {
@@ -90,9 +103,6 @@ package Sminos {
 				for each (var direction:Point in directions)
 					minePoint(adjustedBlock.add(direction));
 			}
-			
-			MinedText.mine(storedMinerals);
-			powerReq = 1;
 		}
 		
 		[Embed(source = "../../lib/art/sminos/drill.png")] private static const _sprite:Class;

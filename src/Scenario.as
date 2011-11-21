@@ -23,6 +23,7 @@ package
 	import Mining.ResourceSource;
 	import SFX.Fader;
 	import Sminos.Bomb;
+	import Sminos.Drill;
 	import Sminos.StationCore;
 	import Controls.ControlSet;
 	import InfoScreens.NewPieceInfo;
@@ -210,22 +211,12 @@ package
 		}
 		
 		protected function checkCurrentMino():void {
-			if (currentMino && currentMino.gridLoc.y > C.B.PlayArea.bottom)
+			if (currentMino && currentMino.gridLoc.y > C.B.PlayArea.bottom) {
+				currentMino.exists = false;
 				killCurrentMino();
+			}
 			
-			if (!currentMino || !currentMino.falling) {
-				if (currentMino) {
-					if (!NewPlayerEvent.seen[NewPlayerEvent.DISCONNECT] && !currentMino.powered)
-						hudLayer.add(NewPlayerEvent.onFirstDisconnect());
-					else if (!NewPlayerEvent.seen[NewPlayerEvent.DECREW] && station.crewDeficit)
-						hudLayer.add(NewPlayerEvent.onFirstUncrewed());
-					else if (!NewPlayerEvent.seen[NewPlayerEvent.SUBMERGE] && currentMino.submerged)
-						hudLayer.add(NewPlayerEvent.onFirstSubmerged());
-					
-					killCurrentMino();
-					C.B.PlayArea = _getBounds();
-				}
-				
+			if (!currentMino || (!currentMino.falling && (!(currentMino is Drill) || !(currentMino as Drill).drilling))) {
 				if (tracker.safe && !station.core.damaged) {
 					spawnTimer -= FlxG.elapsed;
 					if (spawnTimer <= 0)
@@ -235,12 +226,17 @@ package
 		}
 		
 		protected function killCurrentMino():void {
-			currentMino.current = false;
-			currentMino = null;
-			GlobalCycleTimer.minosDropped++;
+			if (currentMino) {
+				currentMino.current = false;
+				currentMino = null;
+				GlobalCycleTimer.minosDropped++;
+			}
 		}
 		
 		protected function spawnNextMino():void {
+			if (currentMino)
+				onAnchor();
+			
 			minoLayer.add(currentMino = popNextMino());
 			
 			if (!arrowHint)
@@ -252,6 +248,18 @@ package
 				hudLayer.add(new NewPieceInfo(currentMino));
 			
 			spawnTimer = SPAWN_TIME;
+		}
+		
+		protected function onAnchor():void {			
+			if (!NewPlayerEvent.seen[NewPlayerEvent.DISCONNECT] && !currentMino.powered)
+				hudLayer.add(NewPlayerEvent.onFirstDisconnect());
+			else if (!NewPlayerEvent.seen[NewPlayerEvent.DECREW] && station.crewDeficit)
+				hudLayer.add(NewPlayerEvent.onFirstUncrewed());
+			else if (!NewPlayerEvent.seen[NewPlayerEvent.SUBMERGE] && currentMino.submerged)
+				hudLayer.add(NewPlayerEvent.onFirstSubmerged());
+			
+			killCurrentMino();
+			C.B.PlayArea = _getBounds();
 		}
 		
 		protected function popNextMino():Smino {
@@ -396,16 +404,20 @@ package
 			if (ControlSet.MINO_L_KEY.justPressed() ||
 				ControlSet.MINO_R_KEY.justPressed() ||
 				ControlSet.FASTFALL_KEY.justPressed()) {
-				spawnTimer = 0.01;
+				killCurrentMino();
+				spawnTimer = 0;
 				inputTimer = 0;
 			} else if (ControlSet.ST_CW_KEY.justPressed() ||
 					   ControlSet.ST_CCW_KEY.justPressed()) {
-				spawnTimer = 0.01;
+				killCurrentMino();
+				spawnTimer = 0;
 			} else if (spawnTimer <= SPAWN_TIME - 0.3 && (
 					   ControlSet.MINO_L_KEY.pressed() ||
 					   ControlSet.MINO_R_KEY.pressed() ||
-					   ControlSet.FASTFALL_KEY.pressed()))
-				spawnTimer = 0.01;
+					   ControlSet.FASTFALL_KEY.pressed())) {
+				killCurrentMino();
+				spawnTimer = 0;
+			}
 		}
 		
 		protected function checkRotateControls():void {
@@ -423,7 +435,7 @@ package
 		}
 		
 		protected function checkDiscontinuousInput():void {
-			if (currentMino) {
+			if (currentMino && currentMino.falling) {
 				if (ControlSet.MINO_CW_KEY.justPressed())
 					currentMino.rotateClockwise();
 				if (ControlSet.MINO_CCW_KEY.justPressed())
