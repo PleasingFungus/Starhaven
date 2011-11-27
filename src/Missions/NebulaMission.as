@@ -12,10 +12,10 @@ package Missions {
 		
 		private var nebulaBlocks:Array;
 		private var nebulaGrid:Array;
-		public function NebulaMission(Seed:Number) {
+		public function NebulaMission(Seed:Number, Scale:Number = 1) {
 			super(Seed);
 			
-			var size:int = 36;
+			var size:int = 36 * Scale;
 			var area:int = size * size / 4;
 			
 			var largeClusters:int = area * 0.03;

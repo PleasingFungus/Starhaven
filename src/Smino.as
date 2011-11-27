@@ -15,6 +15,7 @@ package  {
 		public function get station():Station { return parent as Station; }
 		public var powered:Boolean;
 		public var submerged:Boolean;
+		public var waterproofed:Boolean;
 		public var transmitsPower:Boolean;
 		
 		public var powerReq:int = 0;
@@ -23,6 +24,8 @@ package  {
 		public var crewCapacity:int = 0;
 		public var crew:int = 0;
 		public var crewEmployed:int = 0;
+		public var bombCarrying:Boolean;
+		
 		public var description:String = "Placeholder description.";
 		public var audioDescription:Class;
 		
@@ -114,7 +117,7 @@ package  {
 		}
 		
 		protected function checkWater():void {
-			if (C.fluid && C.fluid.intersect(this))
+			if (!waterproofed && C.fluid && C.fluid.intersect(this))
 				submerged = true;
 		}
 		

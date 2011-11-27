@@ -1,5 +1,6 @@
 package MainMenu {
 	import org.flixel.FlxG;
+	import org.flixel.FlxText;
 	/**
 	 * ...
 	 * @author Nicholas Feinberg
@@ -16,6 +17,11 @@ package MainMenu {
 		}
 		
 		override protected function choose():void {
+			//var loadingText:FlxText = new FlxText(0, FlxG.height / 2 - 10, FlxG.width, "Loading...");
+			//loadingText.setFormat(C.FONT, 48, 0xff8fff, 'center');
+			//FlxG.state.add(loadingText);
+			//FlxG.state.render();
+			
 			FlxG.state = new associate();
 		}
 		

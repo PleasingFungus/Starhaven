@@ -29,7 +29,8 @@ package MainMenu {
 			rightCol.push(add(new StateThing("Water", WaterScenario)));
 			//rightCol.push(add(new StateThing("Trench", TrenchScenario)));
 			//rightCol.push(add(new StateThing("Derelict", ShipScenario)));
-			rightCol.push(add(new StateThing("Belt", BeltScenario)));
+			rightCol.push(add(new StateThing("Dust", DustScenario)));
+			rightCol.push(add(new StateThing("Shore", ShoreScenario)));
 			MenuThing.addColumn(rightCol, FlxG.width * 5 / 8);
 			
 			

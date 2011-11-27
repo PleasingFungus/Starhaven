@@ -22,6 +22,9 @@ package HUDs {
 		}
 		
 		override public function render():void {
+			if (!C.HUD_ENABLED)
+				return;
+			
 			vstripe.y = C.B.OUTER_BOUNDS.top * C.BLOCK_SIZE + C.B.drawShift.y - hstripe.height;
 			vstripe.x = C.B.OUTER_BOUNDS.left * C.BLOCK_SIZE + C.B.drawShift.x - vstripe.width;
 			vstripe.render();

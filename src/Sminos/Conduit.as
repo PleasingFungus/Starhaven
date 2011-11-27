@@ -13,6 +13,7 @@ package Sminos {
 								Sprite:Class = null, InopSprite:Class = null) {
 			super(X, Y, Blocks, Center, 0xffa0a0a0, 0xfff8fb89, Sprite, InopSprite);
 			transmitsPower = true;
+			waterproofed = true;
 			
 			cladeName = "Conduit";
 			description = "Conduits transmit power from the station core, powering other pieces.";

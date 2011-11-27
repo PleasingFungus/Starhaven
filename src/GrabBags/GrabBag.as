@@ -91,5 +91,9 @@ package GrabBags {
 			return new GrabBag(choice.minos);
 		}
 		
+		public function toString():String {
+			return "{"+minos+"}";
+		}
+		
 	}
 }

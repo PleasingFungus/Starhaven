@@ -9,10 +9,10 @@ package Missions {
 	 */
 	public class AsteroidMission extends Mission {
 		
-		public function AsteroidMission(Seed:Number) {
+		public function AsteroidMission(Seed:Number, Scale:Number = 1) {
 			super(Seed);
 			
-			var size:int = convertSize(FlxU.random());
+			var size:int = convertSize(FlxU.random()) * Scale;
 			
 			var majorAxis:int = size * (1 + eccentricity * FlxU.random());
 			var minorAxis:int = size * (1 - eccentricity * FlxU.random());

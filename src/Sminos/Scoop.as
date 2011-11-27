@@ -20,8 +20,8 @@ package Sminos {
 		}
 		
 		override protected function anchorTo(Parent:Aggregate):void {
-			checkWater();
-			if (submerged && facing == DOWN) {
+			//checkWater();
+			if (facing == DOWN) {
 				parent = Parent;
 				drill();
 			}

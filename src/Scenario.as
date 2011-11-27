@@ -263,8 +263,10 @@ package
 		}
 		
 		protected function popNextMino():Smino {
-			if (!bag || bag.empty())
+			if (!bag || bag.empty()) {
 				bag = chooseNextBag();
+				C.log("New bag: " + bag);
+			}
 			
 			var X:int = 0;
 			var Y:int;
@@ -567,6 +569,8 @@ package
 			} else {
 				endText.text = "Defeat.";
 				endText.color = 0xff2810;
+				if (!station.core.damaged)
+					station.core.takeExplodeDamage( -1, -1, station.core);
 			}
 			hudLayer.add(endText);
 			

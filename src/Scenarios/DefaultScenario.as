@@ -26,16 +26,22 @@ package Scenarios {
 		}
 		
 		protected function setupBags():void {
-			BagType.all = [];
-			
-			BagType.all.push(new BagType("Assorted Bag", 1, getAssortment()));
+			BagType.all = [new BagType("Assorted Bag", 1, getAssortment(0)), new BagType("AsBag2", 1, getAssortment(1))];
 		}
 		
-		protected function getAssortment():Array {
-			var assortment:Array = [makeBag(SmallFab), makeBag(SmallFab), makeBag(Fabricator),
-									makeBag(miningTool), makeBag(miningTool), makeBag(miningTool), makeBag(AsteroidGun)];
-			if (!(C.DEBUG && C.NO_CREW))
-				assortment = assortment.concat(makeBag(SmallBarracks), makeBag(SmallBarracks), makeBag(MediumBarracks));
+		protected function getAssortment(index:int):Array {
+			var assortment:Array = [makeBag(SmallFab), makeBag(miningTool)];
+			if (index)
+				assortment.push(makeBag(Fabricator));
+			else
+				assortment = assortment.concat(makeBag(miningTool), makeBag(AsteroidGun));
+				
+			if (!(C.DEBUG && C.NO_CREW)) {
+				assortment.push(makeBag(SmallBarracks));
+				if (index)
+					assortment.push(makeBag(MediumBarracks));
+			}
+			
 			return assortment;
 		}
 		
@@ -45,7 +51,7 @@ package Scenarios {
 			return new BagType(null, 1, [primarySmino, conduit]);
 		}
 		
-		private function replace(original:Class):Class {
+		protected function replace(original:Class):Class {
 			if (!C.campaign)
 				return original;
 			
