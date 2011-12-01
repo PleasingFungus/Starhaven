@@ -244,8 +244,10 @@ package
 			
 			if (!arrowHint)
 				minoLayer.add(arrowHint = new ArrowHelper(currentMino));
-			else
+			else if (arrowHint.exists)
 				arrowHint.parent = currentMino;
+			else if (currentMino.bombCarrying)
+				minoLayer.add(new BombHelper(currentMino));
 			
 			if (C.ANNOYING_NEW_PIECE_POPUP && !NewPieceInfo.seenPieces[NewPieceInfo.getPieceName(currentMino)])
 				hudLayer.add(new NewPieceInfo(currentMino));
@@ -307,8 +309,11 @@ package
 		}
 		
 		protected function checkArrowHint():void {
-			if (!stationHint && arrowHint && !arrowHint.exists && rotateable)
+			if (!stationHint && arrowHint && !arrowHint.exists && rotateable) {
 				minoLayer.add(stationHint = new StationHint(station));
+				if (currentMino.bombCarrying || currentMino is Bomb)
+					minoLayer.add(new BombHelper(currentMino));
+			}
 		}
 		
 		
@@ -480,8 +485,10 @@ package
 			currentMino.active = currentMino.current = currentMino.bombCarrying = false;
 			minoLayer.add(currentMino = new Bomb(currentMino))//0, - C.B.getFurthest() - 1));
 			currentMino.current = true;
-			if (arrowHint)
+			if (arrowHint && arrowHint.exists)
 				arrowHint.parent = currentMino;
+			else
+				minoLayer.add(new BombHelper(currentMino));
 			spawnTimer = SPAWN_TIME;
 		}
 		

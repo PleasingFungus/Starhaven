@@ -36,7 +36,7 @@ package MainMenu {
 			//add(t);
 			
 			
-			t = new FlxText(0, 7, FlxG.width - 5, C.VERSION + (C.DEBUG ? "-DEBUG" : ""));
+			t = new FlxText(0, 4, FlxG.width - 5, C.VERSION + (C.DEBUG ? "-DEBUG" : ""));
 			t.setFormat(C.FONT, 12, 0xffffff, 'right');
 			add(t);
 			

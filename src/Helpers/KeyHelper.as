@@ -17,6 +17,12 @@ package Helpers {
 		}
 		
 		public function generate():void {
+			if (key.key == "SPACE") {
+				loadGraphic(spaceKey);
+				//scale.x = scale.y = 2;
+				return;
+			}
+			
 			loadGraphic(keyBase, false, false, 16, 16, true);
 			var keySpr:FlxSprite;
 			var off:int;
@@ -25,8 +31,6 @@ package Helpers {
 			if (dir != -1) {
 				keySpr = new FlxSprite().loadGraphic(arrow_pngs[dir]);
 				off = 4;
-			} else if (key.key == "SPACE") {
-				//TODO
 			} else {
 				keySpr = new FlxText(0, 0, 1000, key.toString()).setFormat(null, 8, 0x0);//.setFormat(C.FONT, 10, 0x0);
 				off = 2;
@@ -45,6 +49,7 @@ package Helpers {
 		public static const ARROWS_BY_NAME:Array = ["LEFT", "UP", "RIGHT", "DOWN"];
 		
 		[Embed(source = "../../lib/art/help/key.png")] private static const keyBase:Class;
+		[Embed(source = "../../lib/art/help/spacekey.png")] private static const spaceKey:Class;
 		
 		[Embed(source = "../../lib/art/help/leftarrow.png")] private static const _key_left:Class;
 		[Embed(source = "../../lib/art/help/uparrow.png")] private static const _key_up:Class;
