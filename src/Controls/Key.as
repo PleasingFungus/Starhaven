@@ -34,15 +34,14 @@ package Controls {
 			return num.toString();
 		}
 		
-		public function generateKeySprite():FlxSprite {
-			return new KeyHelper(key);
+		public function generateKeySprite():KeyHelper {
+			return new KeyHelper(this);
 		}
 		
 		
 		
 		public static const DIGITS_BY_NAME:Array = ["ZERO", "ONE", "TWO", "THREE", "FOUR",
 													"FIVE", "SIX", "SEVEN", "EIGHT", "NINE"];
-		public static const ARROWS_BY_NAME:Array = ["LEFT", "UP", "RIGHT", "DOWN"];
 	}
 
 }
