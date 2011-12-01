@@ -13,6 +13,7 @@ package Sminos {
 								new Block(0, 1), new Block(1, 1), new Block(2, 1),
 												 new Block(1, 2)];
 			super(X, Y, blocks, new Point(1, 1), 0xff64448f, 0xff9348f4, _sprite, _sprite_in);
+			bombCarrying = true;
 			cladeName = "Scoop";
 			name = "Scoop";
 			description = "Use scoops to smash into purple mineral clusters and dislodge them; then use conduits to collect the minerals when they bob to the surface!";

@@ -18,10 +18,8 @@ package Scenarios {
 		public function AsteroidScenario(Seed:Number = NaN) {
 			super(Seed);
 			
-			if (C.difficulty.hard) {
+			if (C.difficulty.hard)
 				goal = 0.75;
-				bombs = 3;
-			}
 			bg_sprites = _bgs;
 			mapBuffer = 20;
 		}

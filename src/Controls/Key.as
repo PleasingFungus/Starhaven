@@ -1,4 +1,5 @@
 package Controls {
+	import Helpers.KeyHelper;
 	import org.flixel.*;
 	/**
 	 * ...
@@ -34,22 +35,7 @@ package Controls {
 		}
 		
 		public function generateKeySprite():FlxSprite {
-			var base:FlxSprite = new FlxSprite().loadGraphic(keyBase, false, false, 16, 16, true);
-			var keySpr:FlxSprite;
-			var off:int;
-			
-			var dir:int = ARROWS_BY_NAME.indexOf(key);
-			if (dir != -1) {
-				keySpr = new FlxSprite().loadGraphic(arrow_pngs[dir]);
-				off = 4;
-			} else {
-				keySpr = new FlxText(0, 0, 1000, toString()).setFormat(null, 8, 0x0);//.setFormat(C.FONT, 10, 0x0);
-				off = 2;
-			}
-			
-			base.draw(keySpr, off, off);
-			base.scale.x = base.scale.y = 2;
-			return base;
+			return new KeyHelper(key);
 		}
 		
 		
@@ -57,17 +43,6 @@ package Controls {
 		public static const DIGITS_BY_NAME:Array = ["ZERO", "ONE", "TWO", "THREE", "FOUR",
 													"FIVE", "SIX", "SEVEN", "EIGHT", "NINE"];
 		public static const ARROWS_BY_NAME:Array = ["LEFT", "UP", "RIGHT", "DOWN"];
-		
-		
-		
-		
-		[Embed(source = "../../lib/art/help/key.png")] private static const keyBase:Class;
-		
-		[Embed(source = "../../lib/art/help/leftarrow.png")] private static const _key_left:Class;
-		[Embed(source = "../../lib/art/help/uparrow.png")] private static const _key_up:Class;
-		[Embed(source = "../../lib/art/help/rightarrow.png")] private static const _key_right:Class;
-		[Embed(source = "../../lib/art/help/downarrow.png")] private static const _key_down:Class;
-		private static const arrow_pngs:Array = [_key_left, _key_up, _key_right, _key_down];
 	}
 
 }

@@ -23,7 +23,6 @@ package Scenarios {
 			super(Seed);
 			
 			mapBuffer = 0;
-			bombs = 3;
 			miningTool = Scoop;
 			spawner = PlanetSpawner;
 			bg_sprite = _bg;

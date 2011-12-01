@@ -8,8 +8,10 @@ package Sminos {
 		
 		protected var radius:int = 3;
 		protected var shroud:Mino;
-		public function Bomb(X:int, Y:int ) {
-			super(X, Y, [new Block], new Point, 0xff201818, 0xff403030, _sprite, _sprite);
+		public var uncle:Smino;
+		public function Bomb(Parent:Smino) {
+			uncle = Parent;
+			super(uncle.absoluteCenter.x, uncle.absoluteCenter.y, [new Block], new Point, 0xff201818, 0xff403030, _sprite, _sprite);
 			description = "Bombs explode on impact, or manually by pressing 'space'. Use them to expose buried mineral pockets!";
 			audioDescription = _desc;
 			genResourceShroud();
@@ -26,21 +28,19 @@ package Sminos {
 			shroud = new Mino(gridLoc.x, gridLoc.y, blocks, new Point, 0xffffffff);
 			
 			shroud.gridLoc = gridLoc;
-			shroud.alpha = 1/3;
+			shroud.alpha = 1/4;
 		}
 		
 		override public function renderTop(force:Boolean = false):void {
-			if (exists && !dead)
+			if (exists && !dead && C.HUD_ENABLED)
 				shroud.render();
 		}
 		
 		override protected function anchorTo(Parent:Aggregate):void {
-			GlobalCycleTimer.minosDropped--;
 			explode(radius);
 		}
 		
 		public function manuallyDetonate():void {
-			GlobalCycleTimer.minosDropped--;
 			explode(radius);
 		}
 		

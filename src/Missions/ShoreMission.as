@@ -18,25 +18,24 @@ package Missions {
 			
 			planetWidth = map_width * 2;
 			
-			var sinPeriod:Number = ((Math.PI * 2) / planetWidth) / 6; 
+			var achLangSyne:Number = Math.PI * 2;
+			achLangSyne /= planetWidth; //conversion;
+			achLangSyne /= 1.5;
+			var A:int = -(waterDepth + 7);
 			
+			var planetWidth:int = map_width * 2;
 			var broadHeightmap:Array = [];
-			var chunkSize:int = 4;
-			var chunkedWidth:Number = planetWidth / chunkSize;
-			for (var X:int = 0; X < chunkedWidth; X++) {
-				//if (Math.sin(X / sinPeriod) < 0)
-					//broadHeightmap[X] = -(waterDepth + surfaceDepth) + FlxU.random() * 2;
-				//else
-					//broadHeightmap[X] = FlxU.random() * 2;
-				var A:int = -(waterDepth + 5);
-				broadHeightmap[X] = A * -Math.sin(X / sinPeriod) + A / 2;
-			}
+			var chunkSize:int = 5;
+			for (var X:int = 0; X < planetWidth / chunkSize; X++)
+				broadHeightmap[X] = FlxU.random() * 2;
 			
 			mapBlocks = [];
 			for (var x:int = 0; x < planetWidth; x++) {
 				var heightmapLevel:int = broadHeightmap[Math.floor(x / chunkSize)];
-				var fullHeight:int = heightmapLevel + FlxU.random() * 3;
-				var bedrockDepth:int = Math.max( - fullHeight + 1, 1) + FlxU.random() * 2;
+				var sinComponent:Number = A * Math.sin((x - planetWidth/2) / achLangSyne) + A / 2;
+				var fullHeight:int = heightmapLevel + sinComponent + FlxU.random() * 3;
+				fullHeight = Math.min(2, fullHeight);
+				var bedrockDepth:int = Math.max( - fullHeight - 3, 1) + FlxU.random() * 2;
 				
 				for (var y:int = fullHeight; y < planetDepth; y++) {
 					var newBlock:MineralBlock = new MineralBlock(x, y);

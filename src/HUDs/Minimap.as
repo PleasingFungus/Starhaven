@@ -103,6 +103,8 @@ package HUDs {
 		override public function render():void {
 			if (dirty)
 				resetMap();
+			if (!C.HUD_ENABLED)
+				return;
 			
 			_framePixels.fillRect(_flashRect, 0x40000000);
 			_framePixels.draw(map, null, map_ct);

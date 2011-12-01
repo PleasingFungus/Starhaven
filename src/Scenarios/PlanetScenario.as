@@ -20,7 +20,6 @@ package Scenarios {
 			super(Seed);
 			
 			mapBuffer = 0;
-			bombs = 3;
 			spawner = PlanetSpawner;
 			if (C.difficulty.hard)
 				goal = 0.65; //should be higher?

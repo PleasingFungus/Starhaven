@@ -54,7 +54,6 @@ package
 		protected var bg_sprite:Class;
 		protected var bg_sprites:Array;
 		
-		protected var bombs:int = -1;
 		protected var rotateable:Boolean;
 		
 		protected var resourceSource:ResourceSource;
@@ -174,7 +173,6 @@ package
 			if (C.campaign)
 				goal *= C.campaign.difficultyFactor;
 			hud = new HUD(station, goal, tracker);
-			hud.updateBombs(bombs);
 			hudLayer.add(hud);
 		}
 		
@@ -228,8 +226,13 @@ package
 		protected function killCurrentMino():void {
 			if (currentMino) {
 				currentMino.current = false;
-				currentMino = null;
-				GlobalCycleTimer.minosDropped++;
+				if (currentMino is Bomb) {
+					currentMino = (currentMino as Bomb).uncle;
+					currentMino.active = currentMino.current = true;
+				} else {				
+					currentMino = null;
+					GlobalCycleTimer.minosDropped++;
+				}
 			}
 		}
 		
@@ -445,24 +448,11 @@ package
 				
 				if (ControlSet.MINO_HELP_KEY.justPressed())
 					hudLayer.add(new NewPieceInfo(currentMino));
-				if (ControlSet.BOMB_KEY.justPressed() && tracker.safe) {
-					if (currentMino && currentMino is Bomb)
+				if (ControlSet.BOMB_KEY.justPressed() && tracker.safe && currentMino) {
+					if (currentMino is Bomb)
 						(currentMino as Bomb).manuallyDetonate();
-					else if (bombs > 0) {
-						if (currentMino && !currentMino.parent)
-							currentMino.exists = false;
-						bag.repush(); //replace current mino in bag
-						
-						if (C.FINITE_BOMBS)
-							bombs--;
-						hud.updateBombs(bombs);
-						
-						minoLayer.add(currentMino = new Bomb(currentMino.gridLoc.x, currentMino.gridLoc.y))//0, - C.B.getFurthest() - 1));
-						currentMino.current = true;
-						if (arrowHint)
-							arrowHint.parent = currentMino;
-						spawnTimer = SPAWN_TIME;
-					}
+					else if (currentMino.bombCarrying && !currentMino.parent)
+						dropBomb();
 				}
 					
 			}
@@ -484,6 +474,15 @@ package
 			
 			if (ControlSet.CANCEL_KEY.justPressed())
 				enterPauseState();
+		}
+		
+		protected function dropBomb():void {			
+			currentMino.active = currentMino.current = currentMino.bombCarrying = false;
+			minoLayer.add(currentMino = new Bomb(currentMino))//0, - C.B.getFurthest() - 1));
+			currentMino.current = true;
+			if (arrowHint)
+				arrowHint.parent = currentMino;
+			spawnTimer = SPAWN_TIME;
 		}
 		
 		protected function checkDebugInput():void {

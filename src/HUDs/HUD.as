@@ -11,7 +11,6 @@ package HUDs {
 		
 		private var mineralText:HUDText;
 		private var lifeText:FlxText;
-		private var bombText:FlxText;
 		
 		private var trackerText:FlxText;
 		private var blockText:FlxText;
@@ -32,12 +31,10 @@ package HUDs {
 			
 			mineralText = new HUDText(5, 220, 100).loadIcon(C.ICONS[C.MINERALS]);
 			lifeText = new HUDText(FlxG.width - 90, 20, 85, "TIME: 0:00");
-			bombText = new HUDText(FlxG.width - 90, 90, 85, "BOMBS: ");
 			
 			if (C.DEBUG) {
 				add(mineralText);
 				add(lifeText);
-				add(bombText);
 			}
 			
 			var hbarheight:int = 22;
@@ -55,13 +52,6 @@ package HUDs {
 			add(goalText);
 			add(blockText);
 			add(trackerText);
-		}
-		
-		public function updateBombs(bombs:int):void {
-			if (bombs >= 0)
-				bombText.text = "BOMBS: " + bombs;
-			else
-				bombText.visible = false;
 		}
 		
 		public function updateGoal(percent:int):void {

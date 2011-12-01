@@ -42,7 +42,7 @@ package Sminos {
 			shroud = new Mino(gridLoc.x, gridLoc.y, blocks, new Point, 0xffffffff);
 			
 			shroud.gridLoc = gridLoc;
-			shroud.alpha = 1/3;
+			shroud.alpha = 1/4;
 		}
 		
 		override protected function anchorTo(Parent:Aggregate):void {
@@ -100,7 +100,7 @@ package Sminos {
 					shroud.alpha -= FlxG.elapsed;
 				if (shroud.alpha < 0)
 					shroud = null;
-				else
+				else if (C.HUD_ENABLED)
 					shroud.render();
 			}
 		}

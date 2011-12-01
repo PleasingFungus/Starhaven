@@ -21,7 +21,6 @@ package Scenarios {
 			super(Seed);
 			
 			mapBuffer = 0;
-			bombs = 3;
 			spawner = PlanetSpawner;
 			bg_sprite = _bg;
 			rotateable = false;
