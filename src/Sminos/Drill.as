@@ -23,6 +23,7 @@ package Sminos {
 			description = "Drill point-first into purplish mineral clusters to harvest them; then hook the drills up to power to collect the minerals!";
 			audioDescription = _desc;
 			bombCarrying = true;
+			waterproofed = true;
 			
 			mineralText = new Icontext(x, y + height / 2 - 8, width, storedMinerals+"", C.ICONS[C.MINERALS]);
 		}

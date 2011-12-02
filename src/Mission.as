@@ -18,16 +18,21 @@ package  {
 			FlxU.seed = Seed;
 		}
 		
-		protected function genCluster(radius:int, clusterType:int = -1):void {
-			var randomIndex:int = FlxU.random() * mapBlocks.length;
-			var randomBlock:MineralBlock = mapBlocks[randomIndex];
-			while (!validMineralLoc(randomBlock)) {
-				randomIndex = FlxU.random() * mapBlocks.length;
-				randomBlock = mapBlocks[randomIndex];
-			}
-			
+		protected function genCluster(radius:int, clusterType:int = -1, Target:MineralBlock = null):void {
 			if (clusterType == -1)
 				clusterType = randomMineralType();
+			
+			var randomBlock:MineralBlock;
+			if (Target)
+				randomBlock = Target;
+			else {
+				var randomIndex:int = FlxU.random() * mapBlocks.length;
+				randomBlock= mapBlocks[randomIndex];
+				while (!validMineralLoc(randomBlock)) {
+					randomIndex = FlxU.random() * mapBlocks.length;
+					randomBlock = mapBlocks[randomIndex];
+				}
+			}
 			
 			for (var i:int = 0; i < mapBlocks.length; i++) {
 				var block:MineralBlock = mapBlocks[i];

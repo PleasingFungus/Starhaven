@@ -37,7 +37,7 @@ package Missions {
 			fullMapSize.offset(5, 5);
 		}
 		
-		override protected function genCluster(radius:int, _:int = -1):void {
+		override protected function genCluster(radius:int, _:int = -1, __:MineralBlock = null):void {
 			var centerX:int = FlxU.random() * fullMapSize.x;
 			var centerY:int = FlxU.random() * fullMapSize.y;
 			var rsqr:int = radius * radius;

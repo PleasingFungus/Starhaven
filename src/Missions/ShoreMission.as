@@ -14,25 +14,26 @@ package Missions {
 		public function ShoreMission(Seed:Number) {
 			super(Seed);
 			
-			var map_width:int = convertSize(FlxU.random());
-			
+			var map_width:int = 39;
 			planetWidth = map_width * 2;
 			
-			var achLangSyne:Number = Math.PI * 2;
-			achLangSyne /= planetWidth; //conversion;
-			achLangSyne /= 1.5;
-			var A:int = -(waterDepth + 7);
+			var sinPeriod:Number = Math.PI * 2;
+			sinPeriod /= planetWidth; //conversion;
+			//sinPeriod /= 1.5;
+			var A:int = -(waterDepth + surfaceDepth);
+			var sinSign:int = FlxU.random() > 0.5 ? 1 : -1;
 			
 			var planetWidth:int = map_width * 2;
-			var broadHeightmap:Array = [];
 			var chunkSize:int = 5;
-			for (var X:int = 0; X < planetWidth / chunkSize; X++)
+			var broadHeightmap:Array = new Array(Math.floor(planetWidth / chunkSize));
+			for (var X:int = 0; X < broadHeightmap.length; X++)
 				broadHeightmap[X] = FlxU.random() * 2;
 			
+			var narrowHeightmap:Array = new Array(planetWidth);
 			mapBlocks = [];
 			for (var x:int = 0; x < planetWidth; x++) {
 				var heightmapLevel:int = broadHeightmap[Math.floor(x / chunkSize)];
-				var sinComponent:Number = A * Math.sin((x - planetWidth/2) / achLangSyne) + A / 2;
+				var sinComponent:Number = A * Math.sin((x - planetWidth/2) / sinPeriod) * sinSign + A / 2;
 				var fullHeight:int = heightmapLevel + sinComponent + FlxU.random() * 3;
 				fullHeight = Math.min(2, fullHeight);
 				var bedrockDepth:int = Math.max( - fullHeight - 3, 1) + FlxU.random() * 2;
@@ -43,30 +44,31 @@ package Missions {
 						newBlock.type = MineralBlock.BEDROCK;
 					mapBlocks.push(newBlock);
 				}
+				
+				narrowHeightmap[x] = new Point(fullHeight, planetDepth - bedrockDepth); //misusing points!
 			}
 			
-			var totalArea:int = mapBlocks.length;
-			var largeClusters:int = totalArea * .006;
-			var smallClusters:int = totalArea * .009;
+			for (var i:int = 0; i < 6; i++) {
+				var rx:int = (FlxU.random() + i) * planetWidth / 6;
+				var heightRange:Point = narrowHeightmap[rx];
+				var ry:int = FlxU.random() * (heightRange.y - heightRange.x) + heightRange.x;
+				for each (var block:MineralBlock in mapBlocks)
+					if (block.x == rx && block.y == ry) {
+						genCluster(3, -1, block);
+						break;
+					}
+			}
 			
-			for (var i:int = 0; i < largeClusters; i++)
-				genCluster(3, FlxU.random() < 1/3 ? MineralBlock.ORANGE_MINERALS : MineralBlock.PURPLE_MINERALS);
-			for (i = 0; i < smallClusters; i++)
-				genCluster(2);
 			genNoise();
 			
 			rawMap = new Terrain(mapBlocks, new Point(planetWidth, planetDepth - waterDepth));
 			fullMapSize = new Point(map_width, Math.floor((planetDepth + atmosphere + waterDepth) / 2));
 		}
 		
-		protected function convertSize(sizeFraction:Number):int {
-			return 39;
-		}
-		
 		protected const planetDepth:int = 9;
-		protected const waterDepth:int = 4;
-		protected const surfaceDepth:int = 5;
-		public static const atmosphere:int = 22;
+		protected const waterDepth:int = 2;
+		protected const surfaceDepth:int = 9;
+		public static const atmosphere:int = 25;
 		
 	}
 
