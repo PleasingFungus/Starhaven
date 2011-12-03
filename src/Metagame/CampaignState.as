@@ -46,11 +46,25 @@ package Metagame {
 				add(new StateThing("Play", C.campaign.nextMission));
 				add(new StateThing("Quit", MenuState));
 				MenuThing.menuThings[0].select();
+			
+				var ss_cols:int = 3;
+				var ss_buffer:int = 10;
+				for (var i:int = 0; i < C.campaign.screenshots.length; i++) {
+					var ss:FlxSprite = new FlxSprite();
+					ss.x = (i % ss_cols - ss_cols/2) * (Campaign.SCREENSHOT_SIZE.x + ss_buffer) + FlxG.width / 2;
+					ss.y = Math.floor(i / ss_cols) * (Campaign.SCREENSHOT_SIZE.y + ss_buffer) + 200;
+													 //120 is correct w/o play button
+					ss.pixels = C.campaign.screenshots[i];
+					ss.frame = 0;
+					add(ss);
+				}
 			}
 			
 			livesText = new FlxText(10, FlxG.height - 25, FlxG.width - 20, "Lives: " + C.campaign.lives);
 			livesText.setFormat(C.FONT, 16, 0xffffff, 'center');
 			add(livesText);
+			
+			FlxG.mouse.show();
 		}
 		
 		override public function update():void {

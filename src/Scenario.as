@@ -268,10 +268,8 @@ package
 		}
 		
 		protected function popNextMino():Smino {
-			if (!bag || bag.empty()) {
+			if (!bag || bag.empty())
 				bag = chooseNextBag();
-				C.log("New bag: " + bag);
-			}
 			
 			var X:int = 0;
 			var Y:int;

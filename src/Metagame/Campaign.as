@@ -1,6 +1,10 @@
 package Metagame {
+	import flash.display.BitmapData;
+	import flash.geom.Matrix;
+	import flash.geom.Point;
 	import Sminos.*;
 	import Scenarios.*;
+	import org.flixel.FlxG;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -10,6 +14,7 @@ package Metagame {
 		public var missionNo:int;
 		public var upgrades:Array;
 		public var lives:int;
+		public var screenshots:Array;
 		//public var started:Boolean;
 		public function Campaign() {
 			upgrades = [/*new Upgrade(SmallBarracks, LargeBarracks),
@@ -17,6 +22,7 @@ package Metagame {
 						new Upgrade(Conduit, SecondaryReactor) */ ];
 			missionNo = 0;
 			lives = 2;
+			screenshots = [];
 		}
 		
 		public function refresh():void {
@@ -37,8 +43,22 @@ package Metagame {
 		//}
 		
 		public function endMission():void {
+			takeScreenshot();
 			missionNo++;
+		}
+		
+		private function takeScreenshot():void {		
+			var hudOn:Boolean = C.HUD_ENABLED;
+			C.HUD_ENABLED = false;
 			
+			FlxG.state.render();
+			var screenshot:BitmapData = new BitmapData(SCREENSHOT_SIZE.x, SCREENSHOT_SIZE.y);
+			var scaleMatrix:Matrix = new Matrix();
+			scaleMatrix.scale(SCREENSHOT_SIZE.x / FlxG.buffer.width, SCREENSHOT_SIZE.y / FlxG.buffer.height);
+			screenshot.draw(FlxG.buffer, scaleMatrix);
+			screenshots[missionNo] = screenshot;
+			
+			C.HUD_ENABLED = hudOn;
 		}
 		
 		public function upgradeFor(original:Class):Upgrade {
@@ -56,6 +76,8 @@ package Metagame {
 		public static const MISSION_TIMEOUT:int = 1;
 		public static const MISSION_MINEDOUT:int = 2;
 		public static const MISSION_EXPLODED:int = 3;
+		
+		public static const SCREENSHOT_SIZE:Point = new Point(120, 120);
 	}
 
 }
