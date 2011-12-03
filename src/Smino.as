@@ -5,6 +5,7 @@ package  {
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxG;
 	import SFX.Fader;
+	import Controls.ControlSet;
 	
 	import Sminos.*;
 	/**
@@ -324,8 +325,11 @@ package  {
 		override public function renderTop(force:Boolean = false):void {
 			if (!exists)
 				return;
-			else if (Scenario.substate == Scenario.SUBSTATE_NORMAL/* || force*/)
+			else if (Scenario.substate == Scenario.SUBSTATE_NORMAL/* || force*/) {
 				iconRender();
+				if (falling && C.RENDER_THRUSTERS)
+					thrusterRender();
+			}
 		}
 		
 		protected function iconRender():void {
@@ -336,6 +340,40 @@ package  {
 				renderErrors();
 			else
 				renderSupply();
+		}
+		
+		private var thruster:FlxSprite;
+		protected function thrusterRender():void {
+			if (!thruster)
+				thruster = new FlxSprite().loadRotatedGraphic(_thruster_sprite, 4);
+			
+			var db:Rectangle = getDrawBounds();
+			var ac:Point = absoluteCenter;
+			for each (var block:Block in blocks) {
+				if (ControlSet.MINO_R_KEY.pressed() && block.x == topLeft.x) {
+					thruster.x = (block.x + ac.x) * C.BLOCK_SIZE + C.B.drawShift.x - thruster.width;
+					thruster.y = (block.y + ac.y) * C.BLOCK_SIZE + C.B.drawShift.y;
+					thruster.frame = LEFT;
+					thruster.render();
+				} else if (ControlSet.MINO_L_KEY.pressed() && block.x == topLeft.x + blockDim.x - 1) {
+					thruster.x = (block.x + ac.x) * C.BLOCK_SIZE + C.B.drawShift.x + thruster.width;
+					thruster.y = (block.y + ac.y) * C.BLOCK_SIZE + C.B.drawShift.y;
+					thruster.frame = RIGHT;
+					thruster.render();
+				}
+				
+				if (ControlSet.FASTFALL_KEY.pressed() && block.y == topLeft.y) {
+					thruster.x = (block.x + ac.x) * C.BLOCK_SIZE + C.B.drawShift.x;
+					thruster.y = (block.y + ac.y) * C.BLOCK_SIZE + C.B.drawShift.y - thruster.height;
+					thruster.frame = UP;
+					thruster.render();
+				} else if (!ControlSet.FASTFALL_KEY.pressed() && block.y == topLeft.y + blockDim.y - 1) {
+					thruster.x = (block.x + ac.x) * C.BLOCK_SIZE + C.B.drawShift.x;
+					thruster.y = (block.y + ac.y) * C.BLOCK_SIZE + C.B.drawShift.y + thruster.height;
+					thruster.frame = DOWN;
+					thruster.render();
+				}
+			}
 		}
 		
 		private var debugBlock:FlxSprite;
@@ -461,6 +499,7 @@ package  {
 		}
 		
 		
+		[Embed(source = "../lib/art/other/thruster.png")] protected static const _thruster_sprite:Class;
 		
 		
 		public static const OP_FALLING:int = -1;

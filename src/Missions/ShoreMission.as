@@ -23,7 +23,6 @@ package Missions {
 			var A:int = -(waterDepth + surfaceDepth);
 			var sinSign:int = FlxU.random() > 0.5 ? 1 : -1;
 			
-			var planetWidth:int = map_width * 2;
 			var chunkSize:int = 5;
 			var broadHeightmap:Array = new Array(Math.floor(planetWidth / chunkSize));
 			for (var X:int = 0; X < broadHeightmap.length; X++)
@@ -49,20 +48,30 @@ package Missions {
 			}
 			
 			for (var i:int = 0; i < 6; i++) {
-				var rx:int = (FlxU.random() + i) * planetWidth / 6;
-				var heightRange:Point = narrowHeightmap[rx];
-				var ry:int = FlxU.random() * (heightRange.y - heightRange.x) + heightRange.x;
-				for each (var block:MineralBlock in mapBlocks)
-					if (block.x == rx && block.y == ry) {
-						genCluster(3, -1, block);
-						break;
-					}
+				genCluster(2, -1, locCluster(i, narrowHeightmap));
+				genCluster(2, -1, locCluster(i, narrowHeightmap));
+				genCluster(3, -1, locCluster(i, narrowHeightmap));
 			}
 			
 			genNoise();
 			
 			rawMap = new Terrain(mapBlocks, new Point(planetWidth, planetDepth - waterDepth));
 			fullMapSize = new Point(map_width, Math.floor((planetDepth + atmosphere + waterDepth) / 2));
+		}
+		
+		protected function locCluster(i:int, narrowHeightmap:Array):MineralBlock {
+			var rx:int = (FlxU.random() + i) * planetWidth / 6;
+			var heightRange:Point = narrowHeightmap[rx];
+			var ry:int = FlxU.random() * (heightRange.y - heightRange.x) + heightRange.x;
+			C.log("Random cluster: "+rx, ry);
+			for each (var block:MineralBlock in mapBlocks)
+				if (block.x == rx && block.y == ry)
+					return block;
+			return null;
+		}
+		
+		override protected function randomMineralType():int {
+			return MineralBlock.PURPLE_MINERALS;
 		}
 		
 		protected const planetDepth:int = 9;
