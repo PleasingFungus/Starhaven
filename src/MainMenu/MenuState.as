@@ -16,7 +16,10 @@ package MainMenu {
 		override public function create():void
 		{
 			C.setPrintReady();
-			C.campaign = null;
+			if (C.campaign) {
+				C.campaign.die(); //dispose of heavy bitmaps
+				C.campaign = null;
+			}
 			
 			var t:FlxText;
 			

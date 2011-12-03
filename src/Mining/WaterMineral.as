@@ -4,6 +4,7 @@ package Mining {
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxPoint;
 	import HUDs.MinedText;
+	import org.flixel.FlxG;
 	
 	/**
 	 * ...
@@ -26,20 +27,26 @@ package Mining {
 			MinedText.mine(Value);
 		}
 		
+		private var popped:Boolean;
 		override public function update():void {
 			super.update();
 			
 			var grid:Point = new Point(Math.floor((x + width / 2) / C.BLOCK_SIZE), 
 									   Math.floor((y + height / 2) / C.BLOCK_SIZE + 1));
 			if (C.fluid.intersectsPoint(grid))
-				acceleration.y = -maxVelocity.y*2.4;
-			else
+				acceleration.y = -maxVelocity.y * 2.4;
+			else {
 				acceleration.y = maxVelocity.y * 2.4;
+				if (!popped && velocity.y < 0) { //just popped out of water
+					velocity.y = -maxVelocity.y - acceleration.y * FlxG.elapsed; //hack to make sure minerals always pop up to max height
+					popped = true; //doesn't quite work flawlessly, but seems close enough
+				}
+			}
 			
 			var mino:Mino = Mino.getGrid(grid.x, grid.y - 1);
 			if (mino is Smino) {
 				var smino:Smino = mino as Smino;
-				if (smino.transmitsPower && smino.powered) {
+				if (/*smino.transmitsPower && */smino.powered) {
 					smino.station.mineralsMined += value;
 					CollectText.collect(value);
 					exists = false;

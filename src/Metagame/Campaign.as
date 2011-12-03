@@ -68,6 +68,11 @@ package Metagame {
 			return null;
 		}
 		
+		public function die():void {
+			for each (var screenshot:BitmapData in screenshots)
+				screenshot.dispose();
+		}
+		
 		protected const SCENARIO_TYPES:Array = [PlanetScenario, AsteroidScenario,
 												WaterScenario, NebulaScenario,
 												ShoreScenario, DustScenario];

@@ -44,7 +44,7 @@ package Meteoroids {
 				if (mino != null && mino.exists && !mino.dead) {
 					if (mino is Smino) {
 						var smino:Smino = mino as Smino;
-						if (smino.transmitsPower && smino.powered) {
+						if (/*smino.transmitsPower && */smino.powered) {
 							smino.station.mineralsMined += value;
 							CollectText.collect(value);
 						}
