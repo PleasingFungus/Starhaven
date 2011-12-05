@@ -10,8 +10,8 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "0.125";
-		public static const DEBUG:Boolean = true;
+		public static const VERSION:String = "0.13";
+		public static const DEBUG:Boolean = false;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
 		public static const DISPLAY_BOUNDS:Boolean = false;

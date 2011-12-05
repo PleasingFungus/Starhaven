@@ -28,7 +28,7 @@ package MainMenu {
 			add(t);
 			
 			MenuThing.menuThings = [];
-			add(new MainMenuThing("README", HelpState));
+			add(new MainMenuThing("Tutorials", TutorialSelectState));
 			add(new MainMenuThing("Quick Play", QuickPlayState));
 			add(new MainMenuThing("Campaign", CampaignState));
 			add(new MainMenuThing("Controls", ControlsState));

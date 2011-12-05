@@ -71,7 +71,7 @@ package Missions {
 		}
 		
 		override protected function randomMineralType():int {
-			return MineralBlock.PURPLE_MINERALS;
+			return MineralBlock.WEAK_MINERALS;
 		}
 		
 		protected const planetDepth:int = 9;

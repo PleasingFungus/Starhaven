@@ -16,7 +16,7 @@ package Meteoroids {
 		protected var value:int = 5;
 		public function MeteoroidCrystal(X:int, Y:int, Target:Point) {
 			super(X * C.BLOCK_SIZE, Y * C.BLOCK_SIZE , _minerals_sprite);
-			color = 0xff4c355b;
+			color = MineralBlock.colorOf(MineralBlock.WEAK_MINERALS);
 			
 			x += C.BLOCK_SIZE * 2 * (FlxU.random() - 0.5);
 			y += C.BLOCK_SIZE * 2 * (FlxU.random() - 0.5);
@@ -51,7 +51,7 @@ package Meteoroids {
 					} else if (mino is ResourceSource) {
 						var resourceSource:ResourceSource = mino as ResourceSource;
 						var mineralBlock:MineralBlock = resourceSource.resourceAt(grid);
-						if (mineralBlock.type > MineralBlock.BEDROCK && mineralBlock.type < MineralBlock.TEAL_MINERALS)
+						if (mineralBlock.type > MineralBlock.BEDROCK && mineralBlock.type < MineralBlock.STRONG_MINERALS)
 							mineralBlock.type++;
 						mino.newlyDamaged = true;
 					}

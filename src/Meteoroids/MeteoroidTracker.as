@@ -125,6 +125,9 @@ package Meteoroids {
 		}
 		
 		protected function dangerFor(fraction:Number):String {
+			if (!active)
+				return "None";
+			
 			if (fraction < 0)
 				fraction = 0;
 			

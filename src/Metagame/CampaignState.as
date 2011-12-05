@@ -23,6 +23,8 @@ package Metagame {
 			title.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
 			add(title);
 			
+			var quitThing:StateThing;
+			
 			MenuThing.menuThings = [];
 			if (!C.campaign.missionNo) {
 				MenuThing.columns = [];
@@ -31,13 +33,16 @@ package Metagame {
 				leftCol.push(add(new DifficultyThing("Normal", Difficulty.NORMAL)));
 				leftCol.push(add(new DifficultyThing("Hard", Difficulty.HARD)));
 				MenuThing.addColumn(leftCol, FlxG.width / 8);
+			
+				add(new LevelPreview(FlxG.width * 3/4 - Campaign.SCREENSHOT_SIZE.x/2,
+									 FlxG.height / 2 - Campaign.SCREENSHOT_SIZE.y/2,
+									 C.campaign.nextMission));
 				
-				var rightCol:Array = [];
-				rightCol.push(add(new StateThing("Play", C.campaign.nextMission)));
-				rightCol.push(add(new StateThing("Cancel", MenuState)));
-				MenuThing.addColumn(rightCol, FlxG.width * 5 / 8);
-				
-				MenuThing.menuThings[MenuThing.menuThings.indexOf(rightCol[0])].select();
+				var midCol:Array = [];
+				quitThing = new StateThing("Cancel", MenuState);
+				midCol.push(add(quitThing));
+				MenuThing.addColumn(midCol, FlxG.width * 7 / 16);
+				quitThing.setY(FlxG.height - 65);
 			} else {
 				var missionNo:FlxText = new FlxText(10, title.y + title.height + 5,
 													FlxG.width - 20, "Mission "+(C.campaign.missionNo + 1)+" - "+C.difficulty.name());
@@ -60,7 +65,7 @@ package Metagame {
 									 Math.floor(i / ss_cols) * (Campaign.SCREENSHOT_SIZE.y + ss_buffer) + missionNo.y + missionNo.height + ss_buffer,
 									 C.campaign.nextMission));
 				
-				var quitThing:StateThing = new StateThing(C.campaign.missionNo ? "Quit" : "Cancel", MenuState);
+				quitThing = new StateThing("Quit", MenuState);
 				quitThing.setY(FlxG.height - 65);
 				add(quitThing);
 			}

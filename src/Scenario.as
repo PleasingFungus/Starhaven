@@ -324,6 +324,7 @@ package
 			hudLayer.add(darkShroud);
 			
 			MenuThing.menuThings = [];
+			MenuThing.columns = [];
 			quitButton = new StateThing("Click To Quit", MenuState);
 			var quitCol:Array = [quitButton];
 			MenuThing.addColumn(quitCol, FlxG.width/2 - quitButton.fullWidth/2);
@@ -540,11 +541,15 @@ package
 		}
 		
 		protected function checkGoal():void {
-			var newFraction:int = Math.floor(station.mineralsLaunched * 4 / (initialMinerals * goal));
+			var newFraction:int = Math.floor(goalPercent / 25);
 			if (newFraction > goalFraction)
 				hudLayer.add(new FlashText((newFraction * 25) + "% of goal reached!", 0x80ffd000, 2));
 			goalFraction = newFraction;
-			hud.updateGoal(station.mineralsLaunched * 100 / (initialMinerals * goal));
+			hud.updateGoal(goalPercent);
+		}
+		
+		protected function get goalPercent():int {
+			return station.mineralsLaunched * 100 / (initialMinerals * goal);
 		}
 		
 		protected function checkEndConditions():void {

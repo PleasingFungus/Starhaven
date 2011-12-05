@@ -22,7 +22,7 @@ package Mining {
 			
 			type = Type;
 			value = Value;
-			color = COLORS[type - 1];
+			color = MineralBlock.colorOf(type);
 			
 			MinedText.mine(Value);
 		}
@@ -62,12 +62,6 @@ package Mining {
 			point.y += C.B.drawShift.y;
 			return point;
 		}
-		
-		private const WEAK_MINERAL_COLOR:uint = 0xff4c355b;
-		private const MED_MINERAL_COLOR:uint = 0xff552daa;
-		private const STRONG_MINERAL_COLOR:uint = 0xffd800ff;
-		private const COLORS:Array = [WEAK_MINERAL_COLOR, MED_MINERAL_COLOR,
-									  STRONG_MINERAL_COLOR];
 		
 		[Embed(source = "../../lib/art/other/floatmineral.png")] private static const _minerals_sprite:Class;
 	}

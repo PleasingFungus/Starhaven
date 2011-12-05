@@ -61,10 +61,10 @@ package  {
 		protected function randomMineralType():int {
 			var roll:Number = FlxU.random();
 			if (roll < 4/7)
-				return MineralBlock.PURPLE_MINERALS;
+				return MineralBlock.WEAK_MINERALS;
 			if (roll < 6/7)
-				return MineralBlock.ORANGE_MINERALS;
-			return MineralBlock.TEAL_MINERALS;
+				return MineralBlock.MED_MINERALS;
+			return MineralBlock.STRONG_MINERALS;
 		}
 		
 	}

@@ -40,7 +40,7 @@ package  {
 		}
 		
 		public static function outOfTime():Boolean {
-			return minosDropped > miningTime;
+			return miningTime && minosDropped > miningTime;
 		}
 		
 		public static var minosDropped:int;

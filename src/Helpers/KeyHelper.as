@@ -45,6 +45,11 @@ package Helpers {
 			alpha = key.pressed() ? 1 : 0.5;
 		}
 		
+		override public function render():void {
+			if (C.HUD_ENABLED)
+				super.render();
+		}
+		
 		
 		public static const ARROWS_BY_NAME:Array = ["LEFT", "UP", "RIGHT", "DOWN"];
 		

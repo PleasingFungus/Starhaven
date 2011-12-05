@@ -11,6 +11,7 @@ package HUDs {
 		
 		private var mineralText:HUDText;
 		private var lifeText:FlxText;
+		public var goalName:String = "Launched";
 		
 		private var trackerText:FlxText;
 		private var blockText:FlxText;
@@ -42,20 +43,23 @@ package HUDs {
 			HUDBar.alpha = 0.4;
 			add(HUDBar);
 			
-			goalText = new HUDText(10, FlxG.height - 18, 160, "Launched: 0%", C.ICONS[C.MINERALS]);
+			goalText = new HUDText(10, FlxG.height - 18, 160, goalName+": 0%", C.ICONS[C.MINERALS]);
 			goalText.color = 0xffd000;
-			blockText = new HUDText(FlxG.width / 2, FlxG.height - 18, 160, " ", C.ICONS[C.MINOS]);
 			trackerText = new HUDText(FlxG.width - 190, FlxG.height - 18, 170, " ", C.ICONS[C.METEOROIDS]);
 			trackerText.color = 0xdf0000;
 			trackerText.alignment = "right";
 			
 			add(goalText);
-			add(blockText);
 			add(trackerText);
+			
+			if (GlobalCycleTimer.miningTime) {				
+				blockText = new HUDText(FlxG.width / 2, FlxG.height - 18, 160, " ", C.ICONS[C.MINOS]);
+				add(blockText);
+			}
 		}
 		
 		public function updateGoal(percent:int):void {
-			goalText.text = "Launched: "+percent + "%";
+			goalText.text = goalName+": "+percent + "%";
 		}
 		
 		override public function update():void {
@@ -67,8 +71,10 @@ package HUDs {
 			
 			lifeText.text = "TIME: " + C.renderTime(station.lifespan);
 			
-			blockText.text = "Limit: " + GlobalCycleTimer.minosDropped + "/" + GlobalCycleTimer.miningTime;
-			blockText.x = FlxG.width / 2 - blockText.textWidth / 2;
+			if (blockText) {
+				blockText.text = "Limit: " + GlobalCycleTimer.minosDropped + "/" + GlobalCycleTimer.miningTime;
+				blockText.x = FlxG.width / 2 - blockText.textWidth / 2;
+			}
 			
 			trackerText.text = tracker.dangerText/* + " ("+tracker.density+")"*/;
 			
