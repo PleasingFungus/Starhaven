@@ -18,6 +18,7 @@ package MainMenu {
 			MenuThing.menuThings = [];
 			add(new StateThing("README", HelpState));
 			add(new StateThing("1 - Mining & Power", MiningTutorial));
+			add(new StateThing("2 - Housing & Launching", HousingTutorial));
 			MenuThing.menuThings[0].select();
 			
 			var cancelButton:StateThing = new StateThing("Cancel", MenuState);

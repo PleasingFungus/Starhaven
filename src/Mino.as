@@ -304,8 +304,11 @@ package  {
 			return hit;
 		}
 		
-		public function rotateClockwise():Mino {
+		public function rotateClockwise(Force:Boolean = false):Mino {
 			rotate(true);
+			
+			if (Force)
+				return null;
 			
 			if (outsidePlayArea()) {
 				rotate(false);
@@ -318,8 +321,11 @@ package  {
 			return hit;
 		}
 		
-		public function rotateCounterclockwise():Mino {
+		public function rotateCounterclockwise(Force:Boolean = false):Mino {
 			rotate(false);
+			
+			if (Force)
+				return null;
 			
 			if (outsidePlayArea()) {
 				rotate(true);

@@ -1,4 +1,5 @@
 package InfoScreens {
+	import Controls.ControlSet;
 	import org.flixel.*;
 	/**
 	 * ...
@@ -6,7 +7,7 @@ package InfoScreens {
 	 */
 	public class NewPlayerEvent extends InfoScreen {
 		
-		public function NewPlayerEvent(Name:String, Descr:String) {
+		public function NewPlayerEvent(Name:String, Descr:String, Scale:Number = 1) {
 			super();
 			bg.alpha = .65;
 			
@@ -17,7 +18,7 @@ package InfoScreens {
 			FlxG.quake.stop(); //so the screen doesn't vibrate while you're trying to read!
 			
 			var description:FlxText = new FlxText(40, title.y + title.height + 15, FlxG.width - 80, Descr);
-			description.setFormat(C.BLOCKFONT, 16, 0xffffff);
+			description.setFormat(C.BLOCKFONT, 16 * Scale, 0xffffff);
 			add(description);
 		}
 		
@@ -68,6 +69,25 @@ package InfoScreens {
 			saveSeen();
 			
 			return new NewPlayerEvent(title, description);
+		}
+		
+		public static function miningTutorial():NewPlayerEvent {
+			var title:String = "Mining and Power!";
+			var description:String = "You control power conduits and drills that will start falling from the sky as soon as you press " + ControlSet.CONFIRM_KEY + ". ";
+			description += "Use the drills to harvest minerals from the purple mineral clusters in the ground, and the conduits to connect to the drills to the station core and collect their minerals. ";
+			description += "\n\nIf you make a mistake, each drill comes with a single bomb, dropped with '" + ControlSet.BOMB_KEY + "'; you can use those to blow up misplaced parts. (But don't blow up the station core!) ";
+			description += "\n\nTo succeed, just collect 75% of the minerals present; you can check your progress in the bottom-left. Go to it!";
+			
+			return new NewPlayerEvent(title, description, 0.8);
+		}
+		
+		public static function housingTutorial():NewPlayerEvent {
+			var title:String = "Housing and Launching!";
+			var description:String = "Once you collect minerals, you need to launch them back to your home-base (offscreen).\n\n";
+			description += "To do this, you'll need to use two new modules. Blue barracks, which provide crew to adjacent modules, and green launchers, which provide one-man mineral rockets.\n\n";
+			description += "Power both, use them together, and you'll be done in no time!";
+			
+			return new NewPlayerEvent(title, description, 0.8);
 		}
 		
 		public static const DISCONNECT:int = 0;

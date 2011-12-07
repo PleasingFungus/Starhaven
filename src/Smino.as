@@ -498,6 +498,10 @@ package  {
 				local_cache.push(neighbor);
 		}
 		
+		public function setTutorial(station:Station):void {
+			anchorTo(station);
+		}
+		
 		
 		[Embed(source = "../lib/art/other/thruster.png")] protected static const _thruster_sprite:Class;
 		

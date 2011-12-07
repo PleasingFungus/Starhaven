@@ -155,6 +155,8 @@ package  {
 			
 			if (lastAvailable != _mineralsAvailable)
 				minimap.dirty = true;
+			
+			(core as StationCore).storedMinerals = mineralsMined;
 		}
 		
 		public function refine(type:int, amount:int):void {

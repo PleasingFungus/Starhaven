@@ -1,27 +1,22 @@
 package Scenarios.Tutorials {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import Mining.BaseAsteroid;
-	import Mining.MineralBlock;
-	import Mining.Terrain;
+	import Mining.*
 	import Missions.LoadedMission;
-	import org.flixel.FlxSprite;
-	import org.flixel.FlxU;
+	import org.flixel.*
 	import Meteoroids.PlanetSpawner;
-	import org.flixel.FlxG;
 	import Scenarios.DefaultScenario;
 	import GrabBags.BagType;
-	import Sminos.LongDrill;
-	import Sminos.Conduit;
+	import Sminos.*
 	import InfoScreens.NewPlayerEvent;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
 	 */
-	public class MiningTutorial extends Scenarios.DefaultScenario {
+	public class HousingTutorial extends Scenarios.DefaultScenario {
 		
 		protected var mission:LoadedMission;
-		public function MiningTutorial() {
+		public function HousingTutorial() {
 			super(NaN);
 			
 			mapBuffer = 0;
@@ -36,8 +31,6 @@ package Scenarios.Tutorials {
 			super.create();
 			
 			tracker.active = false;
-			hud.goalName = "Collected";
-			hud.updateGoal(0);
 		}
 		override protected function createGCT(_:Number = 0):void {
 			super.createGCT(0);
@@ -53,10 +46,6 @@ package Scenarios.Tutorials {
 			super.createStation();
 			buildPlanet();
 		}
-	
-		override protected function setupBags():void {
-			BagType.all = [new BagType("Assorted Bag", 1, [LongDrill, Conduit, Conduit])];
-		}
 		
 		protected function buildPlanet():void {
 			var planet:BaseAsteroid = resourceSource as BaseAsteroid;
@@ -71,7 +60,8 @@ package Scenarios.Tutorials {
 			station.core.addToGrid();
 			
 			station.resourceSource = planet;
-			initialMinerals = station.mineralsAvailable;
+			station.mineralsMined = 600;
+			initialMinerals = station.mineralsMined;
 			
 			var planet_bg:Mino = new Mino(planet.gridLoc.x, planet.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030);
 			
@@ -80,24 +70,62 @@ package Scenarios.Tutorials {
 			station.add(planet);
 			Mino.all_minos.push(planet);
 			planet.addToGrid();
+			
+			addDrills();
+		}
+		
+		protected function addDrills():void {
+			addSmino(3-20,19-14, LongDrill);
+			addSmino(9-20,18-14, LongDrill);
+			addSmino(14 - 20, 19 - 14, LongDrill);
+			addSmino(24 - 20, 19 - 14, LongDrill);
+			addSmino(30-20,18-14, LongDrill);
+			addSmino(36-20,17-14, LongDrill);
+
+			addSmino(24 - 20, 18 - 14, LongConduit, FlxSprite.RIGHT);
+			addSmino(27 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
+			addSmino(31 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
+			addSmino(35 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
+
+			addSmino(15 - 20, 18 - 14, LongConduit, FlxSprite.RIGHT);
+			addSmino(12 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
+			addSmino(8 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
+			addSmino(5 - 20, 18 - 14, LongConduit, FlxSprite.RIGHT);
+		}
+		
+		protected function addSmino(X:int, Y:int, minoType:Class, Facing:int = FlxSprite.DOWN):void {
+			var smino:Smino = new minoType(X, Y);
+			while (smino.facing != Facing)
+				smino.rotateClockwise(true);
+			smino.setTutorial(station);
+			minoLayer.add(smino);
 		}
 		
 		
+		
+		
+		override protected function getAssortment(index:int):Array {
+			//var assortment:Array = [makeBag(SmallFab), makeBag(SmallBarracks)];
+			//if (index)
+				//assortment.push(makeBag(Fabricator));
+			//else
+				//assortment.push(makeBag(MediumBarracks));
+			//return assortment;
+			if (index)
+				return [SmallBarracks, SmallBarracks, Fabricator, Conduit];
+			return [SmallFab, SmallFab, MediumBarracks];
+		}
 		
 		
 		private var seenIntro:Boolean;
 		override protected function checkPlayerEvents():void {
 			if (!seenIntro) {
-				hudLayer.add(NewPlayerEvent.miningTutorial());
+				hudLayer.add(NewPlayerEvent.housingTutorial());
 				seenIntro = true;
 			}
 		}
 		
-		override protected function get goalPercent():int {
-			return station.mineralsMined * 100 / (initialMinerals * goal);
-		}
-		
-		[Embed(source = "../../../lib/missions/tutorial_mining.png")] private static const _mission_image:Class;
+		[Embed(source = "../../../lib/missions/tutorial_housing.png")] private static const _mission_image:Class;
 		[Embed(source = "../../../lib/art/backgrounds/planetside.png")] private static const _bg:Class;
 	}
 

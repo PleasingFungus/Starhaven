@@ -27,7 +27,7 @@ package MainMenu {
 			
 			scenario.create();
 			scenario.update();
-			scenario.update();
+			//scenario.update();
 			scenario.render();
 			
 			C.HUD_ENABLED = hudOn;

@@ -124,6 +124,10 @@ package Sminos {
 				super.renderErrors();
 		}
 		
+		override public function setTutorial(station:Station):void {
+			super.anchorTo(station);
+		}
+		
 		[Embed(source = "../../lib/sound/vo/drills.mp3")] public static const _desc:Class;
 		
 	}

@@ -281,22 +281,23 @@ package
 			var spawnedMino:Smino = new choice(X, Y)
 			spawnedMino.gridLoc.y -= spawnedMino.blockDim.y + 1;
 			
-			do {
-				var collision:Boolean = false;
-				var collideLength:int = 6;
-				for (var y:int = 0; y < collideLength; y++) {
-					spawnedMino.gridLoc.y += y;
-					if (spawnedMino.intersects()) {
-						collision = true;
-						break;
-					}
-					spawnedMino.gridLoc.y -= y;
-				}
-				if (collision)
-					spawnedMino.gridLoc.y -= collideLength;
-			} while (collision);
-			while (spawnedMino.intersects())
-				spawnedMino.gridLoc.y -= spawnedMino.blockDim.y + 6;
+			//If belt or equivalent is re-added, uncomment this!
+			//do {
+				//var collision:Boolean = false;
+				//var collideLength:int = 6;
+				//for (var y:int = 0; y < collideLength; y++) {
+					//spawnedMino.gridLoc.y += y;
+					//if (spawnedMino.intersects()) {
+						//collision = true;
+						//break;
+					//}
+					//spawnedMino.gridLoc.y -= y;
+				//}
+				//if (collision)
+					//spawnedMino.gridLoc.y -= collideLength;
+			//} while (collision);
+			//while (spawnedMino.intersects())
+				//spawnedMino.gridLoc.y -= spawnedMino.blockDim.y + 6;
 			
 			spawnedMino.current = true;
 			return spawnedMino;
@@ -438,7 +439,7 @@ package
 			if (station.justRotated) {
 				C.B.PlayArea = _getBounds();
 				if (_scale == 1)
-					adjustScale(false);
+					checkCamera();
 				station.justRotated = false;
 			}
 		}
@@ -524,9 +525,9 @@ package
 		protected function checkCamera():void {
 			C.B.buffer = mapBuffer;
 			if (!currentMino && (!GlobalCycleTimer.minosDropped || !tracker.safe)) {
-				C.B.centerDrawShiftOn(station.core.gridLoc);
 				if (_scale == 1)
 					adjustScale(true);
+				C.B.centerDrawShiftOn(station.core.gridLoc);
 			} else if (_scale != 1)
 				adjustScale(false);
 		}
@@ -682,9 +683,6 @@ package
 				_scale = xScale < yScale ? xScale : yScale;
 				
 				//_scale = Math.min(2 / Math.ceil(2 / _scale), 1);
-				
-				C.B.drawShift = new Point(C.B.HALFWIDTH -C.B.PlayArea.x * C.BLOCK_SIZE, C.B.HALFHEIGHT - C.B.PlayArea.y * C.BLOCK_SIZE);
-				//C.centerDrawShiftOn(station.core.gridLoc);
 			} else
 				_scale = 1;
 			

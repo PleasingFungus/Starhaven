@@ -11,6 +11,8 @@ package Sminos {
 	public class StationCore extends PowerGen {
 		
 		public var blastRadius:int = 15;
+		public var storedMinerals:int = 0;
+		protected var mineralText:Icontext;
 		public function StationCore(X:int, Y:int) {
 			var blocks:Array = [];
 			for (var x:int = 0; x < 5; x++)
@@ -21,6 +23,9 @@ package Sminos {
 			crewCapacity = crew = crewEmployed = crewReq;
 			powered = true;
 			name = "Station Core";
+			
+			mineralText = new Icontext(x, y + height / 2 - 8, width, storedMinerals + "", C.ICONS[C.MINERALS]);
+			mineralText.color = 0x1;
 		}
 		
 		
@@ -53,6 +58,19 @@ package Sminos {
 			}
 			
 			//station.writeEpitaph(causeOfDeath);
+		}
+		
+		override public function render():void {
+			super.render();
+			if (storedMinerals && !damaged)
+				renderMineralsIcon();
+		}
+		
+		protected function renderMineralsIcon():void {
+			iconPosition(mineralText);
+			mineralText.text = storedMinerals+"";
+			mineralText.update();
+			mineralText.render();
 		}
 		
 		
