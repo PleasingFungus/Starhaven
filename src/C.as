@@ -26,8 +26,10 @@ package  {
 		public static const AUDIO_DESCRIPTIONS:Boolean = true;
 		public static const FORGET_PIECES:Boolean = false;
 		public static const NO_CREW:Boolean = false;
-		public static var HUD_ENABLED:Boolean = true;
 		public static const RENDER_THRUSTERS:Boolean = true;
+		
+		public static var HUD_ENABLED:Boolean = true;
+		public static var IN_TUTORIAL:Boolean = false;
 		
 		public static var DRAW_GLOW:Boolean = true;
 		public static var GLOW_SCALE:Number = 6;

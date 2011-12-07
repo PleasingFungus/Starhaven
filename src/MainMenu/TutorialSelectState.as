@@ -19,18 +19,21 @@ package MainMenu {
 			add(new StateThing("README", HelpState));
 			add(new StateThing("1 - Mining & Power", MiningTutorial));
 			add(new StateThing("2 - Housing & Launching", HousingTutorial));
+			add(new StateThing("3 - Asteroids & Meteoroids", DefenseTutorial));
 			MenuThing.menuThings[0].select();
 			
 			var cancelButton:StateThing = new StateThing("Cancel", MenuState);
 			cancelButton.setY(FlxG.height - 60);
 			add(cancelButton);
+			
+			C.IN_TUTORIAL = true;
 		}
 		
 		override public function update():void {
 			super.update();
 			
 			if (ControlSet.CANCEL_KEY.justPressed())
-				FlxG.state = new TutorialSelectState;
+				FlxG.state = new MenuState;
 			//C.music.update();
 		}
 		

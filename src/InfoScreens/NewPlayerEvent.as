@@ -90,6 +90,17 @@ package InfoScreens {
 			return new NewPlayerEvent(title, description, 0.8);
 		}
 		
+		public static function defenseTutorial():NewPlayerEvent {
+			var title:String = "Asteroids and Meteoroids!";
+			var description:String = "From time to time, when running a mining station, deadly METEOROIDS will rain down on you.\n\n";
+			description += "You have one defense against this: red DEFENSE BEAMS. Once powered, crewed, and pointed in the right direction, they'll shoot anything out of the sky.\n\n";
+			description += "When in space, threats will come from all directions, and you often won't have enough defense to cover everything. ";
+			description += "Luckily, you can rotate your station, using " + ControlSet.ST_CCW_KEY + " and " + ControlSet.ST_CW_KEY + ". This is also useful for placing modules.\n\n";
+			description += "Survive 3 waves to win!";
+			
+			return new NewPlayerEvent(title, description, 0.8);
+		}
+		
 		public static const DISCONNECT:int = 0;
 		public static const DECREW:int = 1;
 		public static const SUBMERGE:int = 2;

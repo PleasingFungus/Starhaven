@@ -544,7 +544,7 @@ package
 		protected function checkGoal():void {
 			var newFraction:int = Math.floor(goalPercent / 25);
 			if (newFraction > goalFraction)
-				hudLayer.add(new FlashText((newFraction * 25) + "% of goal reached!", 0x80ffd000, 2));
+				hudLayer.add(new FlashText((newFraction * 25) + "% of goal passed!", 0x80ffd000, 2));
 			goalFraction = newFraction;
 			hud.updateGoal(goalPercent);
 		}
@@ -561,6 +561,7 @@ package
 				beginEndgame();
 		}
 		
+		protected var victoryText:String = "Mineral goal reached!";
 		protected function beginEndgame():void {
 			FlxG.flash.start(0xefffffff, 3.5/*, endGame*/);
 			missionOver = true;
@@ -586,7 +587,7 @@ package
 			
 			var endSub:FlxText = new FlxText(20, endText.y + endText.height + 5, FlxG.width - 40, " ");
 			if (won())
-				endSub.text = "Mineral goal reached!";
+				endSub.text = victoryText;
 			else if (GlobalCycleTimer.outOfTime())
 				endSub.text = "Out of blocks!";
 			else

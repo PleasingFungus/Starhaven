@@ -20,6 +20,7 @@ package MainMenu {
 				C.campaign.die(); //dispose of heavy bitmaps
 				C.campaign = null;
 			}
+			C.IN_TUTORIAL = false;
 			
 			var t:FlxText;
 			

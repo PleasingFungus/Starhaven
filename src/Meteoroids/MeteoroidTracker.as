@@ -29,14 +29,14 @@ package Meteoroids {
 			this.spawner = new spawnerType(Warning, MeteoroidTarget);
 			
 			waveSpacing = WaveSpacing;
-			if (C.difficulty.hard)
+			if (C.difficulty.hard && !C.IN_TUTORIAL)
 				waveSpacing *= .75;
 			nextWave = getNextWave();
 			
 			warning = Warning;
 			duration = Duration;
 			density = Density;
-			if (C.difficulty.hard)
+			if (C.difficulty.hard && !C.IN_TUTORIAL)
 				density = Math.ceil(density * 1.5);
 			waveTime = 0;
 			

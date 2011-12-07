@@ -120,8 +120,9 @@ package Meteoroids {
 		
 		override protected function beDamaged():void {
 			explode(1);
-			for (var i:int = 0; i < 4; i++)
-				Mino.layer.add(new MeteoroidCrystal(absoluteCenter.x, absoluteCenter.y, target));
+			if (!C.IN_TUTORIAL)
+				for (var i:int = 0; i < 4; i++)
+					Mino.layer.add(new MeteoroidCrystal(absoluteCenter.x, absoluteCenter.y, target));
 		}
 		
 		public static function get period():Number {
