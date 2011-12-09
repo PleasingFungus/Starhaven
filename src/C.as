@@ -1,6 +1,7 @@
 package  {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import Metagame.Accomplishments;
 	import Metagame.Campaign;
 	import org.flixel.*;
 	import Icons.NoCrewIcon;
@@ -10,8 +11,8 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "0.13";
-		public static const DEBUG:Boolean = false;
+		public static const VERSION:String = "0.15";
+		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
 		public static const DISPLAY_BOUNDS:Boolean = false;
@@ -27,6 +28,7 @@ package  {
 		public static const FORGET_PIECES:Boolean = false;
 		public static const NO_CREW:Boolean = false;
 		public static const RENDER_THRUSTERS:Boolean = true;
+		public static const FORGET_TUTORIALS:Boolean = false;
 		
 		public static var HUD_ENABLED:Boolean = true;
 		public static var IN_TUTORIAL:Boolean = false;
@@ -51,6 +53,7 @@ package  {
 		public static var B:Bounds;
 		public static var campaign:Campaign;
 		public static var difficulty:Difficulty;
+		public static var accomplishments:Accomplishments;
 		//public static var music:Music;
 		public static var save:FlxSave;
 		public static var fluid:Mino;
@@ -59,6 +62,7 @@ package  {
 			B = new Bounds();
 			//music = new Music();
 			difficulty = new Difficulty();
+			accomplishments = new Accomplishments();
 			
 			ICONS[MINERALS] = _minerals_icon;
 			ICONS[PEOPLE] = _crew_icon;
@@ -73,6 +77,7 @@ package  {
 			save = new FlxSave();
 			save.bind("Starhaven");
 			difficulty.load();
+			accomplishments.load();
 		}
 		
 		public static function setPrintReady():void {

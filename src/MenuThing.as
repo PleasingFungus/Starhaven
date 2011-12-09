@@ -12,6 +12,7 @@ package  {
 		
 		protected var text:FlxText;
 		protected var highlight:FlxSprite;
+		protected var moused:Boolean;
 		
 		protected var i:int;
 		public var selected:Boolean;
@@ -61,6 +62,8 @@ package  {
 		}
 		
 		override public function update():void {
+			moused = highlight.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y);
+			
 			if (selected) {
 				if (FlxG.keys.justPressed("UP")) {
 					menuThings[(i + menuThings.length - 1) % menuThings.length].select();
@@ -79,13 +82,19 @@ package  {
 				nextSelected = false;
 			}
 			
-			if (highlight.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y) && FlxG.mouse.justPressed())
+			if (moused && FlxG.mouse.justPressed())
 				choose();
 		}
 		
 		protected function choose():void {
-			if (onSelect != null)
-				onSelect(text.text);
+			if (onSelect != null) {
+				C.log("hello");
+				FlxG.fade.start(0xff000000, 0.4, onFadeEnd);
+			}
+		}
+		
+		protected function onFadeEnd():void {
+			onSelect(text.text);
 		}
 		
 		public function get X():int {
@@ -124,7 +133,7 @@ package  {
 		}
 		
 		protected function get isHighlighted():Boolean {
-			return selected || highlight.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y);
+			return selected || moused;
 		}
 		
 		protected function forceRender():void {
@@ -153,6 +162,11 @@ package  {
 				
 		}
 		public static var columns:Array;
+		
+		public static function resetThings():void {
+			menuThings = [];
+			columns = [];
+		}
 	}
 
 }

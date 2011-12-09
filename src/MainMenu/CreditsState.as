@@ -6,7 +6,7 @@ package MainMenu {
 	 * ...
 	 * @author Nicholas Feinberg
 	 */
-	public class CreditsState extends FlxState {
+	public class CreditsState extends FadeState {
 		
 		public function CreditsState() {
 			var title:FlxText = new FlxText(0, 15, FlxG.width, "Credits");
@@ -31,7 +31,7 @@ package MainMenu {
 		override public function update():void {
 			super.update();
 			if (ControlSet.CANCEL_KEY.justPressed() || ControlSet.CONFIRM_KEY.justPressed() || FlxG.mouse.justPressed())
-				FlxG.state = new MenuState();
+				fadeTo(MenuState);
 		}
 	}
 

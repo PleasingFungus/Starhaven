@@ -10,7 +10,7 @@ package MainMenu {
 	import InfoScreens.HelpState;
 	import Metagame.CampaignState;
 
-	public class MenuState extends FlxState
+	public class MenuState extends FadeState
 	{
 		
 		override public function create():void
@@ -22,16 +22,22 @@ package MainMenu {
 			}
 			C.IN_TUTORIAL = false;
 			
+			
+			super.create();
+			
 			var t:FlxText;
 			
 			t = new FlxText(0, 20, FlxG.width, "Starhaven");
 			t.setFormat(C.TITLEFONT, 64, 0xffffff, 'center');
 			add(t);
 			
-			MenuThing.menuThings = [];
-			add(new MainMenuThing("Tutorials", TutorialSelectState));
-			add(new MainMenuThing("Quick Play", QuickPlayState));
-			add(new MainMenuThing("Campaign", CampaignState));
+			MenuThing.resetThings();
+			if (C.accomplishments.tutorialDone) {
+				add(new MainMenuThing("Tutorials", TutorialSelectState));
+				add(new MainMenuThing("Quick Play", QuickPlayState));
+				add(new MainMenuThing("Campaign", CampaignState));
+			} else
+				add(new MainMenuThing("Play", C.accomplishments.scenarios[0]));
 			add(new MainMenuThing("Controls", ControlsState));
 			add(new MainMenuThing("Credits", CreditsState));
 			

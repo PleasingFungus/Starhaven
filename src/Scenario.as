@@ -14,7 +14,9 @@ package
 	import HUDs.FlashText;
 	import HUDs.Minimap;
 	import MainMenu.MenuState;
+	import MainMenu.QuickPlayState;
 	import MainMenu.StateThing;
+	import MainMenu.TutorialSelectState;
 	import Metagame.Campaign;
 	import Metagame.CampaignDefeatState;
 	import Metagame.CampaignState;
@@ -104,6 +106,7 @@ package
 			Mino.resetGrid();
 			createGCT();
 			FlashText.activeTexts = [];
+			C.accomplishments.registerPlay(this);
 			
 			_buffer = new BitmapData(FlxG.width, FlxG.height, true, FlxState.bgColor );
 			_bufferRect = new Rectangle(0, 0, FlxG.width, FlxG.height);
@@ -326,7 +329,7 @@ package
 			
 			MenuThing.menuThings = [];
 			MenuThing.columns = [];
-			quitButton = new StateThing("Click To Quit", MenuState);
+			quitButton = new StateThing("Click To Quit", !C.accomplishments.tutorialDone ? TutorialSelectState : !C.campaign ? QuickPlayState : MenuState);
 			var quitCol:Array = [quitButton];
 			MenuThing.addColumn(quitCol, FlxG.width/2 - quitButton.fullWidth/2);
 			hudLayer.add(quitButton);
@@ -555,8 +558,8 @@ package
 		
 		protected function checkEndConditions():void {
 			if (won() ||
-					GlobalCycleTimer.outOfTime() ||
-					station.core.damaged)
+				GlobalCycleTimer.outOfTime() ||
+				station.core.damaged)
 				
 				beginEndgame();
 		}
@@ -566,6 +569,8 @@ package
 			FlxG.flash.start(0xefffffff, 3.5/*, endGame*/);
 			missionOver = true;
 			substate = SUBSTATE_MISSOVER;
+			if (won())
+				C.accomplishments.registerVictory(this);
 			
 			var shroud:FlxSprite = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
 			shroud.alpha = 0.5;
@@ -624,12 +629,23 @@ package
 					FlxG.state = new CampaignState;
 				} else
 					FlxG.state = new CampaignDefeatState;
+			} else if (!C.accomplishments.tutorialDone) {
+				var nextLevel:int = C.accomplishments.scenarioIndex(this) + 1;
+				if (!C.accomplishments.scenariosWon[nextLevel])
+					FlxG.state = new C.accomplishments.scenarios[nextLevel]
+				else
+					FlxG.state = new TutorialSelectState;
 			} else
 				FlxG.state = new MenuState;
 		}
 		
 		protected function exitToMenu():void {
-			FlxG.state = new MenuState;
+			if (!C.accomplishments.tutorialDone)
+				FlxG.state = new TutorialSelectState;
+			else if (C.campaign)
+				FlxG.state = new MenuState;
+			else
+				FlxG.state = new QuickPlayState;
 		}
 		
 		protected function won():Boolean {

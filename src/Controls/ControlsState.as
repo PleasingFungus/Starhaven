@@ -7,9 +7,11 @@ package Controls {
 	 * ...
 	 * @author Nicholas Feinberg
 	 */
-	public class ControlsState extends FlxState {
+	public class ControlsState extends FadeState {
 		
 		override public function create():void {
+			super.create();
+			
 			var t:FlxText;
 			
 			t = new FlxText(0, 10, FlxG.width, "Controls");
@@ -18,8 +20,7 @@ package Controls {
 			
 			
 			
-			MenuThing.menuThings = [];
-			MenuThing.columns = [];
+			MenuThing.resetThings();
 			var leftCol:Array = [];
 			leftCol.push(add(new MainMenuThing("Back to Menu", MenuState).setFormat(C.FONT, 12)));
 			leftCol.push(add(new ControlMenuThing("Move Left: ", ControlSet.MINO_L_KEY)));
@@ -56,7 +57,7 @@ package Controls {
 		override public function update():void {
 			super.update();
 			if (ControlSet.CANCEL_KEY.justPressed())
-				FlxG.state = new MenuState();
+				fadeTo(MenuState);
 		}
 	}
 

@@ -7,15 +7,16 @@ package MainMenu {
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
 	 */
-	public class QuickPlayState extends FlxState {
+	public class QuickPlayState extends FadeState {
 		
 		override public function create():void {
+			super.create();
+			
 			var title:FlxText = new FlxText(10, 20, FlxG.width - 20, "Quick Play");
 			title.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
 			add(title);
 			
-			MenuThing.menuThings = [];
-			MenuThing.columns = [];
+			MenuThing.resetThings();
 			var leftCol:Array = [];
 			leftCol.push(add(new DifficultyThing("Normal", Difficulty.NORMAL)));
 			leftCol.push(add(new DifficultyThing("Hard", Difficulty.HARD)));
@@ -50,7 +51,7 @@ package MainMenu {
 			super.update();
 			
 			if (ControlSet.CANCEL_KEY.justPressed())
-				FlxG.state = new MenuState;
+				fadeTo(MenuState);
 			//C.music.update();
 		}
 	}

@@ -25,10 +25,8 @@ package Metagame {
 			
 			var quitThing:StateThing;
 			
-			MenuThing.menuThings = [];
-			if (!C.campaign.missionNo) {
-				MenuThing.columns = [];
-				
+			MenuThing.resetThings();
+			if (!C.campaign.missionNo) {				
 				var leftCol:Array = [];
 				leftCol.push(add(new DifficultyThing("Normal", Difficulty.NORMAL)));
 				leftCol.push(add(new DifficultyThing("Hard", Difficulty.HARD)));
