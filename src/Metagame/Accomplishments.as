@@ -12,6 +12,8 @@ package Metagame {
 		public const scenarios:Array = [MiningTutorial, HousingTutorial, DefenseTutorial,
 										PlanetScenario, AsteroidScenario, WaterScenario,
 										NebulaScenario, ShoreScenario, DustScenario];
+		public const FIRST_TUTORIAL_INDEX:int = 0;
+		public const LAST_TUTORIAL_INDEX:int = 2;
 		
 		public var scenariosSeen:Array;
 		public var scenariosWon:Array;
@@ -22,12 +24,17 @@ package Metagame {
 		}
 		
 		public function load():void {
+			tutorialDone = C.save.read("tutorialDone") as Boolean;
+			
+			if (C.DEBUG && C.FORGET_ACCOMPLISHMENTS)
+				return;
+			
 			scenariosSeen = C.save.read("scenariosSeen") as Array;
 			scenariosWon = C.save.read("scenariosWon") as Array;
 			campaignsWon = C.save.read("campaignsWon") as Array;
-			tutorialDone = C.save.read("tutorialDone") as Boolean;
 			setDefaults();
-			if (C.FORGET_TUTORIALS) {
+			
+			if (C.DEBUG && C.FORGET_TUTORIALS) {
 				scenariosSeen[0] = scenariosSeen[1] = scenariosSeen[2] = 0;
 				campaignsWon[0] = campaignsWon[1] = campaignsWon[2] = 0;
 				tutorialDone = false;
@@ -50,7 +57,8 @@ package Metagame {
 				scenariosSeen[index] += 1;
 			else
 				scenariosSeen[index] = 1;
-			C.save.write("scenariosSeen", scenariosSeen);
+			if (!(C.DEBUG && C.FORGET_ACCOMPLISHMENTS))
+				C.save.write("scenariosSeen", scenariosSeen);
 		}
 		
 		public function registerVictory(scenario:Scenario):void {
@@ -60,11 +68,12 @@ package Metagame {
 				scenariosWon[index] += 1;
 			else
 				scenariosWon[index] = 1;
-			C.save.write("scenariosWon", scenariosWon);
+			if (!(C.DEBUG && C.FORGET_ACCOMPLISHMENTS))
+				C.save.write("scenariosWon", scenariosWon);
 			
 			if (C.campaign)
 				registerCampaignVictory();
-			if (!tutorialDone && scenario is DefenseTutorial)
+			if (!tutorialDone && index == LAST_TUTORIAL_INDEX)
 				setTutorialsDone();
 		}
 		
@@ -78,7 +87,17 @@ package Metagame {
 				campaignsWon[C.difficulty.setting] += 1;
 			else
 				campaignsWon[C.difficulty.setting] = 1;
-			C.save.write("campaignsWon", campaignsWon);
+			if (!(C.DEBUG && C.FORGET_ACCOMPLISHMENTS))
+				C.save.write("campaignsWon", campaignsWon);
+		}
+		
+		
+		
+		public function quickPlayUnlocked():Boolean {
+			for (var i:int = LAST_TUTORIAL_INDEX + 1; i < scenarios.length; i++)
+				if (scenariosSeen[i])
+					return true;
+			return false;
 		}
 		
 		public function scenarioIndex(scenario:Scenario):int {

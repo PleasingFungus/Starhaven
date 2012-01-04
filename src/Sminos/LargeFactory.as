@@ -15,7 +15,7 @@ package Sminos {
 			
 			super(X, Y, blocks, new Point(2, 1), _sprite, _sprite_in);
 			
-			name = "Large Fabricator";
+			name = "Large MediumLauncher";
 		}
 		
 		[Embed(source = "../../lib/art/sminos/lg_launch.png")] private static const _sprite:Class;

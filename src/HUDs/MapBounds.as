@@ -17,15 +17,16 @@ package HUDs {
 			
 			var stripewidth:int = C.BLOCK_SIZE * 3;
 			hstripe = new FlxSprite().createGraphic(C.B.OUTER_BOUNDS.width * C.BLOCK_SIZE + stripewidth * 2, C.BLOCK_SIZE * 3, 0xffff8080);
-			vstripe = new FlxSprite().createGraphic(C.BLOCK_SIZE * 3, C.B.OUTER_BOUNDS.height * C.BLOCK_SIZE  + stripewidth * 2, 0xffff8080);
+			vstripe = new FlxSprite().createGraphic(C.BLOCK_SIZE * 3, C.B.OUTER_BOUNDS.height * C.BLOCK_SIZE, 0xffff8080);
 			hstripe.blend = vstripe.blend = "lighten";
+			hstripe.alpha = vstripe.alpha = alphaFraction;
 		}
 		
 		override public function render():void {
 			if (!C.HUD_ENABLED)
 				return;
 			
-			vstripe.y = C.B.OUTER_BOUNDS.top * C.BLOCK_SIZE + C.B.drawShift.y - hstripe.height;
+			vstripe.y = C.B.OUTER_BOUNDS.top * C.BLOCK_SIZE + C.B.drawShift.y;
 			vstripe.x = C.B.OUTER_BOUNDS.left * C.BLOCK_SIZE + C.B.drawShift.x - vstripe.width;
 			vstripe.render();
 			vstripe.x = C.B.OUTER_BOUNDS.right * C.BLOCK_SIZE + C.B.drawShift.x;
@@ -37,6 +38,12 @@ package HUDs {
 			hstripe.y = C.B.OUTER_BOUNDS.bottom * C.BLOCK_SIZE + C.B.drawShift.y;
 			hstripe.render();
 		}
+		
+		public function set alpha(a:Number):void {
+			hstripe.alpha = vstripe.alpha = a * alphaFraction;
+		}
+		
+		protected const alphaFraction:Number = 1;
 	}
 
 }

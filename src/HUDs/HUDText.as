@@ -36,6 +36,12 @@ package HUDs {
 				icon.render();
 			}
 		}
+		
+		override public function set alpha(a:Number):void {
+			super.alpha = a;
+			if (icon)
+				icon.alpha = a;
+		}
 	}
 
 }

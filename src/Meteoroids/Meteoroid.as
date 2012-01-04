@@ -1,10 +1,12 @@
 package Meteoroids {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import org.flixel.FlxSave;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxU;
 	import org.flixel.FlxG;
 	import SFX.Pyrotechnic;
+	import Icons.IconLeech;
 	/**
 	 * ...
 	 * @author Nicholas Feinberg
@@ -31,6 +33,8 @@ package Meteoroids {
 			direction.normalize(1);
 			
 			rotation = FlxU.random() * 3;
+			C.hudLayer.add(new IconLeech(null, renderTop));
+			setupWarning();
 			
 			all_minos.push(this);
 			name = "Meteoroid";
@@ -62,6 +66,16 @@ package Meteoroids {
 					Mino.layer.add(new Pyrotechnic(absBlock.x, absBlock.y, UP, 0xbec0c0c0));
 				}
 			}
+			
+			//C.log("Meteoroid @" + gridLoc, exists, active, !dead, dangerous);
+		}
+		
+		public function get dirVec():Point {
+			var cycleFreq:Number = C.CYCLE_TIME * cycleSpeed;
+			var dvec:Point = direction.clone();
+			dvec.x /= cycleFreq;
+			dvec.y /= cycleFreq;
+			return dvec;
 		}
 		
 		override public function intersects():Mino {
@@ -87,23 +101,58 @@ package Meteoroids {
 			
 			super.render();
 			
-			if (outsidePlayArea() || (C.DEBUG && C.ALWAYS_SHOW_INCOMING))
+			//if (outsideScreenArea() || (C.DEBUG && C.ALWAYS_SHOW_INCOMING))
+				//renderWarning();
+		}
+		
+		override public function renderTop(force:Boolean = false):void {
+			if (!exists)
+				return;
+			else if (/*outsideScreenArea() || */(C.DEBUG && C.ALWAYS_SHOW_INCOMING) || !visible)
 				renderWarning();
 		}
 		
+		protected var warningSprite:FlxSprite;
+		protected function setupWarning():void {
+			warningSprite = new FlxSprite().loadGraphic(_warning_sprite);
+			//var intercept:Point = new Point(target.x - direction.x * C.B.HALFWIDTH, target.y - direction.y * C.B.HALFHEIGHT);
+			//warningSprite.x = intercept.x * C.BLOCK_SIZE - warningSprite.width/2 + C.B.drawShift.x;
+			//warningSprite.y = intercept.y * C.BLOCK_SIZE - warningSprite.height/2 + C.B.drawShift.y;
+			
+			var angle:Number = Math.atan2(direction.y, direction.x);
+			warningSprite.angle = angle * 180 / Math.PI;
+			
+			if (Math.abs(direction.x) > Math.abs(direction.y)) {
+				if (direction.x > 0)
+					warningSprite.x = 0;
+				else
+					warningSprite.x = FlxG.width - warningSprite.width;
+				warningSprite.y = (FlxG.height / 2) * (1 - direction.y / Math.abs(direction.x));
+			} else {
+				if (direction.y > 0)
+					warningSprite.y = 0;
+				else
+					warningSprite.y = FlxG.height - warningSprite.height;
+				warningSprite.x = (FlxG.width / 2) * (1 - direction.x / Math.abs(direction.y));
+			}
+			
+			//C.log(direction, Math.abs(direction.x) > Math.abs(direction.y), warningSprite.angle, warningSprite.x, warningSprite.y);
+		}
+		
+		protected var warningPulseTimer:Number = 0;
+		protected var warningPulseUp:Boolean = false;
+		protected const WARNING_PULSE_PERIOD:Number = 0.4;
 		protected function renderWarning():void {
-			var Color:uint = color;
-			color = 0xff0000;
-			alpha = .75;
-			
-			var intercept:Point = new Point(target.x - direction.x * C.B.HALFWIDTH, target.y - direction.y * C.B.HALFHEIGHT);
-			
-			x = (intercept.x - center.x - blockDim.x/2) * C.BLOCK_SIZE;
-			y = (intercept.y - center.y - blockDim.y/2) * C.BLOCK_SIZE;
-			forceRender();
-			
-			alpha = 1;
-			color = Color;
+			if (warningPulseUp)
+				warningSprite.alpha = 0.5 + 0.5 * warningPulseTimer / WARNING_PULSE_PERIOD;
+			else
+				warningSprite.alpha = 1 - 0.5 * warningPulseTimer / WARNING_PULSE_PERIOD;
+			warningPulseTimer += FlxG.elapsed;
+			if (warningPulseTimer >= WARNING_PULSE_PERIOD) {
+				warningPulseTimer -= WARNING_PULSE_PERIOD;
+				warningPulseUp = !warningPulseUp;
+			}
+			warningSprite.render();
 		}
 		
 		override protected function explode(radius:int):void {
@@ -115,13 +164,13 @@ package Meteoroids {
 		
 		override public function takeExplodeDamage(X:int, Y:int, Source:Mino):void {
 			if (!dead)
-				newlyDamaged = true;
+				newlyDamaged = dead = true;
 		}
 		
 		override protected function beDamaged():void {
 			explode(1);
 			if (!C.IN_TUTORIAL)
-				for (var i:int = 0; i < 4; i++)
+				for (var i:int = 0; i < C.BEAM_DEFENSE ? 4 : 2; i++)
 					Mino.layer.add(new MeteoroidCrystal(absoluteCenter.x, absoluteCenter.y, target));
 		}
 		
@@ -130,7 +179,7 @@ package Meteoroids {
 		}
 		
 		[Embed(source = "../../lib/art/other/asteroid_agon.png")] private static const _sprite:Class;
-		//[Embed(source = "../../lib/art/other/silly_asteroid_warning.png")] private static const _warning_sprite:Class;
+		[Embed(source = "../../lib/art/other/arrow.png")] private static const _warning_sprite:Class;
 	}
 
 }

@@ -25,7 +25,6 @@ package
 	import Mining.ResourceSource;
 	import SFX.Fader;
 	import Sminos.Bomb;
-	import Sminos.Drill;
 	import Sminos.StationCore;
 	import Controls.ControlSet;
 	import InfoScreens.NewPieceInfo;
@@ -45,6 +44,7 @@ package
 		
 		protected var station:Station;
 		protected var currentMino:Smino;
+		protected var combatMino:Launcher;
 		protected var bag:GrabBag;
 		
 		protected var spawnTimer:Number = SPAWN_TIME * 1.5;
@@ -78,8 +78,10 @@ package
 		private var _bufferRect:Rectangle;
 		private var _scale:Number;
 		private var _rotation:Number;
+		private var zoomToggled:Boolean;
 		
 		public static var substate:int;
+		public static var dangeresque:Boolean;
 		
 		public function Scenario(Seed:Number) {
 			if (C.DEBUG && !isNaN(C.DEBUG_SEED))
@@ -112,16 +114,17 @@ package
 			_bufferRect = new Rectangle(0, 0, FlxG.width, FlxG.height);
 			_scale = 1;
 			_rotation = 0;
-			C.B.drawShift = new Point();
+			hasUpdated = false;
+			frame = 0;
 			
 			makeLayers();
 			
 			createStation();
 			createTracker();
-			createHUD();
 			
 			name = "Scenario";
 			substate = SUBSTATE_NORMAL;
+			dangeresque = false;
 			FlxG.mouse.hide();
 			//C.music.intendedMusic = Music.PLAY_MUSIC;
 		}
@@ -129,14 +132,14 @@ package
 		protected function makeLayers():void {
 			minoLayer = new FlxGroup();
 			iconLayer = new FlxGroup();
-			hudLayer = new FlxGroup();
+			hudLayer = createHUD();
 			createBG();
 			add(minoLayer);
 			add(iconLayer);
 			
 			Mino.layer = Fader.layer = minoLayer;
 			C.iconLayer = iconLayer;
-			FlashText.layer = hudLayer;
+			C.hudLayer = hudLayer;
 		}
 		
 		protected function createBG():void {
@@ -156,34 +159,50 @@ package
 		
 		protected function createStation():void {
 			station = new Station(resourceSource);
+			station.minimap = hud.minimap;
 			minoLayer.add(station);
 			minoLayer.add(station.core);
 			C.B.PlayArea = _getBounds();
+			
+			hud.setStation(station);
+			hud.setGoal(goal);
 		}
 		
 		protected function createTracker(Density:Number = 2, WaveSpacing:int = 16):void {
 			//if (!rotateable) Density /= 2;
+			if (!C.BEAM_DEFENSE) {
+				Density *= 2.5;
+				WaveSpacing *= 3/4;
+			}
+			
 			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, Density, WaveSpacing);
+			hud.setTracker(tracker);
 			add(tracker);
 		}
 		
-		protected function createHUD():void {
-			//hudLayer.add(new MapBounds());
-			minoLayer.add(new MapBounds());
-			
-			minoLayer.add(new Minimap(0, 0, station));
+		protected function createHUD():FlxGroup {
+			var bounds:MapBounds, minimap:Minimap;
+			minoLayer.add(bounds = new MapBounds());
+			//minoLayer.add(minimap = new Minimap(0, 0));
+			minimap = new Minimap(0, 0)
 			
 			if (C.campaign)
 				goal *= C.campaign.difficultyFactor;
-			hud = new HUD(station, goal, tracker);
-			hudLayer.add(hud);
+			hud = new HUD;
+			hud.minimap = minimap;
+			hud.add(minimap);
+			hud.bounds = bounds;
+			return hud;
 		}
 		
 		
 		
 		
-		
+		protected var hasUpdated:Boolean;
+		protected var frame:int;
 		override public function update():void {
+			hasUpdated = true;
+			if (C.DEBUG) frame++;
 			switch (substate) {
 				case SUBSTATE_NORMAL: normalUpdate(); break;
 				case SUBSTATE_PAUSED: pauseUpdate(); break;
@@ -209,21 +228,42 @@ package
 				checkArrowHint();
 				checkPlayerEvents();
 			}
+			
+			if (tracker.safe)
+				endCombat();
+			else if (!dangeresque)
+				initCombat();
 		}
 		
+		protected var minoWasCool:Boolean = true;
 		protected function checkCurrentMino():void {
 			if (currentMino && currentMino.gridLoc.y > C.B.PlayArea.bottom) {
+				if (!(currentMino is Bomb))
+					tracker.registerDrop();
 				currentMino.exists = false;
 				killCurrentMino();
 			}
 			
-			if (!currentMino || (!currentMino.falling && (!(currentMino is Drill) || !(currentMino as Drill).drilling))) {
+			if (dangeresque) {
+				checkCombatMino();
+				return;
+			}
+			
+			var minoIsCool:Boolean = currentMino && currentMino.holdsAttention;
+			
+			if (!minoIsCool) {
+				if (minoWasCool) {
+					if (!(currentMino is Bomb))
+						tracker.registerDrop();
+					killCurrentMino();
+				}
 				if (tracker.safe && !station.core.damaged) {
 					spawnTimer -= FlxG.elapsed;
 					if (spawnTimer <= 0)
 						spawnNextMino();
 				}
 			}
+			minoWasCool = minoIsCool;
 		}
 		
 		protected function killCurrentMino():void {
@@ -232,11 +272,22 @@ package
 				if (currentMino is Bomb) {
 					currentMino = (currentMino as Bomb).uncle;
 					currentMino.active = currentMino.current = true;
-				} else {				
+				} else {								
+					checkMinoEvents();					
 					currentMino = null;
 					GlobalCycleTimer.minosDropped++;
 				}
 			}
+		}
+		
+		protected function checkMinoEvents():void {
+			if (!currentMino.exists) return;
+			if (!NewPlayerEvent.seen[NewPlayerEvent.DISCONNECT] && !currentMino.powered)
+				hudLayer.add(NewPlayerEvent.onFirstDisconnect());
+			else if (!NewPlayerEvent.seen[NewPlayerEvent.DECREW] && station.crewDeficit)
+				hudLayer.add(NewPlayerEvent.onFirstUncrewed());
+			else if (!NewPlayerEvent.seen[NewPlayerEvent.SUBMERGE] && currentMino.submerged)
+				hudLayer.add(NewPlayerEvent.onFirstSubmerged());
 		}
 		
 		protected function spawnNextMino():void {
@@ -258,14 +309,7 @@ package
 			spawnTimer = SPAWN_TIME;
 		}
 		
-		protected function onAnchor():void {			
-			if (!NewPlayerEvent.seen[NewPlayerEvent.DISCONNECT] && !currentMino.powered)
-				hudLayer.add(NewPlayerEvent.onFirstDisconnect());
-			else if (!NewPlayerEvent.seen[NewPlayerEvent.DECREW] && station.crewDeficit)
-				hudLayer.add(NewPlayerEvent.onFirstUncrewed());
-			else if (!NewPlayerEvent.seen[NewPlayerEvent.SUBMERGE] && currentMino.submerged)
-				hudLayer.add(NewPlayerEvent.onFirstSubmerged());
-			
+		protected function onAnchor():void {
 			killCurrentMino();
 			C.B.PlayArea = _getBounds();
 		}
@@ -310,8 +354,65 @@ package
 			return GrabBag.chooseBag();
 		}
 		
+		protected function initCombat():void {
+			initCombatMinoPool();
+			grabCombatMino();
+			dangeresque = true;
+		}
+		
+		protected function endCombat():void {
+			combatMino = null;
+			combatMinoPool = null;
+			dangeresque = false;
+		}
+		
+		protected function checkCombatMino():void {
+			if ((!combatMino || !combatMino.exists) && combatMinoPool.length)
+				grabCombatMino();
+		}
+		
+		protected var combatMinoPool:Array;
+		protected function initCombatMinoPool():void {
+			combatMinoPool = [];
+			for each (var mino:Mino in station.members)
+				if (mino.exists && mino is Launcher)
+					combatMinoPool.push(mino);
+		}
+		
+		protected function grabCombatMino():void {
+			combatMino = findCombatMino();
+		}
+		
+		protected function findCombatMino():Launcher {
+			for (var i:int = 0; i < combatMinoPool.length; i++) {
+				var launcher:Launcher = combatMinoPool[i];
+				if (launcher.exists && launcher.operational)
+					return launcher;
+				else
+					combatMinoPool.splice(i--, 1);
+			}
+			return null;
+		}
+		
+		protected function cycleCombatMino(direction:int):Launcher {
+			if (!combatMino)
+				return findCombatMino();
+			if (combatMinoPool.length == 1)
+				return combatMino;
+			
+			var currentIndex:int = combatMinoPool.indexOf(combatMino);
+			var incr:int = direction ? 1 : combatMinoPool.length - 1;
+			var newIndex:int = (currentIndex + incr) % combatMinoPool.length
+			while (combatMinoPool.length && !(combatMinoPool[newIndex].exists && combatMinoPool[newIndex].operational))
+				combatMinoPool.splice(newIndex, 1);
+			
+			if (combatMinoPool.length)
+				return combatMinoPool[newIndex];
+			return null;
+		}
+		
 		protected function checkArrowHint():void {
-			if (!stationHint && arrowHint && !arrowHint.exists && rotateable) {
+			if (!stationHint && arrowHint && !arrowHint.exists && rotateable && currentMino) {
 				minoLayer.add(stationHint = new StationHint(station));
 				if (currentMino.bombCarrying || currentMino is Bomb)
 					minoLayer.add(new BombHelper(currentMino));
@@ -319,23 +420,31 @@ package
 		}
 		
 		
-		private var darkShroud:FlxSprite;
-		private var pauseText:FlxText;
-		private var quitButton:StateThing;
+		private var pauseLayer:FlxGroup;
 		private function enterPauseState():void {
-			darkShroud = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
+			pauseLayer = new FlxGroup();
+			
+			var darkShroud:FlxSprite = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
 			darkShroud.alpha = 0.5;
-			hudLayer.add(darkShroud);
+			pauseLayer.add(darkShroud);
 			
-			MenuThing.menuThings = [];
-			MenuThing.columns = [];
-			quitButton = new StateThing("Click To Quit", !C.accomplishments.tutorialDone ? TutorialSelectState : !C.campaign ? QuickPlayState : MenuState);
-			var quitCol:Array = [quitButton];
-			MenuThing.addColumn(quitCol, FlxG.width/2 - quitButton.fullWidth/2);
-			hudLayer.add(quitButton);
+			MenuThing.resetThings();
+			var col:Array = [];
+			var quitButton:StateThing = new StateThing("Quit", !C.accomplishments.tutorialDone ? TutorialSelectState : !C.campaign ? QuickPlayState : MenuState);
+			col.push(pauseLayer.add(quitButton));
+			var resetButton:MenuThing = new MenuThing("Restart", resetLevel);
+			resetButton.setFormat(C.FONT, 20);
+			col.push(pauseLayer.add(resetButton));
+			//MenuThing.addColumn(col, FlxG.width/2 - quitButton.fullWidth/2);
+			quitButton.setY(FlxG.height / 2 - 40);
+			resetButton.setY(FlxG.height / 2);
 			
-			pauseText = new BlinkText(0, FlxG.height/2 + 15, "Press any key to unpause.", 16)
-			hudLayer.add(pauseText);
+			var pauseText:FlxText = new BlinkText(0, FlxG.height / 2 + 40, "Press any key to unpause.", 16)
+			pauseText.active = false;
+			pauseLayer.add(pauseText);
+			
+			hudLayer.add(pauseLayer);
+			C.HUD_ENABLED = true;
 			
 			substate = SUBSTATE_PAUSED;
 			FlxG.mouse.show();
@@ -343,14 +452,28 @@ package
 		
 		private function pauseUpdate():void {
 			//pauseText.update();
-			quitButton.update();
+			pauseLayer.update();
 			
 			if (FlxG.keys.anyKey()) {
-				pauseText.exists = darkShroud.exists = quitButton.exists = false;
+				pauseLayer.exists = false;
 				FlxG.mouse.hide();
 				substate = SUBSTATE_NORMAL;
-			} else if (ControlSet.CONFIRM_KEY.justPressed())
-				exitToMenu();
+			}
+		}
+		
+		private function resetLevel(_:String):void {
+			if (C.campaign) {
+				if (C.campaign.lives)
+					C.campaign.lives--;
+				else {
+					FlxG.state = new CampaignDefeatState;
+					return;
+				}
+			}
+			defaultGroup = new FlxGroup;
+			currentMino = null;
+			FlxG.fade.stop();
+			create();
 		}
 		
 		private function infoUpdate():void {
@@ -367,15 +490,28 @@ package
 		private function checkInput():void {
 			checkContinuousInput();
 			checkDiscontinuousInput();
+			if (dangeresque)
+				checkCombatInput();
 			if (C.DEBUG)
 				checkDebugInput();
 		}
 		
+		private function checkCombatInput():void {
+			if (ControlSet.MINO_L_KEY.justPressed())
+				combatMino = cycleCombatMino(FlxSprite.LEFT);
+			if (ControlSet.MINO_R_KEY.justPressed())
+				combatMino = cycleCombatMino(FlxSprite.RIGHT);
+			if (ControlSet.BOMB_KEY.justPressed() && combatMino && combatMino.exists)
+				combatMino.combatLaunch();
+		}
+		
 		protected function checkContinuousInput():void {
-			if (currentMino && currentMino.falling)
-				checkMinoMoveInput();
-			else
-				checkMinoSpawnInput();
+			if (!dangeresque) {
+				if (currentMino && currentMino.falling)
+					checkMinoMoveInput();
+				else
+					checkMinoSpawnInput();
+			}
 			checkRotateControls();
 		}
 		
@@ -478,7 +614,8 @@ package
 			
 			if (ControlSet.DISABLE_HUD_KEY.justPressed())
 				C.HUD_ENABLED = !C.HUD_ENABLED;
-			
+			if (ControlSet.ZOOM_KEY.justPressed())
+				zoomToggled = !zoomToggled;
 			
 			if (ControlSet.CANCEL_KEY.justPressed())
 				enterPauseState();
@@ -527,12 +664,18 @@ package
 		
 		protected function checkCamera():void {
 			C.B.buffer = mapBuffer;
-			if (!currentMino && (!GlobalCycleTimer.minosDropped || !tracker.safe)) {
+			var shouldZoomOut:Boolean = !currentMino && (!GlobalCycleTimer.minosDropped || dangeresque);
+			if ((!shouldZoomOut && zoomToggled) ||
+				(shouldZoomOut && !zoomToggled)) {
 				if (_scale == 1)
 					adjustScale(true);
 				C.B.centerDrawShiftOn(station.core.gridLoc);
-			} else if (_scale != 1)
-				adjustScale(false);
+			} else {
+				if (_scale != 1)
+					adjustScale(false);
+				if (dangeresque && combatMino)
+					C.B.centerDrawShiftOn(combatMino.gridLoc);
+			}
 		}
 		
 		
@@ -624,11 +767,8 @@ package
 						FlxG.state = new CampaignState;
 					else
 						FlxG.state = new CampaignVictoryState;
-				} else if (C.campaign.lives) {
-					C.campaign.lives--;
-					FlxG.state = new CampaignState;
 				} else
-					FlxG.state = new CampaignDefeatState;
+					loseLife();
 			} else if (!C.accomplishments.tutorialDone) {
 				var nextLevel:int = C.accomplishments.scenarioIndex(this) + 1;
 				if (!C.accomplishments.scenariosWon[nextLevel])
@@ -643,9 +783,17 @@ package
 			if (!C.accomplishments.tutorialDone)
 				FlxG.state = new TutorialSelectState;
 			else if (C.campaign)
-				FlxG.state = new MenuState;
+				loseLife();
 			else
 				FlxG.state = new QuickPlayState;
+		}
+		
+		protected function loseLife():void {
+			if (C.campaign.lives) {
+				C.campaign.lives--;
+				FlxG.state = new CampaignState;
+			} else
+				FlxG.state = new CampaignDefeatState;
 		}
 		
 		protected function won():Boolean {
@@ -727,6 +875,9 @@ package
 		private var flxbufferRect:Rectangle;
 		private var matrix:Matrix;
 		override public function render():void {
+			if (!hasUpdated)
+				update(); //make sure update is called before render!
+			
 			if (!matrix)
 				matrix = new Matrix();
 			matrix.identity();
@@ -749,6 +900,8 @@ package
 				renderMapBounds();
 			
 			super.render();
+			if (combatMino && substate != SUBSTATE_ROTPAUSE)
+				combatMino.renderBorder();
 			if (C.DEBUG && C.DISPLAY_COLLISION)
 				renderCollision();
 			else if (substate == SUBSTATE_ROTPAUSE)

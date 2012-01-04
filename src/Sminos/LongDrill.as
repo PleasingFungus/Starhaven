@@ -64,12 +64,16 @@ package Sminos {
 			return false;
 		}
 		
+		protected var drilledMinos:Array = [];
 		protected function drillTip(tip:Point):MineralBlock {
 			var block:MineralBlock = targetResource.resourceAt(tip);
 			if (!block || block.damaged) {
 				var mino:Mino = Mino.getGrid(tip.x, tip.y);
-				if (mino && mino.exists && !(mino is StationCore))
-					mino.takeExplodeDamage(tip.x, tip.y, this)
+				if (mino && mino.exists && !(mino is StationCore)) {
+					mino.solid = false;
+					if (drilledMinos.indexOf(mino) == -1)
+						drilledMinos.push(mino);
+				}
 				return null;
 			}
 			if (block.type == MineralBlock.BEDROCK)
@@ -92,17 +96,9 @@ package Sminos {
 		}
 		
 		override protected function finishDrill():void { 
-			mine();
+			for each (var mino:Mino in drilledMinos)
+				mino.takeExplodeDamage(-1, -1, this)
 			super.finishDrill();
-		}
-		
-		protected function mine():void {
-			var directions:Array = [new Point(1,0), new Point(0,1), new Point(-1,0), new Point(0,-1)];
-			for each (var block:Block in blocks) {
-				var adjustedBlock:Point = block.add(absoluteCenter);
-				for each (var direction:Point in directions)
-					minePoint(adjustedBlock.add(direction));
-			}
 		}
 		
 		[Embed(source = "../../lib/art/sminos/drill.png")] private static const _sprite:Class;

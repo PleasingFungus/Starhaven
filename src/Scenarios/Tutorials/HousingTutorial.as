@@ -21,7 +21,7 @@ package Scenarios.Tutorials {
 			
 			mapBuffer = 0;
 			spawner = PlanetSpawner;
-			goal = 0.75;
+			goal = 0.6;
 			bg_sprite = _bg;
 			rotateable = false;
 		}
@@ -85,7 +85,7 @@ package Scenarios.Tutorials {
 			addSmino(24 - 20, 18 - 14, LongConduit, FlxSprite.RIGHT);
 			addSmino(27 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
 			addSmino(31 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
-			addSmino(35 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
+			addSmino(34 - 20, 16 - 14, LongConduit, FlxSprite.RIGHT);
 
 			addSmino(15 - 20, 18 - 14, LongConduit, FlxSprite.RIGHT);
 			addSmino(12 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
@@ -105,15 +105,15 @@ package Scenarios.Tutorials {
 		
 		
 		override protected function getAssortment(index:int):Array {
-			//var assortment:Array = [makeBag(SmallFab), makeBag(SmallBarracks)];
+			//var assortment:Array = [makeBag(SmallLauncher), makeBag(SmallBarracks)];
 			//if (index)
-				//assortment.push(makeBag(Fabricator));
+				//assortment.push(makeBag(MediumLauncher));
 			//else
 				//assortment.push(makeBag(MediumBarracks));
 			//return assortment;
 			if (index)
-				return [SmallBarracks, SmallBarracks, Fabricator, Conduit];
-			return [SmallFab, SmallFab, MediumBarracks];
+				return [SmallBarracks, SmallBarracks, MediumLauncher, Conduit];
+			return [SmallLauncher, SmallLauncher, MediumBarracks];
 		}
 		
 		

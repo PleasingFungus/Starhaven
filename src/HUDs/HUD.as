@@ -16,16 +16,16 @@ package HUDs {
 		private var trackerText:FlxText;
 		private var blockText:FlxText;
 		private var goalText:FlxText;
+		private var HUDBar:FlxSprite;
+		
+		public var minimap:Minimap;
+		public var bounds:MapBounds;
 		
 		private var station:Station;
 		private var goal:int;
 		private var tracker:MeteoroidTracker;
-		public function HUD(station:Station, goalFraction:Number, tracker:MeteoroidTracker) {
+		public function HUD() {
 			super();
-			
-			this.station = station;
-			goal = goalFraction * station.mineralsAvailable;
-			this.tracker = tracker;
 			
 			//minimap = new Minimap(0, 0, station);
 			//add(minimap);
@@ -39,7 +39,7 @@ package HUDs {
 			}
 			
 			var hbarheight:int = 22;
-			var HUDBar:FlxSprite = new FlxSprite(0, FlxG.height - hbarheight).createGraphic(FlxG.width, hbarheight, 0xff000000);
+			HUDBar = new FlxSprite(0, FlxG.height - hbarheight).createGraphic(FlxG.width, hbarheight, 0xff000000);
 			HUDBar.alpha = 0.4;
 			add(HUDBar);
 			
@@ -56,6 +56,19 @@ package HUDs {
 				blockText = new HUDText(FlxG.width / 2, FlxG.height - 18, 160, " ", C.ICONS[C.MINOS]);
 				add(blockText);
 			}
+		}
+		
+		public function setStation(station:Station):void {
+			this.station = station;
+			minimap.setStation(station);
+		}
+		
+		public function setGoal(goalFraction:Number):void {
+			goal = goalFraction * station.mineralsAvailable;
+		}
+		
+		public function setTracker(tracker:MeteoroidTracker):void {
+			this.tracker = tracker;
 		}
 		
 		public function updateGoal(percent:int):void {
@@ -78,8 +91,72 @@ package HUDs {
 			
 			trackerText.text = tracker.dangerText/* + " ("+tracker.density+")"*/;
 			
+			if (C.HUD_FLICKERS)
+				updateFlicker();
 			super.update();
 		}
+		
+		protected var flickerState:int = FLICKERSTATE_TO_FULL_ON;
+		protected var flickerTimer:Number = 0;
+		protected function updateFlicker():void {
+			flickerTimer += FlxG.elapsed;
+			switch (flickerState) {
+				case FLICKERSTATE_TO_FIRST_ON:
+					if (flickerTimer >= FIRST_FLICKER_ON_TIME) {
+						flickerTimer -= FIRST_FLICKER_ON_TIME;
+						flickerState = FLICKERSTATE_TO_OFF;
+					}
+					break;
+				case FLICKERSTATE_TO_OFF:
+					if (flickerTimer >= FLICKER_OFF_TIME) {
+						flickerTimer -= FLICKER_OFF_TIME;
+						flickerState = FLICKERSTATE_TO_FULL_ON;
+					}
+					break;
+				case FLICKERSTATE_TO_FULL_ON:
+					if (flickerTimer >= FULL_FLICKER_ON_TIME)
+						flickerState = FLICKERSTATE_DONE;
+					break;
+				case FLICKERSTATE_DONE:
+					return;
+			}
+		}
+		
+		override public function render():void {
+			if (C.HUD_FLICKERS)
+				renderFlicker();
+			super.render();
+		}
+		
+		protected function renderFlicker():void {
+			switch (flickerState) {
+				case FLICKERSTATE_TO_FIRST_ON:
+					alpha = flickerTimer * FIRST_FLICKER_ON_INTENSITY / FIRST_FLICKER_ON_TIME; break;
+				case FLICKERSTATE_TO_OFF:
+					alpha = 1 - flickerTimer * (1 - FLICKER_OFF_INTENSITY) / FLICKER_OFF_TIME; break;
+				case FLICKERSTATE_TO_FULL_ON:
+					alpha = flickerTimer / FULL_FLICKER_ON_TIME; break;
+				case FLICKERSTATE_DONE:
+					alpha = 1; return;
+			}
+		}
+		
+		override public function set alpha(a:Number):void {
+			super.alpha = a;
+			bounds.alpha = a;
+			HUDBar.alpha = 0.4 * a;
+		}
+		
+		protected const FLICKERSTATE_TO_FIRST_ON:int = 0;
+		protected const FLICKERSTATE_TO_OFF:int = 1;
+		protected const FLICKERSTATE_TO_FULL_ON:int = 2;
+		protected const FLICKERSTATE_DONE:int = 3;
+		
+		protected const FIRST_FLICKER_ON_TIME:Number = 0.4;
+		protected const FIRST_FLICKER_ON_INTENSITY:Number = 0.4;
+		protected const FLICKER_OFF_TIME:Number = 0.1;
+		protected const FLICKER_OFF_INTENSITY:Number = 0.2;
+		protected const FULL_FLICKER_ON_TIME:Number = 1.0;
 	}
 
 }

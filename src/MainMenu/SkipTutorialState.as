@@ -32,7 +32,7 @@ package MainMenu {
 			MenuThing.menuThings[0].select();
 		}
 		
-		protected function skipTutorials():void {
+		protected function skipTutorials(_:String):void {
 			C.accomplishments.setTutorialsDone();
 			FlxG.state = new MenuState;
 		}

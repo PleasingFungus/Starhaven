@@ -13,8 +13,8 @@ package Meteoroids {
 			target = Target;
 		}
 		
-		public function spawnMeteoroid(asteroids:FlxGroup):void {
-			
+		public function spawnMeteoroid():Meteoroid {
+			return null;
 		}
 	}
 

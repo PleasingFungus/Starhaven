@@ -40,7 +40,6 @@ package HUDs {
 		}
 
 		public static var activeTexts:Array;
-		public static var layer:FlxGroup;
 		private static var SPACING:int = 5;
 		private static function adjustPositioning():void {
 			var totalHeight:int = -SPACING;

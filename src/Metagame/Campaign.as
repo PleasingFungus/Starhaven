@@ -18,7 +18,7 @@ package Metagame {
 		//public var started:Boolean;
 		public function Campaign() {
 			upgrades = [/*new Upgrade(SmallBarracks, LargeBarracks),
-						new Upgrade(SmallFab, LargeFactory),
+						new Upgrade(SmallLauncher, LargeFactory),
 						new Upgrade(Conduit, SecondaryReactor) */ ];
 			missionNo = 0;
 			lives = 2;

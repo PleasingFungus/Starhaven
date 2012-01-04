@@ -181,7 +181,7 @@ package Sminos {
 		
 		override public function renderTop(force:Boolean = false):void {
 			super.renderTop();
-			if (shot && Scenario.substate != Scenario.SUBSTATE_ROTPAUSE)
+			if (shot && Scenario.substate != Scenario.SUBSTATE_ROTPAUSE && exists)
 				shot.render();
 		}
 		

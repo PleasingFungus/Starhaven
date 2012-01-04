@@ -26,13 +26,20 @@ package Metagame {
 			var quitThing:StateThing;
 			
 			MenuThing.resetThings();
-			if (!C.campaign.missionNo) {				
-				var leftCol:Array = [];
-				leftCol.push(add(new DifficultyThing("Normal", Difficulty.NORMAL)));
-				leftCol.push(add(new DifficultyThing("Hard", Difficulty.HARD)));
-				MenuThing.addColumn(leftCol, FlxG.width / 8);
+			if (!C.campaign.missionNo) {
+				var previewPos:int;
+				if (C.accomplishments.campaignsWon[0]) {
+					var leftCol:Array = [];
+					leftCol.push(add(new DifficultyThing("Normal", Difficulty.NORMAL)));
+					leftCol.push(add(new DifficultyThing("Hard", Difficulty.HARD)));
+					MenuThing.addColumn(leftCol, FlxG.width / 8);
+					previewPos = FlxG.width * 3 / 4 ;
+				} else {
+					C.difficulty.setting = Difficulty.NORMAL;
+					previewPos = FlxG.width / 2;
+				}
 			
-				add(new LevelPreview(FlxG.width * 3/4 - Campaign.SCREENSHOT_SIZE.x/2,
+				add(new LevelPreview(previewPos - Campaign.SCREENSHOT_SIZE.x/2,
 									 FlxG.height / 2 - Campaign.SCREENSHOT_SIZE.y/2,
 									 C.campaign.nextMission));
 				

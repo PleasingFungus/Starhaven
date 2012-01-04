@@ -22,6 +22,8 @@ package Meteoroids {
 		public var meteoroids:FlxGroup;
 		private var minoLayer:FlxGroup;
 		protected var spawner:Spawner;
+		protected var next:Meteoroid;
+		protected var spawnCount:int;
 		
 		public function MeteoroidTracker(MinoLayer:FlxGroup, spawnerType:Class, MeteoroidTarget:Mino,
 										Duration:Number, Warning:Number, Density:Number, WaveSpacing:int) {
@@ -37,7 +39,7 @@ package Meteoroids {
 			duration = Duration;
 			density = Density;
 			if (C.difficulty.hard && !C.IN_TUTORIAL)
-				density = Math.ceil(density * 1.5);
+				density = Math.round(density * 1.5);
 			waveTime = 0;
 			
 			meteoroids = new FlxGroup();
@@ -57,17 +59,31 @@ package Meteoroids {
 				else if (waveTime >= warning) {
 					spawnTimer += FlxG.elapsed;
 					if (spawnTimer >= duration / (density + 1)) {
-						spawner.spawnMeteoroid(meteoroids);
+						popMeteoroid();
 						spawnTimer -= duration / (density + 1);
 					}
 				}
-			} else if (GlobalCycleTimer.justDropped) {
-				var oldDanger:String = dangerFraction();
-				timer++;
-				if (timer >= nextWave)
-					startWave();
-				else if (dangerFraction() == "V. High" && oldDanger != "V. High")
-					FlxG.state.add(new FlashText("Meteors Inbound!", 0xff2020, 2));
+			}/* else if (GlobalCycleTimer.justDropped)
+				registerDrop();*/
+		}
+		
+		public function registerDrop():void {
+			var oldDanger:String = dangerFraction();
+			timer++;
+			if (timer > nextWave)
+				startWave();
+			else if (dangerFraction() == "V. High" && oldDanger != "V. High")
+				FlxG.state.add(new FlashText("Meteors Inbound!", 0xff2020, 2));
+		}
+		
+		protected function popMeteoroid():void {
+			if (next)
+				next.active = next.visible = next.solid = true;
+			spawnCount++;
+			if (spawnCount <= density) {
+				next = spawner.spawnMeteoroid();
+				next.active = next.visible = next.solid = false;
+				meteoroids.add(next);
 			}
 		}
 		
@@ -86,6 +102,8 @@ package Meteoroids {
 			
 			C.log("Starting wave. Density: " + density);
 			
+			spawnCount = 0;
+			popMeteoroid();
 			waveIndex++;
 		}
 		

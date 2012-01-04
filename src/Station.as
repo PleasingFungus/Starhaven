@@ -19,7 +19,7 @@ package  {
 		public var crewDeficit:Boolean;
 		public var resourceSource:ResourceSource;
 		
-		public var mineralsMined:int;
+		protected var _mineralsMined:int;
 		public var mineralsLaunched:int;
 		
 		public var lifespan:Number;
@@ -156,7 +156,17 @@ package  {
 			if (lastAvailable != _mineralsAvailable)
 				minimap.dirty = true;
 			
-			(core as StationCore).storedMinerals = mineralsMined;
+			core.storedMinerals = mineralsMined;
+		}
+		
+		public function set mineralsMined(amount:int):void {
+			if (amount > _mineralsMined)
+				FlxG.play(COLLECT_NOISE, 0.5);
+			_mineralsMined = amount;
+		}
+		
+		public function get mineralsMined():int {
+			return _mineralsMined;
 		}
 		
 		public function refine(type:int, amount:int):void {
@@ -216,6 +226,8 @@ package  {
 				printString += '"'+mino.serialize() + '", ';
 			C.log(printString + '"'+members[members.length - 1].serialize() + '"]');
 		}
+		
+		[Embed(source = "../lib/sound/game/pickup2.mp3")] protected const COLLECT_NOISE:Class;
 	}
 
 }

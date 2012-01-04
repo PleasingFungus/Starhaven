@@ -17,6 +17,10 @@ package MainMenu {
 			onSelect = changeStates;
 		}
 		
+		override protected function get choiceSound():Class {
+			return associate == MenuState ? C.BACK_SOUND : super.choiceSound;
+		}
+		
 		protected function changeStates(_:String):void {
 			//var loadingText:FlxText = new FlxText(0, FlxG.height / 2 - 10, FlxG.width, "Loading...");
 			//loadingText.setFormat(C.FONT, 48, 0xff8fff, 'center');

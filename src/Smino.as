@@ -88,6 +88,7 @@ package  {
 			cycleSpeed = 1;
 			
 			FlxG.quake.start(0.015, 0.075);
+			FlxG.play(THUD_NOISE, 0.5);
 		}
 		
 		protected function checkBounds():void {
@@ -298,6 +299,10 @@ package  {
 			return b.left < C.B.PlayArea.left || b.right > C.B.PlayArea.right;
 		}
 		
+		public function get holdsAttention():Boolean {
+			return falling;
+		}
+		
 		
 		
 		
@@ -307,7 +312,7 @@ package  {
 		
 		public function simpleRender():void {
 			if (sprite) {
-				var curSprite:Class = (operational || !inopSprite) ? opSprite : inopSprite;
+				var curSprite:Class = getCurSprite();
 				if (curSprite != sprite) {
 					sprite = curSprite;
 					resetSprites();
@@ -316,6 +321,10 @@ package  {
 			} else
 				color = operational ? poweredColor : dullColor;
 			super.render();
+		}
+		
+		protected function getCurSprite():Class {
+			return (operational || !inopSprite) ? opSprite : inopSprite;
 		}
 		
 		protected function minoRender():void {
@@ -504,6 +513,7 @@ package  {
 		
 		
 		[Embed(source = "../lib/art/other/thruster.png")] protected static const _thruster_sprite:Class;
+		[Embed(source = "../lib/sound/game/thud1.mp3")] protected const THUD_NOISE:Class;
 		
 		
 		public static const OP_FALLING:int = -1;

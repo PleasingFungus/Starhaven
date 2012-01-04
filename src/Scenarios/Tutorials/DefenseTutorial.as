@@ -7,7 +7,8 @@ package Scenarios.Tutorials {
 	import Meteoroids.PlanetSpawner;
 	import Scenarios.DefaultScenario;
 	import GrabBags.BagType;
-	import Sminos.AsteroidGun
+	import Sminos.AsteroidGun;
+	import Sminos.SmallLauncher;
 	import Sminos.SmallBarracks;
 	import Sminos.Conduit;
 	import InfoScreens.NewPlayerEvent;
@@ -52,17 +53,21 @@ package Scenarios.Tutorials {
 		}
 	
 		override protected function setupBags():void {
-			BagType.all = [new BagType("Assorted Bag", 1, [makeBag(SmallBarracks), makeBag(AsteroidGun)])];
+			if (C.BEAM_DEFENSE)
+				BagType.all = [new BagType("Assorted Bag", 1, [makeBag(SmallBarracks), makeBag(AsteroidGun)])];
+			else
+				BagType.all = [new BagType("Assorted Bag", 1, [makeBag(SmallBarracks), makeBag(SmallLauncher)])];
 		}
 		
 		protected function buildPlanet():void {
 			var planet:BaseAsteroid = resourceSource as BaseAsteroid;
 			//shift planet
 			
-			station.core.center.x += 1;
+			station.core.center.x += 3;
 			station.core.center.y += 7;
 			planet.gridLoc.x = -5;
 			planet.gridLoc.y = 0;
+			planet.forceSpriteReset();
 			
 			Mino.resetGrid();
 			station.core.addToGrid();

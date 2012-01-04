@@ -41,6 +41,7 @@ package Controls {
 			rightCol.push(add(new ControlMenuThing("Rotate Station CW: ", ControlSet.ST_CW_KEY)));
 			rightCol.push(add(new ControlMenuThing("Drop Bomb: ", ControlSet.BOMB_KEY)));
 			rightCol.push(add(new ControlMenuThing("Info: ", ControlSet.MINO_HELP_KEY)));
+			rightCol.push(add(new ControlMenuThing("Toggle Zoom: ", ControlSet.ZOOM_KEY)));
 			rightCol.push(add(new ResetMenuThing()));
 			MenuThing.addColumn(rightCol, FlxG.width / 2 + 15);
 			

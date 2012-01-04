@@ -62,16 +62,19 @@ package  {
 		}
 		
 		override public function update():void {
+			var lastMoused:Boolean = moused;
 			moused = highlight.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y);
+			if (!lastMoused && moused)
+				FlxG.play(SEL_SOUND, 0.12);
 			
 			if (selected) {
 				if (FlxG.keys.justPressed("UP")) {
 					menuThings[(i + menuThings.length - 1) % menuThings.length].select();
-					//FlxG.play(ooop, .6);
+					FlxG.play(UP_SOUND, 0.25);
 					deselect();
 				} else if (FlxG.keys.justPressed("DOWN")) {
 					menuThings[(i + 1) % menuThings.length].select();
-					//FlxG.play(oop, .6);
+					FlxG.play(DOWN_SOUND, 0.25);
 					deselect();
 				} else if (FlxG.keys.justPressed("ENTER"))//(ControlSet.CONFIRM_KEY.justReleased())
 					choose();
@@ -88,9 +91,18 @@ package  {
 		
 		protected function choose():void {
 			if (onSelect != null) {
-				C.log("hello");
 				FlxG.fade.start(0xff000000, 0.4, onFadeEnd);
+				var s:FlxSound = new FlxSound();
+				s.loadEmbedded(choiceSound);
+				s.volume = 0.25;
+				s.survive = true;
+				s.play();
+				//FlxG.play(CHOOSE_SOUND, 0.25);
 			}
+		}
+		
+		protected function get choiceSound():Class {
+			return CHOOSE_SOUND;
 		}
 		
 		protected function onFadeEnd():void {
@@ -167,6 +179,11 @@ package  {
 			menuThings = [];
 			columns = [];
 		}
+		
+		[Embed(source = "../lib/sound/menu/down2.mp3")] protected const DOWN_SOUND:Class;
+		[Embed(source = "../lib/sound/menu/down.mp3")] protected const UP_SOUND:Class;
+		[Embed(source = "../lib/sound/menu/down3.mp3")] protected const SEL_SOUND:Class;
+		[Embed(source = "../lib/sound/menu/choose2.mp3")] protected const CHOOSE_SOUND:Class;
 	}
 
 }

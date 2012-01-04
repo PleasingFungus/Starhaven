@@ -1,14 +1,10 @@
 package MainMenu {
 	import Controls.ControlSet;
 	import Controls.ControlsState;
-	import Metagame.MapState;
 	import org.flixel.*;
-	import Scenarios.AsteroidScenario;
-	import Scenarios.DefaultScenario;
-	import Scenarios.PlanetScenario;
-	import Scenarios.NebulaScenario;
 	import InfoScreens.HelpState;
 	import Metagame.CampaignState;
+	import Credits.CreditsState;
 
 	public class MenuState extends FadeState
 	{
@@ -34,7 +30,8 @@ package MainMenu {
 			MenuThing.resetThings();
 			if (C.accomplishments.tutorialDone) {
 				add(new MainMenuThing("Tutorials", TutorialSelectState));
-				add(new MainMenuThing("Quick Play", QuickPlayState));
+				if (C.accomplishments.quickPlayUnlocked() || C.ALL_UNLOCKED)
+					add(new MainMenuThing("Quick Play", QuickPlayState));
 				add(new MainMenuThing("Campaign", CampaignState));
 			} else
 				add(new MainMenuThing("Play", C.accomplishments.scenarios[0]));

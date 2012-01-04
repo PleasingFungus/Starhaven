@@ -23,7 +23,7 @@ package Helpers {
 		}
 		
 		override public function update():void {
-			if (!parent.exists || !parent.active) {
+			if (!parent.exists || !parent.active || !parent.falling) {
 				exists = false; return;
 			}
 			

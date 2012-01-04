@@ -11,28 +11,34 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "0.15";
+		public static const VERSION:String = "0.2";
 		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
+		
 		public static const DISPLAY_BOUNDS:Boolean = false;
+		public static const DISPLAY_COLLISION:Boolean = false;
 		public static const DISPLAY_DRAW_AREA:Boolean = false;
+		public static const DISPLAY_FIRE_AREA:Boolean = false;
 		public static const ALWAYS_SHOW_METEOROIDS:Boolean = false;
 		public static const ALWAYS_SHOW_INCOMING:Boolean = false;
-		public static const DISPLAY_FIRE_AREA:Boolean = false;
-		public static const FORGET_EVENTS:Boolean = false;
-		public static const DEBUG_TEST_STATION:Boolean = false;
-		public static const DISPLAY_COLLISION:Boolean = false;
+		
 		public static const ANNOYING_NEW_PIECE_POPUP:Boolean = true;
 		public static const AUDIO_DESCRIPTIONS:Boolean = true;
-		public static const FORGET_PIECES:Boolean = false;
 		public static const NO_CREW:Boolean = false;
-		public static const RENDER_THRUSTERS:Boolean = true;
+		public static const BEAM_DEFENSE:Boolean = false;
+		
 		public static const FORGET_TUTORIALS:Boolean = false;
+		public static const FORGET_EVENTS:Boolean = false;
+		public static const FORGET_PIECES:Boolean = false;
+		public static const FORGET_ACCOMPLISHMENTS:Boolean = false;
+		public static const ALL_UNLOCKED:Boolean = true;
 		
 		public static var HUD_ENABLED:Boolean = true;
 		public static var IN_TUTORIAL:Boolean = false;
 		
+		public static const RENDER_THRUSTERS:Boolean = true;
+		public static const HUD_FLICKERS:Boolean = true;
 		public static var DRAW_GLOW:Boolean = true;
 		public static var GLOW_SCALE:Number = 6;
 		public static const GLOW_ALPHA:Number = 1;
@@ -76,8 +82,6 @@ package  {
 			
 			save = new FlxSave();
 			save.bind("Starhaven");
-			difficulty.load();
-			accomplishments.load();
 		}
 		
 		public static function setPrintReady():void {
@@ -96,6 +100,7 @@ package  {
 		
 		
 		public static var iconLayer:FlxGroup;
+		public static var hudLayer:FlxGroup;
 		
 		
 		
@@ -189,6 +194,25 @@ package  {
 			var g:int = G * 255;
 			var b:int = B * 255;
 			return 0xff000000 | (r << 16) | (g << 8) | b;
+		}
+		
+		
+		public static function innerAngle(a:Point, b:Point):Number {
+			return Math.acos(dot(a, b) / Math.abs(a.length * b.length));
+		}
+		
+		public static function dot(a:Point, b:Point):Number {
+			return a.x * b.x + a.y * b.y;
+		}
+		
+		
+		[Embed(source = "../lib/sound/menu/unchoose.mp3")] public static const BACK_SOUND:Class;
+		public static function playBackNoise():void {
+			var s:FlxSound = new FlxSound();
+			s.loadEmbedded(BACK_SOUND);
+			s.volume = 0.25;
+			s.survive = true;
+			s.play();
 		}
 		
 		

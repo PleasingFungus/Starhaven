@@ -11,7 +11,7 @@ package Scenarios {
 	import Sminos.Scoop;
 	import GrabBags.BagType;
 	import Sminos.SmallBarracks;
-	import Sminos.SmallFab;
+	import Sminos.SmallLauncher;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg

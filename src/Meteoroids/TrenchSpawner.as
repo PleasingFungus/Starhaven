@@ -12,11 +12,11 @@ package Meteoroids {
 			super(Warning, Target);
 		}
 		
-		override public function spawnMeteoroid(asteroids:FlxGroup):void {
+		override public function spawnMeteoroid():Meteoroid {
 			var Y:int = C.B.OUTER_BOUNDS.top - 10;
 			var X:int = C.B.OUTER_BOUNDS.left + TrenchMission.TRENCH_WIDTH / 2 + FlxU.random() * TrenchMission.TRENCH_WIDTH;
 			
-			asteroids.add(new Meteoroid(X, Y, target.absoluteCenter));
+			return new Meteoroid(X, Y, target.absoluteCenter);
 		}
 		
 	}

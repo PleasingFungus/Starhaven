@@ -24,14 +24,12 @@ package MainMenu {
 			
 			
 			var rightCol:Array = [];
-			rightCol.push(add(new StateThing("Asteroid", AsteroidScenario)));
-			rightCol.push(add(new StateThing("Planet", PlanetScenario)));
-			rightCol.push(add(new StateThing("Nebula", NebulaScenario)));
-			rightCol.push(add(new StateThing("Water", WaterScenario)));
-			//rightCol.push(add(new StateThing("Trench", TrenchScenario)));
-			//rightCol.push(add(new StateThing("Derelict", ShipScenario)));
-			rightCol.push(add(new StateThing("Dust", DustScenario)));
-			rightCol.push(add(new StateThing("Shore", ShoreScenario)));
+			addScenario(AsteroidScenario, "Asteroid", rightCol);
+			addScenario(PlanetScenario, "Planet", rightCol);
+			addScenario(NebulaScenario, "Nebula", rightCol);
+			addScenario(WaterScenario, "Water", rightCol);
+			addScenario(DustScenario, "Dust", rightCol);
+			addScenario(ShoreScenario, "Shore", rightCol);
 			MenuThing.addColumn(rightCol, FlxG.width * 5 / 8);
 			
 			
@@ -45,6 +43,11 @@ package MainMenu {
 			var cancelButton:StateThing = new StateThing("Cancel", MenuState);
 			cancelButton.setY(FlxG.height - 60);
 			add(cancelButton);
+		}
+		
+		protected function addScenario(scenario:Class, name:String, rightCol:Array):void {
+			if (C.accomplishments.scenariosSeen[C.accomplishments.scenarios.indexOf(scenario)] || C.ALL_UNLOCKED)
+				rightCol.push(add(new StateThing(name, scenario)));
 		}
 		
 		override public function update():void {

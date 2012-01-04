@@ -19,10 +19,8 @@ package HUDs {
 		private var map:BitmapData;
 		private var viewbox:BitmapData;
 		public var dirty:Boolean = true;
-		public function Minimap(X:int, Y:int, station:Station) {
+		public function Minimap(X:int, Y:int) {
 			super(X, Y);
-			this.station = station;
-			station.minimap = this;
 			
 			lastStates = new Dictionary(true);
 			
@@ -33,6 +31,10 @@ package HUDs {
 			x += width / 2;
 			y += width / 2;
 			setScale();
+		}
+		
+		public function setStation(station:Station):void {
+			this.station = station;
 		}
 		
 		protected function setScale():void {
@@ -106,7 +108,8 @@ package HUDs {
 			if (!C.HUD_ENABLED)
 				return;
 			
-			_framePixels.fillRect(_flashRect, 0x40000000);
+			_framePixels.fillRect(_flashRect, currentAlpha());
+			map_ct.alphaMultiplier = 0.5 * _alpha;
 			_framePixels.draw(map, null, map_ct);
 			drawMino(station.core); //deals with issue if station is not center cored, for some reason
 			drawCurrent();
@@ -123,26 +126,32 @@ package HUDs {
 						var X:int = block.x + absCenter.x;
 						var Y:int = block.y + absCenter.y;
 						_framePixels.setPixel(X - C.B.OUTER_BOUNDS.left, Y - C.B.OUTER_BOUNDS.top, mino.minimapColor(block));
+											  //currentAlpha() | (0x00ffffff & mino.minimapColor(block)));
 					}
 				}
 		}
 		
 		protected function drawViewbox():void {
-			if (!viewbox || FlxG.width / (C.BLOCK_SIZE * C.B.scale) != viewbox.width) {
-				if (viewbox)
-					viewbox.dispose();
+			if (!viewbox) 
+				generateViewbox();
+			else if (FlxG.width / (C.BLOCK_SIZE * C.B.scale) != viewbox.width) {
+				viewbox.dispose();
 				generateViewbox();
 			}
 			
 			_mtx.identity();
 			_mtx.translate(map.width/2  - C.B.drawShift.x / C.BLOCK_SIZE,
 						   map.height/2 - C.B.drawShift.y / C.BLOCK_SIZE);
-			_framePixels.draw(viewbox, _mtx);
+			_framePixels.draw(viewbox, _mtx, map_ct);
 		}
 		
 		protected function generateViewbox():void {
-			viewbox = new BitmapData(FlxG.width / (C.BLOCK_SIZE * C.B.scale), FlxG.height / (C.BLOCK_SIZE * C.B.scale), true, 0x80ffd000);
+			viewbox = new BitmapData(FlxG.width / (C.BLOCK_SIZE * C.B.scale), FlxG.height / (C.BLOCK_SIZE * C.B.scale), true, 0xffffd000);
 			viewbox.fillRect(new Rectangle(1, 1, viewbox.width - 2, viewbox.height - 2), 0x0);
+		}
+		
+		protected function currentAlpha(fraction:Number = 1):uint {
+			return Math.floor(_alpha * 0.25 * 255) << 24;
 		}
 		
 		private const map_ct:ColorTransform = new ColorTransform(1, 1, 1, 0.5);

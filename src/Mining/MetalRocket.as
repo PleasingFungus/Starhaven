@@ -10,7 +10,7 @@ package Mining {
 		
 		public function MetalRocket(X:int, Y:int) {
 			super(X * C.BLOCK_SIZE, Y * C.BLOCK_SIZE);
-			loadRotatedGraphic(_sprite, 4);
+			loadGraphic(_sprite);
 			
 			//if (Math.abs(X) > Math.abs(Y))
 				//facing = X > 0 ? RIGHT : LEFT;
@@ -27,7 +27,7 @@ package Mining {
 				//case DOWN:
 					//acceleration.y = ACCEL; angle = 90; x -= width / 2; break;
 			//}
-			acceleration.y = -ACCEL; angle = 270;
+			acceleration.y = -ACCEL;
 			x -= C.BLOCK_SIZE / 2;
 		}
 		
@@ -40,8 +40,8 @@ package Mining {
 		}
 		
 		override public function render():void {
-			offset.x = -C.B.drawShift.x;
-			offset.y = -C.B.drawShift.y;
+			offset.x = -C.B.drawShift.x - C.BLOCK_SIZE/2;
+			offset.y = -C.B.drawShift.y// - C.BLOCK_SIZE/2;
 			super.render();
 		}
 		

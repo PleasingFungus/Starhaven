@@ -11,7 +11,6 @@ package Sminos {
 	 */
 	public class NebularAccumulator extends Smino {
 		
-		protected var storedMinerals:int = 0;
 		protected var mineralText:Icontext;
 		protected var head:int;
 		protected var shroud:Mino;

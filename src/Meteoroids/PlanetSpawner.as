@@ -16,7 +16,7 @@ package Meteoroids {
 			allowedWidth = 0.1;
 		}
 		
-		override public function spawnMeteoroid(asteroids:FlxGroup):void {
+		override public function spawnMeteoroid():Meteoroid {
 			var Y:int = C.B.OUTER_BOUNDS.top - 10;
 			
 			var X:int, targetCenter:Point;
@@ -32,7 +32,7 @@ package Meteoroids {
 				allowedWidth += (1 - allowedWidth) * WIDTH_GROW_RATE; 
 			}
 			
-			asteroids.add(new Meteoroid(X, Y, targetCenter));
+			return new Meteoroid(X, Y, targetCenter);
 		}
 		
 		protected const WIDTH_GROW_RATE:Number = 1/8;

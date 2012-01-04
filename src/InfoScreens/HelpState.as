@@ -8,7 +8,7 @@ package InfoScreens {
 	 * ...
 	 * @author ...
 	 */
-	public class HelpState extends FlxState {
+	public class HelpState extends FadeState {
 		[Embed(source = "../../lib/art/tutorial/core.png")] private static const _core:Class;
 		[Embed(source = "../../lib/art/tutorial/conduits.png")] private static const _conduits:Class;
 		[Embed(source = "../../lib/art/tutorial/drill.png")] private static const _drill:Class;
@@ -18,7 +18,12 @@ package InfoScreens {
 		private static const PAGES:Array = [_core, _conduits, _drill, _launchers, _barracks, _asteroids];
 		
 		private var page:int = 0;
+		private var justCreated:Boolean = true;
 		override public function create():void {
+			if (justCreated)
+				super.create();
+			justCreated = false;
+			
 			defaultGroup.members = [];
 			var bg:FlxSprite = new FlxSprite(0, 0, PAGES[page]);
 			add(bg);
@@ -114,16 +119,25 @@ package InfoScreens {
 				if (page > 0) {
 					page--;
 					create();
+					FlxG.play(UP_SOUND, 0.25);
+				} else {
+					C.playBackNoise();
+					fadeTo(MenuState);
 				}
 			} else if (FlxG.keys.justPressed("RIGHT") || FlxG.mouse.justPressed() || FlxG.keys.anyKey()) {
 				if (page < PAGES.length - 1) {
 					page++;
 					create();
-				} else 
-					FlxG.state = new MenuState;
+					FlxG.play(DOWN_SOUND, 0.25);
+				} else {
+					C.playBackNoise();
+					fadeTo(MenuState);
+				}
 			}
 		}
 		
+		[Embed(source = "../../lib/sound/menu/down2.mp3")] protected const DOWN_SOUND:Class;
+		[Embed(source = "../../lib/sound/menu/down.mp3")] protected const UP_SOUND:Class;
 	}
 
 }

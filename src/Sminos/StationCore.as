@@ -11,7 +11,6 @@ package Sminos {
 	public class StationCore extends PowerGen {
 		
 		public var blastRadius:int = 15;
-		public var storedMinerals:int = 0;
 		protected var mineralText:Icontext;
 		public function StationCore(X:int, Y:int) {
 			var blocks:Array = [];

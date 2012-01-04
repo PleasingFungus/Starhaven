@@ -11,7 +11,7 @@ package Meteoroids {
 			super( Warning, Target);
 		}
 		
-		override public function spawnMeteoroid(asteroids:FlxGroup):void {
+		override public function spawnMeteoroid():Meteoroid {
 			var furthest:int = C.B.getFurthest();
 			var travelDist:Number = warning / (C.CYCLE_TIME * Meteoroid.period);
 			
@@ -20,7 +20,7 @@ package Meteoroids {
 			var X:int = Math.cos(angle) * radius
 			var Y:int = Math.sin(angle) * radius
 			
-			asteroids.add(new Meteoroid(X, Y, target.absoluteCenter));
+			return new Meteoroid(X, Y, target.absoluteCenter);
 		}
 		
 	}

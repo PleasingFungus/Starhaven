@@ -9,6 +9,7 @@ package  {
 	import Icons.IconLeech;
 	import Icons.NoCrewIcon;
 	import Icons.NoPowerIcon;
+	import Mining.BaseAsteroid;
 	import org.flixel.*;
 	import flash.geom.Point;
 	import SFX.ExplosionSpark;
@@ -34,6 +35,7 @@ package  {
 		public var dangerous:Boolean;
 		public var current:Boolean;
 		protected var sidewaysAttachable:Boolean = true;
+		public var storedMinerals:int = 0;
 		
 		public var damaged:Boolean;
 		public var newlyDamaged:Boolean;
@@ -136,34 +138,22 @@ package  {
 			sprites = [];
 		}
 		
-		protected function runSanityCheck():void {
-			gridLoc.x = Math.floor(gridLoc.x);
-			gridLoc.y = Math.floor(gridLoc.y);
-			center.x = Math.floor(center.x);
-			center.y = Math.floor(center.y);
-			for each (var block:Block in blocks) {
-				block.x = Math.floor(block.x);
-				block.y = Math.floor(block.y);
-			}
-		}
-		
 		protected function calculateDimensions():void {
-			blockDim = new Point();
 			topLeft = new Point(int.MAX_VALUE, int.MAX_VALUE);
+			var bottomRight:Point = new Point(int.MIN_VALUE, int.MIN_VALUE);
 			for each (var block:Point in blocks) {
-				if (block.x > blockDim.x)
-					blockDim.x = block.x;
-				else if (block.x < topLeft.x)
+				if (block.x > bottomRight.x)
+					bottomRight.x = block.x;
+				if (block.x < topLeft.x)
 					topLeft.x = block.x;
 				
-				if (block.y > blockDim.y)
-					blockDim.y = block.y;
-				else if (block.y < topLeft.y)
+				if (block.y > bottomRight.y)
+					bottomRight.y = block.y;
+				if (block.y < topLeft.y)
 					topLeft.y = block.y;
 			}
 			
-			blockDim.x += 1 - topLeft.x; //block positions index from 0
-			blockDim.y += 1 - topLeft.y;
+			blockDim = new Point(bottomRight.x - topLeft.x + 1, bottomRight.y - topLeft.y + 1);
 		}
 		
 		private function generateDebugOutline():void {
@@ -517,6 +507,15 @@ package  {
 			return !C.B.OUTER_BOUNDS.containsRect(bounds);
 		}
 		
+		public function outsideScreenArea():Boolean {
+			var db:Rectangle = getDrawBounds();
+			db.x /= C.B.scale;
+			db.y /= C.B.scale;
+			db.width /= C.B.scale;
+			db.height /= C.B.scale;
+			return !C.B.screenArea.containsRect(db);
+		} //TODO: TESTME
+		
 		
 		
 		public function get bounds():Rectangle {
@@ -573,7 +572,7 @@ package  {
 						var victim:Mino = getVictim(X, Y);
 						if (victim)
 							victim.takeExplodeDamage(X, Y, this);
-						FlxG.state.add(new ExplosionSpark(X, Y));
+						Mino.layer.add(new ExplosionSpark(X, Y));
 					}
 			
 			FlxG.quake.start(0.01 * radius, 0.05 * radius * radius);

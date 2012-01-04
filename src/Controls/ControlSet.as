@@ -28,6 +28,7 @@ package Controls {
 		public static const DEBUG_PRINT_KEY:Key = new Key("E");
 		public static const DEBUG_END_KEY:Key = new Key("W");
 		public static const DISABLE_HUD_KEY:Key = new Key("SEMICOLON");
+		public static const ZOOM_KEY:Key = new Key("QUOTE");
 		
 		public static const CONFIGURABLE_CONTROLS:Array = [MINO_CCW_KEY, MINO_CW_KEY, MINO_L_KEY, MINO_R_KEY, FASTFALL_KEY, ST_CCW_KEY, ST_CW_KEY,
 														   BOMB_KEY, MINO_HELP_KEY];
@@ -84,6 +85,7 @@ package Controls {
 		
 			BOMB_KEY.key = "SPACE";
 			MINO_HELP_KEY.key = "H";
+			//ZOOM_KEY.key = "Z";
 		}
 	}
 

@@ -31,16 +31,19 @@ package Scenarios {
 		}
 		
 		protected function getAssortment(index:int):Array {
-			var assortment:Array = [makeBag(SmallFab), makeBag(miningTool)];
+			var assortment:Array = [makeBag(miningTool)];
 			if (index)
-				assortment.push(makeBag(Fabricator));
-			else
-				assortment = assortment.concat(makeBag(miningTool), makeBag(AsteroidGun));
+				assortment = assortment.concat(makeBag(MediumLauncher), makeBag(SmallLauncher));
+			else {
+				assortment = assortment.concat(makeBag(miningTool), makeBag(SmallLauncher));
+				if (C.BEAM_DEFENSE)
+					assortment.push(makeBag(AsteroidGun));
+			}
 				
 			if (!(C.DEBUG && C.NO_CREW)) {
-				assortment.push(makeBag(SmallBarracks));
 				if (index)
 					assortment.push(makeBag(MediumBarracks));
+				assortment.push(makeBag(SmallBarracks));
 			}
 			
 			return assortment;

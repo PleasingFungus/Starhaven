@@ -27,7 +27,7 @@ package HUDs {
 				instance.text = text
 			else {
 				instance = new FlashText(text, 0x8c00ff);
-				FlashText.layer.add(instance);
+				C.hudLayer.add(instance);
 			}
 		}
 		

@@ -26,9 +26,11 @@ package MainMenu {
 				add(new StateThing("Skip Remaining Tutorials", SkipTutorialState));
 			MenuThing.menuThings[0].select();
 			
-			var cancelButton:StateThing = new StateThing("Cancel", MenuState);
-			cancelButton.setY(FlxG.height - 60);
-			add(cancelButton);
+			if (C.accomplishments.tutorialDone) {
+				var cancelButton:StateThing = new StateThing("Cancel", MenuState);
+				cancelButton.setY(FlxG.height - 60);
+				add(cancelButton);
+			}
 			
 			C.IN_TUTORIAL = true;
 		}
@@ -36,7 +38,7 @@ package MainMenu {
 		override public function update():void {
 			super.update();
 			
-			if (ControlSet.CANCEL_KEY.justPressed())
+			if (C.accomplishments.tutorialDone && ControlSet.CANCEL_KEY.justPressed())
 				fadeTo(MenuState);
 			//C.music.update();
 		}
