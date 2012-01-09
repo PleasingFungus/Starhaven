@@ -17,13 +17,14 @@ package  {
 		protected var newlyDamaged:Array;
 		protected var newDamage:Boolean;
 		public var crewDeficit:Boolean;
-		public var resourceSource:ResourceSource;
+		public var rotateable:Boolean;
 		
+		public var resourceSource:ResourceSource;
 		protected var _mineralsMined:int;
 		public var mineralsLaunched:int;
+		public var minimap:Minimap;
 		
 		public var lifespan:Number;
-		public var minimap:Minimap;
 		
 		public function Station(ResourceSource_:ResourceSource) {	
 			resourceSource = ResourceSource_;

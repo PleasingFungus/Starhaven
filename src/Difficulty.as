@@ -26,6 +26,22 @@ package  {
 			return setting == HARD;
 		}
 		
+		
+		
+		public function get meteoroidMultiplier():Number {
+			if (hard)
+				return 1.5;
+			return 1;
+		}
+		
+		public function get blockSlack():Number {
+			if (hard)
+				return 1.1;
+			return 1.5;
+		}
+		
+		
+		
 		public function name(forSetting:int = -1):String {
 			if (forSetting == -1)
 				forSetting = setting;

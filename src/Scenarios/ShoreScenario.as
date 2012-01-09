@@ -90,7 +90,7 @@ package Scenarios {
 			if (index && C.BEAM_DEFENSE)
 				assortment.push(makeBag(AsteroidGun));
 			if (!(C.DEBUG && C.NO_CREW))
-				assortment = assortment.concat(makeBag(SmallBarracks), makeBag(MediumBarracks));
+				assortment = assortment.concat(makeBag(SmallBarracks), makeBag(SmallBarracks), makeBag(MediumBarracks));
 			return assortment;
 		}
 		

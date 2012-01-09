@@ -46,7 +46,6 @@ package Meteoroids {
 			checkExpiration();
 		}
 		
-		protected var lastTarget:Mino;
 		protected function findTarget():void {
 			var target:Mino = null;
 			var closestDist:int = int.MAX_VALUE;

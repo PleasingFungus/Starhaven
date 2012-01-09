@@ -128,7 +128,7 @@ package Scenarios {
 			if (index && C.BEAM_DEFENSE)
 				assortment.push(makeBag(AsteroidGun));
 			if (!(C.DEBUG && C.NO_CREW))
-				assortment = assortment.concat(makeBag(SmallBarracks), makeBag(MediumBarracks));
+				assortment = assortment.concat(makeBag(SmallBarracks), makeBag(SmallBarracks), makeBag(MediumBarracks));
 			return assortment;
 		}
 		
@@ -136,8 +136,8 @@ package Scenarios {
 			super.createGCT(miningTime);
 		}
 		
-		override protected function createTracker(Density:Number = 2, WaveSpacing:int = 18):void {
-			super.createTracker(Density, WaveSpacing);
+		override protected function createTracker(waveMeteos:Number = 2, WaveSpacing:int = 18):void {
+			super.createTracker(waveMeteos, WaveSpacing);
 		}
 		
 		[Embed(source = "../../lib/art/backgrounds/nebula_1.jpg")] private static const _bg01:Class;

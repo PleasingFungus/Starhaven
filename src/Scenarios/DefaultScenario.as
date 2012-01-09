@@ -35,9 +35,9 @@ package Scenarios {
 			if (index)
 				assortment = assortment.concat(makeBag(MediumLauncher), makeBag(SmallLauncher));
 			else {
-				assortment = assortment.concat(makeBag(miningTool), makeBag(SmallLauncher));
+				assortment.push(makeBag(miningTool));
 				if (C.BEAM_DEFENSE)
-					assortment.push(makeBag(AsteroidGun));
+					assortment = assortment.concat(makeBag(AsteroidGun), makeBag(SmallLauncher));
 			}
 				
 			if (!(C.DEBUG && C.NO_CREW)) {

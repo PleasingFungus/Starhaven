@@ -24,8 +24,8 @@ package Sminos {
 			audioDescription = _desc;
 			bombCarrying = true;
 			waterproofed = true;
-			if (!C.BEAM_DEFENSE)
-				crewReq = 1;
+			//if (!C.BEAM_DEFENSE)
+				//crewReq = 1;
 			
 			mineralText = new Icontext(x, y + height / 2 - 8, width, storedMinerals+"", C.ICONS[C.MINERALS]);
 		}

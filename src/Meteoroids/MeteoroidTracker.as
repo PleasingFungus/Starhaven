@@ -13,7 +13,7 @@ package Meteoroids {
 		
 		public var warning:Number;
 		public var duration:Number;
-		public var density:Number;
+		public var waveMeteos:Number;
 		private var spawnTimer:Number;
 		public var waveTime:Number;
 		
@@ -26,7 +26,7 @@ package Meteoroids {
 		protected var spawnCount:int;
 		
 		public function MeteoroidTracker(MinoLayer:FlxGroup, spawnerType:Class, MeteoroidTarget:Mino,
-										Duration:Number, Warning:Number, Density:Number, WaveSpacing:int) {
+										Duration:Number, Warning:Number, WaveMeteos:Number, WaveSpacing:int) {
 			minoLayer = MinoLayer;
 			this.spawner = new spawnerType(Warning, MeteoroidTarget);
 			
@@ -37,9 +37,9 @@ package Meteoroids {
 			
 			warning = Warning;
 			duration = Duration;
-			density = Density;
-			if (C.difficulty.hard && !C.IN_TUTORIAL)
-				density = Math.round(density * 1.5);
+			waveMeteos = WaveMeteos;
+			if (!C.IN_TUTORIAL)
+				waveMeteos = Math.round(waveMeteos * C.difficulty.meteoroidMultiplier);
 			waveTime = 0;
 			
 			meteoroids = new FlxGroup();
@@ -58,9 +58,9 @@ package Meteoroids {
 					endWave();
 				else if (waveTime >= warning) {
 					spawnTimer += FlxG.elapsed;
-					if (spawnTimer >= duration / (density + 1)) {
+					if (spawnTimer >= duration / (waveMeteos + 1)) {
 						popMeteoroid();
-						spawnTimer -= duration / (density + 1);
+						spawnTimer -= duration / (waveMeteos + 1);
 					}
 				}
 			}/* else if (GlobalCycleTimer.justDropped)
@@ -80,7 +80,7 @@ package Meteoroids {
 			if (next)
 				next.active = next.visible = next.solid = true;
 			spawnCount++;
-			if (spawnCount <= density) {
+			if (spawnCount <= waveMeteos) {
 				next = spawner.spawnMeteoroid();
 				next.active = next.visible = next.solid = false;
 				meteoroids.add(next);
@@ -88,7 +88,7 @@ package Meteoroids {
 		}
 		
 		protected function endWave():void {
-			density *= 1.5; //more Meteoroids in each wave
+			waveMeteos *= 1.5; //more Meteoroids in each wave
 			duration += 2; //slightly longer
 			
 			timer = 0;
@@ -100,7 +100,7 @@ package Meteoroids {
 			spawnTimer = 0;
 			minoLayer.add(meteoroids = new FlxGroup());
 			
-			C.log("Starting wave. Density: " + density);
+			C.log("Starting wave. waveMeteos: " + waveMeteos);
 			
 			spawnCount = 0;
 			popMeteoroid();

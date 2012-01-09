@@ -169,8 +169,9 @@ package Meteoroids {
 		
 		override protected function beDamaged():void {
 			explode(1);
+			var crystalNum:int = C.BEAM_DEFENSE ? 4 : 2;
 			if (!C.IN_TUTORIAL)
-				for (var i:int = 0; i < C.BEAM_DEFENSE ? 4 : 2; i++)
+				for (var i:int = 0; i < crystalNum; i++)
 					Mino.layer.add(new MeteoroidCrystal(absoluteCenter.x, absoluteCenter.y, target));
 		}
 		

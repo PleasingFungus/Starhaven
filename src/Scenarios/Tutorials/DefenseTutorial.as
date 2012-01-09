@@ -37,8 +37,8 @@ package Scenarios.Tutorials {
 			super.createGCT(0);
 		}
 		
-		override protected function createTracker(Density:Number = 2, WaveSpacing:int = 4):void {
-			super.createTracker(Density, WaveSpacing);
+		override protected function createTracker(waveMeteos:Number = 2, WaveSpacing:int = 4):void {
+			super.createTracker(waveMeteos, WaveSpacing);
 		}
 		
 		protected function prepPlanet():void {

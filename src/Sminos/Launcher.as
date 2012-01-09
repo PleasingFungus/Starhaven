@@ -121,6 +121,8 @@ package Sminos {
 		}
 		
 		protected function rocketDirection():int {
+			if (!station.rotateable)
+				return UP;
 			var delta:Point = parent.core.gridLoc.subtract(gridLoc);
 			if (Math.abs(delta.x) > Math.abs(delta.y))
 				return delta.x < 0 ? RIGHT : LEFT;

@@ -120,6 +120,7 @@ package
 			makeLayers();
 			
 			createStation();
+			setHudStation();
 			createTracker();
 			
 			name = "Scenario";
@@ -160,22 +161,25 @@ package
 		protected function createStation():void {
 			station = new Station(resourceSource);
 			station.minimap = hud.minimap;
+			station.rotateable = rotateable;
 			minoLayer.add(station);
 			minoLayer.add(station.core);
 			C.B.PlayArea = _getBounds();
-			
+		}
+		
+		protected function setHudStation():void {
 			hud.setStation(station);
 			hud.setGoal(goal);
 		}
 		
-		protected function createTracker(Density:Number = 2, WaveSpacing:int = 16):void {
-			//if (!rotateable) Density /= 2;
+		protected function createTracker(waveMeteos:Number = 2, WaveSpacing:int = 16):void {
+			//if (!rotateable) waveMeteos /= 2;
 			if (!C.BEAM_DEFENSE) {
-				Density *= 2.5;
+				waveMeteos *= 2.5;
 				WaveSpacing *= 3/4;
 			}
 			
-			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, Density, WaveSpacing);
+			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, waveMeteos, WaveSpacing);
 			hud.setTracker(tracker);
 			add(tracker);
 		}
@@ -203,6 +207,7 @@ package
 		override public function update():void {
 			hasUpdated = true;
 			if (C.DEBUG) frame++;
+			FlxG.timeScale = 1;
 			switch (substate) {
 				case SUBSTATE_NORMAL: normalUpdate(); break;
 				case SUBSTATE_PAUSED: pauseUpdate(); break;
@@ -214,6 +219,9 @@ package
 		}
 		
 		private function normalUpdate():void {
+			if (dangeresque)
+				FlxG.timeScale = 0.75;
+			
 			checkCurrentMino();
 			checkInput();
 			checkCamera();
@@ -375,7 +383,7 @@ package
 		protected function initCombatMinoPool():void {
 			combatMinoPool = [];
 			for each (var mino:Mino in station.members)
-				if (mino.exists && mino is Launcher)
+				if (mino.exists && mino is Launcher && (mino as Smino).operational)
 					combatMinoPool.push(mino);
 		}
 		
@@ -403,8 +411,13 @@ package
 			var currentIndex:int = combatMinoPool.indexOf(combatMino);
 			var incr:int = direction ? 1 : combatMinoPool.length - 1;
 			var newIndex:int = (currentIndex + incr) % combatMinoPool.length
-			while (combatMinoPool.length && !(combatMinoPool[newIndex].exists && combatMinoPool[newIndex].operational))
+			while (combatMinoPool.length && !(combatMinoPool[newIndex].exists && combatMinoPool[newIndex].operational)) {
 				combatMinoPool.splice(newIndex, 1);
+				
+				currentIndex = combatMinoPool.indexOf(combatMino);
+				incr = direction ? 1 : combatMinoPool.length - 1;
+				newIndex = (currentIndex + incr) % combatMinoPool.length;
+			}
 			
 			if (combatMinoPool.length)
 				return combatMinoPool[newIndex];
