@@ -106,7 +106,7 @@ package
 			C.B.maxDim = new Point(mapDim.x * 2, mapDim.y * 2);
 			C.fluid = null;
 			Mino.resetGrid();
-			createGCT();
+			createGCT(blockLimitToFullyMine() * goal * C.difficulty.blockSlack);
 			FlashText.activeTexts = [];
 			C.accomplishments.registerPlay(this);
 			
@@ -151,10 +151,12 @@ package
 				bg = new FlxSprite().loadGraphic(bg_sprite);
 		}
 		
-		protected function createGCT(miningTime:Number = 40):void {
+		protected function blockLimitToFullyMine():int {
+			return 40;
+		}
+		
+		protected function createGCT(miningTime:int):void {
 			add(new GlobalCycleTimer());
-			if (C.difficulty.normal)
-				miningTime = Math.floor(miningTime * 1.5 / 5) * 5;
 			GlobalCycleTimer.miningTime = miningTime;
 		}
 		
@@ -173,7 +175,6 @@ package
 		}
 		
 		protected function createTracker(waveMeteos:Number = 2, WaveSpacing:int = 16):void {
-			//if (!rotateable) waveMeteos /= 2;
 			if (!C.BEAM_DEFENSE) {
 				waveMeteos *= 2.5;
 				WaveSpacing *= 3/4;
@@ -476,12 +477,8 @@ package
 		
 		private function resetLevel(_:String):void {
 			if (C.campaign) {
-				if (C.campaign.lives)
-					C.campaign.lives--;
-				else {
-					FlxG.state = new CampaignDefeatState;
-					return;
-				}
+				FlxG.state = new CampaignDefeatState;
+				return;
 			}
 			defaultGroup = new FlxGroup;
 			currentMino = null;
@@ -776,12 +773,9 @@ package
 			if (C.campaign) {
 				if (won()) {
 					C.campaign.endMission();
-					if (C.campaign.nextMission)
-						FlxG.state = new CampaignState;
-					else
-						FlxG.state = new CampaignVictoryState;
+					FlxG.state = new CampaignState;
 				} else
-					loseLife();
+					FlxG.state = new CampaignDefeatState;
 			} else if (!C.accomplishments.tutorialDone) {
 				var nextLevel:int = C.accomplishments.scenarioIndex(this) + 1;
 				if (!C.accomplishments.scenariosWon[nextLevel])
@@ -796,17 +790,9 @@ package
 			if (!C.accomplishments.tutorialDone)
 				FlxG.state = new TutorialSelectState;
 			else if (C.campaign)
-				loseLife();
+				FlxG.state = new CampaignDefeatState;
 			else
 				FlxG.state = new QuickPlayState;
-		}
-		
-		protected function loseLife():void {
-			if (C.campaign.lives) {
-				C.campaign.lives--;
-				FlxG.state = new CampaignState;
-			} else
-				FlxG.state = new CampaignDefeatState;
 		}
 		
 		protected function won():Boolean {

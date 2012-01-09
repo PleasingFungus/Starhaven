@@ -132,8 +132,8 @@ package Scenarios {
 			return assortment;
 		}
 		
-		override protected function createGCT(miningTime:Number = 65):void {
-			super.createGCT(miningTime);
+		override protected function blockLimitToFullyMine():int {
+			return 130;
 		}
 		
 		override protected function createTracker(waveMeteos:Number = 2, WaveSpacing:int = 18):void {

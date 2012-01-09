@@ -33,7 +33,8 @@ package Scenarios.Tutorials {
 			hud.goalName = "Survived";
 			hud.updateGoal(0);
 		}
-		override protected function createGCT(_:Number = 0):void {
+		
+		override protected function createGCT(_:int):void {
 			super.createGCT(0);
 		}
 		

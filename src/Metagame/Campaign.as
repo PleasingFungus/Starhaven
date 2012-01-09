@@ -5,6 +5,7 @@ package Metagame {
 	import Sminos.*;
 	import Scenarios.*;
 	import org.flixel.FlxG;
+	import org.flixel.FlxU;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -13,16 +14,16 @@ package Metagame {
 		
 		public var missionNo:int;
 		public var upgrades:Array;
-		public var lives:int;
 		public var screenshots:Array;
+		public var missionsRun:Array;
 		//public var started:Boolean;
 		public function Campaign() {
 			upgrades = [/*new Upgrade(SmallBarracks, LargeBarracks),
 						new Upgrade(SmallLauncher, LargeFactory),
 						new Upgrade(Conduit, SecondaryReactor) */ ];
 			missionNo = 0;
-			lives = 2;
 			screenshots = [];
+			missionsRun = [];
 		}
 		
 		public function refresh():void {
@@ -30,8 +31,16 @@ package Metagame {
 				upgrade.used = false;
 		}
 		
-		public function get nextMission():Class {
-			return SCENARIO_TYPES[missionNo];
+		public function nextMission():Class {
+			var choice:Class = SCENARIO_TYPES[int(FlxU.random() * SCENARIO_TYPES.length)];
+			while ((missionsRun.length && choice == missionsRun[missionsRun.length - 1]) ||
+				   (missionsRun.length > 1 && choice == missionsRun[missionsRun.length-2]))
+				choice = SCENARIO_TYPES[int(FlxU.random() * SCENARIO_TYPES.length)];
+			return choice;
+		}
+		
+		public function chooseMission(mission:Class):void {
+			missionsRun.push(mission);
 		}
 		
 		public function get difficultyFactor():Number {

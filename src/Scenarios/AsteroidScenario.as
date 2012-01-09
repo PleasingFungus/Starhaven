@@ -35,8 +35,8 @@ package Scenarios {
 			C.log("Full Map Size: "+mission.fullMapSize);
 		}
 		
-		override protected function createGCT(miningTime:Number = 55):void {
-			super.createGCT(miningTime);
+		override protected function blockLimitToFullyMine():int {
+			return 80;
 		}
 		
 		override protected function createStation():void {

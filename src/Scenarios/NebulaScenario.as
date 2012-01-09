@@ -35,8 +35,8 @@ package Scenarios {
 			return C.B.OUTER_BOUNDS;
 		}
 		
-		override protected function createGCT(miningTime:Number = 50):void {
-			super.createGCT(miningTime);
+		override protected function blockLimitToFullyMine():int {
+			return 100;
 		}
 		
 		override protected function createStation():void {

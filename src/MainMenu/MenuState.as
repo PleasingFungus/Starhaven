@@ -30,9 +30,9 @@ package MainMenu {
 			MenuThing.resetThings();
 			if (C.accomplishments.tutorialDone) {
 				add(new MainMenuThing("Tutorials", TutorialSelectState));
+				add(new MainMenuThing("Full Game", CampaignState));
 				if (C.accomplishments.quickPlayUnlocked() || C.ALL_UNLOCKED)
-					add(new MainMenuThing("Quick Play", QuickPlayState));
-				add(new MainMenuThing("Campaign", CampaignState));
+					add(new MainMenuThing("Single Levels", QuickPlayState));
 			} else
 				add(new MainMenuThing("Play", C.accomplishments.scenarios[0]));
 			add(new MainMenuThing("Controls", ControlsState));

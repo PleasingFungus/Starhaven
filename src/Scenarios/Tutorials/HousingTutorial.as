@@ -32,7 +32,8 @@ package Scenarios.Tutorials {
 			
 			tracker.active = false;
 		}
-		override protected function createGCT(_:Number = 0):void {
+		
+		override protected function createGCT(_:int):void {
 			super.createGCT(0);
 		}
 		
