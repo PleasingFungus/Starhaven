@@ -31,8 +31,8 @@ package Meteoroids {
 			this.spawner = new spawnerType(Warning, MeteoroidTarget);
 			
 			waveSpacing = WaveSpacing;
-			if (C.difficulty.hard && !C.IN_TUTORIAL)
-				waveSpacing *= .75;
+			if (!C.IN_TUTORIAL)
+				waveSpacing *= C.difficulty.waveSpacing();
 			nextWave = getNextWave();
 			
 			warning = Warning;
@@ -40,9 +40,14 @@ package Meteoroids {
 			waveMeteos = WaveMeteos;
 			if (!C.IN_TUTORIAL)
 				waveMeteos = Math.round(waveMeteos * C.difficulty.meteoroidMultiplier);
+			C.log("Intial meteos: " + waveMeteos);
+			C.log("Wave spacing: " + waveSpacing);
 			waveTime = 0;
 			
 			meteoroids = new FlxGroup();
+			
+			if (!waveMeteos)
+				active = false;
 		}
 		
 		protected function getNextWave():int {
@@ -120,6 +125,8 @@ package Meteoroids {
 		}
 		
 		public function get dangerText():String {
+			if (!active)
+				return null;
 			if (waveOngoing)
 				return "METEORS!";
 			else if (waveDanger)

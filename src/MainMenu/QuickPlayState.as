@@ -18,8 +18,8 @@ package MainMenu {
 			
 			MenuThing.resetThings();
 			var leftCol:Array = [];
-			leftCol.push(add(new DifficultyThing("Normal", Difficulty.NORMAL)));
-			leftCol.push(add(new DifficultyThing("Hard", Difficulty.HARD)));
+			for (var i:int = 0; i < C.difficulty.MAX_DIFFICULTY; i++)
+				leftCol.push(add(new DifficultyThing(C.difficulty.name(i), i)));
 			MenuThing.addColumn(leftCol, FlxG.width/8);
 			
 			

@@ -18,34 +18,19 @@ package Scenarios {
 	 */
 	public class WaterScenario extends DefaultScenario {
 		
-		protected var mission:WaterMission;
 		public function WaterScenario(Seed:Number = NaN) {
 			super(Seed);
 			
 			mapBuffer = 0;
 			miningTool = Scoop;
 			spawner = PlanetSpawner;
+			missionType = WaterMission;
 			bg_sprite = _bg;
 			rotateable = false;
 		}
 		
-		override public function create():void {
-			prepPlanet();
-			super.create();
-		}
-		
-		protected function prepPlanet():void {
-			mission = new WaterMission(seed);
-			mapDim = mission.fullMapSize;
-			C.log("Full Map Size: "+mission.fullMapSize.y);
-		}
-		
 		override protected function blockLimitToFullyMine():int {
 			return 90;
-		}
-		
-		override protected function createBG():void {
-			super.createBG();
 		}
 		
 		override protected function createStation():void {

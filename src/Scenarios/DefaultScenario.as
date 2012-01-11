@@ -12,6 +12,8 @@ package Scenarios {
 	public class DefaultScenario extends Scenario {
 		
 		protected var miningTool:Class = LongDrill;
+		protected var mission:Mission;
+		protected var missionType:Class;
 		public function DefaultScenario(Seed:Number) {
 			super(Seed);
 			
@@ -21,8 +23,18 @@ package Scenarios {
 		}
 		
 		override public function create():void {
+			createMission();
+			mapDim = mission.fullMapSize;
 			super.create();
 			setupBags();
+		}
+		
+		protected function createMission():void {
+			mission = new missionType(seed);
+		}
+		
+		override protected function buildLevel():void {
+			//override me, my children! FEED
 		}
 		
 		protected function setupBags():void {

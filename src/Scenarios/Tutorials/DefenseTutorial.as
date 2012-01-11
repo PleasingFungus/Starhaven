@@ -18,7 +18,6 @@ package Scenarios.Tutorials {
 	 */
 	public class DefenseTutorial extends Scenarios.DefaultScenario {
 		
-		protected var mission:LoadedMission;
 		public function DefenseTutorial() {
 			super(NaN);
 			
@@ -27,7 +26,6 @@ package Scenarios.Tutorials {
 		}
 		
 		override public function create():void {
-			prepPlanet();
 			super.create();
 			
 			hud.goalName = "Survived";
@@ -42,9 +40,8 @@ package Scenarios.Tutorials {
 			super.createTracker(waveMeteos, WaveSpacing);
 		}
 		
-		protected function prepPlanet():void {
+		override protected function createMission():void {
 			mission = new LoadedMission(_mission_image);
-			mapDim = mission.fullMapSize.add(new Point(15,15));
 		}
 		
 		override protected function createStation():void {
@@ -80,6 +77,8 @@ package Scenarios.Tutorials {
 			station.add(planet);
 			Mino.all_minos.push(planet);
 			planet.addToGrid();
+			
+			mapDim = mission.fullMapSize.add(new Point(15,15));
 		}
 		
 		

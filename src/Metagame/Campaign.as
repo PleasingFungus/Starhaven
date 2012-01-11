@@ -43,10 +43,6 @@ package Metagame {
 			missionsRun.push(mission);
 		}
 		
-		public function get difficultyFactor():Number {
-			return 1 + (missionNo - SCENARIO_TYPES.length / 2) * (0.1 / (SCENARIO_TYPES.length / 2));
-		}
-		
 		//public function startMission():void {
 			//started = true;
 		//}

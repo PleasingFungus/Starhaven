@@ -27,22 +27,11 @@ package Metagame {
 			
 			var mission:Class = C.campaign.nextMission();
 			C.campaign.chooseMission(mission);
+			C.difficulty.setting = 0;
 			
 			MenuThing.resetThings();
 			if (!C.campaign.missionNo) {
-				var previewPos:int;
-				if (C.accomplishments.campaignsWon[0] || C.ALL_UNLOCKED) {
-					var leftCol:Array = [];
-					leftCol.push(add(new DifficultyThing("Normal", Difficulty.NORMAL)));
-					leftCol.push(add(new DifficultyThing("Hard", Difficulty.HARD)));
-					MenuThing.addColumn(leftCol, FlxG.width / 8);
-					previewPos = FlxG.width * 3 / 4 ;
-				} else {
-					C.difficulty.setting = Difficulty.NORMAL;
-					previewPos = FlxG.width / 2;
-				}
-			
-				add(new LevelPreview(previewPos - Campaign.SCREENSHOT_SIZE.x/2,
+				add(new LevelPreview(FlxG.width / 2 - Campaign.SCREENSHOT_SIZE.x/2,
 									 FlxG.height / 2 - Campaign.SCREENSHOT_SIZE.y/2,
 									 mission));
 				
@@ -59,18 +48,22 @@ package Metagame {
 			
 				var ss_cols:int = 3;
 				var ss_buffer:int = 15;
-				for (var i:int = 0; i < C.campaign.screenshots.length; i++) {
+				var first_ss:int = Math.max(0, C.campaign.screenshots.length - 5);
+				for (var i:int = first_ss; i < C.campaign.screenshots.length; i++) {
 					var ss:FlxSprite = new FlxSprite();
-					ss.x = (i % ss_cols - ss_cols/2) * (Campaign.SCREENSHOT_SIZE.x + ss_buffer) + FlxG.width / 2;
-					ss.y = Math.floor(i / ss_cols) * (Campaign.SCREENSHOT_SIZE.y + ss_buffer) + missionNo.y + missionNo.height + ss_buffer;
+					
+					var adjusted_i:int = i - first_ss;
+					ss.x = (adjusted_i % ss_cols - ss_cols/2) * (Campaign.SCREENSHOT_SIZE.x + ss_buffer) + FlxG.width / 2;
+					ss.y = Math.floor(adjusted_i / ss_cols) * (Campaign.SCREENSHOT_SIZE.y + ss_buffer) + missionNo.y + missionNo.height + ss_buffer;
 													 //120 is correct w/o play button
 					ss.pixels = C.campaign.screenshots[i];
 					ss.frame = 0;
 					add(ss);
 				}
 			
-				add(new LevelPreview((i % ss_cols - ss_cols / 2) * (Campaign.SCREENSHOT_SIZE.x + ss_buffer) + FlxG.width / 2,
-									 Math.floor(i / ss_cols) * (Campaign.SCREENSHOT_SIZE.y + ss_buffer) + missionNo.y + missionNo.height + ss_buffer,
+				adjusted_i = i - first_ss;
+				add(new LevelPreview((adjusted_i % ss_cols - ss_cols / 2) * (Campaign.SCREENSHOT_SIZE.x + ss_buffer) + FlxG.width / 2,
+									 Math.floor(adjusted_i / ss_cols) * (Campaign.SCREENSHOT_SIZE.y + ss_buffer) + missionNo.y + missionNo.height + ss_buffer,
 									 mission));
 				
 				quitThing = new StateThing("Quit", MenuState);

@@ -18,6 +18,7 @@ package  {
 		protected var newDamage:Boolean;
 		public var crewDeficit:Boolean;
 		public var rotateable:Boolean;
+		public var slowJuice:Boolean;
 		
 		public var resourceSource:ResourceSource;
 		protected var _mineralsMined:int;
@@ -26,8 +27,7 @@ package  {
 		
 		public var lifespan:Number;
 		
-		public function Station(ResourceSource_:ResourceSource) {	
-			resourceSource = ResourceSource_;
+		public function Station() {
 			var core:StationCore = new StationCore(0, 0);//C.HALFWIDTH, C.HALFHEIGHT);
 			super(core);
 			core.addToGrid();

@@ -11,24 +11,12 @@ package Scenarios {
 	 */
 	public class NebulaScenario extends DefaultScenario {
 		
-		protected var mission:NebulaMission;
 		public function NebulaScenario(Seed:Number = NaN) {
 			super(Seed);
-			if (C.difficulty.normal)
-				goal = 0.4;
 			miningTool = NebularAccumulator;
+			missionType = NebulaMission;
 			bg_sprites = _bgs;
 			mapBuffer = 20;
-		}
-		
-		override public function create():void {
-			prepNebula();
-			super.create();
-		}
-		
-		protected function prepNebula():void {
-			mission = new NebulaMission(seed);
-			mapDim = mission.fullMapSize;
 		}
 		
 		override protected function _getBounds():Rectangle {
@@ -39,18 +27,12 @@ package Scenarios {
 			return 100;
 		}
 		
-		override protected function createStation():void {
+		override protected function buildLevel():void {
 			var preNebula:Number = new Date().valueOf();
-			resourceSource = new NebulaCloud(0, 0,
+			var nebula:NebulaCloud = new NebulaCloud(0, 0,
 											 mission.rawMap.map, mission.rawMap.center);
-			//var preNebula:Number = new Date().valueOf();
 			C.log("Time spent building nebula: " + ((new Date().valueOf()) - preNebula) + " ms.");
-			super.createStation();
-			buildNebula();
-		}
-		
-		protected function buildNebula():void {
-			var nebula:NebulaCloud = resourceSource as NebulaCloud;
+			
 			//erase overlapping asteroid blocks
 			for each (var block:Block in station.core.blocks)
 				nebula.mine(block.add(station.core.absoluteCenter));

@@ -93,9 +93,7 @@ package
 			
 			C.log("Seed: " + seed);
 			
-			goal = 0.5;
-			if (C.difficulty.hard)
-				goal = 0.6;
+			goal = 0.6;
 			rotateable = true;
 		}
 		
@@ -161,12 +159,17 @@ package
 		}
 		
 		protected function createStation():void {
-			station = new Station(resourceSource);
+			station = new Station();
 			station.minimap = hud.minimap;
 			station.rotateable = rotateable;
 			minoLayer.add(station);
 			minoLayer.add(station.core);
 			C.B.PlayArea = _getBounds();
+			buildLevel();
+		}
+		
+		protected function buildLevel():void {
+			//override me, my children! FEED
 		}
 		
 		protected function setHudStation():void {
@@ -191,8 +194,6 @@ package
 			//minoLayer.add(minimap = new Minimap(0, 0));
 			minimap = new Minimap(0, 0)
 			
-			if (C.campaign)
-				goal *= C.campaign.difficultyFactor;
 			hud = new HUD;
 			hud.minimap = minimap;
 			hud.add(minimap);
@@ -220,9 +221,6 @@ package
 		}
 		
 		private function normalUpdate():void {
-			if (dangeresque)
-				FlxG.timeScale = 0.75;
-			
 			checkCurrentMino();
 			checkInput();
 			checkCamera();
@@ -366,12 +364,16 @@ package
 		protected function initCombat():void {
 			initCombatMinoPool();
 			grabCombatMino();
+			if (stationHint && stationHint.exists && !C.BEAM_DEFENSE)
+				stationHint.visible = false;
 			dangeresque = true;
 		}
 		
 		protected function endCombat():void {
 			combatMino = null;
 			combatMinoPool = null;
+			if (stationHint && stationHint.exists && !C.BEAM_DEFENSE)
+				stationHint.visible = true;
 			dangeresque = false;
 		}
 		
@@ -516,13 +518,20 @@ package
 		}
 		
 		protected function checkContinuousInput():void {
-			if (!dangeresque) {
+			if (dangeresque)
+				checkSlowTimeControls();
+			else {
 				if (currentMino && currentMino.falling)
 					checkMinoMoveInput();
 				else
 					checkMinoSpawnInput();
+				checkRotateControls();
 			}
-			checkRotateControls();
+		}
+		
+		protected function checkSlowTimeControls():void {
+			if (ControlSet.FASTFALL_KEY.pressed())
+				FlxG.timeScale = 0.5;
 		}
 		
 		protected function checkMinoMoveInput():void {

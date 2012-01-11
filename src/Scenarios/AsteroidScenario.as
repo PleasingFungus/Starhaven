@@ -14,39 +14,21 @@ package Scenarios {
 	 */
 	public class AsteroidScenario extends DefaultScenario {
 		
-		protected var mission:AsteroidMission;
 		public function AsteroidScenario(Seed:Number = NaN) {
 			super(Seed);
 			
-			if (C.difficulty.hard)
-				goal = 0.75;
+			goal = 0.75;
 			bg_sprites = _bgs;
 			mapBuffer = 20;
-		}
-		
-		override public function create():void {
-			prepAsteroid();
-			super.create();
-		}
-		
-		protected function prepAsteroid():void {
-			mission = new AsteroidMission(seed);
-			mapDim = mission.fullMapSize;
-			C.log("Full Map Size: "+mission.fullMapSize);
+			missionType = AsteroidMission;
 		}
 		
 		override protected function blockLimitToFullyMine():int {
 			return 80;
 		}
 		
-		override protected function createStation():void {
-			resourceSource = new BaseAsteroid( -1, -1, mission.rawMap.map, mission.rawMap.center);
-			super.createStation();
-			buildAsteroid();
-		}
-		
-		protected function buildAsteroid():void {
-			var asteroid:BaseAsteroid = resourceSource as BaseAsteroid;
+		override protected function buildLevel():void {
+			var asteroid:BaseAsteroid = new BaseAsteroid( -1, -1, mission.rawMap.map, mission.rawMap.center);
 			var closestLocation:Point = findClosestFreeSpot();
 			//shift asteroid
 			//asteroid.gridLoc.x = station.core.gridLoc.x - closestLocation.x;

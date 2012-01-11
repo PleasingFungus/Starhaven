@@ -5,7 +5,7 @@ package  {
 	 */
 	public class Difficulty {
 		
-		public var setting:int = NORMAL;
+		public var setting:Number = V_EASY;
 		public function Difficulty() {
 			
 		}
@@ -18,38 +18,41 @@ package  {
 			C.save.write("difficulty", setting);
 		}
 		
-		public function get normal():Boolean {
-			return setting == NORMAL;
+		
+		public function increaseDifficulty():void {
+			setting = setting + (MAX_DIFFICULTY - setting) / 4;
 		}
-		
-		public function get hard():Boolean {
-			return setting == HARD;
-		}
-		
-		
 		
 		public function get meteoroidMultiplier():Number {
-			if (hard)
-				return 1.5;
-			return 1;
+			return Math.floor(setting) / 2;
 		}
 		
 		public function get blockSlack():Number {
-			if (hard)
-				return 1.1;
-			return 1.5;
+			return 1 + 1 / (1 + setting)
+		}
+		
+		public function waveSpacing():Number {
+			if (setting <= EASY)
+				return 1.5;
+			else if (setting <= NORMAL)
+				return 1;
+			return 0.75;
 		}
 		
 		
 		
-		public function name(forSetting:int = -1):String {
+		public function name(forSetting:Number = -1):String {
 			if (forSetting == -1)
 				forSetting = setting;
-			return ["Normal", "Hard"][forSetting];
+			return ["V. Easy", "Easy", "Normal", "Hard", "V. Hard"][Math.floor(forSetting)];
 		}
 		
-		public static const NORMAL:int = 0;
-		public static const HARD:int = 1;
+		protected const V_EASY:Number = 0;
+		protected const EASY:Number = 1;
+		protected const NORMAL:Number = 2;
+		protected const HARD:Number = 3;
+		protected const V_HARD:Number = 4;
+		public const MAX_DIFFICULTY:Number = 5;
 	}
 
 }

@@ -20,7 +20,6 @@ package Scenarios.Tutorials {
 	 */
 	public class MiningTutorial extends Scenarios.DefaultScenario {
 		
-		protected var mission:LoadedMission;
 		public function MiningTutorial() {
 			super(NaN);
 			
@@ -32,41 +31,32 @@ package Scenarios.Tutorials {
 		}
 		
 		override public function create():void {
-			prepPlanet();
 			super.create();
 			
-			tracker.active = false;
 			hud.goalName = "Collected";
 			hud.updateGoal(0);
+		}
+		
+		override protected function createTracker(_:Number = 0, __:int = 16):void {
+			super.createTracker(0, 16);
 		}
 		
 		override protected function createGCT(_:int):void {
 			super.createGCT(0);
 		}
 		
-		protected function prepPlanet():void {
+		override protected function createMission():void {
 			mission = new LoadedMission(_mission_image);
-			mapDim = mission.fullMapSize;
-		}
-		
-		override protected function createStation():void {
-			resourceSource = new BaseAsteroid( -1, -1, mission.rawMap.map, mission.rawMap.center);
-			super.createStation();
-			buildPlanet();
 		}
 	
 		override protected function setupBags():void {
 			BagType.all = [new BagType("Assorted Bag", 1, [LongDrill, Conduit, Conduit])];
 		}
 		
-		protected function buildPlanet():void {
-			var planet:BaseAsteroid = resourceSource as BaseAsteroid;
-			//shift planet
-			
+		override protected function buildLevel():void {
+			var planet:BaseAsteroid = new BaseAsteroid( -10, 0, mission.rawMap.map, mission.rawMap.center);
 			station.core.center.x += 1;
 			station.core.center.y -= 4;
-			planet.gridLoc.x = -10;
-			planet.gridLoc.y = 0;
 			
 			Mino.resetGrid();
 			station.core.addToGrid();

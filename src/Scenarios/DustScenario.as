@@ -19,13 +19,9 @@ package Scenarios {
 		protected var aMission:AsteroidMission;
 		public function DustScenario(Seed:Number = NaN) {
 			super(Seed);
-			goal = 0.35;
-			if (C.difficulty.hard)
-				goal = 0.52;
+			goal = 0.52;
 			bg_sprites = _bgs;
 			mapBuffer = 26;
-			//goal stuff
-			//bombs?
 		}
 		
 		override public function create():void {

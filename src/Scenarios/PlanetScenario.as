@@ -15,28 +15,16 @@ package Scenarios {
 	 */
 	public class PlanetScenario extends DefaultScenario {
 		
-		protected var mission:PlanetMission;
 		public function PlanetScenario(Seed:Number = NaN) {
 			super(Seed);
 			
 			mapBuffer = 0;
 			spawner = PlanetSpawner;
-			if (C.difficulty.hard)
-				goal = 0.65; //should be higher?
+			missionType = PlanetMission;
+			goal = 0.65; //should be higher?
 			bg_sprite = _bg;
 			//bg_sprites = _bgs;
 			rotateable = false;
-		}
-		
-		override public function create():void {
-			prepPlanet();
-			super.create();
-		}
-		
-		protected function prepPlanet():void {
-			mission = new PlanetMission(seed);
-			mapDim = mission.fullMapSize;
-			C.log("Full Map Size: "+mission.fullMapSize.y);
 		}
 		
 		override protected function blockLimitToFullyMine():int {

@@ -15,7 +15,6 @@ package Scenarios.Tutorials {
 	 */
 	public class HousingTutorial extends Scenarios.DefaultScenario {
 		
-		protected var mission:LoadedMission;
 		public function HousingTutorial() {
 			super(NaN);
 			
@@ -26,20 +25,16 @@ package Scenarios.Tutorials {
 			rotateable = false;
 		}
 		
-		override public function create():void {
-			prepPlanet();
-			super.create();
-			
-			tracker.active = false;
+		override protected function createMission():void {
+			mission = new LoadedMission(_mission_image);
+		}
+		
+		override protected function createTracker(_:Number = 0, __:int = 16):void {
+			super.createTracker(0, 16);
 		}
 		
 		override protected function createGCT(_:int):void {
 			super.createGCT(0);
-		}
-		
-		protected function prepPlanet():void {
-			mission = new LoadedMission(_mission_image);
-			mapDim = mission.fullMapSize;
 		}
 		
 		override protected function createStation():void {
@@ -106,15 +101,15 @@ package Scenarios.Tutorials {
 		
 		
 		override protected function getAssortment(index:int):Array {
-			//var assortment:Array = [makeBag(SmallLauncher), makeBag(SmallBarracks)];
-			//if (index)
-				//assortment.push(makeBag(MediumLauncher));
-			//else
-				//assortment.push(makeBag(MediumBarracks));
-			//return assortment;
-			if (index)
-				return [SmallBarracks, SmallBarracks, MediumLauncher, Conduit];
-			return [SmallLauncher, SmallLauncher, MediumBarracks];
+			if (C.BEAM_DEFENSE) {
+				if (index)
+					return [SmallBarracks, SmallBarracks, MediumLauncher, Conduit];
+				return [SmallLauncher, SmallLauncher, MediumBarracks];
+			} else {
+				if (index)
+					return [SmallBarracks, SmallBarracks, MediumLauncher];
+				return [SmallLauncher, MediumBarracks, Conduit];
+			}
 		}
 		
 		

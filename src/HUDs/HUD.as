@@ -89,7 +89,10 @@ package HUDs {
 				blockText.x = FlxG.width / 2 - blockText.textWidth / 2;
 			}
 			
-			trackerText.text = tracker.dangerText/* + " ("+tracker.waveMeteos+")"*/;
+			if (trackerText.active && tracker.dangerText)
+				trackerText.text = tracker.dangerText/* + " ("+tracker.waveMeteos+")"*/;
+			else
+				trackerText.text = " ";
 			
 			if (C.HUD_FLICKERS)
 				updateFlicker();

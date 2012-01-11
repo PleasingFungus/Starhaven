@@ -45,9 +45,24 @@ package MainMenu {
 		private var moused:Boolean;
 		override public function update():void {
 			super.update();
+			
+			var lastMoused:Boolean = moused;
 			moused = overlapsPoint(FlxG.mouse.x, FlxG.mouse.y);
-			if (moused && FlxG.mouse.justPressed())
+			if (!lastMoused && moused)
+				FlxG.play(SEL_SOUND, 0.12);
+			
+			if (moused && FlxG.mouse.justPressed()) {
+				playLevelStart();
 				FlxG.state = new level(seed);
+			}
+		}
+		
+		protected function playLevelStart():void {
+			var s:FlxSound = new FlxSound();
+			s.loadEmbedded(SEL_SOUND);
+			s.volume = 0.25;
+			s.survive = true;
+			s.play();
 		}
 		
 		override public function render():void {
@@ -65,6 +80,8 @@ package MainMenu {
 			//}
 		}
 		
+		[Embed(source = "../../lib/sound/menu/down3.mp3")] protected const SEL_SOUND:Class;
+		[Embed(source = "../../lib/sound/menu/choose2.mp3")] protected const CHOOSE_SOUND:Class;
 		private const BRIGHT:ColorTransform = new ColorTransform(1, 1, 1, 1, 127, 127, 127);
 	}
 

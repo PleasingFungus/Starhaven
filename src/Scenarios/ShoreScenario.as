@@ -16,25 +16,14 @@ package Scenarios {
 	 */
 	public class ShoreScenario extends DefaultScenario {
 		
-		protected var mission:ShoreMission;
 		public function ShoreScenario(Seed:Number = NaN) {
 			super(Seed);
 			
 			mapBuffer = 0;
 			spawner = PlanetSpawner;
+			missionType = ShoreMission;
 			bg_sprite = _bg;
 			rotateable = false;
-		}
-		
-		override public function create():void {
-			prepPlanet();
-			super.create();
-		}
-		
-		protected function prepPlanet():void {
-			mission = new ShoreMission(seed);
-			mapDim = mission.fullMapSize;
-			C.log("Full Map Size: "+mission.fullMapSize.y);
 		}
 		
 		override protected function blockLimitToFullyMine():int {
