@@ -27,35 +27,13 @@ package Scenarios {
 			return 80;
 		}
 		
-		override protected function buildLevel():void {
-			var asteroid:BaseAsteroid = new BaseAsteroid( -1, -1, mission.rawMap.map, mission.rawMap.center);
+		override protected function repositionLevel():void {
 			var closestLocation:Point = findClosestFreeSpot();
-			//shift asteroid
-			//asteroid.gridLoc.x = station.core.gridLoc.x - closestLocation.x;
-			//asteroid.gridLoc.y = station.core.gridLoc.y - closestLocation.y;
+			
 			station.core.gridLoc.x = closestLocation.x;
 			station.core.gridLoc.y = closestLocation.y;
 			station.centroidOffset.x = -closestLocation.x;
 			station.centroidOffset.y = -closestLocation.y;
-			//erase overlapping asteroid blocks
-			for (var i:int = 0; i < mission.rawMap.map.length; i++) {
-				var aBlock:MineralBlock = mission.rawMap.map[i];
-				var adjustedAsteroidBlock:Point = new Point(aBlock.x + asteroid.absoluteCenter.x,
-															aBlock.y + asteroid.absoluteCenter.y);
-				if (station.core.bounds.containsPoint(adjustedAsteroidBlock)) {
-					mission.rawMap.map.splice(i, 1);
-					i--;
-				}
-			}
-			asteroid.forceSpriteReset();
-			
-			station.add(asteroid);
-			station.resourceSource = asteroid;
-			initialMinerals = station.mineralsAvailable;
-			
-			minoLayer.add(asteroid);
-			Mino.all_minos.push(asteroid);
-			asteroid.addToGrid();
 		}
 		
 		protected function findClosestFreeSpot():Point {

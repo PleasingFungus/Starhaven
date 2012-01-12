@@ -30,47 +30,16 @@ package Scenarios {
 			return 85;
 		}
 		
-		override protected function createBG():void {
-			super.createBG();
-		}
-		
-		override protected function createStation():void {
-			resourceSource = new BaseAsteroid( -1, -1, mission.rawMap.map, mission.rawMap.center);
-			super.createStation();
-			buildPlanet();
-		}
-		
-		protected function buildPlanet():void {
-			var planet:BaseAsteroid = resourceSource as BaseAsteroid;
-			//shift planet
+		override protected function repositionLevel():void {
+			rock.gridLoc.x = station.core.gridLoc.x;
+			rock.gridLoc.y = Math.ceil(ShoreMission.atmosphere / 2);
 			station.core.gridLoc.y = ShoreMission.atmosphere - mission.fullMapSize.y - 3;
-			Mino.resetGrid();
-			station.core.addToGrid();
-			planet.gridLoc.x = station.core.gridLoc.x;
-			planet.gridLoc.y = Math.ceil(ShoreMission.atmosphere / 2);
-			//erase overlapping planet blocks
-			for (var i:int = 0; i < mission.rawMap.map.length; i++) {
-				var aBlock:MineralBlock = mission.rawMap.map[i];
-				var adjustedplanetBlock:Point = new Point(aBlock.x + planet.absoluteCenter.x,
-															aBlock.y + planet.absoluteCenter.y);
-				if (station.core.bounds.containsPoint(adjustedplanetBlock)) {
-					mission.rawMap.map.splice(i, 1);
-					i--;
-				}
-			}
-			planet.forceSpriteReset();
-			
-			station.resourceSource = planet;
-			initialMinerals = station.mineralsAvailable;
-			
-			var planet_bg:Mino = new Mino(planet.gridLoc.x, planet.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030);
-			
+		}
+		
+		override protected function addElements():void {
+			var planet_bg:Mino = new Mino(rock.gridLoc.x, rock.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030);
 			minoLayer.add(planet_bg);
-			minoLayer.add(planet);
-			station.add(planet);
-			Mino.all_minos.push(planet);
-			planet.addToGrid();
-			
+			super.addElements();
 			minoLayer.members.splice(0, 0, new Water());
 		}
 		

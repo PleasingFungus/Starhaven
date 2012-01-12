@@ -37,20 +37,10 @@ package Scenarios.Tutorials {
 			super.createGCT(0);
 		}
 		
-		override protected function createStation():void {
-			resourceSource = new BaseAsteroid( -1, -1, mission.rawMap.map, mission.rawMap.center);
-			super.createStation();
-			buildPlanet();
-		}
-		
-		protected function buildPlanet():void {
-			var planet:BaseAsteroid = resourceSource as BaseAsteroid;
-			//shift planet
-			
+		override protected function buildLevel():void {
+			var planet:BaseAsteroid = new BaseAsteroid( -10, 0, mission.rawMap.map, mission.rawMap.center);
 			station.core.center.x += 1;
 			station.core.center.y -= 4;
-			planet.gridLoc.x = -10;
-			planet.gridLoc.y = 0;
 			
 			Mino.resetGrid();
 			station.core.addToGrid();

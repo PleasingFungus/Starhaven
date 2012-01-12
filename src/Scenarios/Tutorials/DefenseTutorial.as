@@ -43,12 +43,6 @@ package Scenarios.Tutorials {
 		override protected function createMission():void {
 			mission = new LoadedMission(_mission_image);
 		}
-		
-		override protected function createStation():void {
-			resourceSource = new BaseAsteroid( -1, -1, mission.rawMap.map, mission.rawMap.center);
-			super.createStation();
-			buildPlanet();
-		}
 	
 		override protected function setupBags():void {
 			if (C.BEAM_DEFENSE)
@@ -57,14 +51,10 @@ package Scenarios.Tutorials {
 				BagType.all = [new BagType("Assorted Bag", 1, [makeBag(SmallBarracks), makeBag(SmallLauncher)])];
 		}
 		
-		protected function buildPlanet():void {
-			var planet:BaseAsteroid = resourceSource as BaseAsteroid;
-			//shift planet
-			
+		override protected function buildLevel():void {
+			var planet:BaseAsteroid = new BaseAsteroid( -5, 0, mission.rawMap.map, mission.rawMap.center);
 			station.core.center.x += 3;
 			station.core.center.y += 7;
-			planet.gridLoc.x = -5;
-			planet.gridLoc.y = 0;
 			planet.forceSpriteReset();
 			
 			Mino.resetGrid();
