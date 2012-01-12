@@ -15,8 +15,6 @@ package Scenarios {
 	 */
 	public class DustScenario extends DefaultScenario {
 		
-		protected var nMission:NebulaMission;
-		protected var aMission:AsteroidMission;
 		public function DustScenario(Seed:Number = NaN) {
 			super(Seed);
 			goal = 0.52;
@@ -24,70 +22,56 @@ package Scenarios {
 			mapBuffer = 26;
 		}
 		
-		override public function create():void {
-			nMission = new NebulaMission(seed, 0.8);
-			aMission = new AsteroidMission(seed, 0.75);
-			mapDim = aMission.fullMapSize;
-			super.create();
-		}
-		
 		override protected function _getBounds():Rectangle {
 			return C.B.OUTER_BOUNDS;
 		}
 		
-		override protected function createStation():void {
+		override protected function createMission():void {
+			mission = new AsteroidMission(seed, 0.75);
+		}
+		
+		override protected function buildLevel():void {
+			super.buildLevel();
+			buildNebula();
+		}
+		
+		protected function buildNebula():void {
+			var nMission:NebulaMission = new NebulaMission(seed, 0.8);
+			
 			var preNebula:Number = new Date().valueOf();
 			var nebula:NebulaCloud = new NebulaCloud(0, 0,
 											 nMission.rawMap.map, nMission.rawMap.center);
 			//var preNebula:Number = new Date().valueOf();
 			C.log("Time spent building nebula: " + ((new Date().valueOf()) - preNebula) + " ms.");
 			
-			var asteroid:BaseAsteroid = new BaseAsteroid(0, 0, aMission.rawMap.map, aMission.rawMap.center);
+			//erase overlapping nebula blocks
+			for each (var aBlock:MineralBlock in rock.blocks)
+				nebula.mine(aBlock.add(rock.absoluteCenter));
+			nebula.forceSpriteReset();
 			
-			super.createStation();
+			for each (aBlock in nebula.blocks)
+				aBlock.valueFactor *= 2;
 			
+			station.resourceSource = new MetaResource([rock, nebula]);
+			initialMinerals = station.mineralsAvailable;
+			
+			minoLayer.add(nebula);
+		}
+		
+		override protected function repositionLevel():void {
 			var closestLocation:Point = findClosestFreeSpot();
 			//shift asteroid
 			station.core.gridLoc.x = closestLocation.x;
 			station.core.gridLoc.y = closestLocation.y;
 			station.centroidOffset.x = -closestLocation.x;
 			station.centroidOffset.y = -closestLocation.y;
-			//erase overlapping asteroid blocks
-			for (var i:int = 0; i < asteroid.blocks.length; i++) {
-				var aBlock:MineralBlock = asteroid.blocks[i];
-				var adjustedAsteroidBlock:Point = new Point(aBlock.x + asteroid.absoluteCenter.x,
-															aBlock.y + asteroid.absoluteCenter.y);
-				if (station.core.bounds.containsPoint(adjustedAsteroidBlock)) {
-					asteroid.blocks.splice(i, 1);
-					i--;
-				} else
-					nebula.mine(adjustedAsteroidBlock);
-			}
-			asteroid.forceSpriteReset();
-			
-			station.add(asteroid);
-			minoLayer.add(asteroid);
-			Mino.all_minos.push(asteroid);
-			asteroid.addToGrid();
-			
-			//erase overlapping nebula blocks
-			for each (var block:Block in station.core.blocks)
-				nebula.mine(block.add(station.core.absoluteCenter));
-			for each (aBlock in nebula.blocks)
-				aBlock.valueFactor *= 2;
-			nebula.forceSpriteReset();
-			
-			station.resourceSource = new MetaResource([asteroid, nebula]);
-			initialMinerals = station.mineralsAvailable;
-			
-			minoLayer.add(nebula);
 		}
 		
 		protected function findClosestFreeSpot():Point {
-			var bounds:Rectangle = new Rectangle(0, 0, aMission.rawMap.mapDim.x, aMission.rawMap.mapDim.y);
+			var bounds:Rectangle = new Rectangle(0, 0, mission.rawMap.mapDim.x, mission.rawMap.mapDim.y);
 			
 			var minoGrid:Array = new Array(bounds.height * bounds.width);
-			for each (var block:Block in aMission.rawMap.map)
+			for each (var block:Block in mission.rawMap.map)
 				minoGrid[block.x + block.y * bounds.width] = true;
 			
 			var closest:Number = int.MAX_VALUE;
