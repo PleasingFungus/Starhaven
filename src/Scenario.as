@@ -13,6 +13,7 @@ package
 	import HUDs.BlinkText;
 	import HUDs.FlashText;
 	import HUDs.Minimap;
+	import HUDs.SlowBar;
 	import MainMenu.MenuState;
 	import MainMenu.QuickPlayState;
 	import MainMenu.StateThing;
@@ -21,6 +22,7 @@ package
 	import Metagame.CampaignDefeatState;
 	import Metagame.CampaignState;
 	import Metagame.CampaignVictoryState
+	import Metagame.Statblock;
 	import Meteoroids.MeteoroidTracker;
 	import Mining.ResourceSource;
 	import SFX.Fader;
@@ -51,6 +53,7 @@ package
 		protected var spawner:Class;
 		protected var tracker:MeteoroidTracker;
 		protected var hud:HUD;
+		protected var slowBar:SlowBar;
 		
 		protected var bg:FlxSprite;
 		protected var bg_sprite:Class;
@@ -236,10 +239,12 @@ package
 				checkPlayerEvents();
 			}
 			
-			if (tracker.safe)
-				endCombat();
-			else if (!dangeresque)
-				initCombat();
+			if (tracker.safe == dangeresque) { //mismatch!
+				if (tracker.safe)
+					endCombat();
+				else
+					initCombat();
+			}
 		}
 		
 		protected var minoWasCool:Boolean = true;
@@ -366,6 +371,7 @@ package
 			grabCombatMino();
 			if (stationHint && stationHint.exists && !C.BEAM_DEFENSE)
 				stationHint.visible = false;
+			hudLayer.add(slowBar = new SlowBar());
 			dangeresque = true;
 		}
 		
@@ -374,6 +380,7 @@ package
 			combatMinoPool = null;
 			if (stationHint && stationHint.exists && !C.BEAM_DEFENSE)
 				stationHint.visible = true;
+			slowBar.exists = false;
 			dangeresque = false;
 		}
 		
@@ -530,7 +537,7 @@ package
 		}
 		
 		protected function checkSlowTimeControls():void {
-			if (ControlSet.FASTFALL_KEY.pressed())
+			if (ControlSet.FASTFALL_KEY.pressed() && slowBar.slowTimeRemaining)
 				FlxG.timeScale = 0.5;
 		}
 		
@@ -781,7 +788,8 @@ package
 		protected function endGame():void {		
 			if (C.campaign) {
 				if (won()) {
-					C.campaign.endMission();
+					C.campaign.endMission(new Statblock(station.lifespan, GlobalCycleTimer.minosDropped,
+														station.mineralsLaunched, MeteoroidTracker.kills));
 					FlxG.state = new CampaignState;
 				} else
 					FlxG.state = new CampaignDefeatState;

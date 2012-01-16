@@ -10,6 +10,8 @@ package Scenarios.Tutorials {
 	import Sminos.AsteroidGun;
 	import Sminos.SmallLauncher;
 	import Sminos.SmallBarracks;
+	import Sminos.MediumLauncher;
+	import Sminos.MediumBarracks;
 	import Sminos.Conduit;
 	import InfoScreens.NewPlayerEvent;
 	/**
@@ -47,8 +49,14 @@ package Scenarios.Tutorials {
 		override protected function setupBags():void {
 			if (C.BEAM_DEFENSE)
 				BagType.all = [new BagType("Assorted Bag", 1, [makeBag(SmallBarracks), makeBag(AsteroidGun)])];
-			else
-				BagType.all = [new BagType("Assorted Bag", 1, [makeBag(SmallBarracks), makeBag(SmallLauncher)])];
+			else 
+				super.setupBags();
+		}
+		
+		override protected function getAssortment(index:int):Array {
+			if (index)
+				return [SmallBarracks, SmallBarracks, MediumLauncher];
+			return [SmallLauncher, MediumBarracks, Conduit];
 		}
 		
 		override protected function buildLevel():void {

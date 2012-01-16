@@ -25,6 +25,8 @@ package Meteoroids {
 		protected var next:Meteoroid;
 		protected var spawnCount:int;
 		
+		public static var kills:int;
+		
 		public function MeteoroidTracker(MinoLayer:FlxGroup, spawnerType:Class, MeteoroidTarget:Mino,
 										Duration:Number, Warning:Number, WaveMeteos:Number, WaveSpacing:int) {
 			minoLayer = MinoLayer;
@@ -43,6 +45,7 @@ package Meteoroids {
 			C.log("Intial meteos: " + waveMeteos);
 			C.log("Wave spacing: " + waveSpacing);
 			waveTime = 0;
+			kills = 0;
 			
 			meteoroids = new FlxGroup();
 			

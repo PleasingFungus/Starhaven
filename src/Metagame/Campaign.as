@@ -13,10 +13,11 @@ package Metagame {
 	public class Campaign {
 		
 		public var missionNo:int;
+		public var statblock:Statblock;
 		public var upgrades:Array;
 		public var screenshots:Array;
 		public var missionsRun:Array;
-		//public var started:Boolean;
+		
 		public function Campaign() {
 			upgrades = [/*new Upgrade(SmallBarracks, LargeBarracks),
 						new Upgrade(SmallLauncher, LargeFactory),
@@ -24,6 +25,8 @@ package Metagame {
 			missionNo = 0;
 			screenshots = [];
 			missionsRun = [];
+			
+			statblock = new Statblock(0,0,0,0);
 		}
 		
 		public function refresh():void {
@@ -43,13 +46,10 @@ package Metagame {
 			missionsRun.push(mission);
 		}
 		
-		//public function startMission():void {
-			//started = true;
-		//}
-		
-		public function endMission():void {
+		public function endMission(missionStatblock:Statblock):void {
 			takeScreenshot();
 			missionNo++;
+			statblock.sum(missionStatblock);
 		}
 		
 		private function takeScreenshot():void {		

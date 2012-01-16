@@ -163,8 +163,10 @@ package Meteoroids {
 		
 		
 		override public function takeExplodeDamage(X:int, Y:int, Source:Mino):void {
-			if (!dead)
+			if (!dead) {
 				newlyDamaged = dead = true;
+				MeteoroidTracker.kills++;
+			}
 		}
 		
 		override protected function beDamaged():void {

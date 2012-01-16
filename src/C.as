@@ -79,6 +79,7 @@ package  {
 			ICONS[GOODS] = _goods_icon;
 			ICONS[METEOROIDS] = _meteoroids_icon;
 			ICONS[MINOS] = _minos_icon;
+			ICONS[TIME] = _time_icon;
 			
 			save = new FlxSave();
 			save.bind("Starhaven");
@@ -225,6 +226,7 @@ package  {
 		public static const GOODS:int = 6;
 		public static const METEOROIDS:int = 7;
 		public static const MINOS:int = 8;
+		public static const TIME:int = 9;
 		public static const ICONS:Array = [];
 		[Embed(source = "../lib/art/ui/icon_person_2.png")] private static const _crew_icon:Class;
 		[Embed(source = "../lib/art/ui/icon_minerals_2.png")] private static const _minerals_icon:Class;
@@ -235,6 +237,7 @@ package  {
 		[Embed(source = "../lib/art/ui/icon_goods.png")] private static const _goods_icon:Class;
 		[Embed(source = "../lib/art/ui/icon_asteroid2.png")] private static const _meteoroids_icon:Class;
 		[Embed(source = "../lib/art/ui/icon_mino.png")] private static const _minos_icon:Class;
+		[Embed(source = "../lib/art/ui/icon_hourglass.png")] private static const _time_icon:Class;
 	}
 
 }
