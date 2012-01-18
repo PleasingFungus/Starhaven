@@ -40,7 +40,7 @@ package Scenarios {
 			var planet_bg:Mino = new Mino(rock.gridLoc.x, rock.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030);
 			minoLayer.add(planet_bg);
 			super.addElements();
-			minoLayer.members.splice(0, 0, new Water());
+			minoLayer.members.splice(0, 0, new Water(C.B.OUTER_BOUNDS.top + ShoreMission.atmosphere));
 		}
 		
 		override protected function getAssortment(index:int):Array {

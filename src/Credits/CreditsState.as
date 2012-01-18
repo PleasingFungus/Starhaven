@@ -34,7 +34,8 @@ package Credits {
 									 "'Tridgor'",
 									 "Renaud 'Roi Des-Monstres' Cormier",
 									 "Nathaniel 'Medi' Rook",
-									 "Michael 'Chrono' Bennett");
+									 "Michael 'Chrono' Bennett",
+									 "James 'Walliard' Falcounbridge");
 			var lastCol:TitledColumn = creditGruppen.members[creditGruppen.members.length - 1];
 			lastCol.setWidth(FlxG.width);
 			

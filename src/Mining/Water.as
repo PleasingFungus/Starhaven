@@ -4,7 +4,6 @@ package Mining {
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import Missions.WaterMission;
 	import org.flixel.FlxSprite;
 	import Icons.IconLeech;
 	
@@ -14,14 +13,17 @@ package Mining {
 	 */
 	public class Water extends Mino {
 		
-		public function Water() {
-			var blocks:Array = new Array(C.B.OUTER_BOUNDS.width * (C.B.OUTER_BOUNDS.height - WaterMission.atmosphere));
+		protected var surfaceLevel:int;
+		public function Water(SurfaceLevel:int) {
+			surfaceLevel = SurfaceLevel;
+			var depth:int = C.B.OUTER_BOUNDS.height - SurfaceLevel;
+			var blocks:Array = new Array(C.B.OUTER_BOUNDS.width * depth);
 			for (var x:int = C.B.OUTER_BOUNDS.left; x < C.B.OUTER_BOUNDS.right; x++)
-				for (var y:int = C.B.OUTER_BOUNDS.top + WaterMission.atmosphere; y < C.B.OUTER_BOUNDS.bottom; y++)
+				for (var y:int = SurfaceLevel; y < C.B.OUTER_BOUNDS.bottom; y++)
 					blocks[x + y * C.B.OUTER_BOUNDS.width] = new Block(x, y);
 			
 			var center:Point = new Point(C.B.OUTER_BOUNDS.left + C.B.OUTER_BOUNDS.width / 2,
-										 C.B.OUTER_BOUNDS.top + WaterMission.atmosphere + (C.B.OUTER_BOUNDS.height - WaterMission.atmosphere) / 2)
+										 SurfaceLevel + depth / 2)
 			
 			name = "Water";
 			super(0, center.y, blocks, center, 0xff8aaee3);
@@ -33,7 +35,7 @@ package Mining {
 		}
 		
 		override public function intersectsPoint(point:Point, oPoint:Point = null):Boolean {
-			return point.y > C.B.OUTER_BOUNDS.top + WaterMission.atmosphere;
+			return point.y > surfaceLevel;
 		}
 		
 		override public function intersect(other:Mino):Boolean {
@@ -41,7 +43,7 @@ package Mining {
 				return false;
 			
 			var otherBounds:Rectangle = other.bounds;
-			return otherBounds.bottom > C.B.OUTER_BOUNDS.top + WaterMission.atmosphere;
+			return otherBounds.bottom > surfaceLevel;
 		}
 		
 		private var normalSpr:BitmapData;

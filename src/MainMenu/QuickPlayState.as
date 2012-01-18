@@ -29,7 +29,7 @@ package MainMenu {
 			addScenario(NebulaScenario, "Nebula", rightCol);
 			addScenario(WaterScenario, "Water", rightCol);
 			addScenario(DustScenario, "Dust", rightCol);
-			addScenario(ShoreScenario, "Shore", rightCol);
+			addScenario(TrenchScenario, "Pit", rightCol);
 			MenuThing.addColumn(rightCol, FlxG.width * 5 / 8);
 			
 			

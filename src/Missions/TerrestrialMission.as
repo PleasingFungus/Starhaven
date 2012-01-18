@@ -37,9 +37,8 @@ package Missions {
 		protected function buildRock():void {
 			mapBlocks = [];
 			for (var x:int = 0; x < mapWidth; x++) {
-				var top:int = broadHeightmap[Math.floor(x / chunkSize)] + FlxU.random() * 3;
+				var top:int = topAt(x);
 				var bedrockDepth:int = bedrockDepthAt(x);
-				C.log(x, bedrockDepth, rockDepth);
 				for (var y:int = top; y < rockDepth; y++) {
 					var newBlock:MineralBlock = new MineralBlock(x, y);
 					if (y >= bedrockDepth)
@@ -47,6 +46,10 @@ package Missions {
 					mapBlocks.push(newBlock);
 				}
 			}
+		}
+		
+		protected function topAt(x:int):int {
+			return broadHeightmap[Math.floor(x / chunkSize)] + FlxU.random() * 3;
 		}
 		
 		protected function bedrockDepthAt(x:int):int {
@@ -72,12 +75,6 @@ package Missions {
 			rawMap = new Terrain(mapBlocks, new Point(mapWidth, rockDepth));
 			fullMapSize = new Point(mapWidth/2, Math.floor((rockDepth + atmosphere) / 2));
 		}
-		
-		
-		override protected function randomMineralType():int {
-			return MineralBlock.WEAK_MINERALS;
-		}
-		
 	}
 
 }

@@ -84,7 +84,7 @@ package Metagame {
 		
 		protected const SCENARIO_TYPES:Array = [PlanetScenario, AsteroidScenario,
 												WaterScenario, NebulaScenario,
-												ShoreScenario, DustScenario];
+												TrenchScenario, DustScenario];
 		
 		public static const MISSION_ABORTED:int = 0;
 		public static const MISSION_TIMEOUT:int = 1;

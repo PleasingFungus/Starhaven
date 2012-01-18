@@ -7,42 +7,29 @@ package Missions {
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
 	 */
-	public class WaterMission extends Mission {
+	public class WaterMission extends TerrestrialMission {
 		
-		private var planetWidth:int;
+		protected var waterDepth:int;
 		public function WaterMission(Seed:Number) {
+			mapWidth = 39 * 2;
+			chunkSize = 4;
+			rockDepth = 10;
+			waterDepth = 11;
+			atmosphere = 22;
+			
 			super(Seed);
+		}
+		
+		override protected function broadHeightmapHeight(X:int):int {
+			var centerDist:int = Math.abs(X - (mapWidth / chunkSize) / 2);
+			if (centerDist < 1)
+				return -waterDepth - 3;
+			if (centerDist < 2)
+				return -waterDepth / 2 - 1;
+			return super.broadHeightmapHeight(X);
+		}
 			
-			var map_width:int = convertSize(FlxU.random());
-			
-			planetWidth = map_width * 2;
-			var broadHeightmap:Array = [];
-			var chunkSize:int = 4;
-			var chunkedWidth:Number = planetWidth / chunkSize;
-			for (var X:int = 0; X < chunkedWidth; X++) {
-				broadHeightmap[X] = FlxU.random() * 2;
-				
-				var centerDist:int = Math.abs(X - chunkedWidth / 2);
-				if (centerDist < 1)
-					broadHeightmap[X] = -waterDepth - 3;
-				else if (centerDist < 2)
-					broadHeightmap[X] = -waterDepth / 2 - 1;
-			}
-			
-			mapBlocks = [];
-			for (var x:int = 0; x < planetWidth; x++) {
-				var heightmapLevel:int = broadHeightmap[Math.floor(x / chunkSize)];
-				var fullHeight:int = heightmapLevel + FlxU.random() * 3;
-				var bedrockDepth:int = Math.max( - fullHeight + 1, 1) + FlxU.random() * 2;
-				
-				for (var y:int = fullHeight; y < planetDepth; y++) {
-					var newBlock:MineralBlock = new MineralBlock(x, y);
-					if (planetDepth - y <= bedrockDepth)
-						newBlock.type = MineralBlock.BEDROCK;
-					mapBlocks.push(newBlock);
-				}
-			}
-			
+		override protected function buildMinerals():void {
 			var totalArea:int = mapBlocks.length;
 			var largeClusters:int = totalArea * .006;
 			var smallClusters:int = totalArea * .009;
@@ -52,22 +39,20 @@ package Missions {
 			for (i = 0; i < smallClusters; i++)
 				genCluster(2);
 			genNoise();
-			
-			rawMap = new Terrain(mapBlocks, new Point(planetWidth, planetDepth - waterDepth));
-			fullMapSize = new Point(map_width, Math.floor((planetDepth + atmosphere + waterDepth) / 2));
+		}
+		
+		override protected function buildReturns():void {	
+			rawMap = new Terrain(mapBlocks, new Point(mapWidth, rockDepth - waterDepth));
+			fullMapSize = new Point(mapWidth/2, Math.floor((rockDepth + atmosphere + waterDepth) / 2));
 		}
 		
 		override protected function validMineralLoc(block:MineralBlock):Boolean {
-			return super.validMineralLoc(block) && block.y > -waterDepth/2 && Math.abs(block.x - planetWidth/2) > 2;
+			return super.validMineralLoc(block) && block.y > -waterDepth/2 && Math.abs(block.x - mapWidth/2) > 2;
 		}
 		
 		protected function convertSize(sizeFraction:Number):int {
 			return 39;
 		}
-		
-		protected const planetDepth:int = 10;
-		protected const waterDepth:int = 11;
-		public static const atmosphere:int = 22;
 		
 	}
 
