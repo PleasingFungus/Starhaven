@@ -32,10 +32,10 @@ package Scenarios {
 		}
 		
 		override protected function repositionLevel():void {
-			station.core.gridLoc.y = PlanetMission.atmosphere - mission.fullMapSize.y;
+			station.core.gridLoc.y = (mission as PlanetMission).atmosphere - mission.fullMapSize.y;
 			
 			rock.gridLoc.x = station.core.gridLoc.x;
-			rock.gridLoc.y = Math.ceil(PlanetMission.atmosphere / 2);
+			rock.gridLoc.y = Math.ceil((mission as PlanetMission).atmosphere / 2);
 		}
 		
 		override protected function addElements():void {

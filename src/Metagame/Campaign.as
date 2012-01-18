@@ -46,9 +46,13 @@ package Metagame {
 			missionsRun.push(mission);
 		}
 		
-		public function endMission(missionStatblock:Statblock):void {
+		public function winMission(missionStatblock:Statblock):void {
 			takeScreenshot();
 			missionNo++;
+			endMission(missionStatblock);
+		}
+		
+		public function endMission(missionStatblock:Statblock):void {
 			statblock.sum(missionStatblock);
 		}
 		

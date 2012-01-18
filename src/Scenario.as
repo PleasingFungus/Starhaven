@@ -19,9 +19,8 @@ package
 	import MainMenu.StateThing;
 	import MainMenu.TutorialSelectState;
 	import Metagame.Campaign;
-	import Metagame.CampaignDefeatState;
+	import Metagame.CampaignEndScreen;
 	import Metagame.CampaignState;
-	import Metagame.CampaignVictoryState
 	import Metagame.Statblock;
 	import Meteoroids.MeteoroidTracker;
 	import Mining.ResourceSource;
@@ -457,7 +456,8 @@ package
 			col.push(pauseLayer.add(quitButton));
 			var resetButton:MenuThing = new MenuThing("Restart", resetLevel);
 			resetButton.setFormat(C.FONT, 20);
-			col.push(pauseLayer.add(resetButton));
+			if (!C.campaign)
+				col.push(pauseLayer.add(resetButton));
 			//MenuThing.addColumn(col, FlxG.width/2 - quitButton.fullWidth/2);
 			quitButton.setY(FlxG.height / 2 - 40);
 			resetButton.setY(FlxG.height / 2);
@@ -485,10 +485,6 @@ package
 		}
 		
 		private function resetLevel(_:String):void {
-			if (C.campaign) {
-				FlxG.state = new CampaignDefeatState;
-				return;
-			}
 			defaultGroup = new FlxGroup;
 			currentMino = null;
 			FlxG.fade.stop();
@@ -788,11 +784,12 @@ package
 		protected function endGame():void {		
 			if (C.campaign) {
 				if (won()) {
-					C.campaign.endMission(new Statblock(station.lifespan, GlobalCycleTimer.minosDropped,
-														station.mineralsLaunched, MeteoroidTracker.kills));
+					C.campaign.winMission(makeStatblock());
 					FlxG.state = new CampaignState;
-				} else
-					FlxG.state = new CampaignDefeatState;
+				} else {
+					C.campaign.endMission(makeStatblock());
+					FlxG.state = new CampaignEndScreen;
+				}
 			} else if (!C.accomplishments.tutorialDone) {
 				var nextLevel:int = C.accomplishments.scenarioIndex(this) + 1;
 				if (!C.accomplishments.scenariosWon[nextLevel])
@@ -803,12 +800,18 @@ package
 				FlxG.state = new MenuState;
 		}
 		
+		protected function makeStatblock():Statblock {
+			return new Statblock(station.lifespan, GlobalCycleTimer.minosDropped,
+								 station.mineralsLaunched, MeteoroidTracker.kills)
+		}
+		
 		protected function exitToMenu():void {
 			if (!C.accomplishments.tutorialDone)
 				FlxG.state = new TutorialSelectState;
-			else if (C.campaign)
-				FlxG.state = new CampaignDefeatState;
-			else
+			else if (C.campaign) {
+				C.campaign.endMission(makeStatblock());
+				FlxG.state = new CampaignEndScreen;
+			} else
 				FlxG.state = new QuickPlayState;
 		}
 		

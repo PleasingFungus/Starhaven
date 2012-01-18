@@ -18,6 +18,7 @@ package  {
 			FlxU.seed = Seed;
 		}
 		
+		
 		protected function genCluster(radius:int, clusterType:int = -1, Target:MineralBlock = null):void {
 			if (clusterType == -1)
 				clusterType = randomMineralType();
