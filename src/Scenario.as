@@ -19,7 +19,6 @@ package
 	import MainMenu.StateThing;
 	import MainMenu.TutorialSelectState;
 	import Metagame.Campaign;
-	import Metagame.CampaignEndScreen;
 	import Metagame.CampaignState;
 	import Metagame.Statblock;
 	import Meteoroids.MeteoroidTracker;
@@ -788,7 +787,7 @@ package
 					FlxG.state = new CampaignState;
 				} else {
 					C.campaign.endMission(makeStatblock());
-					FlxG.state = new CampaignEndScreen;
+					FlxG.state = new CampaignState(true);
 				}
 			} else if (!C.accomplishments.tutorialDone) {
 				var nextLevel:int = C.accomplishments.scenarioIndex(this) + 1;
@@ -810,7 +809,7 @@ package
 				FlxG.state = new TutorialSelectState;
 			else if (C.campaign) {
 				C.campaign.endMission(makeStatblock());
-				FlxG.state = new CampaignEndScreen;
+				FlxG.state = new CampaignState(true);
 			} else
 				FlxG.state = new QuickPlayState;
 		}

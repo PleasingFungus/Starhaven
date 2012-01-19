@@ -30,7 +30,7 @@ package MainMenu {
 			MenuThing.resetThings();
 			if (C.accomplishments.tutorialDone) {
 				add(new MainMenuThing("Tutorials", TutorialSelectState));
-				add(new MainMenuThing("Full Game", CampaignState));
+				add(new MainMenuThing("Full Game", FullGameState));
 				if (C.accomplishments.quickPlayUnlocked() || C.ALL_UNLOCKED)
 					add(new MainMenuThing("Single Levels", QuickPlayState));
 			} else

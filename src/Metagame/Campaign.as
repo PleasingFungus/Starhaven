@@ -2,10 +2,9 @@ package Metagame {
 	import flash.display.BitmapData;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
+	import org.flixel.*
 	import Sminos.*;
 	import Scenarios.*;
-	import org.flixel.FlxG;
-	import org.flixel.FlxU;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -68,6 +67,26 @@ package Metagame {
 			screenshots[missionNo] = screenshot;
 			
 			C.HUD_ENABLED = hudOn;
+		}
+		
+		public function renderScreenshots(Y:int):FlxGroup {
+			var ss_cols:int = 3;
+			var ss_buffer:int = 15;
+			var first_ss:int = Math.max(0, screenshots.length - 6);
+			var ss_group:FlxGroup = new FlxGroup;
+			for (var i:int = first_ss; i < screenshots.length; i++) {
+				var ss:FlxSprite = new FlxSprite();
+				
+				var adjusted_i:int = i - first_ss;
+				ss.x = (adjusted_i % ss_cols - ss_cols/2) * (SCREENSHOT_SIZE.x + ss_buffer) + FlxG.width / 2;
+				ss.y = Math.floor(adjusted_i / ss_cols) * (SCREENSHOT_SIZE.y + ss_buffer) + Y + ss_buffer;
+												 //120 is correct w/o play button
+				ss.pixels = screenshots[i];
+				ss.frame = 0;
+				ss_group.add(ss);
+			}
+			
+			return ss_group;
 		}
 		
 		public function upgradeFor(original:Class):Upgrade {
