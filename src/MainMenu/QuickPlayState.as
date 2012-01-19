@@ -25,7 +25,7 @@ package MainMenu {
 			
 			var rightCol:Array = [];
 			addScenario(AsteroidScenario, "Asteroid", rightCol);
-			addScenario(PlanetScenario, "Planet", rightCol);
+			addScenario(PlanetScenario, "Moon", rightCol);
 			addScenario(NebulaScenario, "Nebula", rightCol);
 			addScenario(WaterScenario, "Water", rightCol);
 			addScenario(DustScenario, "Dust", rightCol);

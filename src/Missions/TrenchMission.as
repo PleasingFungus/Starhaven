@@ -9,11 +9,13 @@ package Missions {
 	 */
 	public class TrenchMission extends TerrestrialMission {
 		
+		public var coreLeft:Boolean;
 		public function TrenchMission(Seed:Number) {
 			mapWidth = (19) * 2;
 			rockDepth = 26;
 			chunkSize = 3;
-			atmosphere = 18;
+			atmosphere = 26;
+			coreLeft = FlxU.random() > 0.5;
 			
 			super(Seed);
 		}
@@ -21,7 +23,8 @@ package Missions {
 		override protected function topAt(x:int):int {
 			var pitBottom:int = rockDepth - 4;
 			
-			var distFromCenter:int = Math.abs(x - mapWidth / 2);
+			var mapCenter:int = mapWidth * (coreLeft ? 1/3 : 2/3);
+			var distFromCenter:int = Math.abs(x - mapCenter);
 			var distFraction:Number = distFromCenter / (mapWidth / 2);
 			
 			var offset:int = FlxU.random() * 3;

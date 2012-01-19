@@ -22,7 +22,7 @@ package Scenarios {
 			mapBuffer = 0;
 			spawner = PlanetSpawner;
 			missionType = TrenchMission;
-			//miningTool = FoldingDrill;
+			miningTool = FoldingDrill;
 			//bg_sprite = _bg;
 			rotateable = false;
 		}
@@ -32,7 +32,8 @@ package Scenarios {
 		}
 		
 		override protected function repositionLevel():void {
-			station.core.center.x = Math.round(mission.fullMapSize.x * 0.55 * (FlxU.random() > 0.5 ? -1 : 1));
+			//station.core.center.x = Math.round(mission.fullMapSize.x * 0.55 * (FlxU.random() > 0.5 ? -1 : 1));
+			station.core.center.x = Math.round(mission.fullMapSize.x * 0.25 * ((mission as TrenchMission).coreLeft ? -1 : 1));
 			station.core.gridLoc.y = (mission as TrenchMission).atmosphere - mission.fullMapSize.y;
 			
 			rock.gridLoc.x = station.core.gridLoc.x;
@@ -46,7 +47,7 @@ package Scenarios {
 															  (mission.fullMapSize.y * 2 - (mission as TrenchMission).atmosphere) * C.BLOCK_SIZE,
 															  0xff454545);
 			mineralBackground.x -= mineralBackground.width / 2;
-			mineralBackground.y -= mineralBackground.height / 4;
+			mineralBackground.y -= mineralBackground.height * 0;
 			//randomly generate BG minerals...?
 			minoLayer.add(mineralBackground); 
 		}

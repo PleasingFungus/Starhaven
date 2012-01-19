@@ -48,10 +48,10 @@ package Sminos {
 			return new Point(facing == LEFT ? -1 : facing == RIGHT ? 1 : 0, facing == UP ? -1 : facing == DOWN ? 1 : 0);
 		}
 		
-		protected function drillOne():Boolean { return true }
+		protected function drillOne(visual:Boolean = true):Boolean { return true }
 		
 		protected function drill():void {
-			while (drillOne()) {}
+			while (drillOne(false)) {}
 			finishDrill();
 		}
 		

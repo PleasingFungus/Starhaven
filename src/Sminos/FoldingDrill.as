@@ -12,6 +12,7 @@ package Sminos {
 		
 		protected var length:int = 1;
 		protected var maxLength:int = 8;
+		protected var drillDir:Point;
 		protected var head:int;
 		public function FoldingDrill(X:int, Y:int) {
 			var blocks:Array = [new Block(0, 0), new Block(1, 0), new Block(2, 0)];
@@ -21,38 +22,51 @@ package Sminos {
 			name = "Folding Drill";
 		}
 		
-		override protected function drill():void {
+		override protected function anchorTo(Parent:Aggregate):void {
+			super.anchorTo(Parent);
 			var forward:Point = forwardDir();
 			if (station.resourceSource.resourceAt(gridLoc/*.add(center)*/.add(forward)))
-				extend(forward);
+				drillDir = forward;
 			else if (station.resourceSource.resourceAt(gridLoc/*.add(center)*/.subtract(forward)))
-				extend(new Point( -forward.x, -forward.y));
+				drillDir = new Point( -forward.x, -forward.y);
+			else
+				finishDrill();
 		}
 		
-		protected function extend(forward:Point):void {
-			var bit:Point = gridLoc.add(forward)/*.add(center)*/;
+		override protected function drillOne(visual:Boolean = true):Boolean {
+			drillDir.normalize(length);
+			var bit:Point = gridLoc.add(drillDir)/*.add(center)*/;
 			var block:MineralBlock = station.resourceSource.resourceAt(bit);
-			while (block && !block.damaged &&
+			if (!(block && !block.damaged &&
 				   block.type != MineralBlock.BEDROCK &&
-				   length < maxLength) {
-				if (block.type > 0)
-					storedMinerals += block.value;
-				station.resourceSource.mine(bit);
-				
-				minePoint(new Point(bit.x - forward.y, bit.y + forward.x));
-				minePoint(new Point(bit.x + forward.y, bit.y - forward.x));
-				
-				blocks.push(new Block(bit.x - gridLoc.x + center.x, bit.y - gridLoc.y + center.y));
-				length++;
-				
-				bit = bit.add(forward);
-				block = station.resourceSource.resourceAt(bit);
-			}
+				   length < maxLength))
+				return false;
 			
+			if (block.type > 0)
+				storedMinerals += block.value;
+			station.resourceSource.mine(bit);
+			
+			//minePoint(new Point(bit.x - forward.y, bit.y + forward.x));
+			//minePoint(new Point(bit.x + forward.y, bit.y - forward.x));
+			
+			blocks.push(new Block(bit.x - gridLoc.x + center.x, bit.y - gridLoc.y + center.y));
+			length++;
+			
+			if (visual)
+				generateDrill();
+			
+			return true;
+		}
+		
+		override protected function finishDrill():void {
+			super.finishDrill();
+			generateDrill();
+		}
+		
+		protected function generateDrill():void {
 			sprite = inopSprite = null;
 			resetSprites();
 			generateSprite();
-			finishDrill();
 		}
 		
 		protected var wasOperational:Boolean;

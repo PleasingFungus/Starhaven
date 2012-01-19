@@ -22,7 +22,7 @@ package Sminos {
 			//sidewaysAttachable = false;
 		}
 		
-		override protected function drillOne():Boolean {			
+		override protected function drillOne(_:Boolean = true):Boolean {			
 			var forward:Point = forwardDir();
 			var tip:Point = new Point(gridLoc.x /*- center.x*/ + forward.x * length,
 									  gridLoc.y /*- center.y*/ + forward.y * length);
