@@ -15,7 +15,8 @@ package Metagame {
 			done = Done;
 		}
 		
-		private var livesText:FlxText;
+		private var screenshotGroup:FlxGroup;
+		private var statGroup:FlxGroup;
 		override public function create():void {
 			C.campaign.refresh();
 			
@@ -23,11 +24,13 @@ package Metagame {
 			title.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
 			add(title);
 		
-			var screenshotGroup:FlxGroup = C.campaign.renderScreenshots(title.y + title.height + 80);
-			var statGroup:FlxGroup = C.campaign.statblock.createDisplay(title.y + title.height + 40);
-			add(screenshotGroup);
-			add(statGroup);
+			add(screenshotGroup = C.campaign.renderScreenshots(title.y + title.height + 55));
+			add(statGroup = C.campaign.statblock.createDisplay(title.y + title.height + 20));
 			screenshotGroup.alpha = 0.5;
+			
+			var hintText:FlxText = new FlxText(10, FlxG.height - 95, FlxG.width -20, "Press " + ControlSet.BOMB_KEY + " to toggle stats.");
+			hintText.setFormat(C.FONT, 12, 0xffffff, 'center');
+			add(hintText);
 			
 			MenuThing.resetThings();
 			
@@ -52,6 +55,13 @@ package Metagame {
 			
 			if (ControlSet.CANCEL_KEY.justPressed())
 				FlxG.state = new MenuState;
+			else if (ControlSet.BOMB_KEY.justPressed())
+				switchLayers();
+		}
+		
+		private function switchLayers():void {
+			statGroup.visible = !statGroup.visible;
+			screenshotGroup.alpha = statGroup.visible ? 0.5 : 1;
 		}
 		
 	}

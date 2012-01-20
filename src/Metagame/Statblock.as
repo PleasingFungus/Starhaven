@@ -33,7 +33,7 @@ package Metagame {
 			colGroup.add(completed);
 			//'best' goes here
 			
-			colY = completed.y + completed.height + 60;
+			colY = completed.y + completed.height + 70;
 			colIndex = colHeight = 0;
 			
 			addStat("Time Elapsed", timeElapsed, "s");

@@ -414,12 +414,17 @@ package org.flixel
 		 * Sets alpha for all group members.
 		 */
 		public function set alpha(a:Number):void {
-			var o:FlxSprite;
+			var o:FlxSprite, g:FlxGroup;
 			var l:uint = members.length;
 			for (var i:int = 0; i < l; i++) {
 				o = members[i] as FlxSprite;
 				if (o)
 					o.alpha = a;
+				else {
+					g = members[i] as FlxGroup;
+					if (g)
+						g.alpha = a;
+				}
 			}
 		}
 		
