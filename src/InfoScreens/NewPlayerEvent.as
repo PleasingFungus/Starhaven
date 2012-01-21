@@ -111,7 +111,8 @@ package InfoScreens {
 			var title:String = "Station Rotation!";
 			var description:String = "When mining in deep space - as you are now - you can rotate your entire station at will. ";
 			description += "Do so by holding " + ControlSet.ST_CW_KEY + " or " + ControlSet.ST_CCW_KEY + ".\n\n";
-			description += "This ability is temporarily disabled during meteoroid showers, so plan accordingly!";
+			if (C.NO_COMBAT_ROTATING)
+				description += "This ability is temporarily disabled during meteoroid showers, so plan accordingly!";
 			
 			seen[ROTATEABLE] = true;
 			saveSeen();

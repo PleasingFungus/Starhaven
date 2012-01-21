@@ -209,8 +209,8 @@ package Meteoroids {
 			return point;
 		}
 		
-		protected const ACCELERATION:Number = 60;
-		protected const TURN:Number = Math.PI * 0.75;
+		protected const ACCELERATION:Number = 70;
+		protected const TURN:Number = Math.PI * 0.5;
 		
 		[Embed(source = "../../lib/art/other/rocket_combat.png")] private static const _sprite:Class;
 	}

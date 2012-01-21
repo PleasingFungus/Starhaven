@@ -531,8 +531,10 @@ package
 					checkMinoMoveInput();
 				else
 					checkMinoSpawnInput();
-				checkRotateControls();
 			}
+			
+			if (!C.NO_COMBAT_ROTATING || !dangeresque)
+				checkRotateControls();
 		}
 		
 		protected function checkSlowTimeControls():void {
@@ -736,14 +738,15 @@ package
 		protected var victoryText:String = "Mineral goal reached!";
 		protected function beginEndgame():void {
 			FlxG.flash.start(0xefffffff, 3.5/*, endGame*/);
+			
 			missionOver = true;
 			substate = SUBSTATE_MISSOVER;
 			if (won())
 				C.accomplishments.registerVictory(this);
 			
-			var shroud:FlxSprite = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
-			shroud.alpha = 0.5;
-			hudLayer.add(shroud);
+			//var shroud:FlxSprite = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
+			//shroud.alpha = 0.5;
+			//hudLayer.add(shroud);
 			
 			var endText:FlxText = new FlxText(20, FlxG.height / 2 - 30, FlxG.width - 40, " ");
 			endText.setFormat(C.FONT, 48, 0xffffff, 'center');
@@ -751,11 +754,14 @@ package
 			if (won()) {
 				endText.text = "Victory!";
 				endText.color = 0x10ff18;
+				shakeIntensity = 0;
 			} else {
 				endText.text = "Defeat.";
 				endText.color = 0xff2810;
 				if (!station.core.damaged)
 					station.core.takeExplodeDamage( -1, -1, station.core);
+				FlxG.quake.start(shakeIntensity, SHAKE_TIME);
+				shakeTimer = SHAKE_TIME;
 			}
 			hudLayer.add(endText);
 			
@@ -780,9 +786,30 @@ package
 				endGame();
 				return;
 			}
+			checkShake();
 			checkCamera();
 			super.update();
 			hudLayer.update();
+		}
+		
+		protected var shakeTimer:Number;
+		protected const SHAKE_TIME:Number = 2/3;
+		protected var shakeIntensity:Number = 0.2;
+		protected function checkShake():void {
+			if (!shakeIntensity)
+				return;
+			
+			shakeTimer -= FlxG.elapsed
+			if (shakeTimer <= 0) {
+				shakeIntensity /= 2;
+				if (shakeIntensity < 0.01)
+					shakeIntensity = 0;
+				else {
+					shakeTimer = SHAKE_TIME;
+					FlxG.quake.start(shakeIntensity, SHAKE_TIME);
+				}
+			}
+			
 		}
 		
 		protected function endGame():void {		

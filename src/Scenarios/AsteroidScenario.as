@@ -24,7 +24,7 @@ package Scenarios {
 		}
 		
 		override protected function blockLimitToFullyMine():int {
-			return 80;
+			return 50;
 		}
 		
 		override protected function repositionLevel():void {
