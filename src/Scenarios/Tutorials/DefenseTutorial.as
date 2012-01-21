@@ -5,6 +5,7 @@ package Scenarios.Tutorials {
 	import org.flixel.*
 	import Missions.LoadedMission;
 	import Meteoroids.PlanetSpawner;
+	import Meteoroids.EggSpawner;
 	import Scenarios.DefaultScenario;
 	import GrabBags.BagType;
 	import Sminos.AsteroidGun;
@@ -23,7 +24,8 @@ package Scenarios.Tutorials {
 		public function DefenseTutorial() {
 			super(NaN);
 			
-			mapBuffer = 20;
+			mapBuffer = C.BEAM_DEFENSE ? 20 : 0;
+			spawner = C.BEAM_DEFENSE ? EggSpawner : PlanetSpawner;
 			victoryText = "Survived all waves!";
 		}
 		
@@ -43,7 +45,7 @@ package Scenarios.Tutorials {
 		}
 		
 		override protected function createMission():void {
-			mission = new LoadedMission(_mission_image);
+			mission = new LoadedMission(C.BEAM_DEFENSE ? _mission_image : _mission_image_b);
 		}
 	
 		override protected function setupBags():void {
@@ -60,10 +62,17 @@ package Scenarios.Tutorials {
 		}
 		
 		override protected function buildLevel():void {
-			var planet:BaseAsteroid = new BaseAsteroid( -5, 0, mission.rawMap.map, mission.rawMap.center);
-			station.core.center.x += 3;
-			station.core.center.y += 7;
-			planet.forceSpriteReset();
+			var planet:BaseAsteroid;
+			if (C.BEAM_DEFENSE) {
+				planet = new BaseAsteroid( -5, 0, mission.rawMap.map, mission.rawMap.center);
+				station.core.center.x += 3;
+				station.core.center.y += 7;
+				planet.forceSpriteReset();
+			} else {
+				planet = new BaseAsteroid( -10, 0, mission.rawMap.map, mission.rawMap.center);
+				station.core.center.x += 1;
+				station.core.center.y -= 4;
+			}
 			
 			Mino.resetGrid();
 			station.core.addToGrid();
@@ -71,12 +80,16 @@ package Scenarios.Tutorials {
 			station.resourceSource = planet;
 			initialMinerals = station.mineralsAvailable;
 			
+			if (C.BEAM_DEFENSE)	
+				minoLayer.add(new Mino(planet.gridLoc.x, planet.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030));
+
+			
 			minoLayer.add(planet);
 			station.add(planet);
 			Mino.all_minos.push(planet);
 			planet.addToGrid();
 			
-			mapDim = mission.fullMapSize.add(new Point(15,15));
+			mapDim = C.BEAM_DEFENSE ? mission.fullMapSize.add(new Point(15,15)) : mission.fullMapSize;
 		}
 		
 		
@@ -84,6 +97,7 @@ package Scenarios.Tutorials {
 		
 		private var seenIntro:Boolean;
 		override protected function checkPlayerEvents():void {
+			super.checkPlayerEvents();
 			if (!seenIntro) {
 				hudLayer.add(NewPlayerEvent.defenseTutorial());
 				seenIntro = true;
@@ -100,6 +114,7 @@ package Scenarios.Tutorials {
 		protected const TOTAL_WAVES:int = 3;
 		
 		[Embed(source = "../../../lib/missions/tutorial_defense.png")] private static const _mission_image:Class;
+		[Embed(source = "../../../lib/missions/tutorial_housing.png")] private static const _mission_image_b:Class;
 	}
 
 }

@@ -78,6 +78,7 @@ package Scenarios.Tutorials {
 		
 		private var seenIntro:Boolean;
 		override protected function checkPlayerEvents():void {
+			super.checkPlayerEvents();
 			if (!seenIntro) {
 				hudLayer.add(NewPlayerEvent.miningTutorial());
 				seenIntro = true;

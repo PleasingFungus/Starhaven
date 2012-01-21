@@ -20,7 +20,7 @@ package Metagame {
 		override public function create():void {
 			C.campaign.refresh();
 			
-			var title:FlxText = new FlxText(10, 10, FlxG.width - 20, done ? "Mission Over!" : "Stats");
+			var title:FlxText = new FlxText(10, 10, FlxG.width - 20, done ? "Game Over" : "Stats");
 			title.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
 			add(title);
 		

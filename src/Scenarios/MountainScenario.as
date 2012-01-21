@@ -11,6 +11,10 @@ package Scenarios {
 			missionType = MountainMission;
 		}
 		
+		override protected function blockLimitToFullyMine():int {
+			return 100;
+		}
+		
 	}
 
 }

@@ -58,11 +58,11 @@ package InfoScreens {
 			return new NewPlayerEvent(title, description);
 		}
 		
-		public static function onFirstAsteroids():NewPlayerEvent {
+		public static function onFirstAsteroids():NewPlayerEvent { //defense beam only
 			var title:String = "Asteroids!";
-			var description:String = "Oh no! A wave of asteroids is hurling straight toward your station! Soon red dots will start appearing all around, showing the direction they're coming from. But their destination is always the same: your station's core! And if they hit it - well, that's GAME OVER.\n\n";
-			description += "Any Defense Beams you've powered and crewed will fire at asteroids automatically - try to position them to fire on asteroids, by rotating the station [if applicable.]\n\n";
-			description += "Barring that, you may be able to rotate the station to put something inessential between the incoming asteroids and your core.\n\n";
+			var description:String = "Oh no! A wave of meteoroids is hurling straight toward your station! Soon red dots will start appearing all around, showing the direction they're coming from. But their destination is always the same: your station's core! And if they hit it - well, that's GAME OVER.\n\n";
+			description += "Any Defense Beams you've powered and crewed will fire at asteroids automatically - try to position them to fire on meteoroids, by rotating the station [if applicable.]\n\n";
+			description += "Barring that, you may be able to rotate the station to put something inessential between the incoming meteoroids and your core.\n\n";
 			description += "Best of luck!\n\n"
 			
 			seen[ASTEROIDS] = true;
@@ -98,9 +98,23 @@ package InfoScreens {
 			description += "When in space, threats will come from all directions, and you often won't have enough defense to cover everything. ";
 			description += "Luckily, you can rotate your station, using " + ControlSet.ST_CCW_KEY + " and " + ControlSet.ST_CW_KEY + ". This is also useful for placing modules.\n\n";
 			} else {
-				//TODO
+				description += "You have one defense against this: your launchers. Once powered and crewed, they'll go into DEFENSE MODE during meteoroid showers, loading ANTI-METEOROID ROCKETS.\n\n";
+				description += "You can select your launchers with " + ControlSet.MINO_L_KEY + " and " + ControlSet.MINO_R_KEY + " (in the order they were placed), and fire them with " + ControlSet.BOMB_KEY + ".";
+				description += "You can also slow time for a limited duration every wave, by holding " + ControlSet.FASTFALL_KEY + ".";
 			}
 			description += "Survive 3 waves to win!";
+			
+			return new NewPlayerEvent(title, description, 0.8);
+		}
+		
+		public static function rotationMinitutorial():NewPlayerEvent {
+			var title:String = "Station Rotation!";
+			var description:String = "When mining in deep space - as you are now - you can rotate your entire station at will. ";
+			description += "Do so by holding " + ControlSet.ST_CW_KEY + " or " + ControlSet.ST_CCW_KEY + ".\n\n";
+			description += "This ability is temporarily disabled during meteoroid showers, so plan accordingly!";
+			
+			seen[ROTATEABLE] = true;
+			saveSeen();
 			
 			return new NewPlayerEvent(title, description, 0.8);
 		}
@@ -109,6 +123,7 @@ package InfoScreens {
 		public static const DECREW:int = 1;
 		public static const SUBMERGE:int = 2;
 		public static const ASTEROIDS:int = 6;
+		public static const ROTATEABLE:int = 11;
 		
 		private static function saveSeen():void {
 			if (!(C.DEBUG && C.FORGET_EVENTS))

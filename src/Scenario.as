@@ -371,6 +371,9 @@ package
 				stationHint.visible = false;
 			hudLayer.add(slowBar = new SlowBar());
 			dangeresque = true;
+			
+			if (C.BEAM_DEFENSE && !NewPlayerEvent.seen[NewPlayerEvent.ASTEROIDS])
+				hudLayer.add(NewPlayerEvent.onFirstAsteroids());
 		}
 		
 		protected function endCombat():void {
@@ -451,7 +454,8 @@ package
 			
 			MenuThing.resetThings();
 			var col:Array = [];
-			var quitButton:StateThing = new StateThing("Quit", !C.accomplishments.tutorialDone ? TutorialSelectState : !C.campaign ? QuickPlayState : MenuState);
+			var quitButton:MenuThing = new MenuThing("Quit", exitToMenu);
+			quitButton.setFormat(C.FONT, 20);
 			col.push(pauseLayer.add(quitButton));
 			var resetButton:MenuThing = new MenuThing("Restart", resetLevel);
 			resetButton.setFormat(C.FONT, 20);
@@ -704,8 +708,9 @@ package
 		
 		
 		protected function checkPlayerEvents():void {
-			if (!NewPlayerEvent.seen[NewPlayerEvent.ASTEROIDS] && !tracker.safe)
-				hudLayer.add(NewPlayerEvent.onFirstAsteroids());
+			if (rotateable && !NewPlayerEvent.seen[NewPlayerEvent.ROTATEABLE])
+				hudLayer.add(NewPlayerEvent.rotationMinitutorial());
+			
 		}
 		
 		protected function checkGoal():void {
@@ -789,7 +794,7 @@ package
 					C.campaign.endMission(makeStatblock());
 					FlxG.state = new CampaignState(true);
 				}
-			} else if (!C.accomplishments.tutorialDone) {
+			} else if (C.IN_TUTORIAL) {
 				var nextLevel:int = C.accomplishments.scenarioIndex(this) + 1;
 				if (!C.accomplishments.scenariosWon[nextLevel])
 					FlxG.state = new C.accomplishments.scenarios[nextLevel]
@@ -804,8 +809,10 @@ package
 								 station.mineralsLaunched, MeteoroidTracker.kills)
 		}
 		
-		protected function exitToMenu():void {
-			if (!C.accomplishments.tutorialDone)
+		protected function exitToMenu(_:String = null):void {
+			C.log("Exiting from tutorial: " + C.IN_TUTORIAL);
+			
+			if (C.IN_TUTORIAL)
 				FlxG.state = new TutorialSelectState;
 			else if (C.campaign) {
 				C.campaign.endMission(makeStatblock());

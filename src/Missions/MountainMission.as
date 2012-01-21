@@ -15,10 +15,6 @@ package Missions {
 			super(Seed);
 		}
 		
-		override protected function blockLimitToFullyMine():int {
-			return 100;
-		}
-		
 		override protected function topAt(x:int):int {
 			var distFromCenter:int = Math.abs(x - mapWidth / 2);
 			var distFraction:Number = distFromCenter / (mapWidth / 2);
