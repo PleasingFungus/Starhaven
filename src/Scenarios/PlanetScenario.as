@@ -5,6 +5,7 @@ package Scenarios {
 	import Mining.MineralBlock;
 	import Mining.Terrain;
 	import Missions.PlanetMission;
+	import Missions.TerrestrialMission;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxU;
 	import Meteoroids.PlanetSpawner;
@@ -32,10 +33,10 @@ package Scenarios {
 		}
 		
 		override protected function repositionLevel():void {
-			station.core.gridLoc.y = (mission as PlanetMission).atmosphere - mission.fullMapSize.y;
+			station.core.gridLoc.y = (mission as TerrestrialMission).atmosphere - mission.fullMapSize.y;
 			
 			rock.gridLoc.x = station.core.gridLoc.x;
-			rock.gridLoc.y = Math.ceil((mission as PlanetMission).atmosphere / 2);
+			rock.gridLoc.y = Math.ceil((mission as TerrestrialMission).atmosphere / 2);
 		}
 		
 		override protected function addElements():void {

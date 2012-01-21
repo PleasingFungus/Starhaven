@@ -101,7 +101,7 @@ package Metagame {
 				screenshot.dispose();
 		}
 		
-		protected const SCENARIO_TYPES:Array = [PlanetScenario, AsteroidScenario,
+		protected const SCENARIO_TYPES:Array = [PlanetScenario, AsteroidScenario, MountainScenario,
 												WaterScenario, NebulaScenario,
 												TrenchScenario, DustScenario];
 		
