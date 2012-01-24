@@ -60,5 +60,7 @@ package {
 					break;
 			}
 		}
+		
+		override protected function onFocusLost(event:Event=null):void { }
 	}
 }

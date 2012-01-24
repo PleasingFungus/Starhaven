@@ -16,6 +16,7 @@ package
 	import HUDs.SlowBar;
 	import MainMenu.MenuState;
 	import MainMenu.QuickPlayState;
+	import MainMenu.SkipTutorialState;
 	import MainMenu.StateThing;
 	import MainMenu.TutorialSelectState;
 	import Metagame.Campaign;
@@ -125,6 +126,7 @@ package
 			name = "Scenario";
 			substate = SUBSTATE_NORMAL;
 			dangeresque = false;
+			
 			FlxG.mouse.hide();
 			//C.music.intendedMusic = Music.PLAY_MUSIC;
 		}
@@ -374,6 +376,8 @@ package
 			
 			if (C.BEAM_DEFENSE && !NewPlayerEvent.seen[NewPlayerEvent.ASTEROIDS])
 				hudLayer.add(NewPlayerEvent.onFirstAsteroids());
+			
+			FlxG.mouse.load(_combat_cursor, 15, 15);
 		}
 		
 		protected function endCombat():void {
@@ -383,6 +387,7 @@ package
 				stationHint.visible = true;
 			slowBar.exists = false;
 			dangeresque = false;
+			FlxG.mouse.load(null);
 		}
 		
 		protected function checkCombatMino():void {
@@ -457,13 +462,22 @@ package
 			var quitButton:MenuThing = new MenuThing("Quit", exitToMenu);
 			quitButton.setFormat(C.FONT, 20);
 			col.push(pauseLayer.add(quitButton));
-			var resetButton:MenuThing = new MenuThing("Restart", resetLevel);
-			resetButton.setFormat(C.FONT, 20);
-			if (!C.campaign)
-				col.push(pauseLayer.add(resetButton));
-			//MenuThing.addColumn(col, FlxG.width/2 - quitButton.fullWidth/2);
 			quitButton.setY(FlxG.height / 2 - 40);
-			resetButton.setY(FlxG.height / 2);
+			
+			if (!C.campaign) {
+				var resetButton:MenuThing = new MenuThing("Restart", resetLevel);
+				resetButton.setFormat(C.FONT, 20);
+				col.push(pauseLayer.add(resetButton));
+				resetButton.setY(FlxG.height / 2);
+			}
+			
+			if (!C.accomplishments.tutorialDone) {
+				var skipButton:StateThing = new StateThing("Skip Tutorials", SkipTutorialState);
+				col.push(pauseLayer.add(skipButton));
+				skipButton.setY(FlxG.height / 2 + 40);
+			}
+			
+			//MenuThing.addColumn(col, FlxG.width/2 - quitButton.fullWidth/2);
 			
 			var pauseText:FlxText = new BlinkText(0, FlxG.height / 2 + 40, "Press any key to unpause.", 16)
 			pauseText.active = false;
@@ -473,7 +487,7 @@ package
 			C.HUD_ENABLED = true;
 			
 			substate = SUBSTATE_PAUSED;
-			FlxG.mouse.show();
+			FlxG.mouse.load(null);
 		}
 		
 		private function pauseUpdate():void {
@@ -482,7 +496,10 @@ package
 			
 			if (FlxG.keys.anyKey()) {
 				pauseLayer.exists = false;
-				FlxG.mouse.hide();
+				if (dangeresque)
+					FlxG.mouse.load(_combat_cursor, 15, 15);
+				else
+					FlxG.mouse.hide();
 				substate = SUBSTATE_NORMAL;
 			}
 		}
@@ -993,25 +1010,10 @@ package
 		
 		private var glowBuffer:BitmapData;
 		private var glowColorTransform:ColorTransform = new ColorTransform(1, 1, 1, C.GLOW_ALPHA);
-		//private function drawGlow():void {
-			//if (!glowBuffer || glowBuffer.width != FlxG.width / C.GLOW_SCALE)
-				//glowBuffer = new BitmapData(FlxG.width / C.GLOW_SCALE, FlxG.height / C.GLOW_SCALE, true, 0x0);
-			//
-			//matrix.identity();
-			//matrix.scale(1 / C.GLOW_SCALE, 1 / C.GLOW_SCALE);
-			//glowBuffer.draw(FlxG.buffer, matrix, glowColorTransform);
-			//
-			//matrix.identity();
-			//matrix.scale(C.GLOW_SCALE, C.GLOW_SCALE);
-			//FlxG.buffer.draw(glowBuffer, matrix, null, BlendMode.ADD);
-		//}
 		
 		private const blurFilter:BlurFilter = new BlurFilter(C.GLOW_SCALE, C.GLOW_SCALE, 1);
 		private function drawGlow():void {
-			if (glowBuffer) {
-				//glowBuffer.fillRect(new Rectangle(0, 0, FlxG.width, FlxG.height), 0x0);
-				//glowBuffer.draw(FlxG.buffer);
-			} else
+			if (!glowBuffer)
 				glowBuffer = FlxG.buffer.clone();
 			glowBuffer.applyFilter(FlxG.buffer, new Rectangle(0, 0, FlxG.width, FlxG.height), new Point(), blurFilter);
 			FlxG.buffer.draw(glowBuffer, null, glowColorTransform, BlendMode.SCREEN);
@@ -1024,19 +1026,7 @@ package
 		public static const SUBSTATE_PAUSED:int = 4;
 		
 		private const SPAWN_TIME:Number = 2;
+		
+		[Embed(source = "../lib/art/ui/target_cursor.png")] private static const _combat_cursor:Class;
 	}
-			//var X:int = -(FlxG.width - width) / 2;
-			//var Y:int = -(FlxG.height - height) / 2;
-			
-			//FlxG.camera = FlxG.addCamera(new FlxCamera(X, Y, width, height, scale)); //oh dear
-			//FlxG.camera.buffer = new BitmapData(width, height, false, FlxG.bgColor);
-			//FlxG.camera.resize(X, Y, width, height);
-			
-			//FlxG.camera.zoom = scale;
-			//FlxG.camera.width = FlxG.width / scale;
-			//FlxG.camera.height = FlxG.height / scale;
-			//FlxG.camera.x = DEBUG_X = -(FlxG.width - FlxG.width / scale) / 2;
-			//FlxG.camera.y = DEBUG_Y = -(FlxG.height - FlxG.height / scale) / 2;
-			//FlxG.camera.buffer.dispose();
-			//FlxG.camera.buffer = new BitmapData(FlxG.camera.width, FlxG.camera.height, false, 0xff000000);
 }

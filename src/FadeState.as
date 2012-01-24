@@ -9,6 +9,7 @@ package  {
 		
 		override public function create():void {
 			FlxG.flash.start(0xff000000, 0.4); 
+			C.resetMouse();
 		}
 		
 		override public function update():void {

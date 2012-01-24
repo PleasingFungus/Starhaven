@@ -106,8 +106,6 @@ package InfoScreens {
 					
 					break;
 			}
-			
-			FlxG.mouse.show();
 		}
 		
 		override public function update():void {

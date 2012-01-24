@@ -68,6 +68,16 @@ package  {
 			return _last_outer_bound
 		}
 		
+		public function screenToBlocks(X:int, Y:int):Point {
+			X /= scale;
+			Y /= scale;
+			X -= C.B.drawShift.x;
+			Y -= C.B.drawShift.y;
+			X /= C.BLOCK_SIZE;
+			Y /= C.BLOCK_SIZE;
+			return new Point(X, Y);
+		}
+		
 	}
 
 }

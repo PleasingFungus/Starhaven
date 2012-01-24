@@ -7,7 +7,7 @@ package Metagame {
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
 	 */
-	public class CampaignState extends FlxState {
+	public class CampaignState extends FadeState {
 		
 		private var done:Boolean;
 		public function CampaignState(Done:Boolean = false) {
@@ -18,6 +18,8 @@ package Metagame {
 		private var screenshotGroup:FlxGroup;
 		private var statGroup:FlxGroup;
 		override public function create():void {
+			super.create();
+			
 			C.campaign.refresh();
 			
 			var title:FlxText = new FlxText(10, 10, FlxG.width - 20, done ? "Game Over" : "Stats");
@@ -46,8 +48,6 @@ package Metagame {
 			for each (var option:MenuThing in MenuThing.menuThings)
 				option.setY(FlxG.height - 40);
 			MenuThing.menuThings[0].select();
-			
-			FlxG.mouse.show();
 		}
 		
 		override public function update():void {

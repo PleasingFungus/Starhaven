@@ -217,6 +217,11 @@ package  {
 			s.play();
 		}
 		
+		public static function resetMouse():void {
+			FlxG.mouse.show();
+			FlxG.mouse.unload();
+		}
+		
 		
 		public static const MINERALS:int = 0;
 		public static const PEOPLE:int = 1;
