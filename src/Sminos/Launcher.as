@@ -5,6 +5,7 @@ package Sminos {
 	import Icons.Icontext;
 	import flash.geom.Point;
 	import Meteoroids.CombatRocket;
+	import Meteoroids.SlowRocket;
 	import Mining.MetalRocket;
 	import org.flixel.*;
 	/**
@@ -16,14 +17,9 @@ package Sminos {
 		protected var launchCapacity:int;
 		protected var launchRemaining:int;
 		protected var capacityText:Icontext;
-		protected var rocketsLoaded:int;
+		public var rocketsLoaded:int;
 		protected var rocketCapacity:int;
 		private var dangerSprite:Class;
-		
-		protected var rocketLoadTimer:Number = LOAD_TIME;
-		protected const LOAD_TIME:Number = 1;
-		protected var launchTimer:Number;
-		protected const LAUNCH_TIME:Number = 0.175;
 		public function Launcher(X:int, Y:int, blocks:Array, center:Point,
 								 Sprite:Class = null, InopSprite:Class = null, DangerSprite:Class = null) {
 			super(X, Y, blocks, center, 0xff1e5a2c, 0xff42a45a, Sprite, InopSprite);
@@ -53,46 +49,13 @@ package Sminos {
 			}
 		}
 		
-		override public function update():void {
-			super.update();
-			checkRockets();
-			if (launchTimer)
-				checkLaunch();
+		public function loadRockets():void {
+			rocketsLoaded = rocketCapacity;
 		}
 		
-		protected function checkRockets():void {
-			if (!Scenario.dangeresque && rocketsLoaded)
-				rocketsLoaded = 0;
-			else if (operational && Scenario.dangeresque && rocketsLoaded < rocketCapacity && !launchTimer) {
-				rocketLoadTimer -= FlxG.elapsed;
-				if (rocketLoadTimer <= 0) {
-					rocketLoadTimer += LOAD_TIME;
-					rocketsLoaded++;
-				}
-			}
-		}
-		
-		protected function checkLaunch():void {
-			launchTimer -= FlxG.elapsed;
-			while (launchTimer <= 0 && rocketsLoaded) {
-				rocketsLoaded--;
-				Mino.layer.add(new CombatRocket(blocks[rocketsLoaded].add(absoluteCenter), rocketDirection()));
-				launchTimer += LAUNCH_TIME;
-			}
-			
-			if (!rocketsLoaded) {
-				rocketsLoaded = -1;
-				launchTimer = 0;
-			}
-		}
-		
-		public function combatLaunch():void {
-			if (rocketsLoaded <= 0) return;
-			//var absCenter:Point = absoluteCenter;
-			//var rdir:int = rocketDirection();
-			//for (var i:int = 0; i < rocketsLoaded; i++)
-				//Mino.layer.add(new CombatRocket(blocks[i].add(absCenter), rdir));
-			launchTimer = 0.01;
+		public function fireOn(target:Point):void {
+			rocketsLoaded--;
+			Mino.layer.add(new SlowRocket(absoluteCenter.add(blocks[rocketsLoaded]), target));
 		}
 		
 		protected var rocket:FlxSprite;
@@ -100,16 +63,8 @@ package Sminos {
 		override protected function renderSupply():void {
 			if (Scenario.dangeresque) {
 				if (!combatRocket)
-					combatRocket = new FlxSprite().loadRotatedGraphic(_combat_rocket_sprite,4);
-				
-				var frame:int = rocketDirection();
-				if (combatRocket.frame != frame)
-					combatRocket.frame = frame;
-				
+					combatRocket = new FlxSprite().loadGraphic(_combat_rocket_sprite);
 				renderOnBlocks(combatRocket, rocketsLoaded);
-				
-				if (current)
-					renderBorder();
 			} else if (launchRemaining) {
 				if (!rocket)
 					rocket = new FlxSprite().loadGraphic(_rocket_sprite);
@@ -120,15 +75,6 @@ package Sminos {
 			super.renderSupply();
 		}
 		
-		protected function rocketDirection():int {
-			if (!station.rotateable)
-				return UP;
-			var delta:Point = parent.core.gridLoc.subtract(gridLoc);
-			if (Math.abs(delta.x) > Math.abs(delta.y))
-				return delta.x < 0 ? RIGHT : LEFT;
-			return delta.y < 0 ? DOWN : UP;
-		}
-		
 		override protected function getCurSprite():Class {
 			return dangerSprite && Scenario.dangeresque && operational ? dangerSprite : super.getCurSprite(); 
 		}
@@ -136,7 +82,7 @@ package Sminos {
 		protected function renderOnBlocks(sprite:FlxSprite, number:int):void {
 			var absCenter:Point = absoluteCenter;
 			for (var i:int = 0; i < number; i++ ) {
-				var block:Point = blocks[i].add(absCenter);
+				var block:Point = absCenter.add(blocks[i]);
 				sprite.x = block.x * C.BLOCK_SIZE + C.B.drawShift.x;
 				sprite.y = block.y * C.BLOCK_SIZE + C.B.drawShift.y;
 				sprite.render();

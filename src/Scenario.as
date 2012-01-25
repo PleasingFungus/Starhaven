@@ -23,6 +23,7 @@ package
 	import Metagame.CampaignState;
 	import Metagame.Statblock;
 	import Meteoroids.MeteoroidTracker;
+	import Meteoroids.SlowRocket;
 	import Mining.ResourceSource;
 	import SFX.Fader;
 	import Sminos.Bomb;
@@ -127,7 +128,10 @@ package
 			substate = SUBSTATE_NORMAL;
 			dangeresque = false;
 			
-			FlxG.mouse.hide();
+			if (C.DEBUG)
+				FlxG.mouse.load(_combat_cursor, 15, 15);
+			else
+				FlxG.mouse.hide();
 			//C.music.intendedMusic = Music.PLAY_MUSIC;
 		}
 		
@@ -256,10 +260,8 @@ package
 				killCurrentMino();
 			}
 			
-			if (dangeresque) {
-				checkCombatMino();
+			if (dangeresque)
 				return;
-			}
 			
 			var minoIsCool:Boolean = currentMino && currentMino.holdsAttention;
 			
@@ -368,7 +370,8 @@ package
 		
 		protected function initCombat():void {
 			initCombatMinoPool();
-			grabCombatMino();
+			for each (var launcher:Launcher in combatMinoPool)
+				launcher.loadRockets();
 			if (stationHint && stationHint.exists && !C.BEAM_DEFENSE)
 				stationHint.visible = false;
 			hudLayer.add(slowBar = new SlowBar());
@@ -381,18 +384,12 @@ package
 		}
 		
 		protected function endCombat():void {
-			combatMino = null;
 			combatMinoPool = null;
 			if (stationHint && stationHint.exists && !C.BEAM_DEFENSE)
 				stationHint.visible = true;
 			slowBar.exists = false;
 			dangeresque = false;
 			FlxG.mouse.load(null);
-		}
-		
-		protected function checkCombatMino():void {
-			if ((!combatMino || !combatMino.exists) && combatMinoPool.length)
-				grabCombatMino();
 		}
 		
 		protected var combatMinoPool:Array;
@@ -532,18 +529,14 @@ package
 		}
 		
 		private function checkCombatInput():void {
-			if (ControlSet.MINO_L_KEY.justPressed())
-				combatMino = cycleCombatMino(FlxSprite.LEFT);
-			if (ControlSet.MINO_R_KEY.justPressed())
-				combatMino = cycleCombatMino(FlxSprite.RIGHT);
-			if (ControlSet.BOMB_KEY.justPressed() && combatMino && combatMino.exists)
-				combatMino.combatLaunch();
+			if (FlxG.mouse.justPressed())
+				fireRocket(C.B.screenToBlocks(FlxG.mouse.x, FlxG.mouse.y));
+			if (ControlSet.FASTFALL_KEY.pressed() && slowBar.slowTimeRemaining)
+				FlxG.timeScale = 0.5;
 		}
 		
 		protected function checkContinuousInput():void {
-			if (dangeresque)
-				checkSlowTimeControls();
-			else {
+			if (!dangeresque) {
 				if (currentMino && currentMino.falling)
 					checkMinoMoveInput();
 				else
@@ -552,11 +545,6 @@ package
 			
 			if (!C.NO_COMBAT_ROTATING || !dangeresque)
 				checkRotateControls();
-		}
-		
-		protected function checkSlowTimeControls():void {
-			if (ControlSet.FASTFALL_KEY.pressed() && slowBar.slowTimeRemaining)
-				FlxG.timeScale = 0.5;
 		}
 		
 		protected function checkMinoMoveInput():void {
@@ -676,6 +664,22 @@ package
 			spawnTimer = SPAWN_TIME;
 		}
 		
+		protected function fireRocket(target:Point):void {
+			var dist:int = int.MAX_VALUE;
+			var closest:Launcher;
+			for each (var launcher:Launcher in combatMinoPool)
+				if (launcher.rocketsLoaded) {
+					var launcherDist:int = target.subtract(launcher.absoluteCenter).length;
+					if (launcherDist < dist) {
+						dist = launcherDist;
+						closest = launcher;
+					}
+				}
+			
+			if (closest)
+				closest.fireOn(target);
+		}
+		
 		protected function checkDebugInput():void {
 			if (ControlSet.DEBUG_DESTRUCT_KEY.justPressed() && currentMino) {
 				currentMino.exists = false;
@@ -704,6 +708,9 @@ package
 			
 			if (ControlSet.DEBUG_PRINT_KEY.justPressed())
 				station.print();
+			
+			if (ControlSet.DEBUG_ROCKET_KEY.justPressed())
+				minoLayer.add(new SlowRocket(station.core.absoluteCenter, C.B.screenToBlocks(FlxG.mouse.x, FlxG.mouse.y)));
 		}
 		
 		protected function checkCamera():void {
