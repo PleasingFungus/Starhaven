@@ -41,8 +41,8 @@ package Meteoroids {
 		}
 		
 		override protected function executeCycle():void {
-			semigridLoc.x += direction.x;
-			semigridLoc.y += direction.y;
+			semigridLoc.x += direction.x * C.difficulty.meteoroidSpeedFactor;
+			semigridLoc.y += direction.y * C.difficulty.meteoroidSpeedFactor;
 			gridLoc.x = Math.floor(semigridLoc.x);
 			gridLoc.y = Math.floor(semigridLoc.y);
 			
@@ -171,7 +171,7 @@ package Meteoroids {
 		
 		override protected function beDamaged():void {
 			explode(1);
-			var crystalNum:int = C.BEAM_DEFENSE ? 4 : 2;
+			var crystalNum:int = 2;
 			if (!C.IN_TUTORIAL)
 				for (var i:int = 0; i < crystalNum; i++)
 					Mino.layer.add(new MeteoroidCrystal(absoluteCenter.x, absoluteCenter.y, target));

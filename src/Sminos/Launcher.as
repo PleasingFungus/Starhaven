@@ -19,11 +19,9 @@ package Sminos {
 		protected var capacityText:Icontext;
 		public var rocketsLoaded:int;
 		protected var rocketCapacity:int;
-		private var dangerSprite:Class;
 		public function Launcher(X:int, Y:int, blocks:Array, center:Point,
-								 Sprite:Class = null, InopSprite:Class = null, DangerSprite:Class = null) {
+								 Sprite:Class = null, InopSprite:Class = null) {
 			super(X, Y, blocks, center, 0xff1e5a2c, 0xff42a45a, Sprite, InopSprite);
-			dangerSprite = DangerSprite;
 			
 			launchRemaining = launchCapacity = blocks.length * LAUNCH_SIZE;
 			rocketCapacity = blocks.length;
@@ -49,23 +47,10 @@ package Sminos {
 			}
 		}
 		
-		public function loadRockets():void {
-			rocketsLoaded = rocketCapacity;
-		}
-		
-		public function fireOn(target:Point):void {
-			rocketsLoaded--;
-			Mino.layer.add(new SlowRocket(absoluteCenter.add(blocks[rocketsLoaded]), target));
-		}
-		
 		protected var rocket:FlxSprite;
 		protected var combatRocket:FlxSprite;
 		override protected function renderSupply():void {
-			if (Scenario.dangeresque) {
-				if (!combatRocket)
-					combatRocket = new FlxSprite().loadGraphic(_combat_rocket_sprite);
-				renderOnBlocks(combatRocket, rocketsLoaded);
-			} else if (launchRemaining) {
+			if (launchRemaining) {
 				if (!rocket)
 					rocket = new FlxSprite().loadGraphic(_rocket_sprite);
 				renderOnBlocks(rocket, Math.floor(launchRemaining / LAUNCH_SIZE));
@@ -73,10 +58,6 @@ package Sminos {
 			
 			
 			super.renderSupply();
-		}
-		
-		override protected function getCurSprite():Class {
-			return dangerSprite && Scenario.dangeresque && operational ? dangerSprite : super.getCurSprite(); 
 		}
 		
 		protected function renderOnBlocks(sprite:FlxSprite, number:int):void {
@@ -116,7 +97,6 @@ package Sminos {
 		
 		public static const LAUNCH_SIZE:int = 25; //10 for pre-multiminerals
 		[Embed(source = "../../lib/art/other/rocket_unlit.png")] private static const _rocket_sprite:Class;
-		[Embed(source = "../../lib/art/other/rocket_combat_unlit.png")] private static const _combat_rocket_sprite:Class;
 		[Embed(source = "../../lib/sound/vo/launchers.mp3")] public static const _desc:Class;
 	}
 

@@ -79,7 +79,7 @@ package Meteoroids {
 		}
 		
 		
-		private const MAX_RADIUS:int = 3;
+		private const MAX_RADIUS:int = 2;
 	}
 
 }

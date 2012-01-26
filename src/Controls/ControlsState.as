@@ -25,7 +25,7 @@ package Controls {
 			leftCol.push(add(new MainMenuThing("Back to Menu", MenuState).setFormat(C.FONT, 12)));
 			leftCol.push(add(new ControlMenuThing("Move Left: ", ControlSet.MINO_L_KEY)));
 			leftCol.push(add(new ControlMenuThing("Move Right: ", ControlSet.MINO_R_KEY)));
-			leftCol.push(add(new ControlMenuThing("Drop Time: ", ControlSet.FASTFALL_KEY)));
+			leftCol.push(add(new ControlMenuThing("Fastfall: ", ControlSet.FASTFALL_KEY)));
 			leftCol.push(add(new ControlMenuThing("Rotate CCW: ", ControlSet.MINO_CCW_KEY)));
 			leftCol.push(add(new ControlMenuThing("Rotate CW: ", ControlSet.MINO_CW_KEY)));
 			MenuThing.addColumn(leftCol, 15);

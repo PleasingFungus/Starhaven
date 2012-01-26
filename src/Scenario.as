@@ -27,12 +27,12 @@ package
 	import Mining.ResourceSource;
 	import SFX.Fader;
 	import Sminos.Bomb;
+	import Sminos.RocketGun;
 	import Sminos.StationCore;
 	import Controls.ControlSet;
 	import InfoScreens.NewPieceInfo;
 	import InfoScreens.NewPlayerEvent;
 	import Icons.FloatingIconText;
-	import Sminos.Launcher;
 	import HUDs.MapBounds;
 	
 	import GrabBags.*;
@@ -46,7 +46,6 @@ package
 		
 		protected var station:Station;
 		protected var currentMino:Smino;
-		protected var combatMino:Launcher;
 		protected var bag:GrabBag;
 		
 		protected var spawnTimer:Number = SPAWN_TIME * 1.5;
@@ -128,9 +127,9 @@ package
 			substate = SUBSTATE_NORMAL;
 			dangeresque = false;
 			
-			if (C.DEBUG)
-				FlxG.mouse.load(_combat_cursor, 15, 15);
-			else
+			//if (C.DEBUG)
+				//FlxG.mouse.load(_combat_cursor, 15, 15);
+			//else
 				FlxG.mouse.hide();
 			//C.music.intendedMusic = Music.PLAY_MUSIC;
 		}
@@ -185,11 +184,6 @@ package
 		}
 		
 		protected function createTracker(waveMeteos:Number = 2, WaveSpacing:int = 16):void {
-			if (!C.BEAM_DEFENSE) {
-				waveMeteos *= 2.5;
-				WaveSpacing *= 3/4;
-			}
-			
 			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, waveMeteos, WaveSpacing);
 			hud.setTracker(tracker);
 			add(tracker);
@@ -231,6 +225,8 @@ package
 			checkCurrentMino();
 			checkInput();
 			checkCamera();
+			if (dangeresque)
+				checkCombatCursor();
 			
 			super.update();
 			hudLayer.update();
@@ -370,22 +366,19 @@ package
 		
 		protected function initCombat():void {
 			initCombatMinoPool();
-			for each (var launcher:Launcher in combatMinoPool)
-				launcher.loadRockets();
-			if (stationHint && stationHint.exists && !C.BEAM_DEFENSE)
+			for each (var gun:RocketGun in combatMinoPool)
+				gun.loadRockets();
+			if (stationHint && stationHint.exists && !C.NO_COMBAT_ROTATING)
 				stationHint.visible = false;
 			hudLayer.add(slowBar = new SlowBar());
 			dangeresque = true;
-			
-			if (C.BEAM_DEFENSE && !NewPlayerEvent.seen[NewPlayerEvent.ASTEROIDS])
-				hudLayer.add(NewPlayerEvent.onFirstAsteroids());
 			
 			FlxG.mouse.load(_combat_cursor, 15, 15);
 		}
 		
 		protected function endCombat():void {
 			combatMinoPool = null;
-			if (stationHint && stationHint.exists && !C.BEAM_DEFENSE)
+			if (stationHint && stationHint.exists && !C.NO_COMBAT_ROTATING)
 				stationHint.visible = true;
 			slowBar.exists = false;
 			dangeresque = false;
@@ -396,46 +389,20 @@ package
 		protected function initCombatMinoPool():void {
 			combatMinoPool = [];
 			for each (var mino:Mino in station.members)
-				if (mino.exists && mino is Launcher && (mino as Smino).operational)
+				if (mino.exists && mino is RocketGun && (mino as Smino).operational)
 					combatMinoPool.push(mino);
 		}
 		
-		protected function grabCombatMino():void {
-			combatMino = findCombatMino();
+		protected function checkCombatCursor():void {
+			var target:Point = C.B.screenToBlocks(FlxG.mouse.x, FlxG.mouse.y);
+			var closest:RocketGun = findClosestValidLauncher(target);
+			if (closest)
+				closest.aimAt(target);
 		}
 		
-		protected function findCombatMino():Launcher {
-			for (var i:int = 0; i < combatMinoPool.length; i++) {
-				var launcher:Launcher = combatMinoPool[i];
-				if (launcher.exists && launcher.operational)
-					return launcher;
-				else
-					combatMinoPool.splice(i--, 1);
-			}
-			return null;
-		}
 		
-		protected function cycleCombatMino(direction:int):Launcher {
-			if (!combatMino)
-				return findCombatMino();
-			if (combatMinoPool.length == 1)
-				return combatMino;
-			
-			var currentIndex:int = combatMinoPool.indexOf(combatMino);
-			var incr:int = direction ? 1 : combatMinoPool.length - 1;
-			var newIndex:int = (currentIndex + incr) % combatMinoPool.length
-			while (combatMinoPool.length && !(combatMinoPool[newIndex].exists && combatMinoPool[newIndex].operational)) {
-				combatMinoPool.splice(newIndex, 1);
-				
-				currentIndex = combatMinoPool.indexOf(combatMino);
-				incr = direction ? 1 : combatMinoPool.length - 1;
-				newIndex = (currentIndex + incr) % combatMinoPool.length;
-			}
-			
-			if (combatMinoPool.length)
-				return combatMinoPool[newIndex];
-			return null;
-		}
+		
+		
 		
 		protected function checkArrowHint():void {
 			if (!stationHint && arrowHint && !arrowHint.exists && rotateable && currentMino) {
@@ -531,7 +498,7 @@ package
 		private function checkCombatInput():void {
 			if (FlxG.mouse.justPressed())
 				fireRocket(C.B.screenToBlocks(FlxG.mouse.x, FlxG.mouse.y));
-			if (ControlSet.FASTFALL_KEY.pressed() && slowBar.slowTimeRemaining)
+			if (ControlSet.BOMB_KEY.pressed() && slowBar.slowTimeRemaining)
 				FlxG.timeScale = 0.5;
 		}
 		
@@ -665,19 +632,24 @@ package
 		}
 		
 		protected function fireRocket(target:Point):void {
-			var dist:int = int.MAX_VALUE;
-			var closest:Launcher;
-			for each (var launcher:Launcher in combatMinoPool)
-				if (launcher.rocketsLoaded) {
-					var launcherDist:int = target.subtract(launcher.absoluteCenter).length;
-					if (launcherDist < dist) {
-						dist = launcherDist;
-						closest = launcher;
-					}
-				}
-			
+			var closest:RocketGun = findClosestValidLauncher(target);
 			if (closest)
 				closest.fireOn(target);
+		}
+		
+		protected function findClosestValidLauncher(target:Point):RocketGun {
+			var dist:int = int.MAX_VALUE;
+			var closest:RocketGun;
+			for each (var gun:RocketGun in combatMinoPool)
+				if (gun.canFireOn(target)) {
+					var gunDist:int = target.subtract(gun.absoluteCenter).length;
+					if (gunDist < dist) {
+						dist = gunDist;
+						closest = gun;
+					}
+				}
+			return closest;
+			
 		}
 		
 		protected function checkDebugInput():void {
@@ -724,8 +696,6 @@ package
 			} else {
 				if (_scale != 1)
 					adjustScale(false);
-				if (dangeresque && combatMino)
-					C.B.centerDrawShiftOn(combatMino.gridLoc);
 			}
 		}
 		
@@ -976,8 +946,6 @@ package
 				renderMapBounds();
 			
 			super.render();
-			if (combatMino && substate != SUBSTATE_ROTPAUSE)
-				combatMino.renderBorder();
 			if (C.DEBUG && C.DISPLAY_COLLISION)
 				renderCollision();
 			else if (substate == SUBSTATE_ROTPAUSE)

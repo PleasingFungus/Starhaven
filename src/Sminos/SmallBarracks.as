@@ -8,18 +8,12 @@ package Sminos {
 		
 		public function SmallBarracks(X:int,Y:int) {
 			var blocks:Array, sprite:Class, inactiveSprite:Class;
-			if (C.BEAM_DEFENSE) {
-				blocks = [new Block(0, 0), new Block(1, 0),
-						  new Block(0, 1), new Block(1, 1)];
-				sprite = _sprite;
-				inactiveSprite = _sprite_in;
-				
-			} else {
-				blocks = [new Block(0, 0),
-						  new Block(0, 1), new Block(1, 1)];
-				sprite = _sprite_2;
-				inactiveSprite = _sprite_in_2;
-			}
+			
+			blocks = [new Block(0, 0), new Block(1, 0),
+					  new Block(0, 1), new Block(1, 1)];
+			sprite = _sprite;
+			inactiveSprite = _sprite_in;
+			
 			powerReq = 10;
 			
 			super(X, Y, blocks, new Point(0, 0), sprite, inactiveSprite);

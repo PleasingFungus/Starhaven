@@ -58,19 +58,6 @@ package InfoScreens {
 			return new NewPlayerEvent(title, description);
 		}
 		
-		public static function onFirstAsteroids():NewPlayerEvent { //defense beam only
-			var title:String = "Asteroids!";
-			var description:String = "Oh no! A wave of meteoroids is hurling straight toward your station! Soon red dots will start appearing all around, showing the direction they're coming from. But their destination is always the same: your station's core! And if they hit it - well, that's GAME OVER.\n\n";
-			description += "Any Defense Beams you've powered and crewed will fire at asteroids automatically - try to position them to fire on meteoroids, by rotating the station [if applicable.]\n\n";
-			description += "Barring that, you may be able to rotate the station to put something inessential between the incoming meteoroids and your core.\n\n";
-			description += "Best of luck!\n\n"
-			
-			seen[ASTEROIDS] = true;
-			saveSeen();
-			
-			return new NewPlayerEvent(title, description);
-		}
-		
 		public static function miningTutorial():NewPlayerEvent {
 			var title:String = "Mining and Power!";
 			var description:String = "You control power conduits and drills that will start falling from the sky as soon as you press " + ControlSet.CONFIRM_KEY + ". ";
@@ -93,15 +80,9 @@ package InfoScreens {
 		public static function defenseTutorial():NewPlayerEvent {
 			var title:String = "Asteroids and Meteoroids!";
 			var description:String = "From time to time, when running a mining station, deadly METEOROIDS will rain down on you.\n\n";
-			if (C.BEAM_DEFENSE) {
-			description += "You have one defense against this: red DEFENSE BEAMS. Once powered, crewed, and pointed in the right direction, they'll shoot anything out of the sky.\n\n";
-			description += "When in space, threats will come from all directions, and you often won't have enough defense to cover everything. ";
-			description += "Luckily, you can rotate your station, using " + ControlSet.ST_CCW_KEY + " and " + ControlSet.ST_CW_KEY + ". This is also useful for placing modules.\n\n";
-			} else {
-				description += "You have one defense against this: your launchers. Once powered and crewed, they'll go into DEFENSE MODE during meteoroid showers, loading ANTI-METEOROID ROCKETS.\n\n";
-				description += "You can select your launchers with " + ControlSet.MINO_L_KEY + " and " + ControlSet.MINO_R_KEY + " (in the order they were placed), and fire them with " + ControlSet.BOMB_KEY + ".";
-				description += "You can also slow time for a limited duration every wave, by holding " + ControlSet.FASTFALL_KEY + ".";
-			}
+			description += "You have one defense against this: red ROCKET GUNS. Once you power and crew them, they'll automatically load DEFENSE ROCKETS at the start of meteoroid waves.\n\n";
+			description += "A targeting cursor will appear, letting you fire a rocket from the nearest GUN to intercept and destroy inbound meteoroids.\n\n";
+			description += "You can also slow time for a limited duration every wave, by holding " + ControlSet.FASTFALL_KEY + ".";
 			description += "Survive 3 waves to win!";
 			
 			return new NewPlayerEvent(title, description, 0.8);

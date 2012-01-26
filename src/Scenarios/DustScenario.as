@@ -105,8 +105,8 @@ package Scenarios {
 		
 		override protected function getAssortment(index:int):Array {
 			var assortment:Array = [makeBag(SmallLauncher), makeBag(MediumLauncher), makeBag(LongDrill), makeBag(NebularAccumulator)];
-			if (index && C.BEAM_DEFENSE)
-				assortment.push(makeBag(AsteroidGun));
+			if (index)
+				assortment.push(makeBag(RocketGun));
 			if (!(C.DEBUG && C.NO_CREW))
 				assortment = assortment.concat(makeBag(SmallBarracks), makeBag(SmallBarracks), makeBag(MediumBarracks));
 			return assortment;

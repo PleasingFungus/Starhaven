@@ -86,9 +86,9 @@ package Meteoroids {
 			return point;
 		}
 		
-		protected const SPEED:int = 140;
+		protected const SPEED:int = 180;
 		
-		[Embed(source = "../../lib/art/other/rocket_combat.png")] private static const _sprite:Class;
+		[Embed(source = "../../lib/art/other/rocket_combat_2.png")] private static const _sprite:Class;
 	}
 
 }

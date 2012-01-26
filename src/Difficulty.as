@@ -27,6 +27,10 @@ package  {
 			return Math.floor(setting) / 2;
 		}
 		
+		public function get meteoroidSpeedFactor():Number {
+			return Math.floor(setting) / 2;
+		}
+		
 		public function get blockSlack():Number {
 			return 1 + 1 / (1 + setting)
 		}

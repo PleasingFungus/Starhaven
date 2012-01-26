@@ -98,9 +98,9 @@ package InfoScreens {
 				case 5:
 					var asteroids:FlxText = new FlxText(10, 20, FlxG.width - 20, "");
 					asteroids.setFormat(C.BLOCKFONT, 16);
-					asteroids.text += "One other type of module needs crew - red DEFENSE BEAMS. ";
-					asteroids.text += "If powered and crewed, defense beams will shoot down incoming ASTEROIDS that threaten your rig.\n\n";
-					asteroids.text += "Asteroids are extremely dangerous - if you don't have any working defenses, your best bet is to rotate the station so that the bulk of the rock is in the way of the incoming asteroids.\n\n";
+					asteroids.text += "One other type of module needs crew - red ROCKET GUNS. ";
+					asteroids.text += "If powered and crewed, rocket guns will shoot down incoming METEOROIDS that threaten your rig.\n\n";
+					asteroids.text += "Meteoroids are extremely dangerous - if you don't have any working defenses, your best bet is to rotate the station so that the bulk of the rock is in the way of the incoming asteroids.\n\n";
 					asteroids.text += "Good luck!";
 					add(asteroids);
 					

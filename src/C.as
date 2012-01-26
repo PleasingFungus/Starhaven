@@ -26,7 +26,6 @@ package  {
 		public static const ANNOYING_NEW_PIECE_POPUP:Boolean = true;
 		public static const AUDIO_DESCRIPTIONS:Boolean = true;
 		public static const NO_CREW:Boolean = false;
-		public static const BEAM_DEFENSE:Boolean = false;
 		public static const NO_COMBAT_ROTATING:Boolean = false;
 		
 		public static const FORGET_TUTORIALS:Boolean = false;

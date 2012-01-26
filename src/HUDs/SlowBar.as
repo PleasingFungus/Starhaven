@@ -21,7 +21,7 @@ package HUDs {
 			icon = new FlxSprite(bar.x, bar.y + bar.height / 2, C.ICONS[C.TIME]);
 			icon.x -= icon.width + 16;
 			icon.y -= icon.height / 2;
-			key = new KeyHelper(ControlSet.FASTFALL_KEY);
+			key = new KeyHelper(ControlSet.BOMB_KEY);
 			key.x = bar.x + bar.width + 16;
 			key.y = bar.y + bar.height / 2 - key.height / 2;
 			

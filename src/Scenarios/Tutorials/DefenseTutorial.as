@@ -8,7 +8,7 @@ package Scenarios.Tutorials {
 	import Meteoroids.EggSpawner;
 	import Scenarios.DefaultScenario;
 	import GrabBags.BagType;
-	import Sminos.AsteroidGun;
+	import Sminos.RocketGun;
 	import Sminos.SmallLauncher;
 	import Sminos.SmallBarracks;
 	import Sminos.MediumLauncher;
@@ -24,8 +24,8 @@ package Scenarios.Tutorials {
 		public function DefenseTutorial() {
 			super(NaN);
 			
-			mapBuffer = C.BEAM_DEFENSE ? 20 : 0;
-			spawner = C.BEAM_DEFENSE ? EggSpawner : PlanetSpawner;
+			mapBuffer = 0;
+			spawner = PlanetSpawner;
 			victoryText = "Survived all waves!";
 		}
 		
@@ -45,34 +45,17 @@ package Scenarios.Tutorials {
 		}
 		
 		override protected function createMission():void {
-			mission = new LoadedMission(C.BEAM_DEFENSE ? _mission_image : _mission_image_b);
+			mission = new LoadedMission(_mission_image_b);
 		}
 	
 		override protected function setupBags():void {
-			if (C.BEAM_DEFENSE)
-				BagType.all = [new BagType("Assorted Bag", 1, [makeBag(SmallBarracks), makeBag(AsteroidGun)])];
-			else 
-				super.setupBags();
-		}
-		
-		override protected function getAssortment(index:int):Array {
-			if (index)
-				return [SmallBarracks, SmallBarracks, MediumLauncher];
-			return [SmallLauncher, MediumBarracks, Conduit];
+			BagType.all = [new BagType("Assorted Bag", 1, [makeBag(SmallBarracks), makeBag(RocketGun)])];
 		}
 		
 		override protected function buildLevel():void {
-			var planet:BaseAsteroid;
-			if (C.BEAM_DEFENSE) {
-				planet = new BaseAsteroid( -5, 0, mission.rawMap.map, mission.rawMap.center);
-				station.core.center.x += 3;
-				station.core.center.y += 7;
-				planet.forceSpriteReset();
-			} else {
-				planet = new BaseAsteroid( -10, 0, mission.rawMap.map, mission.rawMap.center);
-				station.core.center.x += 1;
-				station.core.center.y -= 4;
-			}
+			var planet:BaseAsteroid  = new BaseAsteroid( -10, 0, mission.rawMap.map, mission.rawMap.center);
+			station.core.center.x += 1;
+			station.core.center.y -= 4;
 			
 			Mino.resetGrid();
 			station.core.addToGrid();
@@ -80,16 +63,13 @@ package Scenarios.Tutorials {
 			station.resourceSource = planet;
 			initialMinerals = station.mineralsAvailable;
 			
-			if (C.BEAM_DEFENSE)	
-				minoLayer.add(new Mino(planet.gridLoc.x, planet.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030));
-
-			
+			minoLayer.add(new Mino(planet.gridLoc.x, planet.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030));
 			minoLayer.add(planet);
 			station.add(planet);
 			Mino.all_minos.push(planet);
 			planet.addToGrid();
 			
-			mapDim = C.BEAM_DEFENSE ? mission.fullMapSize.add(new Point(15,15)) : mission.fullMapSize;
+			mapDim = mission.fullMapSize;
 		}
 		
 		

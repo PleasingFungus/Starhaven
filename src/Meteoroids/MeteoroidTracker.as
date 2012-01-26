@@ -55,8 +55,8 @@ package Meteoroids {
 		
 		protected function getNextWave():int {
 			if (waveIndex)
-				return waveSpacing;
-			return waveSpacing*2;
+				return waveSpacing/2;
+			return waveSpacing;
 		}
 		
 		override public function update():void {

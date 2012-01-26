@@ -91,15 +91,9 @@ package Scenarios.Tutorials {
 		
 		
 		override protected function getAssortment(index:int):Array {
-			if (C.BEAM_DEFENSE) {
-				if (index)
-					return [SmallBarracks, SmallBarracks, MediumLauncher, Conduit];
-				return [SmallLauncher, SmallLauncher, MediumBarracks];
-			} else {
-				if (index)
-					return [SmallBarracks, SmallBarracks, MediumLauncher];
-				return [SmallLauncher, MediumBarracks, Conduit];
-			}
+			if (index)
+				return [SmallBarracks, SmallBarracks, MediumLauncher, Conduit];
+			return [SmallLauncher, SmallLauncher, MediumBarracks];
 		}
 		
 		

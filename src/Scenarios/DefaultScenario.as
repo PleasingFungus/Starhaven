@@ -90,11 +90,8 @@ package Scenarios {
 			var assortment:Array = [makeBag(miningTool)];
 			if (index)
 				assortment = assortment.concat(makeBag(MediumLauncher), makeBag(SmallLauncher));
-			else {
-				assortment.push(makeBag(miningTool));
-				if (C.BEAM_DEFENSE)
-					assortment = assortment.concat(makeBag(AsteroidGun), makeBag(SmallLauncher));
-			}
+			else
+				assortment.push(makeBag(miningTool), makeBag(RocketGun), makeBag(SmallLauncher));
 				
 			if (!(C.DEBUG && C.NO_CREW)) {
 				if (index)
