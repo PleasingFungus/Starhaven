@@ -46,6 +46,8 @@ package Meteoroids {
 				if (mino.exists && mino.active && !mino.dead && mino.dangerous
 					&& mino.intersectsPoint(gridLoc)) {
 					explode();
+					if (mino.dangerous)
+						mino.takeExplodeDamage(gridLoc.x, gridLoc.y, null);
 					break;
 				}
 		}
@@ -86,7 +88,7 @@ package Meteoroids {
 			return point;
 		}
 		
-		protected const SPEED:int = 180;
+		protected const SPEED:int = 200;
 		
 		[Embed(source = "../../lib/art/other/rocket_combat_2.png")] private static const _sprite:Class;
 	}

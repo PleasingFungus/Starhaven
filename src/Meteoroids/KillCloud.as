@@ -15,6 +15,7 @@ package Meteoroids {
 			generateCloud();
 			super(X, Y, blocks, center, 0xbee93a0f);
 			
+			cycleSpeed *= 3;
 			falling = false;
 		}
 		
@@ -33,7 +34,7 @@ package Meteoroids {
 		}
 		
 		protected var expansionTimer:int;
-		protected const EXPANSION_TIME:int = 1;
+		protected const EXPANSION_TIME:int = 3;
 		protected function checkExpansion():void {
 			expansionTimer++;
 			if (expansionTimer >= EXPANSION_TIME) {

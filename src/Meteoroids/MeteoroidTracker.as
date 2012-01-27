@@ -55,8 +55,8 @@ package Meteoroids {
 		
 		protected function getNextWave():int {
 			if (waveIndex)
-				return waveSpacing/2;
-			return waveSpacing;
+				return waveSpacing;
+			return waveSpacing*2;
 		}
 		
 		override public function update():void {
@@ -76,11 +76,10 @@ package Meteoroids {
 		}
 		
 		public function registerDrop():void {
-			var oldDanger:String = dangerFraction();
 			timer++;
 			if (timer > nextWave)
 				startWave();
-			else if (dangerFraction() == "V. High" && oldDanger != "V. High")
+			else if (nextWave == timer + 2)
 				FlxG.state.add(new FlashText("Meteors Inbound!", 0xff2020, 2));
 		}
 		
@@ -158,6 +157,8 @@ package Meteoroids {
 			
 			if (fraction < 0)
 				fraction = 0;
+			else if (fraction > 1)
+				fraction = 1;
 			
 			var levels:Array = ["Low", "Med.", "High"];
 			return levels[Math.floor(fraction * levels.length)];

@@ -37,26 +37,41 @@ package Sminos {
 		}
 		
 		public function aimAt(target:Point):void {
-			tracer.pointTo(target, absoluteCenter.add(blocks[blocks.length -1]));
+			tracer.pointTo(target, fireOrigin);
+			//tracer.truncateToIntersection();
 			tracer.visible = true;
 		}
 		
 		public function canFireOn(target:Point):Boolean {
 			if (!rocketsLoaded)
 				return false;
-				
-			//TODO: check gun orientation!
 			
-			//tracer.pointTo(target);
+			if (!withinArc(target))
+				return false;
+			
+			//tracer.pointTo(target, fireOrigin);
 			//if (tracer.intersect())
 				//return false;
 			
 			return true;
 		}
 		
+		protected function withinArc(target:Point):Boolean {
+			var delta:Point = target.subtract(fireOrigin);
+			var angle:Number = Math.atan2(delta.y, delta.x);
+			angle -= Math.PI / 2; //offset segments by 90 degrees
+			if (angle < 0) angle = angle + Math.PI * 2;
+			var segment:int = Math.floor(angle / (Math.PI / 2));
+			return segment == facing || segment == ((facing + 1) & 3);
+		}
+		
 		public function fireOn(target:Point):void {
 			rocketsLoaded--;
-			Mino.layer.add(new SlowRocket(absoluteCenter.add(blocks[blocks.length - 1]), target));
+			Mino.layer.add(new SlowRocket(fireOrigin, target));
+		}
+		
+		protected function get fireOrigin():Point {
+			return absoluteCenter.add(blocks[blocks.length - 1]);
 		}
 		
 		override public function renderTop(force:Boolean = false):void {
@@ -70,7 +85,7 @@ package Sminos {
 		override protected function renderSupply():void {			
 			if (!combatRocket)
 				combatRocket = new FlxSprite().loadRotatedGraphic(_combat_rocket_sprite, 4);
-			combatRocket.frame = facing;
+			combatRocket.frame = (facing + 2) & 3;
 			renderOnBlocks(combatRocket, rocketsLoaded);
 			
 			super.renderSupply();
