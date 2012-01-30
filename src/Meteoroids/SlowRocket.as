@@ -8,17 +8,19 @@ package Meteoroids {
 	 */
 	public class SlowRocket extends FlxSprite {
 		
-		public var gridLoc:Point;
-		public var semigridLoc:Point;
-		public var target:Point;
+		protected var gridLoc:Point;
+		protected var semigridLoc:Point;
+		protected var target:Point;
 		protected var gridVelocity:Point;
-		public function SlowRocket(Origin:Point, Target:Point) {
+		protected var parent:Mino;
+		public function SlowRocket(Origin:Point, Target:Point, Parent:Mino) {
 			super()
 			loadRotatedGraphic(_sprite);
 			
 			gridLoc = Origin.clone();
 			semigridLoc = gridLoc.clone();
 			target = Target;
+			parent = Parent;
 			
 			gridVelocity = target.subtract(gridLoc);
 			gridVelocity.normalize(SPEED);
@@ -43,11 +45,10 @@ package Meteoroids {
 		
 		protected function checkCollide():void {
 			for each (var mino:Mino in Mino.all_minos)
-				if (mino.exists && mino.active && !mino.dead && mino.dangerous
+				if (mino.exists && mino.active && !mino.dead && mino != parent
 					&& mino.intersectsPoint(gridLoc)) {
 					explode();
-					if (mino.dangerous)
-						mino.takeExplodeDamage(gridLoc.x, gridLoc.y, null);
+					mino.takeExplodeDamage(gridLoc.x, gridLoc.y, null);
 					break;
 				}
 		}

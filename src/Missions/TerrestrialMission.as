@@ -53,16 +53,18 @@ package Missions {
 		}
 		
 		protected function bedrockDepthAt(x:int):int {
-			var distFromCenter:int = x - mapWidth / 2;
-			if (distFromCenter < 2 && distFromCenter > -3)
-				return int.MIN_VALUE; //pillar of bedrock beneath station co
-			return Math.floor(rockDepth - (FlxU.random() * 2 + 2));
+			var distFromCenter:int = Math.abs(x - mapWidth / 2);
+			distFromCenter = Math.max(distFromCenter - 2, 0);
+			var bedrockDepth:int = Math.floor(rockDepth - (FlxU.random() * 2 + 2));
+			if (distFromCenter < 6)
+				return (distFromCenter / 6) * bedrockDepth;
+			return bedrockDepth;
 		}
 		
 		protected function buildMinerals():void {
 			var totalArea:int = mapBlocks.length;
-			var largeClusters:int = totalArea * .012;
-			var smallClusters:int = totalArea * .018;
+			var largeClusters:int = totalArea * .008;
+			var smallClusters:int = totalArea * .012;
 			
 			for (var i:int = 0; i < largeClusters; i++)
 				genCluster(3);

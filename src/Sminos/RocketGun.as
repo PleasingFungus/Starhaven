@@ -38,20 +38,22 @@ package Sminos {
 		
 		public function aimAt(target:Point):void {
 			tracer.pointTo(target, fireOrigin);
-			//tracer.truncateToIntersection();
+			tracer.truncateToIntersection();
 			tracer.visible = true;
 		}
 		
-		public function canFireOn(target:Point):Boolean {
+		public function canFireOn(target:Point, checkForBlock:Boolean = false):Boolean {
 			if (!rocketsLoaded)
 				return false;
 			
 			if (!withinArc(target))
 				return false;
 			
-			//tracer.pointTo(target, fireOrigin);
-			//if (tracer.intersect())
-				//return false;
+			if (checkForBlock) {
+				tracer.pointTo(target, fireOrigin);
+				if (tracer.intersects())
+					return false;
+			}
 			
 			return true;
 		}
@@ -67,7 +69,7 @@ package Sminos {
 		
 		public function fireOn(target:Point):void {
 			rocketsLoaded--;
-			Mino.layer.add(new SlowRocket(fireOrigin, target));
+			Mino.layer.add(new SlowRocket(fireOrigin, target, this));
 		}
 		
 		protected function get fireOrigin():Point {

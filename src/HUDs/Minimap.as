@@ -105,7 +105,7 @@ package HUDs {
 		override public function render():void {
 			if (dirty)
 				resetMap();
-			if (!C.HUD_ENABLED)
+			if (!C.HUD_ENABLED || C.B.scale != 1)
 				return;
 			
 			_framePixels.fillRect(_flashRect, currentAlpha());

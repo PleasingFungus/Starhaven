@@ -13,7 +13,6 @@ package
 	import HUDs.BlinkText;
 	import HUDs.FlashText;
 	import HUDs.Minimap;
-	import HUDs.SlowBar;
 	import MainMenu.MenuState;
 	import MainMenu.QuickPlayState;
 	import MainMenu.SkipTutorialState;
@@ -52,7 +51,6 @@ package
 		protected var spawner:Class;
 		protected var tracker:MeteoroidTracker;
 		protected var hud:HUD;
-		protected var slowBar:SlowBar;
 		
 		protected var bg:FlxSprite;
 		protected var bg_sprite:Class;
@@ -370,7 +368,6 @@ package
 				gun.loadRockets();
 			if (stationHint && stationHint.exists && !C.NO_COMBAT_ROTATING)
 				stationHint.visible = false;
-			hudLayer.add(slowBar = new SlowBar());
 			dangeresque = true;
 			
 			FlxG.mouse.load(_combat_cursor, 15, 15);
@@ -380,7 +377,6 @@ package
 			combatMinoPool = null;
 			if (stationHint && stationHint.exists && !C.NO_COMBAT_ROTATING)
 				stationHint.visible = true;
-			slowBar.exists = false;
 			dangeresque = false;
 			FlxG.mouse.load(null);
 		}
@@ -498,8 +494,6 @@ package
 		private function checkCombatInput():void {
 			if (FlxG.mouse.justPressed())
 				fireRocket(C.B.screenToBlocks(FlxG.mouse.x, FlxG.mouse.y));
-			if (ControlSet.BOMB_KEY.pressed() && slowBar.slowTimeRemaining)
-				FlxG.timeScale = 0.5;
 		}
 		
 		protected function checkContinuousInput():void {
@@ -638,10 +632,17 @@ package
 		}
 		
 		protected function findClosestValidLauncher(target:Point):RocketGun {
+			var closest:RocketGun = findClosestLauncher(target, true);
+			if (closest)
+				return closest;
+			return findClosestLauncher(target, false);
+		}
+		
+		protected function findClosestLauncher(target:Point, checkForBlock:Boolean):RocketGun {
 			var dist:int = int.MAX_VALUE;
 			var closest:RocketGun;
 			for each (var gun:RocketGun in combatMinoPool)
-				if (gun.canFireOn(target)) {
+				if (gun.exists && gun.canFireOn(target, true)) {
 					var gunDist:int = target.subtract(gun.absoluteCenter).length;
 					if (gunDist < dist) {
 						dist = gunDist;
@@ -649,7 +650,6 @@ package
 					}
 				}
 			return closest;
-			
 		}
 		
 		protected function checkDebugInput():void {
@@ -682,7 +682,7 @@ package
 				station.print();
 			
 			if (ControlSet.DEBUG_ROCKET_KEY.justPressed())
-				minoLayer.add(new SlowRocket(station.core.absoluteCenter, C.B.screenToBlocks(FlxG.mouse.x, FlxG.mouse.y)));
+				minoLayer.add(new SlowRocket(station.core.absoluteCenter, C.B.screenToBlocks(FlxG.mouse.x, FlxG.mouse.y), null));
 		}
 		
 		protected function checkCamera():void {

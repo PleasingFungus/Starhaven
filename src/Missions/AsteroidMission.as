@@ -41,8 +41,11 @@ package Missions {
 						
 				}
 			
-			var largeClusters:int = Math.ceil(size / 6);
-			var smallClusters:int = Math.ceil(size / 4);
+			var totalArea:int = mapBlocks.length;
+			var largeClusters:int = totalArea * .008;
+			var smallClusters:int = totalArea * .012;
+			//var largeClusters:int = Math.ceil(size / 6);
+			//var smallClusters:int = Math.ceil(size / 4);
 			
 			for (var i:int = 0; i < largeClusters; i++)
 				genCluster(3, FlxU.random() < 1/3 ? MineralBlock.MED_MINERALS : MineralBlock.WEAK_MINERALS);

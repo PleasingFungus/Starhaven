@@ -32,6 +32,8 @@ package  {
 		}
 		
 		public function get blockSlack():Number {
+			if (setting >= V_HARD)
+				return 0;
 			return 1 + 1 / (1 + setting)
 		}
 		

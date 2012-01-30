@@ -10,7 +10,7 @@ package Missions {
 	public class PlanetMission extends TerrestrialMission {
 		
 		public function PlanetMission(Seed:Number) {
-			mapWidth = (27 + FlxU.random() * 6) * 2;
+			mapWidth = 60;
 			rockDepth = 12;
 			atmosphere = 24;
 			

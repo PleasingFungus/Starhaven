@@ -38,6 +38,8 @@ package Scenarios {
 			station.core.gridLoc.y = closestLocation.y;
 			station.centroidOffset.x = -closestLocation.x;
 			station.centroidOffset.y = -closestLocation.y;
+			
+			//cleanMinerals();
 		}
 		
 		protected function findClosestFreeSpot():Point {
@@ -75,6 +77,60 @@ package Scenarios {
 			
 			return new Point( -1, -1); //amusing, valid
 		}
+		
+		//protected function cleanMinerals():void {
+			//var direction:Point, done:Boolean, p:Point;
+			//p = new Point;
+			//var sabsc:Point = station.core.absoluteCenter;
+			//var stationBounds:Rectangle = new Rectangle(Math.floor(sabsc.x - station.core.blockDim.x / 2),
+													    //Math.floor(sabsc.y - station.core.blockDim.y / 2),
+														//station.core.blockDim.x, station.core.blockDim.y);
+			//
+			//var sign:int, block:MineralBlock;
+			//if (Math.abs(station.core.gridLoc.x) > Math.abs(station.core.gridLoc.y)) {
+				//if (station.core.gridLoc.x > 0) {
+					//p.x = stationBounds.left; sign = -1;
+				//} else {
+					//p.x = stationBounds.right; sign = 1;
+				//}
+				//
+				//C.log("Going xwise: " + p.x);
+				//
+				//for (; !done; p.x += sign) {
+					//for (p.y = stationBounds.top; p.y < stationBounds.bottom; p.y++) {
+						//block = rock.resourceAt(p);
+						//if (block) {
+							//done = done || block.type == MineralBlock.BEDROCK;
+							//block.type = MineralBlock.BEDROCK;
+						//}
+					//}
+					//
+					//done = done || ((sign > 0) == (p.x > 0));
+				//}
+			//} else {
+				//if (station.core.gridLoc.y > 0) {
+					//p.y = stationBounds.top; sign = -1;
+				//} else {
+					//p.y = stationBounds.bottom; sign = 1;
+				//}
+				//
+				//C.log("Going ywise: " + p.y);
+				//
+				//for (; !done; p.y += sign) {
+					//for (p.x = stationBounds.left; p.x < stationBounds.right; p.x++) {
+						//block = rock.resourceAt(p);
+						//if (block) {
+							//done = done || block.type == MineralBlock.BEDROCK;
+							//block.type = MineralBlock.BEDROCK;
+						//}
+					//}
+					//
+					//done = done || ((sign > 0) == (p.y > 0));
+				//}
+			//}
+			//
+			//rock.newlyDamaged = false;
+		//}
 		
 		
 		[Embed(source = "../../lib/art/backgrounds/garradd_3.jpg")] private static const _bg1:Class;

@@ -77,7 +77,7 @@ package Meteoroids {
 		
 		public function registerDrop():void {
 			timer++;
-			if (timer > nextWave)
+			if (timer >= nextWave)
 				startWave();
 			else if (nextWave == timer + 2)
 				FlxG.state.add(new FlashText("Meteors Inbound!", 0xff2020, 2));

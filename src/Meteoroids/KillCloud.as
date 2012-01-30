@@ -72,11 +72,17 @@ package Meteoroids {
 		
 		protected function checkKills():void {
 			for each (var mino:Mino in Mino.all_minos)
-				if (mino.exists && mino.active && !mino.dead && mino.dangerous
-					&& mino.overlaps(this)) {//mino.intersect(this)) {
-					mino.takeExplodeDamage(mino.gridLoc.x, mino.gridLoc.y, this);
+				if (mino.exists && mino.active && !mino.dead
+					&& mino.intersect(this)) {
+					explodeAt(mino);
 					break;
 				}
+		}
+		
+		protected function explodeAt(target:Mino):void {
+			var absCen:Point = absoluteCenter;
+			for each (var block:Point in blocks)
+				target.takeExplodeDamage(block.x + absCen.x, block.y + absCen.y, this);
 		}
 		
 		

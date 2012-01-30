@@ -33,7 +33,14 @@ package SFX {
 			this.end = end;
 		}
 		
-		public function intersect():Mino {
+		public function intersect(mino:Mino):Boolean {
+			for each (var block:Point in path)
+				if (mino.intersectsPoint(block))
+					return true;
+			return false;
+		}
+		
+		public function intersects():Mino {
 			for each (var block:Point in path)
 				if (canIntersect(Mino.getGrid(block.x, block.y)))
 					return Mino.getGrid(block.x, block.y);

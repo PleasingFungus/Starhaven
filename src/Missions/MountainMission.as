@@ -24,8 +24,8 @@ package Missions {
 		
 		override protected function bedrockDepthAt(x:int):int {
 			var distFromCenter:int = x - mapWidth / 2;
-			if (distFromCenter < 2 && distFromCenter > -3)
-				return int.MIN_VALUE; //pillar of bedrock beneath station core
+			if (Math.abs(distFromCenter) < 8)
+				return super.bedrockDepthAt(x); //pillar of bedrock beneath station core
 			
 			var distFraction:Number = Math.abs(distFromCenter) / (mapWidth / 2);
 			distFraction *= distFraction;
