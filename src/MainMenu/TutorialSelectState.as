@@ -31,8 +31,6 @@ package MainMenu {
 				cancelButton.setY(FlxG.height - 60);
 				add(cancelButton);
 			}
-			
-			C.IN_TUTORIAL = true;
 		}
 		
 		override public function update():void {

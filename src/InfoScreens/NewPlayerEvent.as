@@ -37,7 +37,7 @@ package InfoScreens {
 		public static function onFirstUncrewed():NewPlayerEvent {
 			var title:String = "Inadequate Staff";
 			var description:String = "The module you just dropped is darkened, and maybe even showing a red NO CREW icon.\n\n";
-			description += "It needs crew. But don't panic! Drop a barracks next to it, and once both this module and the barracks are powered, crew will automatically move over and start to work.";
+			description += "It needs crew. But don't panic! Drop a barracks next to it, and once both this module and the barracks are powered, crew will automatically move over and start to work. ";
 			description += "Piece of cake!";
 			
 			seen[DECREW] = true;

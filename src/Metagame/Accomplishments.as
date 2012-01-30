@@ -73,12 +73,14 @@ package Metagame {
 			
 			if (C.campaign)
 				registerCampaignVictory();
+			C.log("Registration: " + tutorialDone, index, LAST_TUTORIAL_INDEX);
 			if (!tutorialDone && index == LAST_TUTORIAL_INDEX)
 				setTutorialsDone();
 		}
 		
 		public function setTutorialsDone():void {
 			C.save.write("tutorialDone", tutorialDone = true);
+			C.log('tutorial done:' + tutorialDone);
 		}
 		
 		public function registerCampaignVictory():void {

@@ -61,6 +61,14 @@ package {
 			}
 		}
 		
-		override protected function onFocusLost(event:Event=null):void { }
+		override protected function onFocusLost(event:Event = null):void {
+			if (FlxG.state is Scenario)
+				(FlxG.state as Scenario).enterPauseState();
+		}
+		
+		override protected function onFocus(event:Event = null):void {
+			if (FlxG.state is Scenario)
+				(FlxG.state as Scenario).leavePauseState();
+		}
 	}
 }

@@ -17,6 +17,7 @@ package Scenarios {
 			missionType = NebulaMission;
 			bg_sprites = _bgs;
 			mapBuffer = 20;
+			goal = 0.52;
 		}
 		
 		override protected function _getBounds():Rectangle {

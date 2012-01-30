@@ -166,6 +166,7 @@ package Sminos {
 		}
 		
 		override public function setTutorial(station:Station):void {
+			silent = true;
 			super.anchorTo(station);
 		}
 		

@@ -39,7 +39,7 @@ package Credits {
 			var lastCol:TitledColumn = creditGruppen.members[creditGruppen.members.length - 1];
 			lastCol.setWidth(FlxG.width);
 			
-			creditGruppen.height = colY + colHeight;
+			creditGruppen.height = colY + colHeight + COL_SPACE;
 			maxScroll = 0;
 			minScroll = (FlxG.height - creditGruppen.height) + maxScroll;
 			
@@ -63,7 +63,7 @@ package Credits {
 			colIndex ++;
 			colHeight = Math.max(colHeight, titledCol.height);
 			if (!(colIndex % 2)) {
-				colY += colHeight + 25;
+				colY += colHeight + COL_SPACE;
 				colHeight = 0;
 			}
 		}
@@ -109,6 +109,7 @@ package Credits {
 		}
 		
 		private const SCROLL_SPEED:Number = 250;
+		private const COL_SPACE:int = 25;
 	}
 
 }

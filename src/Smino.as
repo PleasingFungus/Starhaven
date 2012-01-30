@@ -39,6 +39,8 @@ package  {
 		protected var opSprite:Class;
 		protected var inopSprite:Class;
 		
+		protected var silent:Boolean;
+		
 		//TODO: setup dual sprite caching?
 		//private var opSprites:Array;
 		//private var inopSprites:Array;
@@ -87,8 +89,10 @@ package  {
 			hungerForPower();
 			cycleSpeed = 1;
 			
-			FlxG.quake.start(0.015, 0.075);
-			FlxG.play(THUD_NOISE, 0.5);
+			if (!silent) {
+				FlxG.quake.start(0.015, 0.075);
+				FlxG.play(THUD_NOISE, 0.5);
+			}
 		}
 		
 		protected function checkBounds():void {
@@ -508,6 +512,7 @@ package  {
 		}
 		
 		public function setTutorial(station:Station):void {
+			silent = true;
 			anchorTo(station);
 		}
 		

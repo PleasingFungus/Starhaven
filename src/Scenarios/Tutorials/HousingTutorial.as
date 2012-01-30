@@ -25,6 +25,11 @@ package Scenarios.Tutorials {
 			rotateable = false;
 		}
 		
+		override public function create():void {
+			C.IN_TUTORIAL = true;
+			super.create();
+		}
+		
 		override protected function createMission():void {
 			mission = new LoadedMission(_mission_image);
 		}

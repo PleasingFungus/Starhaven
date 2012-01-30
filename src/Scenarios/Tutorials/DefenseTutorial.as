@@ -30,6 +30,7 @@ package Scenarios.Tutorials {
 		}
 		
 		override public function create():void {
+			C.IN_TUTORIAL = true;
 			super.create();
 			
 			hud.goalName = "Survived";

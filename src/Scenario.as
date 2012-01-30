@@ -336,23 +336,22 @@ package
 			var spawnedMino:Smino = new choice(X, Y)
 			spawnedMino.gridLoc.y -= spawnedMino.blockDim.y + 1;
 			
-			//If belt or equivalent is re-added, uncomment this!
-			//do {
-				//var collision:Boolean = false;
-				//var collideLength:int = 6;
-				//for (var y:int = 0; y < collideLength; y++) {
-					//spawnedMino.gridLoc.y += y;
-					//if (spawnedMino.intersects()) {
-						//collision = true;
-						//break;
-					//}
-					//spawnedMino.gridLoc.y -= y;
-				//}
-				//if (collision)
-					//spawnedMino.gridLoc.y -= collideLength;
-			//} while (collision);
-			//while (spawnedMino.intersects())
-				//spawnedMino.gridLoc.y -= spawnedMino.blockDim.y + 6;
+			do {
+				var collision:Boolean = false;
+				var collideLength:int = 6;
+				for (var y:int = 0; y < collideLength; y++) {
+					spawnedMino.gridLoc.y += y;
+					if (spawnedMino.intersects()) {
+						collision = true;
+						break;
+					}
+					spawnedMino.gridLoc.y -= y;
+				}
+				if (collision)
+					spawnedMino.gridLoc.y -= collideLength;
+			} while (collision);
+			while (spawnedMino.intersects())
+				spawnedMino.gridLoc.y -= spawnedMino.blockDim.y + 6;
 			
 			spawnedMino.current = true;
 			return spawnedMino;
@@ -410,7 +409,10 @@ package
 		
 		
 		private var pauseLayer:FlxGroup;
-		private function enterPauseState():void {
+		public function enterPauseState():void {
+			if (pauseLayer && pauseLayer.exists)
+				return;
+			
 			pauseLayer = new FlxGroup();
 			
 			var darkShroud:FlxSprite = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
@@ -439,7 +441,7 @@ package
 			
 			//MenuThing.addColumn(col, FlxG.width/2 - quitButton.fullWidth/2);
 			
-			var pauseText:FlxText = new BlinkText(0, FlxG.height / 2 + 40, "Press any key to unpause.", 16)
+			var pauseText:FlxText = new BlinkText(0, FlxG.height - 40, "Press any key to unpause.", 16)
 			pauseText.active = false;
 			pauseLayer.add(pauseText);
 			
@@ -455,13 +457,20 @@ package
 			pauseLayer.update();
 			
 			if (FlxG.keys.anyKey()) {
-				pauseLayer.exists = false;
-				if (dangeresque)
-					FlxG.mouse.load(_combat_cursor, 15, 15);
-				else
-					FlxG.mouse.hide();
-				substate = SUBSTATE_NORMAL;
+				leavePauseState();
 			}
+		}
+		
+		public function leavePauseState():void {
+			if (!pauseLayer || !pauseLayer.exists)
+				return;
+			
+			pauseLayer.exists = false;
+			if (dangeresque)
+				FlxG.mouse.load(_combat_cursor, 15, 15);
+			else
+				FlxG.mouse.hide();
+			substate = SUBSTATE_NORMAL;
 		}
 		
 		private function resetLevel(_:String):void {
@@ -817,7 +826,7 @@ package
 				}
 			} else if (C.IN_TUTORIAL) {
 				var nextLevel:int = C.accomplishments.scenarioIndex(this) + 1;
-				if (!C.accomplishments.scenariosWon[nextLevel])
+				if (!C.accomplishments.scenariosWon[nextLevel] && !C.accomplishments.tutorialDone)
 					FlxG.state = new C.accomplishments.scenarios[nextLevel]
 				else
 					FlxG.state = new TutorialSelectState;
