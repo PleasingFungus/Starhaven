@@ -44,7 +44,7 @@ package Mining {
 			}
 			
 			var mino:Mino = Mino.getGrid(grid.x, grid.y - 1);
-			if (mino is Smino) {
+			if (mino && mino.exists && mino is Smino) {
 				var smino:Smino = mino as Smino;
 				if (/*smino.transmitsPower && */smino.powered) {
 					smino.station.mineralsMined += value;

@@ -26,6 +26,7 @@ package Scenarios {
 			bg_sprite = _bg;
 			//bg_sprites = _bgs;
 			rotateable = false;
+			conduitLimit = 9;
 		}
 		
 		override protected function blockLimitToFullyMine():int {

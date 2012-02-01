@@ -43,6 +43,14 @@ package Credits {
 			maxScroll = 0;
 			minScroll = (FlxG.height - creditGruppen.height) + maxScroll;
 			
+			var scrollText:FlxText = new FlxText(5, 35, 115, "Use arrow keys to scroll.");
+			scrollText.setFormat(C.FONT, 12);
+			add(scrollText);
+			
+			var returnText:FlxText = new FlxText(FlxG.width - 120, 35, 115, ControlSet.CONFIRM_KEY+" or click to return.");
+			returnText.setFormat(C.FONT, 12, 0xffffff, 'right');
+			add(returnText);
+			
 			//var t:FlxText = new FlxText(0, FlxG.height - 25, FlxG.width, "Press ENTER to go back to the menu.");
 			//t.setFormat(C.FONT, 12, 0xffffff, 'center');
 			//add(t);
@@ -84,9 +92,9 @@ package Credits {
 		
 		private var maxScroll:int, minScroll:int;
 		private function checkScroll():void {
-			if (FlxG.mouse.y < FlxG.height / 3)
+			if (FlxG.keys.pressed("UP"))
 				scrollUp(FlxG.elapsed * SCROLL_SPEED);
-			else if (FlxG.mouse.y > FlxG.height * 2 / 3)
+			else if (FlxG.keys.pressed("DOWN"))
 				scrollDown(FlxG.elapsed * SCROLL_SPEED);
 		}
 		

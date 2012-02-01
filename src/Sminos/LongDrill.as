@@ -64,28 +64,6 @@ package Sminos {
 			return false;
 		}
 		
-		protected var drilledMinos:Array = [];
-		protected function drillTip(tip:Point):MineralBlock {
-			var block:MineralBlock = targetResource.resourceAt(tip);
-			if (!block || block.damaged) {
-				var mino:Mino = Mino.getGrid(tip.x, tip.y);
-				if (mino && mino.exists && !(mino is StationCore)) {
-					mino.solid = false;
-					if (drilledMinos.indexOf(mino) == -1)
-						drilledMinos.push(mino);
-				}
-				return null;
-			}
-			if (block.type == MineralBlock.BEDROCK)
-				return block;
-			
-			if (block.type > 0)
-				storedMinerals += block.value;
-			
-			targetResource.mine(tip);
-			return block;
-		}
-		
 		protected function hasNeighbor(target:Mino, parent:Aggregate):Boolean {
 			if (adjacent(target))
 				return true;

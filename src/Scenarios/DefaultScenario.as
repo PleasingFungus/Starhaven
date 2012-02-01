@@ -17,6 +17,7 @@ package Scenarios {
 		protected var mission:Mission;
 		protected var missionType:Class;
 		protected var rock:BaseAsteroid;
+		protected var conduitLimit:int = int.MAX_VALUE;
 		public function DefaultScenario(Seed:Number) {
 			super(Seed);
 			
@@ -104,7 +105,11 @@ package Scenarios {
 		
 		protected function makeBag(primarySmino:Class):BagType {
 			primarySmino = replace(primarySmino);
+			if (conduitLimit <= 0)
+				return new BagType(null, 1, [primarySmino]);
+			
 			var conduit:Class = replace(Conduit);
+			conduitLimit--;
 			return new BagType(null, 1, [primarySmino, conduit]);
 		}
 		

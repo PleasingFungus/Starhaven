@@ -14,7 +14,7 @@ package Missions {
 			mapWidth = (19) * 2;
 			rockDepth = 26;
 			chunkSize = 3;
-			atmosphere = 26;
+			atmosphere = 32;
 			coreLeft = FlxU.random() > 0.5;
 			
 			super(Seed);

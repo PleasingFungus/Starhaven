@@ -68,14 +68,36 @@ package Sminos {
 			super.anchorTo(parent);
 		}
 		
-		protected function minePoint(point:Point):Boolean {
+		protected var drilledMinos:Array = [];
+		protected function drillTip(tip:Point):MineralBlock {
+			var block:MineralBlock = targetResource.resourceAt(tip);
+			if (!block || block.damaged) {
+				var mino:Mino = Mino.getGrid(tip.x, tip.y);
+				if (mino && mino.exists && !(mino is StationCore)) {
+					mino.solid = false;
+					if (drilledMinos.indexOf(mino) == -1)
+						drilledMinos.push(mino);
+				}
+				return null;
+			}
+			if (block.type == MineralBlock.BEDROCK)
+				return block;
+			
+			if (block.type > 0)
+				storedMinerals += block.value;
+			
+			targetResource.mine(tip);
+			return block;
+		}
+		
+		protected function minePoint(point:Point):MineralBlock {
 			var block:MineralBlock = targetResource.resourceAt(point);
 			if (block && !block.damaged && block.type > 0) {
 				storedMinerals += block.value;
 				targetResource.mine(point);
-				return true;
+				return block;
 			}
-			return false;
+			return null;
 		}
 		
 		protected function mine():void {
@@ -97,7 +119,7 @@ package Sminos {
 		}
 		
 		protected var drillTimer:Number = 0;
-		protected const DRILL_TIME:Number = 0.2;
+		protected var drillTime:Number = 0.2;
 		override public function update():void {
 			if (drilling)
 				animateDrill();
@@ -110,9 +132,9 @@ package Sminos {
 				drill();
 			else {
 				drillTimer += FlxG.elapsed;
-				if (drillTimer >= DRILL_TIME) {
+				if (drillTimer >= drillTime) {
 					if (drillOne())
-						drillTimer -= DRILL_TIME;
+						drillTimer -= drillTime;
 					else
 						drill();
 					FlxG.play(DRILL_NOISE, 0.5);

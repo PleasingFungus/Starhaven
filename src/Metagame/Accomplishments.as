@@ -19,6 +19,8 @@ package Metagame {
 		public var scenariosWon:Array;
 		public var campaignsWon:Array;
 		public var tutorialDone:Boolean;
+		public var bestStats:Statblock;
+		public var campaignRecord:int;
 		public function Accomplishments() {
 			setDefaults();
 		}
@@ -32,6 +34,8 @@ package Metagame {
 			scenariosSeen = C.save.read("scenariosSeen") as Array;
 			scenariosWon = C.save.read("scenariosWon") as Array;
 			campaignsWon = C.save.read("campaignsWon") as Array;
+			bestStats = C.save.read("bestStats") as Statblock;
+			campaignRecord = C.save.read("campaignRecord") as int;
 			setDefaults();
 			
 			if (C.DEBUG && C.FORGET_TUTORIALS) {
@@ -48,6 +52,10 @@ package Metagame {
 				scenariosWon = new Array(scenarios.length);
 			if (!campaignsWon)
 				campaignsWon = new Array(2);
+			if (!bestStats)
+				bestStats = new Statblock(int.MAX_VALUE, 0, 0, 0);
+			//if (!campaignRecord)
+				//campaignRecord = 0; //this is silly
 		}
 		
 		public function registerPlay(scenario:Scenario):void {

@@ -57,6 +57,7 @@ package
 		protected var bg_sprites:Array;
 		
 		protected var rotateable:Boolean;
+		protected var centerPoint:Point;
 		
 		protected var resourceSource:ResourceSource;
 		protected var initialMinerals:int;
@@ -95,6 +96,7 @@ package
 			
 			goal = 0.6;
 			rotateable = true;
+			centerPoint = new Point;
 		}
 		
 		override public function create():void
@@ -701,7 +703,7 @@ package
 				(shouldZoomOut && !zoomToggled)) {
 				if (_scale == 1)
 					adjustScale(true);
-				C.B.centerDrawShiftOn(station.core.gridLoc);
+				C.B.centerDrawShiftOn(centerPoint);
 			} else {
 				if (_scale != 1)
 					adjustScale(false);
@@ -720,7 +722,7 @@ package
 		
 		protected function checkGoal():void {
 			var newFraction:int = Math.floor(goalPercent / 25);
-			if (newFraction > goalFraction)
+			if (newFraction > goalFraction && newFraction < 4)
 				hudLayer.add(new FlashText((newFraction * 25) + "% of goal passed!", 0x80ffd000, 2));
 			goalFraction = newFraction;
 			hud.updateGoal(goalPercent);

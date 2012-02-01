@@ -2,79 +2,93 @@ package Sminos {
 	import flash.geom.Point;
 	import Mining.MineralBlock;
 	import Mining.WaterMineral;
+	import org.flixel.FlxG;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
 	 */
-	public class Scoop extends Smino {
+	public class Scoop extends Drill {
 		
 		public function Scoop(X:int, Y:int ) {
 			var blocks:Array = [new Block(0, 0), 				  new Block(2, 0),
 								new Block(0, 1), new Block(1, 1), new Block(2, 1),
 												 new Block(1, 2)];
-			super(X, Y, blocks, new Point(1, 1), 0xff64448f, 0xff9348f4, _sprite, _sprite_in);
-			//bombCarrying = true;
+			super(X, Y, blocks, new Point(1, 1), _sprite, _sprite_in);
+			bombCarrying = false;
 			cladeName = "Scoop";
 			name = "Scoop";
 			description = "Use scoops to smash into purple mineral clusters and dislodge them; then use conduits to collect the minerals when they bob to the surface!";
 			audioDescription = _desc;
 		}
 		
-		override protected function anchorTo(Parent:Aggregate):void {
-			//checkWater();
-			if (facing == DOWN) {
-				parent = Parent;
-				drill();
-			}
-			
-			super.anchorTo(Parent);
-			powered = true; //shenanagains?
-		}
-		
-		protected function drill():void {
+		override protected function drillOne(_:Boolean = true):Boolean {
 			var forward:Point = new Point(0, 1);
 			var target:Mino = station.resourceSource as Mino;
 			var tip:Array = [blocks[2], blocks[4], blocks[5]];
+			var drilledMinoTotal:int = drilledMinos.length;
+			
+			var minedTips:Array = [];
+			for each (var block:Block in tip) {
+				var drillPoint:Point = block.add(absoluteCenter).add(forward);
+				var drillBlock:MineralBlock = station.resourceSource.resourceAt(drillPoint);
+				
+				if (drillBlock && drillBlock.type == MineralBlock.BEDROCK)
+					return false;
+				
+				if (drillBlock)
+					minedTips.push(drillBlock);
+			}
+			
+			for each (block in tip)
+				minePoint(block.add(absoluteCenter).add(forward));
+			gridLoc = gridLoc.add(forward);
 			
 			var Parent:Aggregate = parent;
-			do {
-				var stopped:Boolean = false;
-				parent = Parent;
-				
-				for each (var block:Block in tip) {
-					var drillPoint:Point = block.add(absoluteCenter).add(forward);
-					var drillBlock:MineralBlock = station.resourceSource.resourceAt(drillPoint);
-					
-					if (drillBlock && drillBlock.type == MineralBlock.BEDROCK) {
-						stopped = true;
-						break;
-					}
-				}
-				
-				if (!stopped) {
-					for each (block in tip)
-						minePoint(block.add(absoluteCenter).add(forward));
-					gridLoc = gridLoc.add(forward);
-				}
-				
-				parent = null;
-			} while (!stopped && !intersects());
-			
-			if (intersects())
-				gridLoc = gridLoc.subtract(forward);
+			parent = null;
+			var hit:Boolean = intersects() != null;
 			parent = Parent;
 			
-			//intersects() only works if you bother to fuck around with turning parent on and off, which I ain't.
+			if (hit) {
+				gridLoc = gridLoc.subtract(forward);
+				for each (drillBlock in minedTips) 
+					targetResource.unmine(drillBlock);
+				return false;
+			}
+			
+			
+			if (minedTips.length || drilledMinoTotal != drilledMinos.length) {
+				FlxG.quake.start(0.012, 0.065);
+				drillTime *= 0.85;
+			}
+			return true;
 		}
 		
-		protected function minePoint(point:Point):void {
-			var block:MineralBlock = station.resourceSource.resourceAt(point);
-			if (block && !block.damaged) {
-				station.resourceSource.mine(point);
-				if (block.type > 0)
-					Mino.layer.add(new WaterMineral(point.x, point.y, block.type, block.value));
-			}
+		override protected function minePoint(point:Point):MineralBlock {
+			var minedBlock:MineralBlock = super.minePoint(point);
+			if (storedMinerals)
+				dumpMinerals(point, minedBlock.type);
+			return minedBlock;
 		}
+		
+		override protected function drillTip(point:Point):MineralBlock {
+			var minedBlock:MineralBlock = super.drillTip(point);
+			if (storedMinerals)
+				dumpMinerals(point, minedBlock.type);
+			return minedBlock;
+		}
+		
+		protected function dumpMinerals(origin:Point, type:int):void {
+			Mino.layer.add(new WaterMineral(origin.x, origin.y, type, storedMinerals));
+			storedMinerals = 0;
+		}
+		
+		override protected function finishDrill():void { 
+			for each (var mino:Mino in drilledMinos)
+				mino.takeExplodeDamage(-1, -1, this)
+			super.finishDrill();
+		}
+		
+		override protected function mine():void { }
 		
 		override protected function getErrorIcons():Array { return [] }
 		

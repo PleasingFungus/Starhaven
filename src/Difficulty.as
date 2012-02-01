@@ -32,6 +32,8 @@ package  {
 		}
 		
 		public function get blockSlack():Number {
+			return 0; //test
+			
 			if (setting >= V_HARD)
 				return 0;
 			return 1 + 1 / (1 + setting)
@@ -50,7 +52,7 @@ package  {
 		public function name(forSetting:Number = -1):String {
 			if (forSetting == -1)
 				forSetting = setting;
-			return ["V. Easy", "Easy", "Normal", "Hard", "V. Hard"][Math.floor(forSetting)];
+			return ["Beginner", "Easy", "Normal", "Hard", "Too Hard"][Math.floor(forSetting)];
 		}
 		
 		protected const V_EASY:Number = 0;

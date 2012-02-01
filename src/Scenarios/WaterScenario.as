@@ -27,6 +27,7 @@ package Scenarios {
 			missionType = WaterMission;
 			bg_sprite = _bg;
 			rotateable = false;
+			conduitLimit = 8;
 		}
 		
 		override protected function blockLimitToFullyMine():int {
@@ -44,15 +45,6 @@ package Scenarios {
 			minoLayer.add(planet_bg);
 			super.addElements();
 			minoLayer.members.splice(0, 0, new Water(C.B.OUTER_BOUNDS.top + (mission as WaterMission).atmosphere));
-		}
-		
-		protected var conduits:int;
-		override protected function makeBag(primarySmino:Class):BagType {
-			if (conduits < 8) {
-				conduits++;
-				return super.makeBag(primarySmino);
-			} else
-				return new BagType(null, 1, [primarySmino]);
 		}
 		
 		[Embed(source = "../../lib/art/backgrounds/planetside.png")] private static const _bg:Class;

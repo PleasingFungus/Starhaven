@@ -22,7 +22,7 @@ package Scenarios {
 			mapBuffer = 0;
 			spawner = PlanetSpawner;
 			missionType = TrenchMission;
-			miningTool = FoldingDrill;
+			//miningTool = FoldingDrill;
 			//bg_sprite = _bg;
 			rotateable = false;
 		}
@@ -57,6 +57,16 @@ package Scenarios {
 			mineralBackground.offset.x = -C.B.drawShift.x;
 			mineralBackground.offset.y = -C.B.drawShift.y;
 		};
+		
+		override protected function initCombat():void {
+			super.initCombat();
+			centerPoint.y = -(station.core.absoluteCenter.y - station.core.blockDim.y / 2 - C.B.BASE_AREA.y);
+		}
+		
+		override protected function beginEndgame():void {
+			super.beginEndgame();
+			centerPoint.y = 0;
+		}
 	}
 
 }
