@@ -1,6 +1,6 @@
 package Controls {
-	import MainMenu.MainMenuThing;
 	import MainMenu.MenuState;
+	import MainMenu.StateThing;
 	import org.flixel.*;
 	
 	/**
@@ -22,7 +22,7 @@ package Controls {
 			
 			MenuThing.resetThings();
 			var leftCol:Array = [];
-			leftCol.push(add(new MainMenuThing("Back to Menu", MenuState).setFormat(C.FONT, 12)));
+			leftCol.push(add(new StateThing("Back to Menu", MenuState).setFormat(C.FONT, 12)));
 			leftCol.push(add(new ControlMenuThing("Move Left: ", ControlSet.MINO_L_KEY)));
 			leftCol.push(add(new ControlMenuThing("Move Right: ", ControlSet.MINO_R_KEY)));
 			leftCol.push(add(new ControlMenuThing("Fastfall: ", ControlSet.FASTFALL_KEY)));

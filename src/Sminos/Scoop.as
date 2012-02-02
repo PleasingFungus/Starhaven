@@ -27,7 +27,7 @@ package Sminos {
 			var tip:Array = [blocks[2], blocks[4], blocks[5]];
 			var drilledMinoTotal:int = drilledMinos.length;
 			
-			var minedTips:Array = [];
+			var minedTips:Array = new Array(3);
 			for each (var block:Block in tip) {
 				var drillPoint:Point = block.add(absoluteCenter).add(forward);
 				var drillBlock:MineralBlock = station.resourceSource.resourceAt(drillPoint);
@@ -35,12 +35,12 @@ package Sminos {
 				if (drillBlock && drillBlock.type == MineralBlock.BEDROCK)
 					return false;
 				
-				if (drillBlock)
-					minedTips.push(drillBlock);
+				minedTips.push(drillPoint);
 			}
 			
-			for each (block in tip)
-				minePoint(block.add(absoluteCenter).add(forward));
+			for each (drillPoint in minedTips)
+				drillTip(drillPoint);
+			
 			gridLoc = gridLoc.add(forward);
 			
 			var Parent:Aggregate = parent;
@@ -50,8 +50,8 @@ package Sminos {
 			
 			if (hit) {
 				gridLoc = gridLoc.subtract(forward);
-				for each (drillBlock in minedTips) 
-					targetResource.unmine(drillBlock);
+				for each (drillPoint in minedTips) 
+					targetResource.unmine(drillPoint);
 				return false;
 			}
 			

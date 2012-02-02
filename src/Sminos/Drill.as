@@ -73,13 +73,13 @@ package Sminos {
 			var block:MineralBlock = targetResource.resourceAt(tip);
 			if (!block || block.damaged) {
 				var mino:Mino = Mino.getGrid(tip.x, tip.y);
-				if (mino && mino.exists && !(mino is StationCore)) {
+				if (mino && mino.exists && !(mino is StationCore) && drilledMinos.indexOf(mino) == -1) {
 					mino.solid = false;
-					if (drilledMinos.indexOf(mino) == -1)
-						drilledMinos.push(mino);
+					drilledMinos.push(mino);
 				}
 				return null;
 			}
+			
 			if (block.type == MineralBlock.BEDROCK)
 				return block;
 			
@@ -101,12 +101,6 @@ package Sminos {
 		}
 		
 		protected function mine():void {
-			//var directions:Array = [new Point(1,0), new Point(0,1), new Point(-1,0), new Point(0,-1)];
-			//for each (var block:Block in blocks) {
-				//var adjustedBlock:Point = block.add(absoluteCenter);
-				//for each (var direction:Point in directions)
-					//minePoint(adjustedBlock.add(direction));
-			//}
 			var shroudBlocks:Array = [];
 			var abscen:Point = absoluteCenter;
 			for (var X:int = topLeft.x; X < topLeft.x + blockDim.x; X++)

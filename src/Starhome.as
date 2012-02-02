@@ -6,7 +6,6 @@ package {
 	import InfoScreens.NewPieceInfo;
 	import InfoScreens.NewPlayerEvent;
 	import MainMenu.MenuState;
-	import MainMenu.MainMenuThing;
 	
 	import org.flixel.*;
 	
@@ -27,7 +26,6 @@ package {
 			
 			NewPieceInfo.init();
 			NewPlayerEvent.init();
-			MainMenuThing.init();
 			ControlSet.load();
 			C.difficulty.load();
 			C.accomplishments.load();

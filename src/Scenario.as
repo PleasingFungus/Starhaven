@@ -108,7 +108,6 @@ package
 			Mino.resetGrid();
 			createGCT(blockLimitToFullyMine() * goal * C.difficulty.blockSlack);
 			FlashText.activeTexts = [];
-			C.accomplishments.registerPlay(this);
 			
 			_buffer = new BitmapData(FlxG.width, FlxG.height, true, FlxState.bgColor );
 			_bufferRect = new Rectangle(0, 0, FlxG.width, FlxG.height);
@@ -733,6 +732,9 @@ package
 		}
 		
 		protected function checkEndConditions():void {
+			if (substate == SUBSTATE_MISSOVER)
+				return; //to avoid double-triggering on debug input
+			
 			if (won() ||
 				GlobalCycleTimer.outOfTime() ||
 				station.core.damaged)
@@ -743,6 +745,7 @@ package
 		protected var victoryText:String = "Mineral goal reached!";
 		protected function beginEndgame():void {
 			FlxG.flash.start(0xefffffff, 3.5/*, endGame*/);
+			C.log("Beginning endgame.");
 			
 			missionOver = true;
 			substate = SUBSTATE_MISSOVER;
@@ -820,15 +823,15 @@ package
 		protected function endGame():void {		
 			if (C.campaign) {
 				if (won()) {
-					C.campaign.winMission(makeStatblock());
+					C.campaign.winMission(makeStatblock(true));
 					FlxG.state = new CampaignState;
 				} else {
-					C.campaign.endMission(makeStatblock());
+					C.campaign.endMission(makeStatblock(false));
 					FlxG.state = new CampaignState(true);
 				}
 			} else if (C.IN_TUTORIAL) {
 				var nextLevel:int = C.accomplishments.scenarioIndex(this) + 1;
-				if (!C.accomplishments.scenariosWon[nextLevel] && !C.accomplishments.tutorialDone)
+				if (!C.accomplishments.winsByScenario[nextLevel] && !C.accomplishments.tutorialDone)
 					FlxG.state = new C.accomplishments.scenarios[nextLevel]
 				else
 					FlxG.state = new TutorialSelectState;
@@ -836,8 +839,8 @@ package
 				FlxG.state = new MenuState;
 		}
 		
-		protected function makeStatblock():Statblock {
-			return new Statblock(station.lifespan, GlobalCycleTimer.minosDropped,
+		protected function makeStatblock(won:Boolean):Statblock {
+			return new Statblock(won ? 1 : 0, GlobalCycleTimer.minosDropped,
 								 station.mineralsLaunched, MeteoroidTracker.kills)
 		}
 		
@@ -847,7 +850,7 @@ package
 			if (C.IN_TUTORIAL)
 				FlxG.state = new TutorialSelectState;
 			else if (C.campaign) {
-				C.campaign.endMission(makeStatblock());
+				C.campaign.endMission(makeStatblock(false));
 				FlxG.state = new CampaignState(true);
 			} else
 				FlxG.state = new QuickPlayState;

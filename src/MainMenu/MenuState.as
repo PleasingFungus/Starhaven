@@ -29,14 +29,13 @@ package MainMenu {
 			
 			MenuThing.resetThings();
 			if (C.accomplishments.tutorialDone) {
-				add(new MainMenuThing("Tutorials", TutorialSelectState));
-				add(new MainMenuThing("Full Game", FullGameState));
-				if (C.accomplishments.quickPlayUnlocked() || C.ALL_UNLOCKED)
-					add(new MainMenuThing("Single Levels", QuickPlayState));
+				add(new MemoryThing("Tutorials", TutorialSelectState));
+				add(new MemoryThing("Full Game", FullGameState));
+				add(new MemoryThing("Single Levels", QuickPlayState));
 			} else
-				add(new MainMenuThing("Play", C.accomplishments.scenarios[0]));
-			add(new MainMenuThing("Controls", ControlsState));
-			add(new MainMenuThing("Credits", CreditsState));
+				add(new MemoryThing("Play", C.accomplishments.scenarios[0]));
+			add(new MemoryThing("Controls", ControlsState));
+			add(new MemoryThing("Credits", CreditsState));
 			
 			//t = new FlxText(0, FlxG.height - 25, FlxG.width, "Use arrow keys to navigate and enter to select.");
 			//t.setFormat(C.FONT, 12, 0xffffff, 'center');

@@ -22,8 +22,8 @@ package Mining {
 				for (var y:int = SurfaceLevel; y < C.B.OUTER_BOUNDS.bottom; y++)
 					blocks[x + y * C.B.OUTER_BOUNDS.width] = new Block(x, y);
 			
-			var center:Point = new Point(C.B.OUTER_BOUNDS.left + C.B.OUTER_BOUNDS.width / 2,
-										 SurfaceLevel + depth / 2)
+			var center:Point = new Point(C.B.OUTER_BOUNDS.left + Math.floor(C.B.OUTER_BOUNDS.width / 2),
+										 SurfaceLevel + Math.floor(depth / 2))
 			
 			name = "Water";
 			super(0, center.y, blocks, center, 0xff8aaee3);

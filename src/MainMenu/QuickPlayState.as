@@ -33,9 +33,6 @@ package MainMenu {
 			addScenario(TrenchScenario, "Pit", rightCol);
 			MenuThing.addColumn(rightCol, FlxG.width * 5 / 8);
 			
-			
-			MenuThing.menuThings[MenuThing.menuThings.indexOf(rightCol[0])].select();
-			
 			//var info:FlxText = new FlxText(0, FlxG.height - 25, FlxG.width, "Use arrow keys to navigate and enter to select.");
 			//info.setFormat(C.FONT, 12, 0xffffff, 'center');
 			//add(info);
@@ -47,8 +44,7 @@ package MainMenu {
 		}
 		
 		protected function addScenario(scenario:Class, name:String, rightCol:Array):void {
-			if (C.accomplishments.scenariosSeen[C.accomplishments.scenarios.indexOf(scenario)] || C.ALL_UNLOCKED)
-				rightCol.push(add(new StateThing(name, scenario)));
+			rightCol.push(add(new MemoryThing(name, scenario)));
 		}
 		
 		override public function update():void {

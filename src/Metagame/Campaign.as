@@ -47,12 +47,13 @@ package Metagame {
 		
 		public function winMission(missionStatblock:Statblock):void {
 			takeScreenshot();
-			missionNo++;
+			//missionNo++; //handled in statblock.sum
 			endMission(missionStatblock);
 		}
 		
 		public function endMission(missionStatblock:Statblock):void {
 			statblock.sum(missionStatblock);
+			C.accomplishments.registerRecords(missionNo, statblock);
 		}
 		
 		private function takeScreenshot():void {		
@@ -64,7 +65,7 @@ package Metagame {
 			var scaleMatrix:Matrix = new Matrix();
 			scaleMatrix.scale(SCREENSHOT_SIZE.x / FlxG.buffer.width, SCREENSHOT_SIZE.y / FlxG.buffer.height);
 			screenshot.draw(FlxG.buffer, scaleMatrix);
-			screenshots[missionNo] = screenshot;
+			screenshots.push(screenshot);
 			
 			C.HUD_ENABLED = hudOn;
 		}
@@ -74,6 +75,8 @@ package Metagame {
 			var ss_buffer:int = 15;
 			var first_ss:int = Math.max(0, screenshots.length - 6);
 			var ss_group:FlxGroup = new FlxGroup;
+			
+			C.log("Screenshots from " + first_ss + " to" + screenshots.length);
 			for (var i:int = first_ss; i < screenshots.length; i++) {
 				var ss:FlxSprite = new FlxSprite();
 				

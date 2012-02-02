@@ -27,10 +27,10 @@ package Metagame {
 			add(title);
 		
 			add(screenshotGroup = C.campaign.renderScreenshots(title.y + title.height + 55));
-			add(statGroup = C.campaign.statblock.createDisplay(title.y + title.height + 20));
+			add(statGroup = C.campaign.statblock.createDisplay(title.y + title.height + 55, C.accomplishments.bestStats));
 			screenshotGroup.alpha = 0.5;
 			
-			var hintText:FlxText = new FlxText(10, FlxG.height - 95, FlxG.width -20, "Press " + ControlSet.BOMB_KEY + " to toggle stats.");
+			var hintText:FlxText = new FlxText(10, FlxG.height - 90, FlxG.width -20, "Press " + ControlSet.BOMB_KEY + " to toggle stats.");
 			hintText.setFormat(C.FONT, 12, 0xffffff, 'center');
 			add(hintText);
 			

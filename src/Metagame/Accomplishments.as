@@ -15,12 +15,10 @@ package Metagame {
 		public const FIRST_TUTORIAL_INDEX:int = 0;
 		public const LAST_TUTORIAL_INDEX:int = 2;
 		
-		public var scenariosSeen:Array;
-		public var scenariosWon:Array;
-		public var campaignsWon:Array;
+		public var winsByScenario:Array;
+		public var winsByDifficulty:Array;
 		public var tutorialDone:Boolean;
 		public var bestStats:Statblock;
-		public var campaignRecord:int;
 		public function Accomplishments() {
 			setDefaults();
 		}
@@ -31,84 +29,79 @@ package Metagame {
 			if (C.DEBUG && C.FORGET_ACCOMPLISHMENTS)
 				return;
 			
-			scenariosSeen = C.save.read("scenariosSeen") as Array;
-			scenariosWon = C.save.read("scenariosWon") as Array;
-			campaignsWon = C.save.read("campaignsWon") as Array;
-			bestStats = C.save.read("bestStats") as Statblock;
-			campaignRecord = C.save.read("campaignRecord") as int;
+			winsByScenario = C.save.read("winsByScenario") as Array;
+			winsByDifficulty = C.save.read("winsByDifficulty") as Array;
+			bestStats = Statblock.load("best");
 			setDefaults();
 			
 			if (C.DEBUG && C.FORGET_TUTORIALS) {
-				scenariosSeen[0] = scenariosSeen[1] = scenariosSeen[2] = 0;
-				campaignsWon[0] = campaignsWon[1] = campaignsWon[2] = 0;
+				for (var i:int = FIRST_TUTORIAL_INDEX; i < LAST_TUTORIAL_INDEX; i++)
+					winsByScenario[i] = 0;
 				tutorialDone = false;
 			}
 		}
 		
 		protected function setDefaults():void {
-			if (!scenariosSeen)
-				scenariosSeen = new Array(scenarios.length);
-			if (!scenariosWon)
-				scenariosWon = new Array(scenarios.length);
-			if (!campaignsWon)
-				campaignsWon = new Array(2);
+			if (!winsByScenario)
+				winsByScenario = new Array(scenarios.length);
+			if (!winsByDifficulty)
+				winsByDifficulty = new Array(C.difficulty.MAX_DIFFICULTY);
 			if (!bestStats)
-				bestStats = new Statblock(int.MAX_VALUE, 0, 0, 0);
-			//if (!campaignRecord)
-				//campaignRecord = 0; //this is silly
-		}
-		
-		public function registerPlay(scenario:Scenario):void {
-			var index:int = scenarioIndex(scenario);
-			var plays:int = scenariosSeen[index];
-			if (plays)
-				scenariosSeen[index] += 1;
-			else
-				scenariosSeen[index] = 1;
-			if (!(C.DEBUG && C.FORGET_ACCOMPLISHMENTS))
-				C.save.write("scenariosSeen", scenariosSeen);
+				bestStats = new Statblock(0, 0, 0, 0);
 		}
 		
 		public function registerVictory(scenario:Scenario):void {
 			var index:int = scenarioIndex(scenario);
-			var wins:int = scenariosWon[index];
+			var wins:int = winsByScenario[index];
 			if (wins)
-				scenariosWon[index] += 1;
+				winsByScenario[index] += 1;
 			else
-				scenariosWon[index] = 1;
-			if (!(C.DEBUG && C.FORGET_ACCOMPLISHMENTS))
-				C.save.write("scenariosWon", scenariosWon);
+				winsByScenario[index] = 1;
+			saveRecord(winsByDifficulty, "winsByDifficulty");
 			
-			if (C.campaign)
-				registerCampaignVictory();
-			C.log("Registration: " + tutorialDone, index, LAST_TUTORIAL_INDEX);
+			index = Math.floor(C.difficulty.setting);
+			wins = winsByDifficulty[index];
+			if (wins)
+				winsByDifficulty[index] += 1;
+			else
+				winsByDifficulty[index] = 1;
+			saveRecord(winsByScenario, "winsByScenario");
+			
 			if (!tutorialDone && index == LAST_TUTORIAL_INDEX)
 				setTutorialsDone();
 		}
 		
 		public function setTutorialsDone():void {
 			C.save.write("tutorialDone", tutorialDone = true);
-			C.log('tutorial done:' + tutorialDone);
 		}
 		
-		public function registerCampaignVictory():void {
-			var wins:int = campaignsWon[C.difficulty.setting];
-			if (wins)
-				campaignsWon[C.difficulty.setting] += 1;
-			else
-				campaignsWon[C.difficulty.setting] = 1;
-			if (!(C.DEBUG && C.FORGET_ACCOMPLISHMENTS))
-				C.save.write("campaignsWon", campaignsWon);
+		public function registerRecords(missionsCompleted:int, statblock:Statblock):void {
+			if (statblock.missionsWon > bestStats.missionsWon)
+				bestStats.missionsWon = statblock.missionsWon;
+			if (statblock.blocksDropped > bestStats.blocksDropped)
+				bestStats.blocksDropped = statblock.blocksDropped;
+			if (statblock.mineralsLaunched > bestStats.mineralsLaunched)
+				bestStats.mineralsLaunched = statblock.mineralsLaunched;
+			if (statblock.meteoroidsDestroyed > bestStats.meteoroidsDestroyed)
+				bestStats.meteoroidsDestroyed = statblock.meteoroidsDestroyed;
+			if (canSave)
+				bestStats.save("best");
+		}
+		
+		protected function saveRecord(data:*, name:String):void {
+			if (canSave) {
+				C.log("Saving " + name + ": " + data);
+				C.save.write(name, data);
+			}
+		}
+		
+		protected function get canSave():Boolean {
+			return !(C.DEBUG && C.FORGET_ACCOMPLISHMENTS);
 		}
 		
 		
 		
-		public function quickPlayUnlocked():Boolean {
-			for (var i:int = LAST_TUTORIAL_INDEX + 1; i < scenarios.length; i++)
-				if (scenariosSeen[i])
-					return true;
-			return false;
-		}
+		
 		
 		public function scenarioIndex(scenario:Scenario):int {
 			for (var i:int = 0; i < scenarios.length; i++)

@@ -12,7 +12,7 @@ package  {
 	 */
 	public class C {
 		public static const VERSION:String = "0.612";
-		public static const DEBUG:Boolean = false;
+		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
 		
@@ -144,6 +144,27 @@ package  {
 			var minutes:int = totalSeconds / 60;
 			return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 		}
+		
+		public static function decimalize(a:Number, sigfigs:int = 4):String {
+			var suffix:String = '';
+			if (a >= 10000000) {
+				a /= 1000000;
+				suffix = "M";
+			} else if (a >= 10000) {
+				a /= 1000;
+				suffix = "K";
+			}
+			
+			var str:String = a + '';
+			var decimalIndex:int = str.indexOf('.');
+			if (decimalIndex == sigfigs || decimalIndex == -1)
+				str = str.substr(0, sigfigs);
+			else
+				str = str.substr(0, sigfigs + 1);
+			
+			return str + suffix;
+		}
+		
 		
 		public static function interpolateColors(a:uint, b:uint, aFraction:Number):uint {
 			var alpha:int = ((a >> 24) & 0xff) * aFraction + ((b >> 24) & 0xff) * (1 - aFraction);
