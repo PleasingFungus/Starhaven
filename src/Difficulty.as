@@ -24,10 +24,14 @@ package  {
 		}
 		
 		public function get meteoroidMultiplier():Number {
+			if (C.IN_TUTORIAL)	
+				return 1;
 			return Math.floor(setting) / 2;
 		}
 		
 		public function get meteoroidSpeedFactor():Number {
+			if (C.IN_TUTORIAL)	
+				return .5;
 			return Math.floor(setting) / 2;
 		}
 		
@@ -40,6 +44,8 @@ package  {
 		}
 		
 		public function waveSpacing():Number {
+			if (C.IN_TUTORIAL)
+				return 1;
 			if (setting <= EASY)
 				return 1.5;
 			else if (setting <= NORMAL)

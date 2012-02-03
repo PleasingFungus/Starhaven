@@ -10,10 +10,10 @@ package Helpers {
 	public class ArrowHelper extends FlxGroup {
 		
 		private var keys:Array;
-		public var parent:Mino;
+		public var parent:Smino;
 		public var presses:Array;
 		
-		public function ArrowHelper(Parent:Mino) {
+		public function ArrowHelper(Parent:Smino) {
 			keys = [];
 			
 			keys.push(add(ControlSet.MINO_L_KEY.generateKeySprite()));
@@ -38,6 +38,7 @@ package Helpers {
 			
 			keys[FlxSprite.UP].x = parentBounds.x + parentBounds.width / 2 - keys[FlxSprite.UP].width / 2;
 			keys[FlxSprite.UP].y = parentBounds.y - BUFFER * scale - keys[FlxSprite.UP].height;
+			keys[FlxSprite.UP].visible = parent.rotateable;
 			
 			keys[FlxSprite.RIGHT].x = parentBounds.right + BUFFER * scale;
 			keys[FlxSprite.RIGHT].y = parentBounds.y + parentBounds.height / 2 - keys[FlxSprite.RIGHT].height / 2;
@@ -46,11 +47,10 @@ package Helpers {
 			keys[FlxSprite.DOWN].y = parentBounds.bottom + BUFFER * scale;
 			
 			for (var i:int = 0; i < 4; i++)
-				if (keys[i].key.justPressed())
+				if (keys[i].key.justPressed() && (i != FlxSprite.UP || parent.rotateable))
 					presses[i]++;
 			
 			super.update();
-			visible = C.HUD_ENABLED;
 			
 			if (parent.falling)
 				for each (var pressCount:int in presses)

@@ -78,6 +78,16 @@ package  {
 			return new Point(X, Y);
 		}
 		
+		public function blocksToScreen(X:int, Y:int):Point {
+			X *= C.BLOCK_SIZE;
+			Y *= C.BLOCK_SIZE;
+			X += C.B.drawShift.x;
+			Y += C.B.drawShift.y;
+			X *= scale;
+			Y *= scale;
+			return new Point(X, Y);
+		}
+		
 	}
 
 }

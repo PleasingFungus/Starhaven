@@ -28,7 +28,7 @@ package Sminos {
 			capacityText = new Icontext(0, 0, 100, launchCapacity + "", C.ICONS[C.GOODS]);
 			
 			cladeName = "Launcher";
-			description = "When fully crewed and powered, Launchers send minerals you've gathered back to your home base (score!)!";
+			description = "Power and fully crew Launchers to send minerals you've gathered back to your home base!";
 			audioDescription = _desc;
 		}
 		
@@ -49,15 +49,15 @@ package Sminos {
 		
 		protected var rocket:FlxSprite;
 		protected var combatRocket:FlxSprite;
-		override protected function renderSupply():void {
-			if (launchRemaining) {
+		override public function renderTop(force:Boolean = false):void {
+			if ((Scenario.substate == Scenario.SUBSTATE_NORMAL || force) && !damaged && launchRemaining) {
 				if (!rocket)
 					rocket = new FlxSprite().loadGraphic(_rocket_sprite);
 				renderOnBlocks(rocket, Math.floor(launchRemaining / LAUNCH_SIZE));
 			}
 			
 			
-			super.renderSupply();
+			super.renderTop(force);
 		}
 		
 		protected function renderOnBlocks(sprite:FlxSprite, number:int):void {

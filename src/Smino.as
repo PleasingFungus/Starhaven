@@ -18,6 +18,8 @@ package  {
 		public var submerged:Boolean;
 		public var waterproofed:Boolean;
 		public var transmitsPower:Boolean;
+		public var bombCarrying:Boolean;
+		public var rotateable:Boolean = true;
 		
 		public var powerReq:int = 0;
 		public var powerGen:int = 0;
@@ -25,7 +27,6 @@ package  {
 		public var crewCapacity:int = 0;
 		public var crew:int = 0;
 		public var crewEmployed:int = 0;
-		public var bombCarrying:Boolean;
 		
 		public var description:String = "Placeholder description.";
 		public var audioDescription:Class;

@@ -8,13 +8,6 @@ package Metagame {
 	 */
 	public class Accomplishments {
 		
-		
-		public const scenarios:Array = [MiningTutorial, HousingTutorial, DefenseTutorial,
-										PlanetScenario, AsteroidScenario, WaterScenario,
-										NebulaScenario, ShoreScenario, DustScenario];
-		public const FIRST_TUTORIAL_INDEX:int = 0;
-		public const LAST_TUTORIAL_INDEX:int = 2;
-		
 		public var winsByScenario:Array;
 		public var winsByDifficulty:Array;
 		public var tutorialDone:Boolean;
@@ -35,7 +28,7 @@ package Metagame {
 			setDefaults();
 			
 			if (C.DEBUG && C.FORGET_TUTORIALS) {
-				for (var i:int = FIRST_TUTORIAL_INDEX; i < LAST_TUTORIAL_INDEX; i++)
+				for (var i:int = C.scenarioList.FIRST_TUTORIAL_INDEX; i < C.scenarioList.LAST_TUTORIAL_INDEX; i++)
 					winsByScenario[i] = 0;
 				tutorialDone = false;
 			}
@@ -43,7 +36,7 @@ package Metagame {
 		
 		protected function setDefaults():void {
 			if (!winsByScenario)
-				winsByScenario = new Array(scenarios.length);
+				winsByScenario = new Array(C.scenarioList.all.length);
 			if (!winsByDifficulty)
 				winsByDifficulty = new Array(C.difficulty.MAX_DIFFICULTY);
 			if (!bestStats)
@@ -51,7 +44,7 @@ package Metagame {
 		}
 		
 		public function registerVictory(scenario:Scenario):void {
-			var index:int = scenarioIndex(scenario);
+			var index:int = C.scenarioList.index(scenario);
 			var wins:int = winsByScenario[index];
 			if (wins)
 				winsByScenario[index] += 1;
@@ -67,7 +60,7 @@ package Metagame {
 				winsByDifficulty[index] = 1;
 			saveRecord(winsByScenario, "winsByScenario");
 			
-			if (!tutorialDone && index == LAST_TUTORIAL_INDEX)
+			if (!tutorialDone && index >= C.scenarioList.LAST_TUTORIAL_INDEX)
 				setTutorialsDone();
 		}
 		
@@ -95,19 +88,15 @@ package Metagame {
 			}
 		}
 		
-		protected function get canSave():Boolean {
-			return !(C.DEBUG && C.FORGET_ACCOMPLISHMENTS);
+		public function nextUnbeaten():Class {
+			for (var i:int = C.scenarioList.FIRST_TUTORIAL_INDEX; i < C.scenarioList.LAST_TUTORIAL_INDEX; i++)
+				if (!winsByScenario[i])
+					return C.scenarioList.all[i];
+			return C.scenarioList.all[0]; //?
 		}
 		
-		
-		
-		
-		
-		public function scenarioIndex(scenario:Scenario):int {
-			for (var i:int = 0; i < scenarios.length; i++)
-				if (scenario is scenarios[i])
-					return i;
-			return -1;
+		protected function get canSave():Boolean {
+			return !(C.DEBUG && C.FORGET_ACCOMPLISHMENTS);
 		}
 	}
 

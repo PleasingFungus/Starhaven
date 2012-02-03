@@ -15,9 +15,10 @@ package Sminos {
 												 new Block(1, 2)];
 			super(X, Y, blocks, new Point(1, 1), _sprite, _sprite_in);
 			bombCarrying = false;
+			rotateable = false;
 			cladeName = "Scoop";
 			name = "Scoop";
-			description = "Use scoops to smash into purple mineral clusters and dislodge them; then use conduits to collect the minerals when they bob to the surface!";
+			description = "Use scoops to smash into mineral clusters and dislodge them; then use conduits to collect the minerals when they bob to the surface!";
 			audioDescription = _desc;
 		}
 		

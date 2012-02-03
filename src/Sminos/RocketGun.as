@@ -33,7 +33,10 @@ package Sminos {
 		
 		public function loadRockets():void {
 			rocketsLoaded = rocketCapacity;
-			
+		}
+		
+		public function unloadRockets():void {
+			rocketsLoaded = 0;
 		}
 		
 		public function aimAt(target:Point):void {

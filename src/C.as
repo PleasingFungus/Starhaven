@@ -3,6 +3,8 @@ package  {
 	import flash.geom.Rectangle;
 	import Metagame.Accomplishments;
 	import Metagame.Campaign;
+	import Metagame.ScenarioList;
+	import Metagame.Unlocks;
 	import org.flixel.*;
 	import Icons.NoCrewIcon;
 	import Icons.NoPowerIcon;
@@ -11,7 +13,7 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "0.612";
+		public static const VERSION:String = "0.621";
 		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
@@ -32,7 +34,8 @@ package  {
 		public static const FORGET_EVENTS:Boolean = false;
 		public static const FORGET_PIECES:Boolean = false;
 		public static const FORGET_ACCOMPLISHMENTS:Boolean = false;
-		public static const ALL_UNLOCKED:Boolean = true;
+		public static const FORGET_UNLOCKS:Boolean = false;
+		public static const ALL_UNLOCKED:Boolean = false;
 		
 		public static var HUD_ENABLED:Boolean = true;
 		public static var IN_TUTORIAL:Boolean = false;
@@ -59,7 +62,9 @@ package  {
 		public static var B:Bounds;
 		public static var campaign:Campaign;
 		public static var difficulty:Difficulty;
+		public static var scenarioList:ScenarioList;
 		public static var accomplishments:Accomplishments;
+		public static var unlocks:Unlocks;
 		//public static var music:Music;
 		public static var save:FlxSave;
 		public static var fluid:Mino;
@@ -68,7 +73,10 @@ package  {
 			B = new Bounds();
 			//music = new Music();
 			difficulty = new Difficulty();
+			scenarioList = new ScenarioList;
 			accomplishments = new Accomplishments();
+			unlocks = new Unlocks;
+			
 			
 			ICONS[MINERALS] = _minerals_icon;
 			ICONS[PEOPLE] = _crew_icon;

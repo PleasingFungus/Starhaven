@@ -374,6 +374,8 @@ package
 		}
 		
 		protected function endCombat():void {
+			for each (var gun:RocketGun in combatMinoPool)
+				gun.unloadRockets();
 			combatMinoPool = null;
 			if (stationHint && stationHint.exists && !C.NO_COMBAT_ROTATING)
 				stationHint.visible = true;
@@ -409,6 +411,7 @@ package
 		}
 		
 		
+		private var lastSubstate:int;
 		private var pauseLayer:FlxGroup;
 		public function enterPauseState():void {
 			if (pauseLayer && pauseLayer.exists)
@@ -449,6 +452,7 @@ package
 			hudLayer.add(pauseLayer);
 			C.HUD_ENABLED = true;
 			
+			lastSubstate = substate;
 			substate = SUBSTATE_PAUSED;
 			FlxG.mouse.load(null);
 		}
@@ -471,7 +475,7 @@ package
 				FlxG.mouse.load(_combat_cursor, 15, 15);
 			else
 				FlxG.mouse.hide();
-			substate = SUBSTATE_NORMAL;
+			substate = lastSubstate;
 		}
 		
 		private function resetLevel(_:String):void {
@@ -588,10 +592,12 @@ package
 		
 		protected function checkDiscontinuousInput():void {
 			if (currentMino && currentMino.falling) {
-				if (ControlSet.MINO_CW_KEY.justPressed())
-					currentMino.rotateClockwise();
-				if (ControlSet.MINO_CCW_KEY.justPressed())
-					currentMino.rotateCounterclockwise();
+				if (currentMino.rotateable) {
+					if (ControlSet.MINO_CW_KEY.justPressed())
+						currentMino.rotateClockwise();
+					if (ControlSet.MINO_CCW_KEY.justPressed())
+						currentMino.rotateCounterclockwise();
+				}
 				
 				if (ControlSet.MINO_HELP_KEY.justPressed())
 					hudLayer.add(new NewPieceInfo(currentMino));
@@ -745,10 +751,16 @@ package
 		protected var victoryText:String = "Mineral goal reached!";
 		protected function beginEndgame():void {
 			FlxG.flash.start(0xefffffff, 3.5/*, endGame*/);
-			C.log("Beginning endgame.");
 			
 			missionOver = true;
 			substate = SUBSTATE_MISSOVER;
+			if (dangeresque) {
+				tracker.active = false;
+				for each (var mino:Mino in Mino.all_minos)
+					if (mino.dangerous)
+						mino.exists = false;
+				dangeresque = false;
+			}
 			if (won())
 				C.accomplishments.registerVictory(this);
 			
@@ -830,9 +842,9 @@ package
 					FlxG.state = new CampaignState(true);
 				}
 			} else if (C.IN_TUTORIAL) {
-				var nextLevel:int = C.accomplishments.scenarioIndex(this) + 1;
+				var nextLevel:int = C.scenarioList.index(this) + 1;
 				if (!C.accomplishments.winsByScenario[nextLevel] && !C.accomplishments.tutorialDone)
-					FlxG.state = new C.accomplishments.scenarios[nextLevel]
+					FlxG.state = new C.scenarioList.all[nextLevel]
 				else
 					FlxG.state = new TutorialSelectState;
 			} else

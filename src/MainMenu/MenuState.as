@@ -33,7 +33,7 @@ package MainMenu {
 				add(new MemoryThing("Full Game", FullGameState));
 				add(new MemoryThing("Single Levels", QuickPlayState));
 			} else
-				add(new MemoryThing("Play", C.accomplishments.scenarios[0]));
+				add(new MemoryThing("Play", C.accomplishments.nextUnbeaten()));
 			add(new MemoryThing("Controls", ControlsState));
 			add(new MemoryThing("Credits", CreditsState));
 			

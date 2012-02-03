@@ -18,6 +18,7 @@ package  {
 		public var centroidOffset:Point;
 		public var forcedRotate:Boolean;
 		public var forcedRotationDirection:Number;
+		public var initialRotationDirection:Number;
 		public var justRotated:Boolean;
 		
 		
@@ -70,6 +71,8 @@ package  {
 				rotateSpeed = initRotSpeed;
 			
 			forcedRotationDirection = direction;
+			if (!initialRotationDirection)
+				initialRotationDirection = direction;
 			forcedRotate = true;
 			Scenario.substate = Scenario.SUBSTATE_ROTPAUSE;
 			for each (var mino:Mino in members)
@@ -89,7 +92,7 @@ package  {
 			
 			
 			var curRot:Number = rotation;
-			var rotationDirection:Number = forcedRotate ? forcedRotationDirection : -forcedRotationDirection;
+			var rotationDirection:Number = forcedRotate ? forcedRotationDirection : -initialRotationDirection;
 			
 			if (wasForced != forcedRotate)
 				rotateSpeed = initRotSpeed;
@@ -128,12 +131,14 @@ package  {
 				} else {
 					//rotation = section * Math.PI / 2;
 					rotation = 0; //redundant with piecewise rotation otherwise
-					if (!forcedRotate) {
+					if (forcedRotate)
+						initialRotationDirection = forcedRotationDirection;
+					else {
 						justRotated = true;
 						Scenario.substate = Scenario.SUBSTATE_NORMAL;
 						for each (var mino:Mino in members)
 							mino.visible = true;
-						forcedRotationDirection = NaN;
+						forcedRotationDirection = initialRotationDirection = NaN;
 						FlxG.quake.start(0.02, 0.075);
 						FlxG.play(CCW_NOISE, 0.75);
 					}

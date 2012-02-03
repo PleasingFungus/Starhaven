@@ -91,6 +91,10 @@ package Meteoroids {
 			return null;
 		}
 		
+		override public function canIntersect(other:Mino):Boolean {
+			return super.canIntersect(other) && other != C.fluid;
+		}
+		
 		protected var fadeTimer:Number = 0;
 		protected const FADE_TIME:Number = 0.5;
 		override public function render():void {
@@ -115,34 +119,51 @@ package Meteoroids {
 		protected var warningSprite:FlxSprite;
 		protected function setupWarning():void {
 			warningSprite = new FlxSprite().loadGraphic(_warning_sprite);
-			//var intercept:Point = new Point(target.x - direction.x * C.B.HALFWIDTH, target.y - direction.y * C.B.HALFHEIGHT);
-			//warningSprite.x = intercept.x * C.BLOCK_SIZE - warningSprite.width/2 + C.B.drawShift.x;
-			//warningSprite.y = intercept.y * C.BLOCK_SIZE - warningSprite.height/2 + C.B.drawShift.y;
-			
-			var angle:Number = Math.atan2(direction.y, direction.x);
-			warningSprite.angle = angle * 180 / Math.PI;
-			
-			if (Math.abs(direction.x) > Math.abs(direction.y)) {
-				if (direction.x > 0)
-					warningSprite.x = 0;
-				else
-					warningSprite.x = FlxG.width - warningSprite.width;
-				warningSprite.y = (FlxG.height / 2) * (1 - direction.y / Math.abs(direction.x));
-			} else {
-				if (direction.y > 0)
-					warningSprite.y = 0;
-				else
-					warningSprite.y = FlxG.height - warningSprite.height;
-				warningSprite.x = (FlxG.width / 2) * (1 - direction.x / Math.abs(direction.y));
-			}
-			
-			//C.log(direction, Math.abs(direction.x) > Math.abs(direction.y), warningSprite.angle, warningSprite.x, warningSprite.y);
 		}
 		
 		protected var warningPulseTimer:Number = 0;
 		protected var warningPulseUp:Boolean = false;
 		protected const WARNING_PULSE_PERIOD:Number = 0.4;
 		protected function renderWarning():void {
+			var screenLoc:Point = C.B.blocksToScreen(gridLoc.x, gridLoc.y);
+			var screenCenter:Point = C.B.blocksToScreen(target.x, target.y);
+			var screenDelta:Point = screenCenter.subtract(screenLoc);
+			var angleToScreen:Number = Math.atan2(screenDelta.y, screenDelta.x);
+			
+			warningSprite.angle = angleToScreen * 180 / Math.PI;
+			
+			var margin:int = 10;
+			//var adjustedAngle:Number = angleToScreen;
+			//if (adjustedAngle < 0) adjustedAngle += Math.PI * 2;
+			//var side:int = Math.floor((adjustedAngle + Math.PI / 4) / (Math.PI * 2)) % 4;
+			//adjustedAngle -= Math.PI / 4 + side * Math.PI * 2;
+			//var warnX:int, warnY:int;
+			//
+			//switch (side) {
+				//case 0:
+					//warnX = margin;
+					//warnY = Math.tan(adjustedAngle) * -FlxG.width / 2;
+					//break;
+				//case 1:
+					//warnY = margin;
+					//warnX = Math.tan(adjustedAngle) * -FlxG.height / 2;
+					//break;
+				//case 2:
+					//warnX = FlxG.width - (margin + warningSprite.width);
+					//warnY = Math.tan(adjustedAngle) * FlxG.width / 2;
+					//break;
+				//case 3:
+					//warnY = FlxG.height - (margin + warningSprite.height);
+					//warnX = Math.tan(adjustedAngle) * FlxG.height / 2;
+					//break;
+			//}
+			
+			var warnX:int = (Math.cos(Math.PI + angleToScreen) + 1) * (FlxG.width - margin*2);
+			var warnY:int = (Math.sin(Math.PI + angleToScreen) + 1) * (FlxG.height - margin*2);
+			
+			warningSprite.x = warnX * C.B.scale;
+			warningSprite.y = warnY * C.B.scale;
+			
 			if (warningPulseUp)
 				warningSprite.alpha = 0.5 + 0.5 * warningPulseTimer / WARNING_PULSE_PERIOD;
 			else

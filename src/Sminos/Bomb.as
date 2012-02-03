@@ -1,4 +1,5 @@
 package Sminos {
+	import Controls.ControlSet;
 	import flash.geom.Point;
 	/**
 	 * ...
@@ -12,7 +13,7 @@ package Sminos {
 		public function Bomb(Parent:Smino) {
 			uncle = Parent;
 			super(uncle.absoluteCenter.x, uncle.absoluteCenter.y, [new Block], new Point, 0xff201818, 0xff403030, _sprite, _sprite);
-			description = "Bombs explode on impact, or manually by pressing 'space'. Use them to expose buried mineral pockets!";
+			description = "Bombs explode when you press "+ControlSet.BOMB_KEY+" or on impact. Use them to expose buried mineral pockets!";
 			audioDescription = _desc;
 			genResourceShroud();
 		}

@@ -16,7 +16,7 @@ package Sminos {
 			waterproofed = true;
 			
 			cladeName = "Conduit";
-			description = "Conduits transmit power from the station core, powering other pieces.";
+			description = "Conduits transmit power from the station core, powering other modules.";
 			audioDescription = _desc;
 		}
 		
