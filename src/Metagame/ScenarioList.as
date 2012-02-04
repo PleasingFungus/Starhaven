@@ -12,8 +12,8 @@ package Metagame {
 		public const LAST_TUTORIAL_INDEX:int = 2;
 		public function ScenarioList() {
 			all = [MiningTutorial, HousingTutorial, DefenseTutorial,
-				   PlanetScenario, AsteroidScenario, WaterScenario,
-				   NebulaScenario, ShoreScenario, DustScenario];
+				   PlanetScenario, AsteroidScenario, MountainScenario, NebulaScenario,
+				   WaterScenario, DustScenario, TrenchScenario];
 		}
 		
 		public function index(scenario:Scenario):int {
@@ -21,6 +21,10 @@ package Metagame {
 				if (scenario is all[i])
 					return i;
 			return -1;
+		}
+		
+		public function cIndex(scenario:Class):int {
+			return all.indexOf(scenario);
 		}
 	}
 

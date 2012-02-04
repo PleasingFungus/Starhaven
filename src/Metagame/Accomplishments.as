@@ -77,8 +77,11 @@ package Metagame {
 				bestStats.mineralsLaunched = statblock.mineralsLaunched;
 			if (statblock.meteoroidsDestroyed > bestStats.meteoroidsDestroyed)
 				bestStats.meteoroidsDestroyed = statblock.meteoroidsDestroyed;
+			
 			if (canSave)
 				bestStats.save("best");
+			
+			C.unlocks.checkUnlocks();
 		}
 		
 		protected function saveRecord(data:*, name:String):void {

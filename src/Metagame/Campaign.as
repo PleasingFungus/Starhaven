@@ -26,6 +26,7 @@ package Metagame {
 			missionsRun = [];
 			
 			statblock = new Statblock(0,0,0,0);
+			
 		}
 		
 		public function refresh():void {
@@ -34,10 +35,11 @@ package Metagame {
 		}
 		
 		public function nextMission():Class {
-			var choice:Class = SCENARIO_TYPES[int(FlxU.random() * SCENARIO_TYPES.length)];
+			var allowedScenarios:Array = C.unlocks.allowedScenarios();
+			var choice:Class = allowedScenarios[int(FlxU.random() * allowedScenarios.length)];
 			while ((missionsRun.length && choice == missionsRun[missionsRun.length - 1]) ||
 				   (missionsRun.length > 1 && choice == missionsRun[missionsRun.length-2]))
-				choice = SCENARIO_TYPES[int(FlxU.random() * SCENARIO_TYPES.length)];
+				choice = allowedScenarios[int(FlxU.random() * allowedScenarios.length)];
 			return choice;
 		}
 		
@@ -103,10 +105,6 @@ package Metagame {
 			for each (var screenshot:BitmapData in screenshots)
 				screenshot.dispose();
 		}
-		
-		protected const SCENARIO_TYPES:Array = [PlanetScenario, AsteroidScenario, MountainScenario,
-												WaterScenario, NebulaScenario,
-												TrenchScenario, DustScenario];
 		
 		public static const MISSION_ABORTED:int = 0;
 		public static const MISSION_TIMEOUT:int = 1;

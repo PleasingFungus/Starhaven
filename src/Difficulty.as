@@ -61,11 +61,11 @@ package  {
 			return ["Beginner", "Easy", "Normal", "Hard", "Too Hard"][Math.floor(forSetting)];
 		}
 		
-		protected const V_EASY:Number = 0;
-		protected const EASY:Number = 1;
-		protected const NORMAL:Number = 2;
-		protected const HARD:Number = 3;
-		protected const V_HARD:Number = 4;
+		public const V_EASY:Number = 0;
+		public const EASY:Number = 1;
+		public const NORMAL:Number = 2;
+		public const HARD:Number = 3;
+		public const V_HARD:Number = 4;
 		public const MAX_DIFFICULTY:Number = 5;
 	}
 

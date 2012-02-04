@@ -24,7 +24,10 @@ package MainMenu {
 			C.difficulty.setting = 2;
 			var leftCol:Array = [];
 			for (var i:int = 0; i < C.difficulty.MAX_DIFFICULTY; i++)
-				leftCol.push(add(new DifficultyThing(C.difficulty.name(i), i)));
+				if (C.unlocks.difficultyUnlocked(i))
+					leftCol.push(add(new DifficultyThing(C.difficulty.name(i), i)));
+				else
+					leftCol.push(add(new MysteryThing));
 			MenuThing.addColumn(leftCol, FlxG.width/8);
 			
 			

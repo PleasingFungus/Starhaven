@@ -64,7 +64,7 @@ package  {
 		override public function update():void {
 			var lastMoused:Boolean = moused;
 			moused = highlight.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y);
-			if (!lastMoused && moused)
+			if (!lastMoused && moused && onSelect != null)
 				FlxG.play(SEL_SOUND, 0.12);
 			
 			if (selected) {

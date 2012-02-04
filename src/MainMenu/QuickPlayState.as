@@ -18,18 +18,21 @@ package MainMenu {
 			
 			MenuThing.resetThings();
 			var leftCol:Array = [];
-			for (var i:int = 0; i < C.difficulty.MAX_DIFFICULTY; i++)
-				leftCol.push(add(new DifficultyThing(C.difficulty.name(i), i)));
+			for (var i:int = C.difficulty.V_EASY; i < C.difficulty.MAX_DIFFICULTY; i++)
+				if (C.unlocks.difficultyUnlocked(i))
+					leftCol.push(add(new DifficultyThing(C.difficulty.name(i), i)));
+				else
+					leftCol.push(add(new MysteryThing));
 			MenuThing.addColumn(leftCol, FlxG.width/8);
 			
 			
 			var rightCol:Array = [];
-			addScenario(AsteroidScenario, "Asteroid", rightCol);
 			addScenario(PlanetScenario, "Moon", rightCol);
+			addScenario(AsteroidScenario, "Asteroid", rightCol);
+			addScenario(MountainScenario, "Mountain", rightCol);
 			addScenario(NebulaScenario, "Nebula", rightCol);
 			addScenario(WaterScenario, "Sea", rightCol);
 			addScenario(DustScenario, "Dust", rightCol);
-			addScenario(MountainScenario, "Mountain", rightCol);
 			addScenario(TrenchScenario, "Pit", rightCol);
 			MenuThing.addColumn(rightCol, FlxG.width * 5 / 8);
 			
@@ -44,7 +47,10 @@ package MainMenu {
 		}
 		
 		protected function addScenario(scenario:Class, name:String, rightCol:Array):void {
-			rightCol.push(add(new MemoryThing(name, scenario)));
+			if (C.unlocks.scenarioUnlocked(scenario))
+				rightCol.push(add(new MemoryThing(name, scenario)));
+			else
+				rightCol.push(add(new MysteryThing));
 		}
 		
 		override public function update():void {

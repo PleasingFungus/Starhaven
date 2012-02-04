@@ -10,13 +10,16 @@ package Metagame {
 	public class CampaignState extends FadeState {
 		
 		private var done:Boolean;
+		
+		private var screenshotGroup:FlxGroup;
+		private var statGroup:FlxGroup;
+		private var unlockGroup:FlxGroup;
+		
 		public function CampaignState(Done:Boolean = false) {
 			super();
 			done = Done;
 		}
 		
-		private var screenshotGroup:FlxGroup;
-		private var statGroup:FlxGroup;
 		override public function create():void {
 			super.create();
 			
@@ -26,9 +29,16 @@ package Metagame {
 			title.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
 			add(title);
 		
-			add(screenshotGroup = C.campaign.renderScreenshots(title.y + title.height + 55));
-			add(statGroup = C.campaign.statblock.createDisplay(title.y + title.height + 55, C.accomplishments.bestStats));
-			screenshotGroup.alpha = 0.5;
+			var statDisplayY:int = title.y + title.height + 55;
+			add(screenshotGroup = C.campaign.renderScreenshots(statDisplayY));
+			add(statGroup = C.campaign.statblock.createDisplay(statDisplayY, C.accomplishments.bestStats));
+			unlockGroup = C.unlocks.createDisplay(statDisplayY);
+			if (unlockGroup) {
+				add(unlockGroup);
+				statGroup.alpha = 0.5;
+				screenshotGroup.alpha = 0.25;
+			} else
+				screenshotGroup.alpha = 0.5;
 			
 			var hintText:FlxText = new FlxText(10, FlxG.height - 90, FlxG.width -20, "Press " + ControlSet.BOMB_KEY + " to toggle stats.");
 			hintText.setFormat(C.FONT, 12, 0xffffff, 'center');
@@ -60,8 +70,24 @@ package Metagame {
 		}
 		
 		private function switchLayers():void {
-			statGroup.visible = !statGroup.visible;
-			screenshotGroup.alpha = statGroup.visible ? 0.5 : 1;
+			if (unlockGroup) {
+				if (unlockGroup.visible) {
+					unlockGroup.visible = false;
+					statGroup.alpha = 1;
+					screenshotGroup.alpha = 0.5;
+				} else if (statGroup.visible) {
+					statGroup.visible = false;
+					screenshotGroup.alpha = 1;
+				} else {
+					unlockGroup.visible = true;
+					statGroup.visible = true;
+					statGroup.alpha = 0.5;
+					screenshotGroup.alpha = 0.25;
+				}
+			} else {
+				statGroup.visible = !statGroup.visible;
+				screenshotGroup.alpha = statGroup.visible ? 0.5 : 1;
+			}
 		}
 		
 	}
