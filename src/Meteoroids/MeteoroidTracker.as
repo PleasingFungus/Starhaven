@@ -55,8 +55,8 @@ package Meteoroids {
 		
 		protected function getNextWave():int {
 			if (waveIndex)
-				return waveSpacing;
-			return waveSpacing*2;
+				return waveSpacing/2;
+			return waveSpacing;
 		}
 		
 		override public function update():void {
@@ -71,12 +71,12 @@ package Meteoroids {
 						spawnTimer -= duration / (waveMeteos + 1);
 					}
 				}
-			}/* else if (GlobalCycleTimer.justDropped)
-				registerDrop();*/
+			}
 		}
 		
 		public function registerDrop():void {
 			timer++;
+			C.log("Timer incremented to " + timer + " out of " + nextWave);
 			if (timer >= nextWave)
 				startWave();
 			else if (nextWave == timer + 2)

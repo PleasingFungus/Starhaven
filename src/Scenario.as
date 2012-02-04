@@ -116,6 +116,8 @@ package
 			hasUpdated = false;
 			frame = 0;
 			
+			setupBags();
+			
 			makeLayers();
 			
 			createStation();
@@ -132,6 +134,8 @@ package
 				FlxG.mouse.hide();
 			//C.music.intendedMusic = Music.PLAY_MUSIC;
 		}
+		
+		protected function setupBags():void { }
 		
 		protected function makeLayers():void {
 			minoLayer = new FlxGroup();
@@ -182,8 +186,8 @@ package
 			hud.setGoal(goal);
 		}
 		
-		protected function createTracker(waveMeteos:Number = 2, WaveSpacing:int = 16):void {
-			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, waveMeteos, WaveSpacing);
+		protected function createTracker(waveMeteos:Number = 2):void {
+			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, waveMeteos, BagType.all[0].length);
 			hud.setTracker(tracker);
 			add(tracker);
 		}
@@ -246,7 +250,7 @@ package
 			}
 		}
 		
-		protected var minoWasCool:Boolean = true;
+		protected var minoWasCool:Boolean;
 		protected function checkCurrentMino():void {
 			if (currentMino && currentMino.gridLoc.y > C.B.PlayArea.bottom) {
 				if (!(currentMino is Bomb))
@@ -659,7 +663,7 @@ package
 			var closest:RocketGun;
 			for each (var gun:RocketGun in combatMinoPool)
 				if (gun.exists && gun.canFireOn(target, true)) {
-					var gunDist:int = target.subtract(gun.absoluteCenter).length;
+					var gunDist:int = target.subtract(gun.fireOrigin).length;
 					if (gunDist < dist) {
 						dist = gunDist;
 						closest = gun;

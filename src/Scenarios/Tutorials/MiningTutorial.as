@@ -38,8 +38,8 @@ package Scenarios.Tutorials {
 			hud.updateGoal(0);
 		}
 		
-		override protected function createTracker(_:Number = 0, __:int = 16):void {
-			super.createTracker(0, 16);
+		override protected function createTracker(_:Number = 0):void {
+			super.createTracker(0);
 		}
 		
 		override protected function createGCT(_:int):void {

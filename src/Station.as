@@ -5,6 +5,7 @@ package  {
 	import Mining.MetaResource;
 	import Mining.MineralBlock;
 	import Mining.ResourceSource;
+	import org.flixel.FlxSound;
 	import SFX.Fader;
 	import Sminos.StationCore;
 	import org.flixel.FlxG;
@@ -160,9 +161,17 @@ package  {
 			core.storedMinerals = mineralsMined;
 		}
 		
+		protected var mineSound:FlxSound;
 		public function set mineralsMined(amount:int):void {
-			if (amount > _mineralsMined)
-				FlxG.play(COLLECT_NOISE, 0.5);
+			if (amount > _mineralsMined) {
+				if (!mineSound) {
+					mineSound = new FlxSound();
+					mineSound.loadEmbedded(COLLECT_NOISE);
+					mineSound.volume = 0.5;
+				}
+				if (!mineSound.playing)
+					mineSound.play();
+			}
 			_mineralsMined = amount;
 		}
 		

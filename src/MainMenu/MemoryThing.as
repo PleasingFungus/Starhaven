@@ -12,7 +12,6 @@ package MainMenu {
 			super(desc, assocState);
 			
 			lastChosen = C.save.read(qualifier) as int; //will default to 0
-			C.log(qualifier + ' -> ' + lastChosen);
 			if (i == lastChosen)
 				select();
 		}

@@ -75,7 +75,7 @@ package Sminos {
 			Mino.layer.add(new SlowRocket(fireOrigin, target, this));
 		}
 		
-		protected function get fireOrigin():Point {
+		public function get fireOrigin():Point {
 			return absoluteCenter.add(blocks[blocks.length - 1]);
 		}
 		

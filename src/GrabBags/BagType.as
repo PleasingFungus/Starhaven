@@ -33,6 +33,16 @@ package GrabBags {
 			return "[" + minos + "]";
 		}
 		
+		public function get length():int {
+			var len:int = 0;
+			for each (var mino:* in _minos)
+				if (mino is BagType)
+					len += (mino as BagType).length;
+				else 
+					len++;
+			return len;
+		}
+		
 		public static var all:Array;
 	}
 

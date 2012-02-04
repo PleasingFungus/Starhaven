@@ -55,7 +55,6 @@ package Mining {
 		}
 		
 		
-		
 		override public function getScreenXY(point:FlxPoint=null):FlxPoint {
 			point = super.getScreenXY(point);
 			point.x += C.B.drawShift.x;

@@ -32,7 +32,6 @@ package Scenarios {
 			createMission();
 			mapDim = mission.fullMapSize;
 			super.create();
-			setupBags();
 		}
 		
 		protected function createMission():void {
@@ -82,7 +81,7 @@ package Scenarios {
 		
 		
 		
-		protected function setupBags():void {
+		override protected function setupBags():void {
 			BagType.all = [new BagType("Assorted Bag", 1, [new BagType("Asst. 1", 1, getAssortment(0)),
 														   new BagType("AsBag2", 1, getAssortment(1))])];
 		}

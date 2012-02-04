@@ -27,8 +27,8 @@ package Scenarios {
 			return 50;
 		}
 		
-		override protected function createTracker(waveMeteos:Number = 2, WaveSpacing:int = 8):void {
-			super.createTracker(waveMeteos, WaveSpacing);
+		override protected function createTracker(waveMeteos:Number = 2):void {
+			super.createTracker(waveMeteos);
 		}
 		
 		override protected function repositionLevel():void {

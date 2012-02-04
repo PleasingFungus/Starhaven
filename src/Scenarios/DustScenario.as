@@ -116,8 +116,8 @@ package Scenarios {
 			return 130;
 		}
 		
-		override protected function createTracker(waveMeteos:Number = 2, WaveSpacing:int = 18):void {
-			super.createTracker(waveMeteos, WaveSpacing);
+		override protected function createTracker(waveMeteos:Number = 2):void {
+			super.createTracker(waveMeteos);
 		}
 		
 		[Embed(source = "../../lib/art/backgrounds/nebula_1.jpg")] private static const _bg01:Class;

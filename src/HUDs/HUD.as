@@ -1,6 +1,7 @@
 package HUDs {
 	import Meteoroids.MeteoroidTracker;
 	import org.flixel.*;
+	import Controls.ControlSet;
 	
 	/**
 	 * ...
@@ -49,10 +50,15 @@ package HUDs {
 			trackerText.color = 0xdf0000;
 			trackerText.alignment = "right";
 			
+			//var menuText:FlxText = new HUDText(FlxG.width - 190, 5, 185, "ESC=MENU");
+			//menuText.alignment = "right";
+			//add(menuText);
+			
+			
 			add(goalText);
 			add(trackerText);
 			
-			if (GlobalCycleTimer.miningTime) {				
+			if (GlobalCycleTimer.miningTime || C.DEBUG) {				
 				blockText = new HUDText(FlxG.width / 2, FlxG.height - 18, 160, " ", C.ICONS[C.MINOS]);
 				add(blockText);
 			}
