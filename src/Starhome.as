@@ -29,6 +29,7 @@ package {
 			ControlSet.load();
 			C.difficulty.load();
 			C.accomplishments.load();
+			C.unlocks.load();
 		}
 		
 		override protected function onKeyUp(event:KeyboardEvent):void {

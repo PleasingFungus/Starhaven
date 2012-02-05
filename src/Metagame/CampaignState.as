@@ -35,7 +35,7 @@ package Metagame {
 			unlockGroup = C.unlocks.createDisplay(statDisplayY);
 			if (unlockGroup) {
 				add(unlockGroup);
-				statGroup.alpha = 0.5;
+				statGroup.alpha = 0.25;
 				screenshotGroup.alpha = 0.25;
 			} else
 				screenshotGroup.alpha = 0.5;
@@ -81,7 +81,7 @@ package Metagame {
 				} else {
 					unlockGroup.visible = true;
 					statGroup.visible = true;
-					statGroup.alpha = 0.5;
+					statGroup.alpha = 0.25;
 					screenshotGroup.alpha = 0.25;
 				}
 			} else {

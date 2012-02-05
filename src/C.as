@@ -14,7 +14,7 @@ package  {
 	 */
 	public class C {
 		public static const VERSION:String = "0.621";
-		public static const DEBUG:Boolean = false;
+		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
 		
@@ -33,7 +33,7 @@ package  {
 		public static const FORGET_TUTORIALS:Boolean = false;
 		public static const FORGET_EVENTS:Boolean = false;
 		public static const FORGET_PIECES:Boolean = false;
-		public static const FORGET_ACCOMPLISHMENTS:Boolean = false;
+		public static const FORGET_ACCOMPLISHMENTS:Boolean = true;
 		public static const FORGET_UNLOCKS:Boolean = false;
 		public static const ALL_UNLOCKED:Boolean = false;
 		

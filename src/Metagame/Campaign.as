@@ -37,8 +37,8 @@ package Metagame {
 		public function nextMission():Class {
 			var allowedScenarios:Array = C.unlocks.allowedScenarios();
 			var choice:Class = allowedScenarios[int(FlxU.random() * allowedScenarios.length)];
-			while ((missionsRun.length && choice == missionsRun[missionsRun.length - 1]) ||
-				   (missionsRun.length > 1 && choice == missionsRun[missionsRun.length-2]))
+			while ((allowedScenarios.length > 1 && missionsRun.length > 0 && choice == missionsRun[missionsRun.length - 1]) ||
+				   (allowedScenarios.length > 2 && missionsRun.length > 1 && choice == missionsRun[missionsRun.length-2]))
 				choice = allowedScenarios[int(FlxU.random() * allowedScenarios.length)];
 			return choice;
 		}

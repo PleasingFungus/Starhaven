@@ -19,10 +19,33 @@ package Metagame {
 		}
 		
 		public function sum(other:Statblock):void {
-			missionsWon += other.missionsWon;
-			blocksDropped += other.blocksDropped;
-			mineralsLaunched += other.mineralsLaunched;
-			meteoroidsDestroyed += other.meteoroidsDestroyed;
+			for (var i:int = MISSIONS_WON; i <= METEOROIDS_DESTROYED; i++)
+				setByIndex(i, accessByIndex(i) + other.accessByIndex(i));
+			//missionsWon += other.missionsWon;
+			//blocksDropped += other.blocksDropped;
+			//mineralsLaunched += other.mineralsLaunched;
+			//meteoroidsDestroyed += other.meteoroidsDestroyed;
+		}
+		
+		public function accessByIndex(index:int):int {
+			switch (index) {
+				case MISSIONS_WON: return missionsWon;
+				case BLOCKS_DROPPED: return blocksDropped;
+				case MINERALS_LAUNCHED: return mineralsLaunched;
+				case METEOROIDS_DESTROYED: return meteoroidsDestroyed;
+			}
+			this["Invalid Index!"]; //crashes
+			return -1;
+		}
+		
+		public function setByIndex(index:int, value:int):int {
+			switch (index) {
+				case MISSIONS_WON: return missionsWon = value; break;
+				case BLOCKS_DROPPED: return blocksDropped = value; break;
+				case MINERALS_LAUNCHED: return mineralsLaunched = value; break;
+				case METEOROIDS_DESTROYED: return meteoroidsDestroyed = value; break;
+			}
+			return value;
 		}
 		
 		public function createDisplay(Y:int, Comparator:Statblock = null):FlxGroup {
@@ -79,6 +102,11 @@ package Metagame {
 		public function toString():String {
 			return missionsWon + " wins, " + blocksDropped + " dropped, " + mineralsLaunched + " launched, " + meteoroidsDestroyed + " destroyed.";
 		}
+		
+		public static const MISSIONS_WON:int = 0;
+		public static const BLOCKS_DROPPED:int = 1;
+		public static const MINERALS_LAUNCHED:int = 2;
+		public static const METEOROIDS_DESTROYED:int = 3;
 	}
 
 }
