@@ -46,13 +46,8 @@ package MainMenu {
 			t.setFormat(C.FONT, 12, 0xffffff, 'right');
 			add(t);
 			
-			//C.music.intendedMusic = Music.MENU_MUSIC;
+			C.music.intendedMusic = C.music.MENU_MUSIC;
 			bgColor = 0x0;
 		}
-		
-		//override public function update():void {
-			//super.update();
-			//C.music.update();
-		//}
 	}
 }

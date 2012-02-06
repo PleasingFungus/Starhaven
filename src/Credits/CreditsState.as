@@ -25,7 +25,7 @@ package Credits {
 			addCredit("Programming", "Nicholas Feinberg");
 			addCredit("Art Lead", "Jackson Potter 'Jr.'");
 			addCredit("Additional Art", "Nicholas Feinberg");
-			addCredit("Sound", "Nicholas Feinberg");
+			addCredit("Sound", "Nicholas Feinberg", "w/ Stephen Lavelle's bfxr");
 			addCredit("Music", "Jeremy 'Solatrus' Iamurri", "Nick Smalley On Guitar");
 			addCredit("Playtesting", "Alexander 'Droqen' Martin - 'Dropen'",
 									 "Ethan 'BIG MAN' Feinberg - 'not even big'",

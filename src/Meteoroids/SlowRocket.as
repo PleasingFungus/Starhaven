@@ -25,7 +25,8 @@ package Meteoroids {
 			gridVelocity = target.subtract(gridLoc);
 			gridVelocity.normalize(SPEED);
 			angle = Math.atan2(gridVelocity.y, gridVelocity.x) * 180 / Math.PI;
-			C.log("Slow Rocket: " + gridLoc, target, gridVelocity, angle); 
+			
+			FlxG.play(LAUNCH_NOISE, 0.5);
 		}
 		
 		override public function update():void {
@@ -92,6 +93,7 @@ package Meteoroids {
 		protected const SPEED:int = 200;
 		
 		[Embed(source = "../../lib/art/other/rocket_combat_2.png")] private static const _sprite:Class;
+		[Embed(source = "../../lib/sound/game/rocketlaunch.mp3")] protected const LAUNCH_NOISE:Class;
 	}
 
 }

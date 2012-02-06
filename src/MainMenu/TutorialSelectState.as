@@ -31,6 +31,7 @@ package MainMenu {
 				cancelButton.setY(FlxG.height - 60);
 				add(cancelButton);
 			}
+			C.music.intendedMusic = C.music.MENU_MUSIC;
 		}
 		
 		override public function update():void {
@@ -38,7 +39,6 @@ package MainMenu {
 			
 			if (C.accomplishments.tutorialDone && ControlSet.CANCEL_KEY.justPressed())
 				fadeTo(MenuState);
-			//C.music.update();
 		}
 		
 	}

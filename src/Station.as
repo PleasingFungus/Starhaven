@@ -7,6 +7,7 @@ package  {
 	import Mining.ResourceSource;
 	import org.flixel.FlxSound;
 	import SFX.Fader;
+	import SFX.PowerSound;
 	import Sminos.StationCore;
 	import org.flixel.FlxG;
 	/**
@@ -21,6 +22,10 @@ package  {
 		public var rotateable:Boolean;
 		public var slowJuice:Boolean;
 		
+		protected var lastOperational:Array;
+		protected var newOperational:Boolean;
+		protected var powerSound:PowerSound;
+		
 		public var resourceSource:ResourceSource;
 		protected var _mineralsMined:int;
 		public var mineralsLaunched:int;
@@ -32,6 +37,9 @@ package  {
 			var core:StationCore = new StationCore(0, 0);//C.HALFWIDTH, C.HALFHEIGHT);
 			super(core);
 			core.addToGrid();
+			
+			/*lastOperational = [core];
+			powerSound = new PowerSound;*/
 			
 			lifespan = 0;
 		}
@@ -65,6 +73,12 @@ package  {
 			
 			iterOverMembers(nullCrew);
 			iterOverMembers(huntCrew);
+			
+			/*iterOverMembers(huntNewOperational);
+			//TODO: check for newly inoperational things [damage only?]
+			lastOperational = [];
+			iterOverMembers(populateOperational);
+			powerSound.update();*/
 		}
 		
 		protected var newlyPowered:Boolean;
@@ -150,6 +164,16 @@ package  {
 			}
 		}
 		
+		protected function huntNewOperational(smino:Smino):void {
+			if (!smino.transmitsPower && smino.operational && lastOperational.indexOf(smino) == -1)
+				powerSound.newPowerup = true;
+		}
+		
+		protected function populateOperational(smino:Smino):void {
+			if (!smino.transmitsPower && smino.operational)
+				lastOperational.push(smino);
+		}
+		
 		protected function checkMinerals():void {
 			var lastAvailable:int = _mineralsAvailable;
 			
@@ -162,15 +186,31 @@ package  {
 		}
 		
 		protected var mineSound:FlxSound;
+		protected var recentlyMined:int;
+		protected var playingBigSound:Boolean;
+		protected const BIG_SOUND_THRESHOLD:int = 75;
 		public function set mineralsMined(amount:int):void {
+			if (!mineSound)
+				mineSound = new FlxSound();
+			
 			if (amount > _mineralsMined) {
-				if (!mineSound) {
-					mineSound = new FlxSound();
+				if (!mineSound.playing) {
+					recentlyMined = 0;
+					playingBigSound = false;
+				}
+				
+				recentlyMined += amount - _mineralsMined;
+				
+				if (!mineSound.playing && recentlyMined < BIG_SOUND_THRESHOLD) {
 					mineSound.loadEmbedded(COLLECT_NOISE);
 					mineSound.volume = 0.5;
-				}
-				if (!mineSound.playing)
 					mineSound.play();
+				} else if (!playingBigSound && recentlyMined > BIG_SOUND_THRESHOLD) {
+					mineSound.loadEmbedded(BIG_COLLECT_NOISE);
+					mineSound.volume = 0.5;
+					mineSound.play();
+					playingBigSound = true;
+				}
 			}
 			_mineralsMined = amount;
 		}
@@ -238,6 +278,7 @@ package  {
 		}
 		
 		[Embed(source = "../lib/sound/game/pickup2.mp3")] protected const COLLECT_NOISE:Class;
+		[Embed(source = "../lib/sound/game/bigpickup.mp3")] protected const BIG_COLLECT_NOISE:Class;
 	}
 
 }

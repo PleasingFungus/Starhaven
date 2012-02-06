@@ -17,6 +17,7 @@ package Meteoroids {
 			
 			cycleSpeed *= 3;
 			falling = false;
+			FlxG.play(EXPLODE_NOISE, 0.5);
 		}
 		
 		protected function generateCloud():void {
@@ -87,6 +88,7 @@ package Meteoroids {
 		
 		
 		private const MAX_RADIUS:int = 2;
+		[Embed(source = "../../lib/sound/game/longboom.mp3")] protected const EXPLODE_NOISE:Class;
 	}
 
 }

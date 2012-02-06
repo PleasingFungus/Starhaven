@@ -40,7 +40,7 @@ package MainMenu {
 			//info.setFormat(C.FONT, 12, 0xffffff, 'center');
 			//add(info);
 			
-			//C.music.intendedMusic = Music.MENU_MUSIC;
+			C.music.intendedMusic = C.music.MENU_MUSIC;
 			var cancelButton:StateThing = new StateThing("Cancel", MenuState);
 			cancelButton.setY(FlxG.height - 60);
 			add(cancelButton);
@@ -58,7 +58,7 @@ package MainMenu {
 			
 			if (ControlSet.CANCEL_KEY.justPressed())
 				fadeTo(MenuState);
-			//C.music.update();
+			//music.update();
 		}
 	}
 

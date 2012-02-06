@@ -1,4 +1,4 @@
-package 
+package Musics
 {
 	import org.flixel.FlxG;
 	import org.flixel.FlxObject;
@@ -6,17 +6,17 @@ package
 	 * ...
 	 * @author ...
 	 */
-	public class Music extends FlxObject
+	public class Mp3Music extends FlxObject
 	{
 		private var music:Class;
 		public var intendedMusic:Class;
 		
-		public function Music() {
-			//intendedMusic = MENU_MUSIC;
+		public function Mp3Music() {
+			
 		}
 		
 		override public function update():void {
-			if (!music) {
+			if (!music && intendedMusic) {
 				FlxG.playMusic(intendedMusic, 0);
 				music = intendedMusic;
 				return;
@@ -25,10 +25,13 @@ package
 			if (music != intendedMusic) {
 				FlxG.music.volume -= MUSIC_VOLUME * FlxG.elapsed / FADE_TIME;
 				if (FlxG.music.volume <= 0) {
-					FlxG.playMusic(intendedMusic, 0);
+					if (intendedMusic)
+						FlxG.playMusic(intendedMusic, 0);
+					else
+						FlxG.music.stop();
 					music = intendedMusic;
 				}
-			} else if (FlxG.music.volume < MUSIC_VOLUME) {
+			} else if (music && FlxG.music.volume < MUSIC_VOLUME) {
 				FlxG.music.volume += MUSIC_VOLUME * FlxG.elapsed / FADE_TIME;
 				if (FlxG.music.volume > MUSIC_VOLUME)
 					FlxG.music.volume = MUSIC_VOLUME;
@@ -41,10 +44,12 @@ package
 			music = intendedMusic;
 		}
 		
-		//[Embed(source = "../lib/music/temp_menu_l.mp3")] public static const MENU_MUSIC:Class;
-		//[Embed(source = "../lib/music/temp_game_l.mp3")] public static const PLAY_MUSIC:Class;
+		//[Embed(source = "../../lib/music/temp_menu_l.mp3")] public static const MENU_MUSIC:Class;
+		//[Embed(source = "../../lib/music/temp_game_l.mp3")] public static const PLAY_MUSIC:Class;
+		[Embed(source = "../../lib/music/2-4-2012_2.mp3")] public const PLAY_MUSIC:Class;
+		public const MENU_MUSIC:* = null;
 		
-		private static const MUSIC_VOLUME:Number = .4;
+		private static const MUSIC_VOLUME:Number = .6;
 		private static const FADE_TIME:Number = 1;
 	}
 

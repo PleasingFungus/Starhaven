@@ -12,15 +12,17 @@ package MainMenu {
 			createHighlight();
 			
 			this.difficulty = difficulty;
+			if (C.difficulty.initialSetting == difficulty)
+				C.difficulty.setting = difficulty; // set actual difficulty to displayed
 		}
 		
 		override protected function choose():void {
-			C.difficulty.setting = difficulty;
+			C.difficulty.setting = C.difficulty.initialSetting = difficulty;
 			C.difficulty.save();
 		}
 		
 		override protected function get isHighlighted():Boolean {
-			return C.difficulty.setting == difficulty || super.isHighlighted;
+			return C.difficulty.initialSetting == difficulty || super.isHighlighted;
 		}
 		
 	}

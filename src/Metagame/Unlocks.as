@@ -17,21 +17,23 @@ package Metagame {
 		}
 		
 		protected function setupUnlockConditions():void {
-			//asteroid	--
-			//mountain	--
-			//hard
-			//nebula
-			//water
-			//trench
-			//v hard
-			//dust
+			//asteroid	--	mw1		//1 mission
+			//mountain	--	mw3		//3 missions
+			//hard		--	md40	//~4 missions?
+			//nebula	--	bd150	//~5 missions?
+			//water		--	mc2000	//~6 missions?
+			//trench	--	mw9		//9 missions
+			//v hard	--	mw12	//12 missions
+			//dust		--	mw20	//20 missions
 			
-			conditions = [new UnlockCondition(scLst, C.scenarioList.cIndex(AsteroidScenario), Statblock.MISSIONS_WON, 1, "Asteroid"),	//missions won
-						  new UnlockCondition(scLst, C.scenarioList.cIndex(MountainScenario), Statblock.MISSIONS_WON, 3, "Mountain")];
-			
-			//blocks dropped
-			//minerals collected
-			//meteoroids destroyed
+			conditions = [new UnlockCondition(scLst, C.scenarioList.cIndex(AsteroidScenario), Statblock.MISSIONS_WON, 1, "Asteroid", C.difficulty.EASY),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(MountainScenario), Statblock.MISSIONS_WON, 3, "Mountain", C.difficulty.EASY),
+						  new UnlockCondition(dfLst, C.difficulty.HARD, Statblock.METEOROIDS_DESTROYED, 40, C.difficulty.name(C.difficulty.HARD)),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(NebulaScenario), Statblock.BLOCKS_DROPPED, 150, "Nebula"),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(WaterScenario), Statblock.MINERALS_LAUNCHED, 2000, "Sea"),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(TrenchScenario), Statblock.MISSIONS_WON, 150, "Pit"),
+						  new UnlockCondition(dfLst, C.difficulty.V_HARD, Statblock.MISSIONS_WON, 8, C.difficulty.name(C.difficulty.V_HARD), C.difficulty.HARD),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(DustScenario), Statblock.MISSIONS_WON, 12, "Dust", C.difficulty.HARD)];
 		}
 		
 		protected function setDefaults():void {
@@ -53,7 +55,6 @@ package Metagame {
 			
 			scenarios = C.save.read("unlockedScenarios") as Array;
 			difficulties = C.save.read("unlockedDifficulties") as Array;
-			C.log("Loaded: " + scenarios, difficulties);
 			setDefaults();
 		}
 		
@@ -130,6 +131,13 @@ package Metagame {
 			
 			newUnlocks = null;
 			return display;
+		}
+		
+		public function nextUnlockFor(category:int):int {
+			for each (var unlock:UnlockCondition in conditions)
+				if (!unlock.holds() && unlock.reqStat == category && C.difficulty.initialSetting >= unlock.reqDiff)
+					return unlock.reqStatValue;
+			return -1;
 		}
 		
 		public function scenarioUnlocked(scenario:Class):Boolean {

@@ -25,6 +25,7 @@ package
 	import Meteoroids.SlowRocket;
 	import Mining.ResourceSource;
 	import SFX.Fader;
+	import SFX.PowerSound;
 	import Sminos.Bomb;
 	import Sminos.RocketGun;
 	import Sminos.StationCore;
@@ -132,7 +133,7 @@ package
 				//FlxG.mouse.load(_combat_cursor, 15, 15);
 			//else
 				FlxG.mouse.hide();
-			//C.music.intendedMusic = Music.PLAY_MUSIC;
+			C.music.intendedMusic = C.music.PLAY_MUSIC;
 		}
 		
 		protected function setupBags():void { }
@@ -221,7 +222,7 @@ package
 				case SUBSTATE_ROTPAUSE: rotateUpdate(); break;
 				case SUBSTATE_MISSOVER: overUpdate(); break;
 			}
-			//C.music.update();
+			C.music.update(); //might update double-fast? oops
 		}
 		
 		private function normalUpdate():void {

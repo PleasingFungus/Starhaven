@@ -21,7 +21,6 @@ package MainMenu {
 			
 			MenuThing.resetThings();
 			
-			C.difficulty.setting = 2;
 			var leftCol:Array = [];
 			for (var i:int = 0; i < C.difficulty.MAX_DIFFICULTY; i++)
 				if (C.unlocks.difficultyUnlocked(i))
@@ -39,10 +38,12 @@ package MainMenu {
 			
 			MenuThing.menuThings[MenuThing.menuThings.indexOf(rightCol[0])].select();
 			
-			//C.music.intendedMusic = Music.MENU_MUSIC;
+			//C.music.intendedMusic = C.music.MENU_MUSIC;
 			var cancelButton:StateThing = new StateThing("Cancel", MenuState);
 			cancelButton.setY(FlxG.height - 60);
 			add(cancelButton);
+			
+			C.music.intendedMusic = C.music.MENU_MUSIC;
 		}
 		
 		override public function update():void {
@@ -50,7 +51,7 @@ package MainMenu {
 			
 			if (ControlSet.CANCEL_KEY.justPressed())
 				fadeTo(MenuState);
-			//C.music.update();
+			//music.update();
 		}
 		
 	}

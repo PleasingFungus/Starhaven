@@ -13,8 +13,10 @@ package  {
 		}
 		
 		override public function update():void {
-			if (!FlxG.fade.exists && !FlxG.flash.exists)
+			if (!FlxG.fade.exists && !FlxG.flash.exists) {
 				super.update();
+				C.music.update();
+			}
 		}
 		
 		private var fadeTarget:Class;

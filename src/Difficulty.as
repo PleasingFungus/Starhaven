@@ -5,17 +5,20 @@ package  {
 	 */
 	public class Difficulty {
 		
-		public var setting:Number = V_EASY;
+		public var initialSetting:Number = NORMAL;
+		public var setting:Number = NORMAL;
 		public function Difficulty() {
 			
 		}
 		
 		public function load():void {
 			setting = C.save.read("difficulty") as int;
+			initialSetting = C.save.read("initDifficulty") as int;
 		}
 		
 		public function save():void {
 			C.save.write("difficulty", setting);
+			C.save.write("initDifficulty", initialSetting);
 		}
 		
 		

@@ -180,6 +180,7 @@ package Meteoroids {
 			super.explode(radius);
 			solid = false;
 			dead = true;
+			FlxG.play(EXPLODE_NOISE, 0.5);
 		}
 		
 		
@@ -204,6 +205,7 @@ package Meteoroids {
 		
 		[Embed(source = "../../lib/art/other/asteroid_agon.png")] private static const _sprite:Class;
 		[Embed(source = "../../lib/art/other/arrow.png")] private static const _warning_sprite:Class;
+		[Embed(source = "../../lib/sound/game/boom2.mp3")] protected const EXPLODE_NOISE:Class;
 	}
 
 }

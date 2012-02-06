@@ -54,10 +54,10 @@ package Metagame {
 			colY = Y;
 			colIndex = colHeight = 0;
 			
-			addStat("Missions Won", missionsWon, Comparator ? Comparator.missionsWon : -1);
-			addStat("Blocks Dropped", blocksDropped, Comparator ? Comparator.blocksDropped : -1);
-			addStat("Minerals Launched", mineralsLaunched, Comparator ? Comparator.mineralsLaunched : -1);
-			addStat("Meteoroids Destroyed", meteoroidsDestroyed, Comparator ? Comparator.meteoroidsDestroyed : -1);
+			addStat("Missions Won", MISSIONS_WON, Comparator ? Comparator.missionsWon : -1);
+			addStat("Blocks Dropped", BLOCKS_DROPPED, Comparator ? Comparator.blocksDropped : -1);
+			addStat("Minerals Launched", MINERALS_LAUNCHED, Comparator ? Comparator.mineralsLaunched : -1);
+			addStat("Meteoroids Destroyed", METEOROIDS_DESTROYED, Comparator ? Comparator.meteoroidsDestroyed : -1);
 			
 			return colGroup;
 		}
@@ -66,14 +66,20 @@ package Metagame {
 		private var colY:int;
 		private var colHeight:int;
 		private var colGroup:FlxGroup;
-		private function addStat(Name:String, Value:int, Best:int = -1, Unit:String = ""):void {
+		private function addStat(Name:String, Index:int, Best:int = -1, Unit:String = ""):void {
 			var X:int = !(colIndex % 2) ? FlxG.width / 4 : FlxG.width * 3 / 4;
 			var Y:int = colY;
 			
+			var Value:int = accessByIndex(Index);
 			var titledCol:TitledColumn = new TitledColumn(X, Y, Name);
 			titledCol.addCol(C.decimalize(Value) + Unit);
-			if (Best != -1)
-				titledCol.addCol("Best: " + C.decimalize(Best));
+			if (Best != -1) {
+				var bestText:String = "Best: " + C.decimalize(Best);
+				var next:int = C.unlocks.nextUnlockFor(Index);
+				if (next != -1)
+					bestText += ", Next: " + C.decimalize(next);
+				titledCol.addCol(bestText);
+			}
 			//'next' goes here
 			colGroup.add(titledCol);
 			

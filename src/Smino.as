@@ -6,6 +6,7 @@ package  {
 	import org.flixel.FlxG;
 	import SFX.Fader;
 	import Controls.ControlSet;
+	import SFX.PowerSound;
 	
 	import Sminos.*;
 	/**
