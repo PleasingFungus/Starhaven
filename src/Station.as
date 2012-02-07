@@ -7,6 +7,7 @@ package  {
 	import Mining.ResourceSource;
 	import org.flixel.FlxSound;
 	import SFX.Fader;
+	import SFX.PickupSound;
 	import SFX.PowerSound;
 	import Sminos.StationCore;
 	import org.flixel.FlxG;
@@ -25,6 +26,7 @@ package  {
 		protected var lastOperational:Array;
 		protected var newOperational:Boolean;
 		protected var powerSound:PowerSound;
+		protected var pickupSound:PickupSound;
 		
 		public var resourceSource:ResourceSource;
 		protected var _mineralsMined:int;
@@ -40,6 +42,7 @@ package  {
 			
 			/*lastOperational = [core];
 			powerSound = new PowerSound;*/
+			pickupSound = new PickupSound;
 			
 			lifespan = 0;
 		}
@@ -183,34 +186,22 @@ package  {
 				minimap.dirty = true;
 			
 			core.storedMinerals = mineralsMined;
+			pickupSound.update();
 		}
 		
-		protected var mineSound:FlxSound;
 		protected var recentlyMined:int;
-		protected var playingBigSound:Boolean;
 		protected const BIG_SOUND_THRESHOLD:int = 75;
 		public function set mineralsMined(amount:int):void {
-			if (!mineSound)
-				mineSound = new FlxSound();
-			
 			if (amount > _mineralsMined) {
-				if (!mineSound.playing) {
+				if (!pickupSound.playing)
 					recentlyMined = 0;
-					playingBigSound = false;
-				}
 				
 				recentlyMined += amount - _mineralsMined;
 				
-				if (!mineSound.playing && recentlyMined < BIG_SOUND_THRESHOLD) {
-					mineSound.loadEmbedded(COLLECT_NOISE);
-					mineSound.volume = 0.5;
-					mineSound.play();
-				} else if (!playingBigSound && recentlyMined > BIG_SOUND_THRESHOLD) {
-					mineSound.loadEmbedded(BIG_COLLECT_NOISE);
-					mineSound.volume = 0.5;
-					mineSound.play();
-					playingBigSound = true;
-				}
+				if (recentlyMined < BIG_SOUND_THRESHOLD) {
+					pickupSound.playSmallChime();
+				} else 
+					pickupSound.playLargeChime();
 			}
 			_mineralsMined = amount;
 		}
@@ -276,9 +267,6 @@ package  {
 				printString += '"'+mino.serialize() + '", ';
 			C.log(printString + '"'+members[members.length - 1].serialize() + '"]');
 		}
-		
-		[Embed(source = "../lib/sound/game/pickup2.mp3")] protected const COLLECT_NOISE:Class;
-		[Embed(source = "../lib/sound/game/bigpickup.mp3")] protected const BIG_COLLECT_NOISE:Class;
 	}
 
 }
