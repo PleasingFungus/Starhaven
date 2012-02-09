@@ -10,6 +10,7 @@ package Metagame {
 		public var all:Array;
 		public const FIRST_TUTORIAL_INDEX:int = 0;
 		public const LAST_TUTORIAL_INDEX:int = 2;
+		public const FIRST_SCENARIO_INDEX:int = 3;
 		public function ScenarioList() {
 			all = [MiningTutorial, HousingTutorial, DefenseTutorial,
 				   PlanetScenario, AsteroidScenario, MountainScenario, NebulaScenario,

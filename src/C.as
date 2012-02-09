@@ -38,10 +38,10 @@ package  {
 		public static const FORGET_PIECES:Boolean = false;
 		public static const FORGET_ACCOMPLISHMENTS:Boolean = false;
 		public static const FORGET_UNLOCKS:Boolean = false;
-		public static const ALL_UNLOCKED:Boolean = false;
 		
 		public static var HUD_ENABLED:Boolean = true;
 		public static var IN_TUTORIAL:Boolean = false;
+		public static var ALL_UNLOCKED:Boolean = false;
 		
 		public static const RENDER_THRUSTERS:Boolean = true;
 		public static const HUD_FLICKERS:Boolean = true;

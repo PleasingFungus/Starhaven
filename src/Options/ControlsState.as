@@ -1,7 +1,8 @@
-package Controls {
-	import MainMenu.MenuState;
+package Options {
+	//import MainMenu.MenuState;
 	import MainMenu.StateThing;
 	import org.flixel.*;
+	import Controls.ControlSet;
 	
 	/**
 	 * ...
@@ -22,7 +23,7 @@ package Controls {
 			
 			MenuThing.resetThings();
 			var leftCol:Array = [];
-			leftCol.push(add(new StateThing("Back to Menu", MenuState).setFormat(C.FONT, 12)));
+			leftCol.push(add(new StateThing("Back to Menu", OptionsState).setFormat(C.FONT, 12)));
 			leftCol.push(add(new ControlMenuThing("Move Left: ", ControlSet.MINO_L_KEY)));
 			leftCol.push(add(new ControlMenuThing("Move Right: ", ControlSet.MINO_R_KEY)));
 			leftCol.push(add(new ControlMenuThing("Fastfall: ", ControlSet.FASTFALL_KEY)));
@@ -58,7 +59,7 @@ package Controls {
 		override public function update():void {
 			super.update();
 			if (ControlSet.CANCEL_KEY.justPressed())
-				fadeTo(MenuState);
+				fadeTo(OptionsState);
 		}
 	}
 

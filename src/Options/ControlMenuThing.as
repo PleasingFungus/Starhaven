@@ -1,5 +1,7 @@
-package Controls {
+package Options {
 	import org.flixel.FlxG;
+	import Controls.Key;
+	import Controls.ControlSet;
 	/**
 	 * ...
 	 * @author Nicholas Feinberg

@@ -39,7 +39,7 @@ package Metagame {
 		protected function setDefaults():void {
 			if (!scenarios) {
 				scenarios = [];
-				for (var i:int = 0; i <= C.scenarioList.LAST_TUTORIAL_INDEX + 1; i++)
+				for (var i:int = 0; i <= C.scenarioList.FIRST_SCENARIO_INDEX; i++)
 					scenarios[i] = true;
 			}
 			
@@ -67,18 +67,17 @@ package Metagame {
 		}
 		
 		protected function save():void {
-			if (C.DEBUG && C.FORGET_UNLOCKS) return;
+			if ((C.DEBUG && C.FORGET_UNLOCKS) || C.ALL_UNLOCKED) return;
 			
 			C.save.write("unlockedScenarios", scenarios);
 			C.save.write("unlockedDifficulties", difficulties);
 		}
 		
 		protected function checkUnlock(condition:UnlockCondition):void {
-			if (!condition.holds())
-				return; //nothin' to do
-			
-			if (condition.getAssocList()[condition.listIndex])
-				return; //already unlocked
+			if (!condition.holds() ||								//nothin' to do
+				condition.getAssocList()[condition.listIndex] || 	//already unlocked
+				C.ALL_UNLOCKED)										//all-unlock mode
+				return;
 			
 			condition.getAssocList()[condition.listIndex] = true;
 			if (!newUnlocks)
@@ -141,22 +140,38 @@ package Metagame {
 		}
 		
 		public function scenarioUnlocked(scenario:Class):Boolean {
-			if (C.DEBUG && C.ALL_UNLOCKED)
+			if (C.ALL_UNLOCKED)
 				return true;
 			
 			return scenarios[C.scenarioList.all.indexOf(scenario)];
 		}
 		
+		public function unlockedScenarios():int { //optional: rewrite to return a list of unlocks
+			var unlocked:int = 0;
+			for (var i:int = C.scenarioList.FIRST_SCENARIO_INDEX; i < C.scenarioList.all.length; i++)
+				if (scenarios[i])
+					unlocked++;
+			return unlocked;
+		}
+		
 		public function difficultyUnlocked(setting:int):Boolean {
-			if (C.DEBUG && C.ALL_UNLOCKED)
+			if (C.ALL_UNLOCKED)
 				return true;
 			
 			return difficulties[setting];
 		}
 		
+		public function unlockedDifficulties():int { //optional: rewrite to return a list of unlocks
+			var unlocked:int = 0;
+			for (var i:int = C.difficulty.V_EASY; i < C.difficulty.MAX_DIFFICULTY; i++)
+				if (difficulties[i])
+					unlocked++;
+			return unlocked;
+		}
+		
 		public function allowedScenarios():Array {
 			var scenarios:Array = [];
-			for (var i:int = C.scenarioList.LAST_TUTORIAL_INDEX + 1; i < C.scenarioList.all.length; i++)
+			for (var i:int = C.scenarioList.FIRST_SCENARIO_INDEX; i < C.scenarioList.all.length; i++)
 				if (scenarioUnlocked(C.scenarioList.all[i]))
 					scenarios.push(C.scenarioList.all[i]);
 			return scenarios;

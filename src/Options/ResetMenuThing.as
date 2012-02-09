@@ -1,4 +1,5 @@
-package Controls {
+package Options {
+	import Controls.ControlSet;
 	/**
 	 * ...
 	 * @author Nicholas Feinberg

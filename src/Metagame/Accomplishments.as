@@ -99,7 +99,7 @@ package Metagame {
 		}
 		
 		protected function get canSave():Boolean {
-			return !(C.DEBUG && C.FORGET_ACCOMPLISHMENTS);
+			return !((C.DEBUG && C.FORGET_ACCOMPLISHMENTS) || C.ALL_UNLOCKED);
 		}
 	}
 

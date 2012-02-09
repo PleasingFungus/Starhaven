@@ -1,10 +1,10 @@
 package MainMenu {
 	import Controls.ControlSet;
-	import Controls.ControlsState;
 	import org.flixel.*;
 	import InfoScreens.HelpState;
 	import Metagame.CampaignState;
 	import Credits.CreditsState;
+	import Options.OptionsState;
 
 	public class MenuState extends FadeState
 	{
@@ -34,7 +34,7 @@ package MainMenu {
 				add(new MemoryThing("Single Levels", QuickPlayState));
 			} else
 				add(new MemoryThing("Play", C.accomplishments.nextUnbeaten()));
-			add(new MemoryThing("Controls", ControlsState));
+			add(new MemoryThing("Options", OptionsState));
 			add(new MemoryThing("Credits", CreditsState));
 			
 			//t = new FlxText(0, FlxG.height - 25, FlxG.width, "Use arrow keys to navigate and enter to select.");
