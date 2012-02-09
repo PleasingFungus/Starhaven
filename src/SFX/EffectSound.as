@@ -1,5 +1,5 @@
 package SFX {
-	
+	import org.flixel.FlxG;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -28,6 +28,10 @@ package SFX {
 			volume = n;
 			save();
 			return volume;
+		}
+		
+		public function play(sound:Class, Volume:Number = 1):void {
+			FlxG.play(sound, Volume * volume);
 		}
 	}
 

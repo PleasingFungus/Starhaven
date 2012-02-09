@@ -50,7 +50,7 @@ package Musics {
 			if (!music) {
 				if (intendedMusic)
 					loadMusic(0);
-			} else if (FlxG.mute) {
+			} else if (FlxG.mute || !MUSIC_VOLUME) {
 				if (!paused) {
 					player.pause();
 					paused = true;
@@ -79,7 +79,10 @@ package Musics {
 		
 		public function forceSwap(newMusic:String):void {
 			intendedMusic = newMusic;
-			loadMusic(MUSIC_VOLUME);
+			if (intendedMusic)
+				loadMusic(MUSIC_VOLUME);
+			else
+				killMusic();
 		}
 		
 		protected function loadMusic(volume:Number):void {

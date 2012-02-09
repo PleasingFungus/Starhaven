@@ -30,9 +30,9 @@ package Options {
 			
 			add(upKey = new KeyHelper(new Key("UP")));
 			sliders = new Vector.<VolumeSlider>;
-			sliders.push(add(new VolumeSlider(FlxG.height / 2 - 100, "Global Volume", getGlobalVolume, setGlobalVolume)));
+			sliders.push(add(new VolumeSlider(FlxG.height / 2 - 100, "Global Volume", getGlobalVolume, setGlobalVolume, COLLECT_NOISE)));
 			sliders.push(add(new VolumeSlider(FlxG.height / 2 - 30, "Music Volume", C.music.getMusicVolume, C.music.setMusicVolume)));
-			sliders.push(add(new VolumeSlider(FlxG.height / 2 + 40, "Effect Volume", C.sound.getVolume, C.sound.setVolume)));
+			sliders.push(add(new VolumeSlider(FlxG.height / 2 + 40, "Effect Volume", C.sound.getVolume, C.sound.setVolume, COLLECT_NOISE)));
 			sliders[0].selected = true;
 			add(downKey = new KeyHelper(new Key("DOWN")));
 			
@@ -52,6 +52,7 @@ package Options {
 		override public function update():void {
 			super.update();
 			checkKeys();
+			checkMusic();
 			if (ControlSet.CANCEL_KEY.justPressed())
 				fadeTo(OptionsState);
 		}
@@ -69,6 +70,15 @@ package Options {
 			}
 		}
 		
+		protected function checkMusic():void {
+			if (selectedSlider < 2 && !C.music.intendedMusic)
+				C.music.forceSwap(C.music.PLAY_MUSIC);
+			else if (selectedSlider >= 2 && C.music.intendedMusic)
+				C.music.forceSwap(null);
+		}
+		
+		
+		[Embed(source = "../../lib/sound/game/pickup2.mp3")] protected const COLLECT_NOISE:Class;
 	}
 
 }

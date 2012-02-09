@@ -17,11 +17,13 @@ package Options {
 		private var name:String;
 		private var getter:Function;
 		private var setter:Function;
-		public function VolumeSlider(Y:int, Name:String, Getter:Function, Setter:Function) {
+		private var deltaSound:Class;
+		public function VolumeSlider(Y:int, Name:String, Getter:Function, Setter:Function, DeltaSound:Class = null) {
 			y = Y;
 			name = Name;
 			getter = Getter;
 			setter = Setter;
+			deltaSound = DeltaSound;
 			create();
 			update();
 		}
@@ -31,7 +33,7 @@ package Options {
 			title.setFormat(C.FONT, 16, 0xffffff, 'center');
 			add(title);
 			
-			volNumber = new FlxText(FlxG.width / 2 - 5, title.height + 5, 10, volume + "");
+			volNumber = new FlxText(FlxG.width / 2 - 14, title.height + 5, 28, volume + "");
 			volNumber.setFormat(C.FONT, 16, 0xffffff, 'center');
 			add(volNumber);
 			
@@ -49,7 +51,7 @@ package Options {
 			rightArrow = new KeyHelper(new Key("RIGHT"));
 			leftArrow.x = bars[0].x - 20 - leftArrow.width;
 			rightArrow.x = bars[bars.length - 1].x + bars[bars.length - 1].width + 20;
-			leftArrow.y = rightArrow.y = bars[0].y;
+			leftArrow.y = rightArrow.y = bars[0].y + 9;
 			add(leftArrow);
 			add(rightArrow);
 		}
@@ -71,10 +73,16 @@ package Options {
 		}
 		
 		protected function checkKeys():void {
-			if (leftArrow.key.justPressed() && volume > 0)
+			if (leftArrow.key.justPressed() && volume > 0) {
 				volume--;
-			if (rightArrow.key.justPressed() && volume < 10)
+				if (deltaSound)
+					C.sound.play(deltaSound)
+			}
+			if (rightArrow.key.justPressed() && volume < 10) {
 				volume++;
+				if (deltaSound)
+					C.sound.play(deltaSound)
+			}
 		}
 		
 		protected function checkVolume():void {
@@ -86,9 +94,9 @@ package Options {
 				bars[i].alpha = 0.5;
 		}
 		
-		private const BAR_SPACING:int = 5;
-		private const BAR_WIDTH:int = 15;
-		private const BAR_HEIGHT:int = 30;
+		private const BAR_SPACING:int = 10;
+		private const BAR_WIDTH:int = 20;
+		private const BAR_HEIGHT:int = 35;
 	}
 
 }
