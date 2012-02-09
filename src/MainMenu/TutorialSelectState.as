@@ -26,19 +26,20 @@ package MainMenu {
 				add(new StateThing("Skip Remaining Tutorials", SkipTutorialState));
 			MenuThing.menuThings[0].select();
 			
-			if (C.accomplishments.tutorialDone) {
-				var cancelButton:StateThing = new StateThing("Cancel", MenuState);
-				cancelButton.setY(FlxG.height - 60);
-				add(cancelButton);
-			}
+			var cancelButton:StateThing = new StateThing("Back", MenuState);
+			cancelButton.setY(FlxG.height - 60);
+			add(cancelButton);
+			
 			C.music.intendedMusic = C.music.MENU_MUSIC;
 		}
 		
 		override public function update():void {
 			super.update();
 			
-			if (C.accomplishments.tutorialDone && ControlSet.CANCEL_KEY.justPressed())
+			if (ControlSet.CANCEL_KEY.justPressed()) {
+				C.playBackNoise();
 				fadeTo(MenuState);
+			}
 		}
 		
 	}

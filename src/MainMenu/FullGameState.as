@@ -49,8 +49,10 @@ package MainMenu {
 		override public function update():void {
 			super.update();
 			
-			if (ControlSet.CANCEL_KEY.justPressed())
+			if (ControlSet.CANCEL_KEY.justPressed()) {
+				C.playBackNoise();
 				fadeTo(MenuState);
+			}
 			//music.update();
 		}
 		

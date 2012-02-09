@@ -53,8 +53,10 @@ package Options {
 			super.update();
 			checkKeys();
 			checkMusic();
-			if (ControlSet.CANCEL_KEY.justPressed())
+			if (ControlSet.CANCEL_KEY.justPressed()) {
+				C.playBackNoise();
 				fadeTo(OptionsState);
+			}
 		}
 		
 		protected function checkKeys():void {

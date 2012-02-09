@@ -27,6 +27,7 @@ package Credits {
 			addCredit("Additional Art", "Nicholas Feinberg");
 			addCredit("Sound", "Nicholas Feinberg", "w/ Stephen Lavelle's bfxr");
 			addCredit("Music", "Jeremy 'Solatrus' Iamurri", "Nick Smalley On Guitar");
+			colIsWide = true;
 			addCredit("Playtesting", "Alexander 'Droqen' Martin - 'Dropen'",
 									 "Ethan 'BIG MAN' Feinberg - 'not even big'",
 									 "James 'Bobo' Higgins",
@@ -36,10 +37,12 @@ package Credits {
 									 "Nathaniel 'Medi' Rook",
 									 "Michael 'Chrono' Bennett",
 									 "James 'Walliard' Falcounbridge");
-			var lastCol:TitledColumn = creditGruppen.members[creditGruppen.members.length - 1];
-			lastCol.setWidth(FlxG.width);
+			colIsWide = true;
+			addCredit("Additional Thanks");
+			addCredit("Fonts", "Tino Meinert - CPMono", "Anna Anthropy - Crypt of Tomorrow");
+			addCredit("Backgrounds", "NASA's Astronomy Picture of the Day");
 			
-			creditGruppen.height = colY + colHeight + COL_SPACE;
+			creditGruppen.height = colY + colHeight - COL_SPACE/2;
 			maxScroll = 0;
 			minScroll = (FlxG.height - creditGruppen.height) + maxScroll;
 			
@@ -50,15 +53,12 @@ package Credits {
 			var returnText:FlxText = new FlxText(FlxG.width - 120, 35, 115, ControlSet.CONFIRM_KEY+" or click to return.");
 			returnText.setFormat(C.FONT, 12, 0xffffff, 'right');
 			add(returnText);
-			
-			//var t:FlxText = new FlxText(0, FlxG.height - 25, FlxG.width, "Press ENTER to go back to the menu.");
-			//t.setFormat(C.FONT, 12, 0xffffff, 'center');
-			//add(t);
 		}
 		
 		private var colIndex:int;
 		private var colY:int;
 		private var colHeight:int;
+		private var colIsWide:Boolean;
 		private function addCredit(Title:String, ...people):void {
 			var X:int = !(colIndex % 2) ? FlxG.width / 4 : FlxG.width * 3 / 4;
 			var Y:int = colY;
@@ -67,6 +67,12 @@ package Credits {
 			for each (var person:String in people)
 				titledCol.addCol(person);
 			creditGruppen.add(titledCol);
+			
+			if (colIsWide) {
+				titledCol.setWidth(FlxG.width);
+				colIndex++;
+				colIsWide = false;
+			}
 			
 			colIndex ++;
 			colHeight = Math.max(colHeight, titledCol.height);
@@ -112,11 +118,11 @@ package Credits {
 			if (!dy) return;
 			
 			for each (var credit:TitledColumn in creditGruppen.members)
-				credit.scroll(dy/2);
+				credit.scroll(dy);
 			creditGruppen.y += dy;
 		}
 		
-		private const SCROLL_SPEED:Number = 250;
+		private const SCROLL_SPEED:Number = 200;
 		private const COL_SPACE:int = 25;
 	}
 

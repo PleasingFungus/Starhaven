@@ -7,8 +7,9 @@ package Scenarios {
 	import flash.geom.Point;
 	import Mining.MineralBlock;
 	import Missions.NebulaMission;
-	import org.flixel.FlxU;
+	import org.flixel.*;
 	import Sminos.*;
+	import flash.display.BitmapData;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -118,6 +119,39 @@ package Scenarios {
 		
 		override protected function createTracker(waveMeteos:Number = 2):void {
 			super.createTracker(waveMeteos);
+		}
+		
+		override protected function createBG():void {
+			super.createBG();
+			
+			parallaxBG = new FlxGroup;
+			var sectors:Array = new Array(9);
+			for (var X:int = 0; X < 3; X++)
+				for (var Y:int = 0; Y < 3; Y++)
+					sectors[X + Y * 3] = new Point(X, Y);
+			
+			for (var i:int = 0; i < 7; i++) {
+				var bgMission:AsteroidMission = new AsteroidMission(NaN, 0.9);
+				var astrScale:Number = i > 3 ? i > 5 ? 1/2 : 1/4 : 1/8; 
+				var bgAsteroid:BaseAsteroid = new BaseAsteroid(-1, -1, bgMission.rawMap.map, bgMission.rawMap.center, astrScale);
+				var bmp:BitmapData = bgAsteroid.pixels.clone();
+				
+				var sectorIndex:int = FlxU.random() * sectors.length;
+				var sector:Point = sectors[sectorIndex];
+				sectors.splice(sectorIndex, 1);
+				
+				var spr:FlxSprite = new FlxSprite((FlxU.random()) * FlxG.width * 1.5 * sector.x / 3,
+												  (FlxU.random()) * FlxG.height * 1.5 * sector.y / 3);
+				spr.scrollFactor.x = spr.scrollFactor.y = astrScale;
+				spr.pixels = bmp;
+				spr.frame = 0;
+				
+				spr.color = 0x606060;
+				parallaxBG.add(spr);
+			}
+			parallaxBG.scrollFactor.x = parallaxBG.scrollFactor.y = 0.1;
+			
+			//todo: add increasing dusty-haze for further-back asteroids (simple color-shift?)
 		}
 		
 		[Embed(source = "../../lib/art/backgrounds/nebula_1.jpg")] private static const _bg01:Class;
