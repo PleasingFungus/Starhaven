@@ -23,7 +23,7 @@ package Musics {
 		
 		public function load():void {
 			musicVolume = C.save.read("musicVolume") as Number;
-			if (!musicVolume) musicVolume = 0.5;
+			if (isNaN(musicVolume)) musicVolume = 0.5;
 		}
 		
 		public function save():void {

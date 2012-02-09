@@ -59,6 +59,16 @@ package  {
 				drawShift.x = -minXShift;
 		}
 		
+		//public function getMaxShift():Point {
+			//return new Point((OUTER_BOUNDS.right + buffer) * C.BLOCK_SIZE - FlxG.width / scale,
+							 //OUTER_BOUNDS.bottom * C.BLOCK_SIZE - FlxG.height / scale);
+		//}
+		//
+		//public function getMinShift():Point {
+			//return new Point((OUTER_BOUNDS.left - buffer) * C.BLOCK_SIZE,
+							 //TODO
+		//}
+		
 		public function get OUTER_BOUNDS():Rectangle {
 			if (_lastDim && _lastDim.equals(maxDim))
 				return _last_outer_bound;

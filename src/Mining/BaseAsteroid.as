@@ -7,7 +7,9 @@ package Mining {
 	 */
 	public class BaseAsteroid extends Mino implements ResourceSource {
 		
-		public function BaseAsteroid(X:int, Y:int, Blocks:Array, Center:Point ) {
+		private var blockScale:Number;
+		public function BaseAsteroid(X:int, Y:int, Blocks:Array, Center:Point, Scale:Number = 1) {
+			blockScale = Scale;
 			super(X, Y, Blocks, Center);
 		}
 		
@@ -35,12 +37,12 @@ package Mining {
 		}
 		
 		override protected function drawBlocks():void {
-			var Stamp:FlxSprite = new FlxSprite().createGraphic(C.BLOCK_SIZE, C.BLOCK_SIZE);
+			var Stamp:FlxSprite = new FlxSprite().createGraphic(C.BLOCK_SIZE * blockScale, C.BLOCK_SIZE * blockScale);
 			
 			for each (var block:MineralBlock in blocks) {
 				if (block.damaged) continue;
-				var X:int = (block.x - topLeft.x) * C.BLOCK_SIZE;
-				var Y:int = (block.y - topLeft.y) * C.BLOCK_SIZE;
+				var X:int = (block.x - topLeft.x) * C.BLOCK_SIZE * blockScale;
+				var Y:int = (block.y - topLeft.y) * C.BLOCK_SIZE * blockScale;
 				
 				Stamp.color = block.color;
 				draw(Stamp, X, Y);

@@ -13,7 +13,7 @@ package SFX {
 		
 		public function load():void {
 			volume = C.save.read("effectVolume") as Number;
-			if (!volume) volume = 0.5;
+			if (isNaN(volume)) volume = 0.5;
 		}
 		
 		public function save():void {

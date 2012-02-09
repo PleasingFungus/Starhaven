@@ -56,6 +56,7 @@ package
 		protected var bg:FlxSprite;
 		protected var bg_sprite:Class;
 		protected var bg_sprites:Array;
+		protected var parallaxBG:FlxGroup;
 		
 		protected var rotateable:Boolean;
 		protected var centerPoint:Point;
@@ -969,6 +970,9 @@ package
 			if (bg)
 				bg.render();
 			
+			if (parallaxBG)
+				renderParallaxBG();
+			
 			var realBuffer:BitmapData = FlxG.buffer;
 			FlxG.buffer = _buffer;
 			_buffer.fillRect(_bufferRect, 0x0);
@@ -990,6 +994,18 @@ package
 			
 			if (C.HUD_ENABLED)
 				hudLayer.render();
+		}
+		
+		private function renderParallaxBG():void {
+			//var rangeOfMotion:Point = new Point(FlxG.width - parallaxBG.width,
+												//FlxG.height - parallaxBG.height);
+			//C.B.getMaxShift
+			
+			for each (var obj:FlxSprite in parallaxBG.members) {
+				obj.offset.x = -C.B.drawShift.x * obj.scrollFactor.x * C.B.scale;
+				obj.offset.y = -C.B.drawShift.y * obj.scrollFactor.y * C.B.scale;
+			}
+			parallaxBG.render();
 		}
 		
 		private function renderCollision():void {
