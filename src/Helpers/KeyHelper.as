@@ -40,14 +40,11 @@ package Helpers {
 			scale.x = scale.y = 2;
 		}
 		
-		override public function update():void {
-			super.update();
-			alpha = key.pressed() ? 1 : 0.5;
-		}
-		
 		override public function render():void {
-			if (C.HUD_ENABLED)
+			if (C.HUD_ENABLED) {
+				alpha = key.pressed() ? 1 : 0.5;
 				super.render();
+			}
 		}
 		
 		

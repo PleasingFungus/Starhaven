@@ -11,6 +11,7 @@ package Musics
 		private var music:Class;
 		public var intendedMusic:Class;
 		
+		//NOTE: will need load, save, getMusicVolume, setMusicVolume to work again!
 		public function Mp3Music() {
 			
 		}

@@ -30,6 +30,8 @@ package {
 			C.difficulty.load();
 			C.accomplishments.load();
 			C.unlocks.load();
+			C.sound.load();
+			C.music.load();
 		}
 		
 		override protected function onKeyUp(event:KeyboardEvent):void {

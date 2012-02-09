@@ -16,8 +16,18 @@ package Musics {
 		private var music:String;
 		private var player:NetStream;
 		private var paused:Boolean;
+		public var musicVolume:Number;
 		public function M4aMusic() {
-			
+			musicVolume = 0.5;
+		}
+		
+		public function load():void {
+			musicVolume = C.save.read("musicVolume") as Number;
+			if (!musicVolume) musicVolume = 0.5;
+		}
+		
+		public function save():void {
+			C.save.write("musicVolume", musicVolume);
 		}
 		
 		protected function firstTimeInit():void {
@@ -108,10 +118,19 @@ package Musics {
 		public const MENU_MUSIC:String = null;
 		
 		
-		private static function get MUSIC_VOLUME():Number {
-			return FlxG.getMuteValue() * _MUSIC_VOLUME * FlxG.volume;
+		private function get MUSIC_VOLUME():Number {
+			return FlxG.getMuteValue() * musicVolume * FlxG.volume * 2;
 		}
-		private static const _MUSIC_VOLUME:Number = 1;
+		
+		public function getMusicVolume():Number {
+			return musicVolume;
+		}
+		public function setMusicVolume(v:Number):Number {
+			musicVolume = v;
+			save();
+			return musicVolume;
+		}
+		
 		private static const FADE_TIME:Number = 1;
 		
 	}

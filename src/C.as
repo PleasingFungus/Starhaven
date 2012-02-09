@@ -11,6 +11,7 @@ package  {
 	import org.flixel.*;
 	import Icons.NoCrewIcon;
 	import Icons.NoPowerIcon;
+	import SFX.EffectSound;
 	/**
 	 * ...
 	 * @author Nicholas Feinberg
@@ -69,16 +70,18 @@ package  {
 		public static var accomplishments:Accomplishments;
 		public static var unlocks:Unlocks;
 		public static var music:M4aMusic;
+		public static var sound:EffectSound;
 		public static var save:FlxSave;
 		public static var fluid:Mino;
 		
 		public static function init():void {
-			B = new Bounds();
-			music = new M4aMusic();
-			difficulty = new Difficulty();
+			B = new Bounds;
+			music = new M4aMusic;
+			difficulty = new Difficulty;
 			scenarioList = new ScenarioList;
-			accomplishments = new Accomplishments();
+			accomplishments = new Accomplishments;
 			unlocks = new Unlocks;
+			sound = new EffectSound;
 			
 			
 			ICONS[MINERALS] = _minerals_icon;
