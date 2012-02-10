@@ -73,6 +73,7 @@ package Sminos {
 		public function fireOn(target:Point):void {
 			rocketsLoaded--;
 			Mino.layer.add(new SlowRocket(fireOrigin, target, this));
+			C.sound.play(LAUNCH_NOISE);
 		}
 		
 		public function get fireOrigin():Point {
@@ -111,6 +112,7 @@ package Sminos {
 		[Embed(source = "../../lib/art/sminos/agun_in.png")] private static const _sprite_in:Class;
 		[Embed(source = "../../lib/sound/vo/agun.mp3")] public static const _desc:Class;
 		[Embed(source = "../../lib/art/other/rocket_combat_unlit_2.png")] private static const _combat_rocket_sprite:Class;
+		[Embed(source = "../../lib/sound/game/rocketlaunch.mp3")] private static const LAUNCH_NOISE:Class;
 	}
 
 }

@@ -13,6 +13,7 @@ package Meteoroids {
 		protected var target:Point;
 		protected var gridVelocity:Point;
 		protected var parent:Mino;
+		protected var fuse:Number;
 		public function SlowRocket(Origin:Point, Target:Point, Parent:Mino) {
 			super()
 			loadRotatedGraphic(_sprite);
@@ -25,8 +26,7 @@ package Meteoroids {
 			gridVelocity = target.subtract(gridLoc);
 			gridVelocity.normalize(SPEED);
 			angle = Math.atan2(gridVelocity.y, gridVelocity.x) * 180 / Math.PI;
-			
-			C.sound.play(LAUNCH_NOISE);
+			fuse = 0.25;
 		}
 		
 		override public function update():void {
@@ -66,6 +66,12 @@ package Meteoroids {
 		
 		protected function checkTarget():void {
 			if (!exists) return;
+			
+			if (fuse > 0) {
+				fuse -= FlxG.elapsed;
+				return;
+			}
+			
 			var delta:Point = target.subtract(gridLoc);
 			if ((delta.x > 0) != (gridVelocity.x > 0) ||
 				(delta.y > 0) != (gridVelocity.y > 0))
@@ -80,6 +86,7 @@ package Meteoroids {
 		override public function render():void {
 			x = semigridLoc.x * C.BLOCK_SIZE;
 			y = semigridLoc.y * C.BLOCK_SIZE;
+			color = fuse > 0 ? 0x808080 : 0xffffff;
 			super.render();
 		}
 		

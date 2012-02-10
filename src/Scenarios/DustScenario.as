@@ -146,7 +146,8 @@ package Scenarios {
 				spr.pixels = bmp;
 				spr.frame = 0;
 				
-				spr.color = 0x606060;
+				var colorComponent:int = 0xf0 * astrScale; //max 0x80
+				spr.color = (colorComponent << 16) | (colorComponent << 8) | colorComponent;
 				parallaxBG.add(spr);
 			}
 			parallaxBG.scrollFactor.x = parallaxBG.scrollFactor.y = 0.1;

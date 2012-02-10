@@ -7,9 +7,19 @@ package  {
 	 */
 	public class FadeState extends FlxState {
 		
+		protected var background:FlxSprite;
 		override public function create():void {
 			FlxG.flash.start(0xff000000, 0.4); 
 			C.resetMouse();
+			
+			add(background = new FlxSprite());
+			loadBackground(DEFAULT_BG);
+		}
+		
+		protected function loadBackground(rawSpr:Class):void {
+			background.loadGraphic(rawSpr);
+			background.color = 0x808080;
+			
 		}
 		
 		override public function update():void {
@@ -33,6 +43,8 @@ package  {
 		protected function finishFade():void {
 			FlxG.state = new fadeTarget;
 		}
+		
+		[Embed(source = "../lib/art/backgrounds/garradd_3.jpg")] private const DEFAULT_BG:Class;
 	}
 
 }

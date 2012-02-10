@@ -12,7 +12,9 @@ package Credits {
 		
 		private var titleBar:FlxSprite;
 		private var creditGruppen:FlxGroup;
-		public function CreditsState() {
+		override public function create():void {
+			super.create();
+			
 			var title:FlxText = new FlxText(0, 15, FlxG.width, "Credits");
 			title.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
 			
