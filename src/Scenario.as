@@ -848,11 +848,16 @@ package
 					FlxG.state = new CampaignState(true);
 				}
 			} else if (C.IN_TUTORIAL) {
-				var nextLevel:int = C.scenarioList.index(this) + 1;
-				if (!C.accomplishments.winsByScenario[nextLevel] && !C.accomplishments.tutorialDone)
-					FlxG.state = new C.scenarioList.all[nextLevel]
-				else
-					FlxG.state = new TutorialSelectState;
+				var curLevel:int = C.scenarioList.index(this);
+				if (!won()) {
+					FlxG.state = new C.scenarioList.all[curLevel];
+				} else {				
+					var nextLevel:int = curLevel + 1;
+					if (!C.accomplishments.winsByScenario[nextLevel] && !C.accomplishments.tutorialDone)
+						FlxG.state = new C.scenarioList.all[nextLevel]
+					else
+						FlxG.state = new MenuState;
+				}
 			} else
 				FlxG.state = new MenuState;
 		}

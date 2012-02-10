@@ -32,11 +32,13 @@ package Credits {
 									 "Ethan 'BIG MAN' Feinberg - 'not even big'",
 									 "James 'Bobo' Higgins",
 									 "Nik 'goog' Dorff - 'ugggggh'",
-									 "'Tridgor'",
+									 "Nataniel 'tridgor' Butt",
 									 "Renaud 'Roi Des-Monstres' Cormier",
 									 "Nathaniel 'Medi' Rook",
 									 "Michael 'Chrono' Bennett",
-									 "James 'Walliard' Falcounbridge");
+									 "James 'Walliard' Falcounbridge",
+									 "Jeffrey 'Jiefu' McGannigan",
+									 "'Kiwi'");
 			colIsWide = true;
 			addCredit("Additional Thanks");
 			addCredit("Fonts", "Tino Meinert - CPMono", "Anna Anthropy - Crypt of Tomorrow");

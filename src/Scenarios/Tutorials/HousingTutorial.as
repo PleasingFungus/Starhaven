@@ -98,7 +98,7 @@ package Scenarios.Tutorials {
 		override protected function getAssortment(index:int):Array {
 			if (index)
 				return [SmallBarracks, SmallBarracks, MediumLauncher, Conduit];
-			return [SmallLauncher, SmallLauncher, MediumBarracks];
+			return [SmallLauncher, SmallLauncher, MediumBarracks, Conduit];
 		}
 		
 		

@@ -52,20 +52,25 @@ package Metagame {
 				winsByScenario[index] = 1;
 			saveRecord(winsByDifficulty, "winsByDifficulty");
 			
-			index = Math.floor(C.difficulty.setting);
-			wins = winsByDifficulty[index];
+			var difIndex:int = Math.floor(C.difficulty.setting);
+			wins = winsByDifficulty[difIndex];
 			if (wins)
-				winsByDifficulty[index] += 1;
+				winsByDifficulty[difIndex] += 1;
 			else
-				winsByDifficulty[index] = 1;
+				winsByDifficulty[difIndex] = 1;
 			saveRecord(winsByScenario, "winsByScenario");
 			
-			if (!tutorialDone && index >= C.scenarioList.LAST_TUTORIAL_INDEX)
+			var indexOK:Boolean = index >= C.scenarioList.LAST_TUTORIAL_INDEX;
+			if (!indexOK)
+				C.log(index +" vs " + C.scenarioList.LAST_TUTORIAL_INDEX);
+			if (!tutorialDone && indexOK)
 				setTutorialsDone();
 		}
 		
 		public function setTutorialsDone():void {
-			C.save.write("tutorialDone", tutorialDone = true);
+			tutorialDone = true;
+			C.save.write("tutorialDone", tutorialDone);
+			C.IN_TUTORIAL = false;
 		}
 		
 		public function registerRecords(missionsCompleted:int, statblock:Statblock):void {
