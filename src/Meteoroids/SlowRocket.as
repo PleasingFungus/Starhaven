@@ -26,7 +26,7 @@ package Meteoroids {
 			gridVelocity.normalize(SPEED);
 			angle = Math.atan2(gridVelocity.y, gridVelocity.x) * 180 / Math.PI;
 			
-			FlxG.play(LAUNCH_NOISE, 0.5);
+			C.sound.play(LAUNCH_NOISE);
 		}
 		
 		override public function update():void {

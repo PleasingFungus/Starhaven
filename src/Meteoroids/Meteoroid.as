@@ -180,7 +180,7 @@ package Meteoroids {
 			super.explode(radius);
 			solid = false;
 			dead = true;
-			FlxG.play(EXPLODE_NOISE, 0.5);
+			C.sound.play(EXPLODE_NOISE);
 		}
 		
 		

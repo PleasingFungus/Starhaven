@@ -18,7 +18,7 @@ package MainMenu {
 		}
 		
 		override protected function get choiceSound():Class {
-			return associate == MenuState ? C.BACK_SOUND : super.choiceSound;
+			return associate == MenuState || text.text == "Back" ? C.sound.BACK_SOUND : super.choiceSound;
 		}
 		
 		protected function changeStates(_:String):void {

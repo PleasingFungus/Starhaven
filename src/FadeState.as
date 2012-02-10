@@ -25,6 +25,11 @@ package  {
 			FlxG.fade.start(0xff000000, 0.4, finishFade);
 		}
 		
+		protected function fadeBackTo(state:Class):void {
+			C.sound.back();
+			fadeTo(state);
+		}
+		
 		protected function finishFade():void {
 			FlxG.state = new fadeTarget;
 		}

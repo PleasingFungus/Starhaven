@@ -89,10 +89,8 @@ package Credits {
 			super.update();
 			if (!FlxG.fade.exists && !FlxG.flash.exists) {
 				checkScroll();
-				if (ControlSet.CANCEL_KEY.justPressed() || ControlSet.CONFIRM_KEY.justPressed() || FlxG.mouse.justPressed()) {
-					C.playBackNoise();
-					fadeTo(MenuState);
-				}
+				if (ControlSet.CANCEL_KEY.justPressed() || ControlSet.CONFIRM_KEY.justPressed() || FlxG.mouse.justPressed())
+					fadeBackTo(MenuState);
 			}
 		}
 		

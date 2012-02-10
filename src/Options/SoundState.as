@@ -54,8 +54,7 @@ package Options {
 			checkKeys();
 			checkMusic();
 			if (ControlSet.CANCEL_KEY.justPressed()) {
-				C.playBackNoise();
-				fadeTo(OptionsState);
+				fadeBackTo(OptionsState);
 			}
 		}
 		

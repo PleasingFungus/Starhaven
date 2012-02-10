@@ -93,7 +93,7 @@ package  {
 			
 			if (!silent) {
 				FlxG.quake.start(0.015, 0.075);
-				FlxG.play(THUD_NOISE, 0.5);
+				C.sound.play(THUD_NOISE);
 			}
 		}
 		

@@ -65,16 +65,16 @@ package  {
 			var lastMoused:Boolean = moused;
 			moused = highlight.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y);
 			if (!lastMoused && moused && onSelect != null)
-				FlxG.play(SEL_SOUND, 0.12);
+				C.sound.play(SEL_SOUND, 0.25);
 			
 			if (selected) {
 				if (FlxG.keys.justPressed("UP")) {
 					menuThings[(i + menuThings.length - 1) % menuThings.length].select();
-					FlxG.play(UP_SOUND, 0.25);
+					C.sound.play(UP_SOUND, 0.5);
 					deselect();
 				} else if (FlxG.keys.justPressed("DOWN")) {
 					menuThings[(i + 1) % menuThings.length].select();
-					FlxG.play(DOWN_SOUND, 0.25);
+					C.sound.play(DOWN_SOUND, 0.5);
 					deselect();
 				} else if (FlxG.keys.justPressed("ENTER"))//(ControlSet.CONFIRM_KEY.justReleased())
 					choose();
@@ -92,12 +92,7 @@ package  {
 		protected function choose():void {
 			if (onSelect != null) {
 				FlxG.fade.start(0xff000000, 0.4, onFadeEnd);
-				var s:FlxSound = new FlxSound();
-				s.loadEmbedded(choiceSound);
-				s.volume = 0.25;
-				s.survive = true;
-				s.play();
-				//FlxG.play(CHOOSE_SOUND, 0.25);
+				C.sound.playPersistent(choiceSound, 0.5);
 			}
 		}
 		

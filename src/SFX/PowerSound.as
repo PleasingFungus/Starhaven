@@ -15,7 +15,7 @@ package SFX {
 			super();
 			upNoise = new FlxSound().loadEmbedded(POWERUP_NOISE);
 			downNoise = new FlxSound;
-			upNoise.volume = downNoise.volume = 0.5;
+			upNoise.volume = downNoise.volume = C.sound.volume;
 		}
 		
 		override public function update():void {

@@ -140,7 +140,7 @@ package  {
 							mino.visible = true;
 						forcedRotationDirection = initialRotationDirection = NaN;
 						FlxG.quake.start(0.02, 0.075);
-						FlxG.play(CCW_NOISE, 0.75);
+						C.sound.play(CCW_NOISE, 2/3);
 					}
 				}
 			}
@@ -152,14 +152,14 @@ package  {
 		protected function rotateClockwise():Mino {
 			var hit:Mino = rotate(true);
 			if (!hit)
-				FlxG.play(CW_NOISE, 0.5);
+				C.sound.play(CW_NOISE);
 			return hit;
 		}
 		
 		protected function rotateCounterclockwise():Mino {
 			var hit:Mino = rotate(false);
 			if (!hit)
-				FlxG.play(CW_NOISE, 0.5);
+				C.sound.play(CW_NOISE);
 			return hit;
 		}
 		

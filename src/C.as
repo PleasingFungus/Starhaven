@@ -241,16 +241,6 @@ package  {
 			return a.x * b.x + a.y * b.y;
 		}
 		
-		
-		[Embed(source = "../lib/sound/menu/unchoose.mp3")] public static const BACK_SOUND:Class;
-		public static function playBackNoise():void {
-			var s:FlxSound = new FlxSound();
-			s.loadEmbedded(BACK_SOUND);
-			s.volume = 0.25;
-			s.survive = true;
-			s.play();
-		}
-		
 		public static function resetMouse():void {
 			FlxG.mouse.show();
 			FlxG.mouse.unload();

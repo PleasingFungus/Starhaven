@@ -65,8 +65,7 @@ package Options {
 		override public function update():void {
 			super.update();
 			if (ControlSet.CANCEL_KEY.justPressed()) {
-				C.playBackNoise();
-				fadeTo(OptionsState);
+				fadeBackTo(OptionsState);
 			}
 		}
 		

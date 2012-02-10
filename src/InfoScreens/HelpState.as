@@ -117,20 +117,16 @@ package InfoScreens {
 				if (page > 0) {
 					page--;
 					create();
-					FlxG.play(UP_SOUND, 0.25);
-				} else {
-					C.playBackNoise();
-					fadeTo(MenuState);
-				}
+					C.sound.play(UP_SOUND, 0.5);
+				} else
+					fadeBackTo(MenuState);
 			} else if (FlxG.keys.justPressed("RIGHT") || FlxG.mouse.justPressed() || FlxG.keys.anyKey()) {
 				if (page < PAGES.length - 1) {
 					page++;
 					create();
-					FlxG.play(DOWN_SOUND, 0.25);
-				} else {
-					C.playBackNoise();
-					fadeTo(MenuState);
-				}
+					C.sound.play(DOWN_SOUND, 0.5);
+				} else
+					fadeBackTo(MenuState);
 			}
 		}
 		

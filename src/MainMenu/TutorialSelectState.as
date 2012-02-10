@@ -18,7 +18,7 @@ package MainMenu {
 			add(title);
 			
 			MenuThing.resetThings();
-			add(new StateThing("README", HelpState));
+			//add(new StateThing("README", HelpState));
 			add(new StateThing("1 - Mining & Power", MiningTutorial));
 			add(new StateThing("2 - Housing & Launching", HousingTutorial));
 			add(new StateThing("3 - Asteroids & Meteoroids", DefenseTutorial));
@@ -37,8 +37,7 @@ package MainMenu {
 			super.update();
 			
 			if (ControlSet.CANCEL_KEY.justPressed()) {
-				C.playBackNoise();
-				fadeTo(MenuState);
+				fadeBackTo(MenuState);
 			}
 		}
 		

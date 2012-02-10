@@ -132,7 +132,7 @@ package Sminos {
 						drillTimer -= drillTime;
 					else
 						drill();
-					FlxG.play(DRILL_NOISE, 0.5);
+					C.sound.play(DRILL_NOISE);
 				}
 			}
 		}

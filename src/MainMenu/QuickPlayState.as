@@ -57,8 +57,7 @@ package MainMenu {
 			super.update();
 			
 			if (ControlSet.CANCEL_KEY.justPressed()) {
-				C.playBackNoise();
-				fadeTo(MenuState);
+				fadeBackTo(MenuState);
 			}
 			//music.update();
 		}

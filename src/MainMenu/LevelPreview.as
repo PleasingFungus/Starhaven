@@ -49,7 +49,7 @@ package MainMenu {
 			var lastMoused:Boolean = moused;
 			moused = overlapsPoint(FlxG.mouse.x, FlxG.mouse.y);
 			if (!lastMoused && moused)
-				FlxG.play(SEL_SOUND, 0.12);
+				C.sound.play(SEL_SOUND, 0.25);
 			
 			if (moused && FlxG.mouse.justPressed()) {
 				playLevelStart();
@@ -58,11 +58,7 @@ package MainMenu {
 		}
 		
 		protected function playLevelStart():void {
-			var s:FlxSound = new FlxSound();
-			s.loadEmbedded(SEL_SOUND);
-			s.volume = 0.25;
-			s.survive = true;
-			s.play();
+			C.sound.playPersistent(SEL_SOUND, 0.5);
 		}
 		
 		override public function render():void {

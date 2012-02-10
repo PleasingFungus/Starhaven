@@ -5,7 +5,6 @@ package  {
 	import Mining.MetaResource;
 	import Mining.MineralBlock;
 	import Mining.ResourceSource;
-	import org.flixel.FlxSound;
 	import SFX.Fader;
 	import SFX.PickupSound;
 	import SFX.PowerSound;

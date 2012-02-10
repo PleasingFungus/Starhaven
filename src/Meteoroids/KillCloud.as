@@ -17,7 +17,7 @@ package Meteoroids {
 			
 			cycleSpeed *= 3;
 			falling = false;
-			FlxG.play(EXPLODE_NOISE, 0.5);
+			C.sound.play(EXPLODE_NOISE);
 		}
 		
 		protected function generateCloud():void {
