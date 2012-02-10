@@ -75,6 +75,9 @@ package Meteoroids {
 		}
 		
 		public function registerDrop():void {
+			if (!active)
+				return;
+			
 			timer++;
 			C.log("Timer incremented to " + timer + " out of " + nextWave);
 			if (timer >= nextWave)

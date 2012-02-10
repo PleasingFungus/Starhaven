@@ -41,10 +41,6 @@ package Scenarios.Tutorials {
 			super.createGCT(0);
 		}
 		
-		override protected function createTracker(waveMeteos:Number = 2):void {
-			super.createTracker(waveMeteos);
-		}
-		
 		override protected function createMission():void {
 			mission = new LoadedMission(_mission_image_b);
 		}
