@@ -18,7 +18,7 @@ package Scenarios {
 		
 		public function DustScenario(Seed:Number = NaN) {
 			super(Seed);
-			goal = 0.52;
+			goal = 0.56;
 			bg_sprites = _bgs;
 			mapBuffer = 26;
 		}

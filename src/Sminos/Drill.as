@@ -23,7 +23,6 @@ package Sminos {
 			description = "Drill point-first into purpleish mineral clusters to harvest them; then hook up the drill to power to collect the minerals!";
 			audioDescription = _desc;
 			bombCarrying = true;
-			rotateable = false;
 			waterproofed = true;
 			//if (!C.BEAM_DEFENSE)
 				//crewReq = 1;
