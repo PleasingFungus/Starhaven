@@ -5,11 +5,11 @@ package Missions {
 	import flash.geom.Point;
 	/**
 	 * ...
-	 * @author ...
+	 * @author Nicholas "PleasingFungus" Feinberg
 	 */
-	public class AsteroidMission extends Mission {
+	public class DCrescentMission extends Mission {
 		
-		public function AsteroidMission(Seed:Number, Scale:Number = 1) {
+		public function DCrescentMission(Seed:Number, Scale:Number = 1) {
 			super(Seed);
 			
 			var size:int = convertSize(FlxU.random()) * Scale;
@@ -17,28 +17,36 @@ package Missions {
 			var majorAxis:int = size * (1 + eccentricity * FlxU.random());
 			var minorAxis:int = size * (1 - eccentricity * FlxU.random());
 			
-			var xAxis:int, yAxis:int;
+			var xAxis:int, yAxis:int, secAxes:Point;
+			var leftCut:Point, rightCut:Point;
 			if (FlxU.random() > 0.5) {
 				xAxis = majorAxis;
 				yAxis = minorAxis;
+				leftCut = new Point(0, yAxis + 2);
+				rightCut = new Point(0, -yAxis - 2);
+				secAxes = new Point(xAxis / 2, yAxis);
 			} else {
 				xAxis = minorAxis;
 				yAxis = majorAxis;
+				leftCut = new Point(xAxis + 2, 0);
+				rightCut = new Point(-xAxis - 2, 0);
+				secAxes = new Point(xAxis, yAxis / 2);
 			}
-			
-			
+			C.log("Axes: "+xAxis, yAxis);
 			
 			mapBlocks = [];
 			
 			var sqxAxis:int = xAxis * xAxis;
 			var sqyAxis:int = yAxis * yAxis;
+			var secSqxs:Point = new Point(secAxes.x * secAxes.x, secAxes.y * secAxes.y);
 			
 			for (var x:int = -xAxis; x < xAxis; x++)
 				for (var y:int = -yAxis; y < yAxis; y++) {
-					var ellipticalDistance:Number = x*x/sqxAxis + y*y/sqyAxis;
-					if (ellipticalDistance <= 1 && (ellipticalDistance <= 0.9 || FlxU.random() > 0.7))
-						mapBlocks.push(new MineralBlock(x + xAxis, y + yAxis, 5,
-														ellipticalDistance <= 0.07 ? MineralBlock.BEDROCK : MineralBlock.ROCK));
+					var ellipticalDistance:Number = x * x / sqxAxis + y * y / sqyAxis;
+					var leftDistance:Number = (x - leftCut.x) * (x - leftCut.x) / secSqxs.x + (y - leftCut.y) * (y - leftCut.y) / secSqxs.y;
+					var rightDistance:Number = (x - rightCut.x) * (x - rightCut.x) / secSqxs.x + (y - rightCut.y) * (y - rightCut.y) / secSqxs.y;
+					if (ellipticalDistance <= 1 && leftDistance > 1 && rightDistance > 1) //TODO: re-randomize
+						mapBlocks.push(new MineralBlock(x + xAxis, y + yAxis, 5));
 						
 				}
 			
@@ -59,10 +67,11 @@ package Missions {
 		}
 		
 		protected function convertSize(sizeFraction:Number):int {
-			return 12;
+			return 16;
 		}
 		
 		protected static const eccentricity:Number = 0.25;
+		
 	}
 
 }

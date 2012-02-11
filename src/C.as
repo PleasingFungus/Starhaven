@@ -12,6 +12,9 @@ package  {
 	import Icons.NoCrewIcon;
 	import Icons.NoPowerIcon;
 	import SFX.EffectSound;
+	import InfoScreens.NewPieceInfo;
+	import InfoScreens.NewPlayerEvent;
+	import Controls.ControlSet;
 	/**
 	 * ...
 	 * @author Nicholas Feinberg
@@ -97,6 +100,19 @@ package  {
 			
 			save = new FlxSave();
 			save.bind("Starhaven");
+		}
+		
+		public static function load():void {
+			ALL_UNLOCKED = save.read("ALL_UNLOCKED");
+			
+			NewPieceInfo.init();
+			NewPlayerEvent.init();
+			ControlSet.load();
+			C.difficulty.load();
+			C.accomplishments.load();
+			C.unlocks.load();
+			C.sound.load();
+			C.music.load();
 		}
 		
 		public static function setPrintReady():void {

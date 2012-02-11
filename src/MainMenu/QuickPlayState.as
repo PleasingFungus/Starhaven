@@ -33,7 +33,7 @@ package MainMenu {
 			addScenario(NebulaScenario, "Nebula", rightCol);
 			addScenario(WaterScenario, "Sea", rightCol);
 			addScenario(DustScenario, "Dust", rightCol);
-			addScenario(TrenchScenario, "Pit", rightCol);
+			addScenario(DCrescentScenario, "Crescent", rightCol);
 			MenuThing.addColumn(rightCol, FlxG.width * 5 / 8);
 			
 			//var info:FlxText = new FlxText(0, FlxG.height - 25, FlxG.width, "Use arrow keys to navigate and enter to select.");

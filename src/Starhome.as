@@ -23,15 +23,7 @@ package {
 		
 		private function init():void {
 			C.init(); //needs to be first!
-			
-			NewPieceInfo.init();
-			NewPlayerEvent.init();
-			ControlSet.load();
-			C.difficulty.load();
-			C.accomplishments.load();
-			C.unlocks.load();
-			C.sound.load();
-			C.music.load();
+			C.load();
 		}
 		
 		override protected function onKeyUp(event:KeyboardEvent):void {

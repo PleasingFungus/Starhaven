@@ -14,7 +14,7 @@ package Metagame {
 		public function ScenarioList() {
 			all = [MiningTutorial, HousingTutorial, DefenseTutorial,
 				   PlanetScenario, AsteroidScenario, MountainScenario, NebulaScenario,
-				   WaterScenario, DustScenario, TrenchScenario];
+				   WaterScenario, DustScenario, DCrescentScenario];
 		}
 		
 		public function index(scenario:Scenario):int {
