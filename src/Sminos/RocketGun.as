@@ -17,7 +17,7 @@ package Sminos {
 			var blocks:Array = [new Block(0, 0), new Block(1, 0), new Block(2, 0),
 												 new Block(1, 1)];
 			
-			crewReq = 2;
+			crewReq = 1;
 			powerReq = 100;
 			
 			super(X, Y, blocks, new Point(1, 1), 0xff6b2020, 0xffb32828, _sprite, _sprite_in);

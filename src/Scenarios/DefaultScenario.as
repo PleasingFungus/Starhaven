@@ -87,11 +87,11 @@ package Scenarios {
 		}
 		
 		protected function getAssortment(index:int):Array {
-			var assortment:Array = [makeBag(miningTool)];
+			var assortment:Array = [makeBag(miningTool), makeBag(RocketGun)];
 			if (index)
-				assortment = assortment.concat(makeBag(MediumLauncher), makeBag(SmallLauncher));
+				assortment.push(makeBag(MediumLauncher), makeBag(SmallLauncher));
 			else
-				assortment.push(makeBag(miningTool), makeBag(RocketGun), makeBag(SmallLauncher));
+				assortment.push(makeBag(miningTool), makeBag(SmallLauncher));
 				
 			if (!(C.DEBUG && C.NO_CREW)) {
 				if (index)

@@ -9,7 +9,7 @@ package Scenarios {
 		public function DCrescentScenario(Seed:Number = NaN) {
 			super(Seed);
 			
-			goal = 0.75;
+			goal = 0.6;
 			missionType = DCrescentMission;
 		}
 		

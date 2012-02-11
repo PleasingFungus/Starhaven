@@ -188,7 +188,7 @@ package
 			hud.setGoal(goal);
 		}
 		
-		protected function createTracker(waveMeteos:Number = 2):void {
+		protected function createTracker(waveMeteos:Number = 3):void {
 			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, waveMeteos, BagType.all[0].length);
 			hud.setTracker(tracker);
 			add(tracker);

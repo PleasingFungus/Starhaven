@@ -106,20 +106,22 @@ package Scenarios {
 		}
 		
 		override protected function getAssortment(index:int):Array {
-			var assortment:Array = [makeBag(SmallLauncher), makeBag(MediumLauncher), makeBag(LongDrill), makeBag(NebularAccumulator)];
+			var assortment:Array = [makeBag(SmallLauncher), makeBag(RocketGun)];
 			if (index)
-				assortment.push(makeBag(RocketGun));
-			if (!(C.DEBUG && C.NO_CREW))
-				assortment = assortment.concat(makeBag(SmallBarracks), makeBag(SmallBarracks), makeBag(MediumBarracks));
+				assortment.push(makeBag(LongDrill));
+			else
+				assortment.push(makeBag(NebularAccumulator), makeBag(MediumLauncher));
+			
+			if (!(C.DEBUG && C.NO_CREW)) {
+				assortment.push(makeBag(SmallBarracks));
+				if (index)
+					assortment.push(makeBag(MediumBarracks));
+			}
 			return assortment;
 		}
 		
 		override protected function blockLimitToFullyMine():int {
 			return 130;
-		}
-		
-		override protected function createTracker(waveMeteos:Number = 2):void {
-			super.createTracker(waveMeteos);
 		}
 		
 		override protected function bgAstrColor(astrScale:Number):uint {
