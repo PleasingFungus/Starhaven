@@ -16,7 +16,7 @@ package Scenarios {
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
 	 */
-	public class WaterScenario extends DefaultScenario {
+	public class WaterScenario extends PlanetScenario {
 		
 		public function WaterScenario(Seed:Number = NaN) {
 			super(Seed);
@@ -25,7 +25,6 @@ package Scenarios {
 			miningTool = Scoop;
 			spawner = PlanetSpawner;
 			missionType = WaterMission;
-			bg_sprite = _bg;
 			rotateable = false;
 			conduitLimit = 8;
 		}
@@ -47,8 +46,9 @@ package Scenarios {
 			minoLayer.members.splice(0, 0, new Water(C.B.OUTER_BOUNDS.top + (mission as WaterMission).atmosphere));
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/planetside.png")] private static const _bg:Class;
-		
+		override protected function getLandColor(skyHue:Number):uint {
+			return 0x38619c;
+		}
 	}
 
 }

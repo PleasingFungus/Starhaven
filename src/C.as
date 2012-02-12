@@ -242,9 +242,11 @@ package  {
 					break;
 			}
 			
-			var r:int = R * 255;
-			var g:int = G * 255;
-			var b:int = B * 255;
+			var m:Number = V - Chroma;
+			
+			var r:int = (R + m) * 255;
+			var g:int = (G + m) * 255;
+			var b:int = (B + m) * 255;
 			return 0xff000000 | (r << 16) | (g << 8) | b;
 		}
 		

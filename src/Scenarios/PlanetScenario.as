@@ -6,6 +6,7 @@ package Scenarios {
 	import Mining.Terrain;
 	import Missions.PlanetMission;
 	import Missions.TerrestrialMission;
+	import org.flixel.FlxGroup;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxU;
 	import Meteoroids.PlanetSpawner;
@@ -23,8 +24,6 @@ package Scenarios {
 			spawner = PlanetSpawner;
 			missionType = PlanetMission;
 			goal = 0.65; //should be higher?
-			bg_sprite = _bg;
-			//bg_sprites = _bgs;
 			rotateable = false;
 			conduitLimit = 9;
 		}
@@ -122,6 +121,16 @@ package Scenarios {
 			//done
 			
 			bg = sky;
+			
+			parallaxBG = new FlxGroup;
+			var skyline:FlxSprite = new FlxSprite(-FlxG.width / 2, FlxG.height / 2, _skyline);
+			skyline.scrollFactor.x = skyline.scrollFactor.y = 0.25;
+			skyline.color = getLandColor(hue);
+			parallaxBG.add(skyline);
+		}
+		
+		protected function getLandColor(skyHue:Number):uint {
+			return C.HSVToRGB(skyHue, .25, 0.9);;
 		}
 		
 		//[Embed(source = "../../lib/art/backgrounds/bg_1.jpg")] private static const _bg01:Class;
@@ -131,7 +140,7 @@ package Scenarios {
 		//[Embed(source = "../../lib/art/backgrounds/bg_5.jpg")] private static const _bg3:Class;
 		//[Embed(source = "../../lib/art/backgrounds/bg_6.jpg")] private static const _bg4:Class;
 		//private static const _bgs:Array = [_bg0, _bg01, _bg1, _bg2, _bg3, _bg4];
-		[Embed(source = "../../lib/art/backgrounds/planetside.png")] private static const _bg:Class;
+		[Embed(source = "../../lib/art/backgrounds/skyline.png")] private const _skyline:Class;
 	}
 
 }

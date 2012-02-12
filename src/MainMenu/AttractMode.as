@@ -37,6 +37,8 @@ package MainMenu {
 			spawnTimer = 0;//C.CYCLE_TIME * 10;
 			//0 for debugging
 			fastfallers = new Vector.<Smino>
+			
+			instantiated++;
 		}
 		
 		override public function update():void {
@@ -48,7 +50,7 @@ package MainMenu {
 		
 		protected function checkSpawnTimer():void {
 			spawnTimer -= FlxG.elapsed;
-			if (spawnTimer <= 0)
+			if (spawnTimer <= 0 && instantiated <= 1)
 				spawn();
 		}
 		
@@ -103,6 +105,8 @@ package MainMenu {
 			glowBuffer.applyFilter(FlxG.buffer, new Rectangle(0, 0, FlxG.width, FlxG.height), new Point(), blurFilter);
 			FlxG.buffer.draw(glowBuffer, null, glowColorTransform, BlendMode.SCREEN);
 		}
+		
+		public static var instantiated:int;
 		
 		protected const ALL_SMINOS:Array = [HookConduit, LeftHookConduit, LongConduit, LongDrill,
 											MediumBarracks, MediumLauncher, NebularAccumulator, RocketGun,

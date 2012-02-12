@@ -52,7 +52,7 @@ package Scenarios {
 		}
 		
 		protected function bgAstrColor(scale:Number):uint {
-			return 0x606060;
+			return 0x505050;
 		}
 		
 		
