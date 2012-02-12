@@ -1,5 +1,6 @@
 package Sminos {
 	import flash.geom.Point;
+	import Icons.IconLeech;
 	import Icons.Icontext;
 	import Mining.MineralBlock;
 	import org.flixel.FlxG;
@@ -41,7 +42,9 @@ package Sminos {
 			shroud = new Mino(gridLoc.x, gridLoc.y, blocks, new Point, 0xffffffff);
 			
 			shroud.gridLoc = gridLoc;
-			shroud.alpha = 1/4;
+			shroud.alpha = 1 / 4;
+			
+			C.hudLayer.add(new IconLeech(null, renderShroud));
 		}
 		
 		override protected function anchorTo(Parent:Aggregate):void {
@@ -92,14 +95,13 @@ package Sminos {
 				renderMineralsIcon();
 		}
 		
-		override public function renderTop(force:Boolean = false):void {
-			super.renderTop();
+		protected function renderShroud(force:Boolean = false):void {
 			if (exists && shroud) {
 				if (!falling)
 					shroud.alpha -= FlxG.elapsed;
 				if (shroud.alpha < 0)
 					shroud = null;
-				else if (C.HUD_ENABLED)
+				else 
 					shroud.render();
 			}
 		}

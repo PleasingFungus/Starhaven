@@ -21,6 +21,7 @@ package  {
 		public var crewDeficit:Boolean;
 		public var rotateable:Boolean;
 		public var slowJuice:Boolean;
+		public var silent:Boolean;
 		
 		protected var lastOperational:Array;
 		protected var newOperational:Boolean;
@@ -42,6 +43,7 @@ package  {
 			/*lastOperational = [core];
 			powerSound = new PowerSound;*/
 			pickupSound = new PickupSound;
+			silent = true;
 			
 			lifespan = 0;
 		}
@@ -191,7 +193,7 @@ package  {
 		protected var recentlyMined:int;
 		protected const BIG_SOUND_THRESHOLD:int = 75;
 		public function set mineralsMined(amount:int):void {
-			if (amount > _mineralsMined) {
+			if (amount > _mineralsMined && !silent) {
 				if (!pickupSound.playing)
 					recentlyMined = 0;
 				

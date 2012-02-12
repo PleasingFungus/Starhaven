@@ -357,6 +357,19 @@ package  {
 				renderSupply();
 		}
 		
+		public var pressedDirs:Array = new Array(4);
+		override public function update():void {
+			super.update();
+			checkPressed();
+		}
+		
+		protected function checkPressed():void {
+			pressedDirs[LEFT] = ControlSet.MINO_L_KEY.pressed();
+			pressedDirs[UP] = !ControlSet.FASTFALL_KEY.pressed();
+			pressedDirs[RIGHT] = ControlSet.MINO_R_KEY.pressed();
+			pressedDirs[DOWN] = ControlSet.FASTFALL_KEY.pressed();
+		}
+		
 		private var thruster:FlxSprite;
 		protected function thrusterRender():void {
 			if (!thruster)
@@ -365,24 +378,24 @@ package  {
 			var db:Rectangle = getDrawBounds();
 			var ac:Point = absoluteCenter;
 			for each (var block:Block in blocks) {
-				if (ControlSet.MINO_R_KEY.pressed() && block.x == topLeft.x) {
+				if (pressedDirs[RIGHT] && block.x == topLeft.x) {
 					thruster.x = (block.x + ac.x) * C.BLOCK_SIZE + C.B.drawShift.x - thruster.width;
 					thruster.y = (block.y + ac.y) * C.BLOCK_SIZE + C.B.drawShift.y;
 					thruster.frame = LEFT;
 					thruster.render();
-				} else if (ControlSet.MINO_L_KEY.pressed() && block.x == topLeft.x + blockDim.x - 1) {
+				} else if (pressedDirs[LEFT] && block.x == topLeft.x + blockDim.x - 1) {
 					thruster.x = (block.x + ac.x) * C.BLOCK_SIZE + C.B.drawShift.x + thruster.width;
 					thruster.y = (block.y + ac.y) * C.BLOCK_SIZE + C.B.drawShift.y;
 					thruster.frame = RIGHT;
 					thruster.render();
 				}
 				
-				if (ControlSet.FASTFALL_KEY.pressed() && block.y == topLeft.y) {
+				if (pressedDirs[DOWN] && block.y == topLeft.y) {
 					thruster.x = (block.x + ac.x) * C.BLOCK_SIZE + C.B.drawShift.x;
 					thruster.y = (block.y + ac.y) * C.BLOCK_SIZE + C.B.drawShift.y - thruster.height;
 					thruster.frame = UP;
 					thruster.render();
-				} else if (!ControlSet.FASTFALL_KEY.pressed() && block.y == topLeft.y + blockDim.y - 1) {
+				} else if (pressedDirs[UP] && block.y == topLeft.y + blockDim.y - 1) {
 					thruster.x = (block.x + ac.x) * C.BLOCK_SIZE + C.B.drawShift.x;
 					thruster.y = (block.y + ac.y) * C.BLOCK_SIZE + C.B.drawShift.y + thruster.height;
 					thruster.frame = DOWN;

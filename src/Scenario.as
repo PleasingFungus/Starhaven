@@ -177,6 +177,7 @@ package
 			minoLayer.add(station.core);
 			C.B.PlayArea = _getBounds();
 			buildLevel();
+			station.silent = false;
 		}
 		
 		protected function buildLevel():void {
@@ -1037,7 +1038,6 @@ package
 		
 		private var glowBuffer:BitmapData;
 		private var glowColorTransform:ColorTransform = new ColorTransform(1, 1, 1, C.GLOW_ALPHA);
-		
 		private const blurFilter:BlurFilter = new BlurFilter(C.GLOW_SCALE, C.GLOW_SCALE, 1);
 		private function drawGlow():void {
 			if (!glowBuffer)

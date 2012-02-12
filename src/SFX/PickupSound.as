@@ -43,8 +43,8 @@ package SFX {
 			return largeChime.playing || smallChime.playing;
 		}
 		
-		[Embed(source = "../../lib/sound/game/pickup2.mp3")] protected const COLLECT_NOISE:Class;
-		[Embed(source = "../../lib/sound/game/bigpickup.mp3")] protected const BIG_COLLECT_NOISE:Class;
+		[Embed(source = "../../lib/sound/game/pickup3.mp3")] protected const COLLECT_NOISE:Class;
+		[Embed(source = "../../lib/sound/game/pickup3.mp3")] protected const BIG_COLLECT_NOISE:Class;
 	}
 
 }

@@ -21,6 +21,9 @@ package MainMenu {
 			
 			super.create();
 			
+			add(new AttractMode);
+			background.color = 0xffffff;
+			
 			var t:FlxText;
 			
 			t = new FlxText(0, 20, FlxG.width, "Starhaven");

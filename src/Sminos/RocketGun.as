@@ -46,7 +46,7 @@ package Sminos {
 		}
 		
 		public function canFireOn(target:Point, checkForBlock:Boolean = false):Boolean {
-			if (!rocketsLoaded)
+			if (!operational || !rocketsLoaded)
 				return false;
 			
 			if (!withinArc(target))
