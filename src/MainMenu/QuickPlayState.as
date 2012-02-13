@@ -27,13 +27,13 @@ package MainMenu {
 			
 			
 			var rightCol:Array = [];
-			addScenario(PlanetScenario, "Moon", rightCol);
-			addScenario(AsteroidScenario, "Asteroid", rightCol);
-			addScenario(MountainScenario, "Mountain", rightCol);
-			addScenario(NebulaScenario, "Nebula", rightCol);
-			addScenario(WaterScenario, "Sea", rightCol);
-			addScenario(DustScenario, "Dust", rightCol);
-			addScenario(DCrescentScenario, "Crescent", rightCol);
+			addScenario(PlanetScenario, rightCol);
+			addScenario(AsteroidScenario, rightCol);
+			addScenario(MountainScenario, rightCol);
+			addScenario(NebulaScenario, rightCol);
+			addScenario(WaterScenario, rightCol);
+			addScenario(DustScenario, rightCol);
+			addScenario(DCrescentScenario, rightCol);
 			MenuThing.addColumn(rightCol, FlxG.width * 5 / 8);
 			
 			//var info:FlxText = new FlxText(0, FlxG.height - 25, FlxG.width, "Use arrow keys to navigate and enter to select.");
@@ -46,9 +46,9 @@ package MainMenu {
 			add(cancelButton);
 		}
 		
-		protected function addScenario(scenario:Class, name:String, rightCol:Array):void {
+		protected function addScenario(scenario:Class, rightCol:Array):void {
 			if (C.unlocks.scenarioUnlocked(scenario))
-				rightCol.push(add(new MemoryThing(name, scenario)));
+				rightCol.push(add(new MemoryThing(C.scenarioList.nameOf(scenario), scenario)));
 			else
 				rightCol.push(add(new MysteryThing));
 		}

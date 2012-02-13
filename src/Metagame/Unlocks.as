@@ -26,14 +26,14 @@ package Metagame {
 			//v hard	--	mw12	//12 missions
 			//dust		--	mw20	//20 missions
 			
-			conditions = [new UnlockCondition(scLst, C.scenarioList.cIndex(AsteroidScenario), Statblock.MISSIONS_WON, 1, "Asteroid", C.difficulty.EASY),
-						  new UnlockCondition(scLst, C.scenarioList.cIndex(MountainScenario), Statblock.MISSIONS_WON, 3, "Mountain", C.difficulty.EASY),
-						  new UnlockCondition(dfLst, C.difficulty.HARD, Statblock.METEOROIDS_DESTROYED, 40, C.difficulty.name(C.difficulty.HARD)),
-						  new UnlockCondition(scLst, C.scenarioList.cIndex(NebulaScenario), Statblock.BLOCKS_DROPPED, 150, "Nebula"),
-						  new UnlockCondition(scLst, C.scenarioList.cIndex(WaterScenario), Statblock.MINERALS_LAUNCHED, 2000, "Sea"),
-						  new UnlockCondition(scLst, C.scenarioList.cIndex(DCrescentScenario), Statblock.MISSIONS_WON, 150, "Irregular"),
+			conditions = [new UnlockCondition(scLst, C.scenarioList.cIndex(AsteroidScenario), Statblock.MISSIONS_WON, 1, C.scenarioList.nameOf(AsteroidScenario), C.difficulty.EASY),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(MountainScenario), Statblock.MISSIONS_WON, 3,  C.scenarioList.nameOf(MountainScenario), C.difficulty.EASY),
+						  new UnlockCondition(dfLst, C.difficulty.HARD, Statblock.METEOROIDS_DESTROYED, 40,C.difficulty.name(C.difficulty.HARD)),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(NebulaScenario), Statblock.BLOCKS_DROPPED, 150, C.scenarioList.nameOf(NebulaScenario)),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(WaterScenario), Statblock.MINERALS_LAUNCHED, 2000, C.scenarioList.nameOf(WaterScenario)),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(DCrescentScenario), Statblock.MISSIONS_WON, 150, C.scenarioList.nameOf(DCrescentScenario)),
 						  new UnlockCondition(dfLst, C.difficulty.V_HARD, Statblock.MISSIONS_WON, 8, C.difficulty.name(C.difficulty.V_HARD)),
-						  new UnlockCondition(scLst, C.scenarioList.cIndex(DustScenario), Statblock.MISSIONS_WON, 12, "Dust")];
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(DustScenario), Statblock.MISSIONS_WON, 12, C.scenarioList.nameOf(DustScenario))];
 		}
 		
 		protected function setDefaults():void {

@@ -271,7 +271,7 @@ package
 				if (minoWasCool) {
 					if (!(currentMino is Bomb))
 						tracker.registerDrop();
-					killCurrentMino();
+					onAnchor();
 				}
 				if (tracker.safe && !station.core.damaged) {
 					spawnTimer -= FlxG.elapsed;
@@ -869,8 +869,6 @@ package
 		}
 		
 		protected function exitToMenu(_:String = null):void {
-			C.log("Exiting from tutorial: " + C.IN_TUTORIAL);
-			
 			if (C.IN_TUTORIAL)
 				FlxG.state = new TutorialSelectState;
 			else if (C.campaign) {
@@ -901,7 +899,7 @@ package
 			//return new Rectangle(C.B.OUTER_BOUNDS.x, C.B.OUTER_BOUNDS.y - mapBuffer,
 								 //C.B.OUTER_BOUNDS.width, C.B.OUTER_BOUNDS.height + mapBuffer);
 			
-			var stationBounds:Rectangle = station.bounds;
+			var stationBounds:Rectangle = C.B.StationBounds = station.bounds;
 			var mapBounds:Rectangle =  new Rectangle(stationBounds.x - mapBuffer,
 													 stationBounds.y - mapBuffer,
 													 stationBounds.width + mapBuffer * 2,

@@ -16,6 +16,7 @@ package  {
 		
 		public var BASE_AREA:Rectangle;
 		public var PlayArea:Rectangle;
+		public var StationBounds:Rectangle;
 		public var screenArea:Rectangle;
 		public var scale:Number;
 		public var drawShift:Point;
@@ -26,6 +27,7 @@ package  {
 			var h:int = FlxG.height / C.BLOCK_SIZE;
 			BASE_AREA = new Rectangle(-w/2, -h/2, w, h);
 			PlayArea = BASE_AREA.clone();
+			StationBounds = PlayArea.clone();
 			screenArea = new Rectangle(0, 0, FlxG.width, FlxG.height);
 			scale = 1;
 			drawShift  = new Point;
