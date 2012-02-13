@@ -12,13 +12,15 @@ package  {
 		}
 		
 		public function load():void {
-			setting = C.save.read("difficulty") as int;
-			initialSetting = C.save.read("initDifficulty") as int;
+			setting = (C.save.read("difficulty") as int) - 1;
+			if (setting == -1) setting = NORMAL;
+			initialSetting = (C.save.read("initDifficulty") as int) - 1;
+			if (initialSetting == -1) initialSetting = NORMAL;
 		}
 		
 		public function save():void {
-			C.save.write("difficulty", setting);
-			C.save.write("initDifficulty", initialSetting);
+			C.save.write("difficulty", setting+1);
+			C.save.write("initDifficulty", initialSetting+1);
 		}
 		
 		

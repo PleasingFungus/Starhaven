@@ -14,11 +14,12 @@ package SFX {
 		
 		public function load():void {
 			volume = C.save.read("effectVolume") as Number;
-			if (isNaN(volume)) volume = 0.5;
+			if (!volume) volume = 0.5;
+			else volume -= 0.1;
 		}
 		
 		public function save():void {
-			C.save.write("effectVolume", volume);
+			C.save.write("effectVolume", volume+0.1);
 		}
 		
 		public function getVolume():Number {
