@@ -50,7 +50,7 @@ package Scenarios {
 		[Embed(source = "../../lib/art/backgrounds/nebula_3.jpg")] private static const _bg1:Class;
 		[Embed(source = "../../lib/art/backgrounds/nebula_4.jpg")] private static const _bg2:Class;
 		[Embed(source = "../../lib/art/backgrounds/nebula_5.jpg")] private static const _bg3:Class;
-		[Embed(source = "../../lib/art/backgrounds/nebula_6.jpg")] private static const _bg4:Class;
+		[Embed(source = "../../lib/art/backgrounds/nebula_6s.jpg")] private static const _bg4:Class;
 		private static const _bgs:Array = [_bg0, _bg01, _bg1, _bg2, _bg3, _bg4];
 	}
 

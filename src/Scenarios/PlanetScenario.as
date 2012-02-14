@@ -133,13 +133,6 @@ package Scenarios {
 			return C.HSVToRGB(skyHue, .25, 0.9);;
 		}
 		
-		//[Embed(source = "../../lib/art/backgrounds/bg_1.jpg")] private static const _bg01:Class;
-		//[Embed(source = "../../lib/art/backgrounds/bg_2.jpg")] private static const _bg0:Class;
-		//[Embed(source = "../../lib/art/backgrounds/bg_3.jpg")] private static const _bg1:Class;
-		//[Embed(source = "../../lib/art/backgrounds/bg_4.jpg")] private static const _bg2:Class;
-		//[Embed(source = "../../lib/art/backgrounds/bg_5.jpg")] private static const _bg3:Class;
-		//[Embed(source = "../../lib/art/backgrounds/bg_6.jpg")] private static const _bg4:Class;
-		//private static const _bgs:Array = [_bg0, _bg01, _bg1, _bg2, _bg3, _bg4];
 		[Embed(source = "../../lib/art/backgrounds/skyline.png")] private const _skyline:Class;
 	}
 

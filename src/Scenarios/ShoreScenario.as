@@ -22,7 +22,6 @@ package Scenarios {
 			mapBuffer = 0;
 			spawner = PlanetSpawner;
 			missionType = ShoreMission;
-			bg_sprite = _bg;
 			rotateable = false;
 		}
 		
@@ -60,8 +59,6 @@ package Scenarios {
 			} else
 				return new BagType(null, 1, [primarySmino]);
 		}
-		
-		[Embed(source = "../../lib/art/backgrounds/planetside.png")] private static const _bg:Class;
 		
 	}
 

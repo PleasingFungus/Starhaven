@@ -27,7 +27,6 @@ package Scenarios.Tutorials {
 			mapBuffer = 0;
 			spawner = PlanetSpawner;
 			goal = 0.75;
-			bg_sprite = _bg;
 			rotateable = false;
 		}
 		
@@ -92,7 +91,6 @@ package Scenarios.Tutorials {
 		}
 		
 		[Embed(source = "../../../lib/missions/tutorial_mining.png")] private static const _mission_image:Class;
-		[Embed(source = "../../../lib/art/backgrounds/planetside.png")] private static const _bg:Class;
 	}
 
 }
