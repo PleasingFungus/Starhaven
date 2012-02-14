@@ -10,6 +10,7 @@ package MainMenu {
 		
 		override public function create():void {
 			super.create();
+			loadBackground(BG, 0.65);
 			
 			var title:FlxText = new FlxText(0, 15, FlxG.width, "Skip Remaining Tutorials");
 			title.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
@@ -45,6 +46,8 @@ package MainMenu {
 				fadeBackTo(TutorialSelectState);
 			}
 		}
+		
+		[Embed(source = "../../lib/art/backgrounds/menu/tutorial_cancel_bg.jpg")] private const BG:Class;
 	}
 
 }

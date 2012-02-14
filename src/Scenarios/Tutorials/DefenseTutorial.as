@@ -15,11 +15,12 @@ package Scenarios.Tutorials {
 	import Sminos.MediumBarracks;
 	import Sminos.Conduit;
 	import InfoScreens.NewPlayerEvent;
+	import Scenarios.PlanetScenario;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
 	 */
-	public class DefenseTutorial extends Scenarios.DefaultScenario {
+	public class DefenseTutorial extends PlanetScenario {
 		
 		public function DefenseTutorial() {
 			super(NaN);

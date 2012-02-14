@@ -10,6 +10,7 @@ package MainMenu {
 		
 		override public function create():void {
 			super.create();
+			loadBackground(BG, 0.65);
 			
 			if (C.campaign)
 				C.campaign.die();
@@ -54,6 +55,7 @@ package MainMenu {
 			//music.update();
 		}
 		
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_x1.jpg")] private const BG:Class;
 	}
 
 }

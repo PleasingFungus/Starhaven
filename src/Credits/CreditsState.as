@@ -14,6 +14,7 @@ package Credits {
 		private var creditGruppen:FlxGroup;
 		override public function create():void {
 			super.create();
+			loadBackground(BG, 0.65);
 			
 			var title:FlxText = new FlxText(0, 15, FlxG.width, "Credits");
 			title.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
@@ -21,7 +22,8 @@ package Credits {
 			add(creditGruppen = new FlxGroup);
 			add(titleBar = new FlxSprite().createGraphic(FlxG.width, title.y + title.height + 20, 0xff000000));
 			add(title);
-			colY = titleBar.y + titleBar.height;
+			colY = titleBar.y + titleBar.height + 9; //90
+			background.y = colY;
 			
 			addCredit("Design", "Nicholas Feinberg");
 			addCredit("Programming", "Nicholas Feinberg");
@@ -126,6 +128,8 @@ package Credits {
 		
 		private const SCROLL_SPEED:Number = 200;
 		private const COL_SPACE:int = 25;
+		
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_x3.jpg")] private const BG:Class;
 	}
 
 }

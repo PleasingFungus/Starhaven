@@ -11,6 +11,7 @@ package Scenarios.Tutorials {
 	import org.flixel.FlxG;
 	import Scenarios.DefaultScenario;
 	import GrabBags.BagType;
+	import Scenarios.PlanetScenario;
 	import Sminos.LongDrill;
 	import Sminos.Conduit;
 	import InfoScreens.NewPlayerEvent;
@@ -18,7 +19,7 @@ package Scenarios.Tutorials {
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
 	 */
-	public class MiningTutorial extends Scenarios.DefaultScenario {
+	public class MiningTutorial extends PlanetScenario {
 		
 		public function MiningTutorial() {
 			super(NaN);

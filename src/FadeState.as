@@ -16,9 +16,11 @@ package  {
 			loadBackground(DEFAULT_BG);
 		}
 		
-		protected function loadBackground(rawSpr:Class):void {
+		protected function loadBackground(rawSpr:Class, Color:Number = 0.5):void {
 			background.loadGraphic(rawSpr);
-			background.color = 0x808080;
+			background.color = 0x0; //force reset
+			var colorComp:int = Color * 255;
+			background.color = (colorComp << 16) | (colorComp << 8) | colorComp;
 			
 		}
 		

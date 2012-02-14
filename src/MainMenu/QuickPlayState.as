@@ -11,6 +11,7 @@ package MainMenu {
 		
 		override public function create():void {
 			super.create();
+			loadBackground(BG, 0.65);
 			
 			var title:FlxText = new FlxText(10, 20, FlxG.width - 20, "Quick Play");
 			title.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
@@ -61,6 +62,8 @@ package MainMenu {
 			}
 			//music.update();
 		}
+		
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_6.jpg")] private const BG:Class;
 	}
 
 }

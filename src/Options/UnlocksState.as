@@ -11,6 +11,7 @@ package Options {
 		
 		override public function create():void {
 			super.create();
+			loadBackground(BG, 0.8);
 			
 			var t:FlxText;
 			
@@ -70,6 +71,7 @@ package Options {
 			}
 		}
 		
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_5.jpg")] private const BG:Class;
 	}
 
 }

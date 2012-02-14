@@ -12,6 +12,7 @@ package MainMenu {
 		
 		override public function create():void {
 			super.create();
+			loadBackground(BG, 0.65);
 			
 			var title:FlxText = new FlxText(10, 20, FlxG.width - 20, "Tutorials");
 			title.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
@@ -40,6 +41,8 @@ package MainMenu {
 				fadeBackTo(MenuState);
 			}
 		}
+		
+		[Embed(source = "../../lib/art/backgrounds/menu/tutorial_select_bg.jpg")] private const BG:Class;
 		
 	}
 

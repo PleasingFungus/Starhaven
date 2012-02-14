@@ -22,6 +22,9 @@ package Metagame {
 		
 		override public function create():void {
 			super.create();
+			if (done)
+				loadBackground(LOSE_BG, 0.65);
+			//loadBackground(done ? LOSE_BG : WIN_BG, 0.65);
 			
 			C.campaign.refresh();
 			
@@ -91,6 +94,9 @@ package Metagame {
 				screenshotGroup.alpha = statGroup.visible ? 0.5 : 1;
 			}
 		}
+		
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_x2.jpg")] private const WIN_BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/defeat_bg2.jpg")] private const LOSE_BG:Class;
 		
 	}
 

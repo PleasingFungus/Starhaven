@@ -16,6 +16,7 @@ package Options {
 		protected var selectedSlider:int;
 		override public function create():void {
 			super.create();
+			loadBackground(BG, 0.8);
 			
 			var t:FlxText;
 			
@@ -80,6 +81,8 @@ package Options {
 		
 		
 		[Embed(source = "../../lib/sound/game/pickup2.mp3")] protected const COLLECT_NOISE:Class;
+		
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_3.jpg")] private const BG:Class;
 	}
 
 }

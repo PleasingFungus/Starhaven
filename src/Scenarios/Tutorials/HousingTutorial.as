@@ -9,11 +9,12 @@ package Scenarios.Tutorials {
 	import GrabBags.BagType;
 	import Sminos.*
 	import InfoScreens.NewPlayerEvent;
+	import Scenarios.PlanetScenario;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
 	 */
-	public class HousingTutorial extends Scenarios.DefaultScenario {
+	public class HousingTutorial extends PlanetScenario {
 		
 		public function HousingTutorial() {
 			super(NaN);

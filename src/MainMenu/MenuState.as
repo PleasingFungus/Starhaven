@@ -22,6 +22,7 @@ package MainMenu {
 			super.create();
 			
 			add(new AttractMode);
+			loadBackground(BG);
 			background.color = 0xffffff;
 			
 			var t:FlxText;
@@ -52,5 +53,7 @@ package MainMenu {
 			C.music.intendedMusic = C.music.MENU_MUSIC;
 			bgColor = 0x0;
 		}
+		
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_7.jpg")] private const BG:Class;
 	}
 }
