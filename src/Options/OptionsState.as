@@ -35,7 +35,7 @@ package Options {
 			}
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_1.jpg")] private const BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_1s.jpg")] private const BG:Class;
 		
 	}
 

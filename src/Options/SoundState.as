@@ -82,7 +82,7 @@ package Options {
 		
 		[Embed(source = "../../lib/sound/game/pickup2.mp3")] protected const COLLECT_NOISE:Class;
 		
-		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_3.jpg")] private const BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_3s.jpg")] private const BG:Class;
 	}
 
 }

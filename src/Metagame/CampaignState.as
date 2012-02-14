@@ -95,8 +95,8 @@ package Metagame {
 			}
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_x2.jpg")] private const WIN_BG:Class;
-		[Embed(source = "../../lib/art/backgrounds/menu/defeat_bg2.jpg")] private const LOSE_BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_x2s.jpg")] private const WIN_BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/defeat_bg2s.jpg")] private const LOSE_BG:Class;
 		
 	}
 

@@ -54,6 +54,6 @@ package MainMenu {
 			bgColor = 0x0;
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_7.jpg")] private const BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_7s.jpg")] private const BG:Class;
 	}
 }

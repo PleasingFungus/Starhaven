@@ -129,7 +129,7 @@ package Credits {
 		private const SCROLL_SPEED:Number = 200;
 		private const COL_SPACE:int = 25;
 		
-		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_x3.jpg")] private const BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_x3s.jpg")] private const BG:Class;
 	}
 
 }

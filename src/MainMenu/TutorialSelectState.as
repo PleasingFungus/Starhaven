@@ -42,7 +42,7 @@ package MainMenu {
 			}
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/menu/tutorial_select_bg.jpg")] private const BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/tutorial_select_bg_s.jpg")] private const BG:Class;
 		
 	}
 

@@ -64,7 +64,7 @@ package Options {
 			}
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_2.jpg")] private const BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_2s.jpg")] private const BG:Class;
 	}
 
 }

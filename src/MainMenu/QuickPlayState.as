@@ -63,7 +63,7 @@ package MainMenu {
 			//music.update();
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_6.jpg")] private const BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_6s.jpg")] private const BG:Class;
 	}
 
 }

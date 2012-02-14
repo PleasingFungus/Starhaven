@@ -47,7 +47,7 @@ package MainMenu {
 			}
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/menu/tutorial_cancel_bg.jpg")] private const BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/tutorial_cancel_bg_s.jpg")] private const BG:Class;
 	}
 
 }

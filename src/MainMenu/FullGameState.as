@@ -55,7 +55,7 @@ package MainMenu {
 			//music.update();
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_x1.jpg")] private const BG:Class;
+		[Embed(source = "../../lib/art/backgrounds/menu/menu_bg_x1s.jpg")] private const BG:Class;
 	}
 
 }
