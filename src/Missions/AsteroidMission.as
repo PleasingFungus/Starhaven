@@ -9,6 +9,8 @@ package Missions {
 	 */
 	public class AsteroidMission extends Mission {
 		
+		protected var xAxis:int;
+		protected var yAxis:int;
 		public function AsteroidMission(Seed:Number, Scale:Number = 1) {
 			super(Seed);
 			
@@ -17,7 +19,6 @@ package Missions {
 			var majorAxis:int = size * (1 + eccentricity * FlxU.random());
 			var minorAxis:int = size * (1 - eccentricity * FlxU.random());
 			
-			var xAxis:int, yAxis:int;
 			if (FlxU.random() > 0.5) {
 				xAxis = majorAxis;
 				yAxis = minorAxis;
@@ -56,6 +57,10 @@ package Missions {
 			
 			rawMap = new Terrain(mapBlocks, new Point(Math.floor(xAxis * 2 - 1), Math.floor(yAxis * 2 - 1)));
 			fullMapSize = new Point(majorAxis + 15, majorAxis + 15);
+		}
+		
+		override protected function validMineralLoc(block:MineralBlock):Boolean {
+			return super.validMineralLoc(block) && (block.x < xAxis-2 || block.x > xAxis+2 || block.y >= yAxis);
 		}
 		
 		protected function convertSize(sizeFraction:Number):int {
