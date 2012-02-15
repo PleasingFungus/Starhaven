@@ -23,6 +23,9 @@ package Helpers {
 			}
 			
 			loadGraphic(keyBase, false, false, 32, 32, true);
+			if (!key.key) //unbound
+				return;
+			
 			var keySpr:FlxSprite;
 			var off:int;
 			

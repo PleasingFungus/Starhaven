@@ -15,17 +15,17 @@ package Controls {
 		public static const CANCEL_KEY:Key = new Key("ESCAPE");
 		
 		
-		public static const MINO_CCW_KEY:Key = new Key("UP");
-		public static const MINO_CW_KEY:Key = new Key("SHIFT");
-		public static const MINO_L_KEY:Key = new Key("LEFT");
-		public static const MINO_R_KEY:Key = new Key("RIGHT");
-		public static const FASTFALL_KEY:Key = new Key("DOWN");
+		public static const MINO_CCW_KEY:Key = new Key(null);
+		public static const MINO_CW_KEY:Key = new Key(null);
+		public static const MINO_L_KEY:Key = new Key(null);
+		public static const MINO_R_KEY:Key = new Key(null);
+		public static const FASTFALL_KEY:Key = new Key(null);
 		
-		public static const ST_CCW_KEY:Key = new Key("C");
-		public static const ST_CW_KEY:Key = new Key("X");
-		public static const BOMB_KEY:Key = new Key("SPACE");
+		public static const ST_CCW_KEY:Key = new Key(null);
+		public static const ST_CW_KEY:Key = new Key(null);
+		public static const BOMB_KEY:Key = new Key(null);
 		
-		public static const MINO_HELP_KEY:Key = new Key("H");
+		public static const MINO_HELP_KEY:Key = new Key(null);
 		
 		
 		public static const DEBUG_DESTRUCT_KEY:Key = new Key("Q");
@@ -40,7 +40,7 @@ package Controls {
 		public static const ZOOM_KEY:Key = new Key("QUOTE");
 		
 		public static const CONFIGURABLE_CONTROLS:Array = [MINO_CCW_KEY, MINO_CW_KEY, MINO_L_KEY, MINO_R_KEY, FASTFALL_KEY, ST_CCW_KEY, ST_CW_KEY,
-														   BOMB_KEY, MINO_HELP_KEY];
+														   BOMB_KEY];
 		
 		
 		private static const keyListeners:Array = [];
@@ -67,24 +67,28 @@ package Controls {
 		}
 		
 		public static function load():void {
+			reset();
+			
 			var savedKeys:Array = C.save.read("Controls") as Array;
 			if (savedKeys)
-				for (var i:int = 0; i < savedKeys.length; i++) {
+				for (var i:int = 0; i < savedKeys.length && i < CONFIGURABLE_CONTROLS.length; i++) {
 					var rawstr:String = savedKeys[i];
 					var splitstr:Array = rawstr.split('+');
 					var keystr:String = splitstr[0];
 					var modbool:Boolean = splitstr[1] == 'true';
 					
-					CONFIGURABLE_CONTROLS[i].key = keystr;
-					CONFIGURABLE_CONTROLS[i].modified = modbool;
+					if (keystr == "null")
+						CONFIGURABLE_CONTROLS[i].key = null;
+					else {
+						CONFIGURABLE_CONTROLS[i].key = keystr;
+						CONFIGURABLE_CONTROLS[i].modified = modbool;
+					}
 				}
-			else
-				reset();
 		}
 		
 		public static function reset():void {
 			MINO_CCW_KEY.key = "UP";
-			MINO_CW_KEY.key = "PERIOD";
+			MINO_CW_KEY.key = null;
 			MINO_L_KEY.key = "LEFT";
 			MINO_R_KEY.key = "RIGHT";
 			FASTFALL_KEY.key = "DOWN";

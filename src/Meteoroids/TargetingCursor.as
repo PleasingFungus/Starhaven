@@ -29,6 +29,7 @@ package Meteoroids {
 			hints.add(new KeyHelper(ControlSet.UP_KEY));
 			hints.add(new KeyHelper(ControlSet.RIGHT_KEY));
 			hints.add(new KeyHelper(ControlSet.DOWN_KEY));
+			hints.add(new KeyHelper(ControlSet.BOMB_KEY));
 			useTime = 0;
 		}
 		
@@ -82,6 +83,8 @@ package Meteoroids {
 				hints.members[i].x = x - hints.members[i].width/2 + DIRECTIONS[i].x * HINT_SPACING;
 				hints.members[i].y = y - hints.members[i].height/2 + DIRECTIONS[i].y * HINT_SPACING;
 			}
+			hints.members[i].x = x - hints.members[i].width/2;
+			hints.members[i].y = y - hints.members[i].height / 2 + HINT_SPACING * 2;
 			hints.update();
 		}
 		

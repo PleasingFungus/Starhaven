@@ -16,18 +16,20 @@ package Controls {
 		}
 		
 		public function pressed():Boolean {
-			return FlxG.keys.pressed(key) && (!modified || FlxG.keys.pressed("SHIFT"));
+			return key && FlxG.keys.pressed(key) && (!modified || FlxG.keys.pressed("SHIFT"));
 		}
 		
 		public function justPressed():Boolean {
-			return FlxG.keys.justPressed(key) && (!modified || FlxG.keys.pressed("SHIFT"));
+			return key && FlxG.keys.justPressed(key) && (!modified || FlxG.keys.pressed("SHIFT"));
 		}
 		
 		public function justReleased():Boolean {
-			return FlxG.keys.justReleased(key) //&& (!modified || FlxG.keys.pressed("SHIFT")); //TODO: support justReleased for modified key
+			return key && FlxG.keys.justReleased(key) //&& (!modified || FlxG.keys.pressed("SHIFT")); //TODO: support justReleased for modified key
 		}
 		
 		public function toString():String {
+			if (!key)
+				return "UNASSIGNED";
 			var num:int = DIGITS_BY_NAME.indexOf(key);
 			if (num == -1)
 				return key;

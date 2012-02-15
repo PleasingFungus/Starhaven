@@ -514,7 +514,7 @@ package
 		}
 		
 		private function checkCombatInput():void {
-			if (FlxG.mouse.justPressed())
+			if (FlxG.mouse.justPressed() || ControlSet.BOMB_KEY.justPressed())
 				fireRocket(C.B.screenToBlocks(targetCursor.x, targetCursor.y));
 		}
 		
@@ -607,8 +607,8 @@ package
 						currentMino.rotateCounterclockwise();
 				}
 				
-				if (ControlSet.MINO_HELP_KEY.justPressed())
-					hudLayer.add(new NewPieceInfo(currentMino));
+				//if (ControlSet.MINO_HELP_KEY.justPressed())
+					//hudLayer.add(new NewPieceInfo(currentMino));
 				if (ControlSet.BOMB_KEY.justPressed() && tracker.safe && currentMino) {
 					if (currentMino is Bomb)
 						(currentMino as Bomb).manuallyDetonate();
@@ -736,7 +736,7 @@ package
 		protected function checkGoal():void {
 			var newFraction:int = Math.floor(goalPercent / 25);
 			if (newFraction > goalFraction && newFraction < 4)
-				hudLayer.add(new FlashText((newFraction * 25) + "% of goal passed!", 0x80ffd000, 2));
+				hudLayer.add(new FlashText(goalPercent + "% of goal passed!", 0x80ffd000, 2));
 			goalFraction = newFraction;
 			hud.updateGoal(goalPercent);
 		}
