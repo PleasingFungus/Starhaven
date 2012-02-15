@@ -1,4 +1,5 @@
 package Options {
+	import Controls.ControlSet;
 	import Controls.Key;
 	import Helpers.KeyHelper;
 	import org.flixel.*;
@@ -47,8 +48,8 @@ package Options {
 				bars.push(add(bar));
 			}
 			
-			leftArrow = new KeyHelper(new Key("LEFT"));
-			rightArrow = new KeyHelper(new Key("RIGHT"));
+			leftArrow = new KeyHelper(ControlSet.LEFT_KEY);
+			rightArrow = new KeyHelper(ControlSet.RIGHT_KEY);
 			leftArrow.x = bars[0].x - 20 - leftArrow.width;
 			rightArrow.x = bars[bars.length - 1].x + bars[bars.length - 1].width + 20;
 			leftArrow.y = rightArrow.y = bars[0].y + 9;

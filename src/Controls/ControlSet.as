@@ -5,8 +5,15 @@ package Controls {
 	 */
 	public class ControlSet {
 		
+		public static const LEFT_KEY:Key = new Key("LEFT");
+		public static const UP_KEY:Key = new Key("UP");
+		public static const RIGHT_KEY:Key = new Key("RIGHT");
+		public static const DOWN_KEY:Key = new Key("DOWN");
+		public static const DIRECTION_KEYS:Array = [LEFT_KEY, UP_KEY, RIGHT_KEY, DOWN_KEY];
+		
 		public static const CONFIRM_KEY:Key = new Key("ENTER");
 		public static const CANCEL_KEY:Key = new Key("ESCAPE");
+		
 		
 		public static const MINO_CCW_KEY:Key = new Key("UP");
 		public static const MINO_CW_KEY:Key = new Key("SHIFT");
@@ -19,6 +26,7 @@ package Controls {
 		public static const BOMB_KEY:Key = new Key("SPACE");
 		
 		public static const MINO_HELP_KEY:Key = new Key("H");
+		
 		
 		public static const DEBUG_DESTRUCT_KEY:Key = new Key("Q");
 		public static const DEBUG_SKIP_KEY:Key = new Key("K");

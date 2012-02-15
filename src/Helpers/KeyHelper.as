@@ -19,25 +19,23 @@ package Helpers {
 		public function generate():void {
 			if (key.key == "SPACE") {
 				loadGraphic(spaceKey);
-				//scale.x = scale.y = 2;
 				return;
 			}
 			
-			loadGraphic(keyBase, false, false, 16, 16, true);
+			loadGraphic(keyBase, false, false, 32, 32, true);
 			var keySpr:FlxSprite;
 			var off:int;
 			
 			var dir:int = ARROWS_BY_NAME.indexOf(key.key);
 			if (dir != -1) {
 				keySpr = new FlxSprite().loadGraphic(arrow_pngs[dir]);
-				off = 4;
+				off = 8;
 			} else {
-				keySpr = new FlxText(0, 0, 1000, key.toString()).setFormat(null, 8, 0x0);//.setFormat(C.FONT, 10, 0x0);
-				off = 2;
+				keySpr = new FlxText(0, 0, 1000, key.toString()).setFormat(null, 16, 0x0);
+				off = 4;
 			}
 			
 			draw(keySpr, off, off);
-			scale.x = scale.y = 2;
 		}
 		
 		override public function render():void {

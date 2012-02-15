@@ -23,6 +23,7 @@ package
 	import Metagame.Statblock;
 	import Meteoroids.MeteoroidTracker;
 	import Meteoroids.SlowRocket;
+	import Meteoroids.TargetingCursor;
 	import Mining.ResourceSource;
 	import SFX.Fader;
 	import SFX.PowerSound;
@@ -72,6 +73,7 @@ package
 		
 		private var arrowHint:ArrowHelper;
 		private var stationHint:StationHint;
+		private var targetCursor:TargetingCursor;
 		
 		protected var minoLayer:FlxGroup;
 		protected var iconLayer:FlxGroup;
@@ -377,7 +379,7 @@ package
 				stationHint.visible = false;
 			dangeresque = true;
 			
-			FlxG.mouse.load(_combat_cursor, 15, 15);
+			hudLayer.add(targetCursor = new TargetingCursor);
 		}
 		
 		protected function endCombat():void {
@@ -387,7 +389,9 @@ package
 			if (stationHint && stationHint.exists && !C.NO_COMBAT_ROTATING)
 				stationHint.visible = true;
 			dangeresque = false;
-			FlxG.mouse.load(null);
+			
+			targetCursor.exists = false;
+			targetCursor = null;
 		}
 		
 		protected var combatMinoPool:Array;
@@ -399,7 +403,7 @@ package
 		}
 		
 		protected function checkCombatCursor():void {
-			var target:Point = C.B.screenToBlocks(FlxG.mouse.x, FlxG.mouse.y);
+			var target:Point = C.B.screenToBlocks(targetCursor.x, targetCursor.y);
 			var closest:RocketGun = findClosestValidLauncher(target);
 			if (closest)
 				closest.aimAt(target);
@@ -461,7 +465,7 @@ package
 			
 			lastSubstate = substate;
 			substate = SUBSTATE_PAUSED;
-			FlxG.mouse.load(null);
+			FlxG.mouse.show();
 		}
 		
 		private function pauseUpdate():void {
@@ -478,11 +482,8 @@ package
 				return;
 			
 			pauseLayer.exists = false;
-			if (dangeresque)
-				FlxG.mouse.load(_combat_cursor, 15, 15);
-			else
-				FlxG.mouse.hide();
 			substate = lastSubstate;
+			FlxG.mouse.hide();
 		}
 		
 		private function resetLevel(_:String):void {
@@ -514,7 +515,7 @@ package
 		
 		private function checkCombatInput():void {
 			if (FlxG.mouse.justPressed())
-				fireRocket(C.B.screenToBlocks(FlxG.mouse.x, FlxG.mouse.y));
+				fireRocket(C.B.screenToBlocks(targetCursor.x, targetCursor.y));
 		}
 		
 		protected function checkContinuousInput():void {
@@ -1051,7 +1052,5 @@ package
 		public static const SUBSTATE_PAUSED:int = 4;
 		
 		private const SPAWN_TIME:Number = 2;
-		
-		[Embed(source = "../lib/art/ui/target_cursor.png")] private static const _combat_cursor:Class;
 	}
 }

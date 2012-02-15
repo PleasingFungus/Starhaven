@@ -33,12 +33,6 @@ package Options {
 			MenuThing.addColumn(leftCol, 15);
 			
 			var rightCol:Array = [];
-			//rightCol.push(add(new ControlMenuThing("No Priority: ", ControlSet.PR_GEN_KEY)));
-			//rightCol.push(add(new ControlMenuThing("Infrastructure Priority: ", ControlSet.PR_STR_KEY)));
-			//rightCol.push(add(new ControlMenuThing("Economic Priority: ", ControlSet.PR_ECN_KEY)));
-			//rightCol.push(add(new ControlMenuThing("Defense Priority: ", ControlSet.PR_DEF_KEY)));
-			//rightCol.push(add(new ControlMenuThing("Scroll Priority Up: ", ControlSet.PR_UP_KEY)));
-			//rightCol.push(add(new ControlMenuThing("Scroll Priority Down: ", ControlSet.PR_DOWN_KEY)));
 			rightCol.push(add(new ControlMenuThing("Rotate Station CCW: ", ControlSet.ST_CCW_KEY)));
 			rightCol.push(add(new ControlMenuThing("Rotate Station CW: ", ControlSet.ST_CW_KEY)));
 			rightCol.push(add(new ControlMenuThing("Drop Bomb: ", ControlSet.BOMB_KEY)));

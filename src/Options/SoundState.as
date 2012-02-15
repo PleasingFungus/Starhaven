@@ -29,13 +29,13 @@ package Options {
 			backButton.setY(FlxG.height - 40);
 			add(backButton);
 			
-			add(upKey = new KeyHelper(new Key("UP")));
+			add(upKey = new KeyHelper(ControlSet.UP_KEY));
 			sliders = new Vector.<VolumeSlider>;
 			sliders.push(add(new VolumeSlider(FlxG.height / 2 - 100, "Global Volume", getGlobalVolume, setGlobalVolume, COLLECT_NOISE)));
 			sliders.push(add(new VolumeSlider(FlxG.height / 2 - 30, "Music Volume", C.music.getMusicVolume, C.music.setMusicVolume)));
 			sliders.push(add(new VolumeSlider(FlxG.height / 2 + 40, "Effect Volume", C.sound.getVolume, C.sound.setVolume, COLLECT_NOISE)));
 			sliders[0].selected = true;
-			add(downKey = new KeyHelper(new Key("DOWN")));
+			add(downKey = new KeyHelper(ControlSet.DOWN_KEY));
 			
 			upKey.x = downKey.x = FlxG.width / 2 - upKey.width / 2;
 			upKey.y = sliders[0].y - upKey.height - 15;
