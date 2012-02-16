@@ -12,8 +12,8 @@ package Missions {
 		
 		private var nebulaBlocks:Array;
 		private var nebulaGrid:Array;
-		public function NebulaMission(Seed:Number, Scale:Number = 1) {
-			super(Seed);
+		public function NebulaMission(Seed:Number, Scale:Number) {
+			super(Seed, Scale);
 			
 			var size:int = 36 * Scale;
 			var area:int = size * size / 4;

@@ -33,8 +33,6 @@ package Meteoroids {
 			this.spawner = new spawnerType(Warning, MeteoroidTarget);
 			
 			waveSpacing = WaveSpacing;
-			if (!C.IN_TUTORIAL)
-				waveSpacing *= C.difficulty.waveSpacing();
 			nextWave = getNextWave();
 			
 			warning = Warning;
@@ -55,8 +53,8 @@ package Meteoroids {
 		
 		protected function getNextWave():int {
 			if (waveIndex)
-				return waveSpacing/2;
-			return waveSpacing;
+				return waveSpacing * C.difficulty.laterWaveSpacing();
+			return waveSpacing * C.difficulty.initialWaveSpacing();
 		}
 		
 		override public function update():void {

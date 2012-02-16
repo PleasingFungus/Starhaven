@@ -11,8 +11,8 @@ package Missions {
 		
 		protected var xAxis:int;
 		protected var yAxis:int;
-		public function AsteroidMission(Seed:Number, Scale:Number = 1) {
-			super(Seed);
+		public function AsteroidMission(Seed:Number, Scale:Number) {
+			super(Seed, Scale);
 			
 			var size:int = convertSize(FlxU.random()) * Scale;
 			

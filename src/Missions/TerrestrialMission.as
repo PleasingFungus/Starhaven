@@ -14,8 +14,8 @@ package Missions {
 		public var rockDepth:int;
 		public var atmosphere:int;
 		protected var broadHeightmap:Array;
-		public function TerrestrialMission(Seed:Number) {
-			super(Seed);
+		public function TerrestrialMission(Seed:Number, Scale:Number) {
+			super(Seed, Scale);
 			buildBroadHeightmap();
 			buildRock();
 			buildMinerals();

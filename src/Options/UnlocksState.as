@@ -31,15 +31,26 @@ package Options {
 		protected function genVisibleUnlocks():void {
 			var text:String;
 			
-			var scenarios:TitledColumn = new TitledColumn(FlxG.width / 4, FlxG.height / 4, "Scenarios");
+			var scenarios:TitledColumn = new TitledColumn(FlxG.width / 4, FlxG.height * 3/16, "Scenarios");
 			text = C.ALL_UNLOCKED ? "All Unlocked" : C.unlocks.unlockedScenarios() + "/" + (C.scenarioList.all.length - C.scenarioList.FIRST_SCENARIO_INDEX);
 			scenarios.addCol(text);
 			add(scenarios);
 			
-			var difficulties:TitledColumn = new TitledColumn(FlxG.width * 3 / 4, FlxG.height / 4, "Difficulties");
+			var difficulties:TitledColumn = new TitledColumn(FlxG.width * 3 / 4, FlxG.height * 3/16, "Difficulties");
 			text = C.ALL_UNLOCKED ? "All Unlocked" : C.unlocks.unlockedDifficulties() + "/" + C.difficulty.MAX_DIFFICULTY;
 			difficulties.addCol(text);
 			add(difficulties);
+			
+			var sizes:TitledColumn = new TitledColumn(FlxG.width * 1 / 4, FlxG.height * 3/8, "Sizes");
+			text = C.ALL_UNLOCKED ? "All Unlocked" : C.unlocks.unlockedSizes() + "/" + C.difficulty.MAX_SIZE;
+			sizes.addCol(text);
+			add(sizes);
+			
+			var other:TitledColumn = new TitledColumn(FlxG.width * 3 / 4, FlxG.height * 3/8, "Other");
+			text = C.ALL_UNLOCKED ? "All Unlocked" : "0/0";
+			other.addCol(text);
+			add(other);
+			
 		}
 		
 		
@@ -47,13 +58,13 @@ package Options {
 			var warningText:String = "Warning: using the 'unlock all' button will disable saving! " +
 									 "(And may spoil the fun of unlocking things yourself.)";
 			var advisoryText:String = "Pressing this button will re-enable saving and return you to whatever you had previously unlocked.";
-			var warning:FlxText = new FlxText(10, FlxG.height * 9/16, FlxG.width - 20, C.ALL_UNLOCKED ? advisoryText : warningText);
+			var warning:FlxText = new FlxText(10, FlxG.height * 19/32, FlxG.width - 20, C.ALL_UNLOCKED ? advisoryText : warningText);
 			warning.setFormat(C.FONT, 16, 0xffffff, 'center');
 			add(warning);
 			
 			var unlockButton:MenuThing = new MenuThing(C.ALL_UNLOCKED ? "Return to Normal" : "Unlock All", toggleUnlock);
 			unlockButton.setFormat(C.FONT, 24);
-			unlockButton.setY(FlxG.height * 3 / 4);
+			unlockButton.setY(FlxG.height * 24/32);
 			add(unlockButton);
 		}
 		

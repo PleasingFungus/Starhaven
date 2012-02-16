@@ -24,8 +24,15 @@ package MainMenu {
 					leftCol.push(add(new DifficultyThing(C.difficulty.name(i), i)));
 				else
 					leftCol.push(add(new MysteryThing));
-			MenuThing.addColumn(leftCol, FlxG.width/8);
+			MenuThing.addColumn(leftCol, FlxG.width/16);
 			
+			var centerCol:Array = [];
+			for (i = C.difficulty.SMALL; i < C.difficulty.MAX_SIZE; i++)
+				if (C.unlocks.sizeUnlocked(i))
+					centerCol.push(add(new SizeThing(C.difficulty.scaleName(i), i)));
+				else
+					centerCol.push(add(new MysteryThing));
+			MenuThing.addColumn(centerCol, FlxG.width * 13 / 32);
 			
 			var rightCol:Array = [];
 			addScenario(PlanetScenario, rightCol);
@@ -35,7 +42,7 @@ package MainMenu {
 			addScenario(WaterScenario, rightCol);
 			addScenario(DustScenario, rightCol);
 			addScenario(DCrescentScenario, rightCol);
-			MenuThing.addColumn(rightCol, FlxG.width * 5 / 8);
+			MenuThing.addColumn(rightCol, FlxG.width * 11 / 16);
 			
 			//var info:FlxText = new FlxText(0, FlxG.height - 25, FlxG.width, "Use arrow keys to navigate and enter to select.");
 			//info.setFormat(C.FONT, 12, 0xffffff, 'center');

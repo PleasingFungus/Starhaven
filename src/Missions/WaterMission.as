@@ -10,14 +10,14 @@ package Missions {
 	public class WaterMission extends TerrestrialMission {
 		
 		protected var waterDepth:int;
-		public function WaterMission(Seed:Number) {
-			mapWidth = 39 * 2;
+		public function WaterMission(Seed:Number, Scale:Number) {
+			mapWidth = 39 * 2 * Scale;
 			chunkSize = 4;
 			rockDepth = 10;
 			waterDepth = 11;
 			atmosphere = 22;
 			
-			super(Seed);
+			super(Seed, Scale);
 		}
 		
 		override protected function broadHeightmapHeight(X:int):int {

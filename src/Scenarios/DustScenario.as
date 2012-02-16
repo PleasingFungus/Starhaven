@@ -29,7 +29,7 @@ package Scenarios {
 		}
 		
 		override protected function createMission():void {
-			mission = new AsteroidMission(seed, 0.75);
+			mission = new AsteroidMission(seed, 0.75 * C.difficulty.scale());
 		}
 		
 		override protected function buildLevel():void {
@@ -38,7 +38,7 @@ package Scenarios {
 		}
 		
 		protected function buildNebula():void {
-			var nMission:NebulaMission = new NebulaMission(seed, 0.8);
+			var nMission:NebulaMission = new NebulaMission(seed, 0.8 * C.difficulty.scale());
 			
 			var preNebula:Number = new Date().valueOf();
 			var nebula:NebulaCloud = new NebulaCloud(0, 0,

@@ -11,7 +11,7 @@ package Missions {
 	public class LoadedMission extends Mission {
 		
 		public function LoadedMission(MissionImage:Class) {
-			super(NaN);
+			super(NaN, 1);
 			
 			var image:BitmapData = FlxG.addBitmap(MissionImage);
 			var blocks:Array = [];

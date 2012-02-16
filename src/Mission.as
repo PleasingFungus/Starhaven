@@ -10,12 +10,15 @@ package  {
 	public class Mission {
 		
 		public var seed:Number;
+		protected var scale:Number;
+		
 		public var rawMap:Terrain;
 		public var fullMapSize:Point;
 		protected var mapBlocks:Array;
-		public function Mission(Seed:Number) {
+		public function Mission(Seed:Number, Scale:Number) {
 			seed = Seed;
 			FlxU.seed = Seed;
+			scale = Scale;
 		}
 		
 		

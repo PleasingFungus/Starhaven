@@ -7,12 +7,12 @@ package Missions {
 	 */
 	public class MountainMission extends TerrestrialMission {
 		
-		public function MountainMission(Seed:Number = NaN) {
-			mapWidth = 60;
+		public function MountainMission(Seed:Number, Scale:Number) {
+			mapWidth = 60 * Scale;
 			rockDepth = 24;
 			atmosphere = 24;
 			
-			super(Seed);
+			super(Seed, Scale);
 		}
 		
 		override protected function topAt(x:int):int {

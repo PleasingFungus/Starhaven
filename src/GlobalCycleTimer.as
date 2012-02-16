@@ -45,6 +45,7 @@ package  {
 		
 		public static var minosDropped:int;
 		private var lastDroppedCount:int;
+		public static var notionalMiningTime:int;
 		public static var miningTime:int;
 		public static var justDropped:Boolean;
 	}

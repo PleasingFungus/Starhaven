@@ -9,12 +9,12 @@ package Missions {
 	 */
 	public class PlanetMission extends TerrestrialMission {
 		
-		public function PlanetMission(Seed:Number) {
-			mapWidth = 60;
+		public function PlanetMission(Seed:Number, Scale:Number) {
+			mapWidth = 60 * Scale;
 			rockDepth = 12;
 			atmosphere = 24;
 			
-			super(Seed);
+			super(Seed, Scale);
 		}
 		override protected function randomMineralType():int {
 			return MineralBlock.WEAK_MINERALS;

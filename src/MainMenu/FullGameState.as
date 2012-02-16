@@ -30,6 +30,7 @@ package MainMenu {
 					leftCol.push(add(new MysteryThing));
 			MenuThing.addColumn(leftCol, FlxG.width/8);
 			
+			C.difficulty.scaleSetting = C.difficulty.MEDIUM;
 			
 			var mission:Class = C.campaign.nextMission();
 			C.campaign.chooseMission(mission);

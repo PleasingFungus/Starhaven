@@ -110,7 +110,7 @@ package
 			C.B.maxDim = new Point(mapDim.x * 2, mapDim.y * 2);
 			C.fluid = null;
 			Mino.resetGrid();
-			createGCT(blockLimitToFullyMine() * goal * C.difficulty.blockSlack);
+			createGCT(0);
 			FlashText.activeTexts = [];
 			
 			_buffer = new BitmapData(FlxG.width, FlxG.height, true, FlxState.bgColor );
@@ -168,6 +168,8 @@ package
 		
 		protected function createGCT(miningTime:int):void {
 			add(new GlobalCycleTimer());
+			GlobalCycleTimer.notionalMiningTime = blockLimitToFullyMine() * goal * C.difficulty.scale();
+												  //C.difficulty.blockLimit(blockLimitToFullyMine() * goal);
 			GlobalCycleTimer.miningTime = miningTime;
 		}
 		

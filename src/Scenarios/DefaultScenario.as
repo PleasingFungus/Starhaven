@@ -35,7 +35,7 @@ package Scenarios {
 		}
 		
 		protected function createMission():void {
-			mission = new missionType(seed);
+			mission = new missionType(seed, C.difficulty.scale());
 		}
 		
 		override protected function buildLevel():void {

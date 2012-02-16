@@ -9,8 +9,8 @@ package Missions {
 	 */
 	public class DCrescentMission extends Mission {
 		
-		public function DCrescentMission(Seed:Number, Scale:Number = 1) {
-			super(Seed);
+		public function DCrescentMission(Seed:Number, Scale:Number) {
+			super(Seed, Scale);
 			
 			var size:int = convertSize(FlxU.random()) * Scale;
 			

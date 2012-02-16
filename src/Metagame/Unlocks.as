@@ -1,4 +1,5 @@
 package Metagame {
+	import flash.display.Bitmap;
 	import org.flixel.*;
 	import Scenarios.*;
 	/**
@@ -8,8 +9,11 @@ package Metagame {
 	public class Unlocks {
 		
 		protected var conditions:Array;
+		
+		protected var sizes:Array;
 		protected var scenarios:Array;
 		protected var difficulties:Array;
+		
 		protected var newUnlocks:Array;
 		public function Unlocks() {
 			setupUnlockConditions();
@@ -22,21 +26,29 @@ package Metagame {
 			//hard		--	md40	//~4 missions?
 			//nebula	--	bd150	//~5 missions?
 			//water		--	mc2000	//~6 missions?
-			//trench	--	mw9		//9 missions
-			//v hard	--	mw12	//12 missions
-			//dust		--	mw20	//20 missions
+			//large		--	mw6		//6 missions
+			//crescent	--	mw7		//7 missions
+			//v hard	--	mw8		//8 missions
+			//dust		--	mw12	//12 missions
 			
 			conditions = [new UnlockCondition(scLst, C.scenarioList.cIndex(AsteroidScenario), Statblock.MISSIONS_WON, 1, C.scenarioList.nameOf(AsteroidScenario), C.difficulty.EASY),
 						  new UnlockCondition(scLst, C.scenarioList.cIndex(MountainScenario), Statblock.MISSIONS_WON, 3,  C.scenarioList.nameOf(MountainScenario), C.difficulty.EASY),
 						  new UnlockCondition(dfLst, C.difficulty.HARD, Statblock.METEOROIDS_DESTROYED, 40,C.difficulty.name(C.difficulty.HARD)),
 						  new UnlockCondition(scLst, C.scenarioList.cIndex(NebulaScenario), Statblock.BLOCKS_DROPPED, 150, C.scenarioList.nameOf(NebulaScenario)),
 						  new UnlockCondition(scLst, C.scenarioList.cIndex(WaterScenario), Statblock.MINERALS_LAUNCHED, 2000, C.scenarioList.nameOf(WaterScenario)),
-						  new UnlockCondition(scLst, C.scenarioList.cIndex(DCrescentScenario), Statblock.MISSIONS_WON, 150, C.scenarioList.nameOf(DCrescentScenario)),
+						  new UnlockCondition(szLst, C.difficulty.LARGE, Statblock.MISSIONS_WON, 6, C.difficulty.scaleName(C.difficulty.LARGE)),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(DCrescentScenario), Statblock.MISSIONS_WON, 7, C.scenarioList.nameOf(DCrescentScenario)),
 						  new UnlockCondition(dfLst, C.difficulty.V_HARD, Statblock.MISSIONS_WON, 8, C.difficulty.name(C.difficulty.V_HARD)),
 						  new UnlockCondition(scLst, C.scenarioList.cIndex(DustScenario), Statblock.MISSIONS_WON, 12, C.scenarioList.nameOf(DustScenario))];
 		}
 		
 		protected function setDefaults():void {
+			if (!sizes) {
+				sizes = [];
+				for (i = C.difficulty.SMALL; i <= C.difficulty.MEDIUM; i++)
+					sizes[i] = true;
+			}
+			
 			if (!scenarios) {
 				scenarios = [];
 				for (var i:int = 0; i <= C.scenarioList.FIRST_SCENARIO_INDEX; i++)
@@ -53,6 +65,7 @@ package Metagame {
 		public function load():void {
 			if (C.DEBUG && C.FORGET_UNLOCKS) return;
 			
+			sizes = C.save.read("unlockedSizes") as Array;
 			scenarios = C.save.read("unlockedScenarios") as Array;
 			difficulties = C.save.read("unlockedDifficulties") as Array;
 			setDefaults();
@@ -69,6 +82,7 @@ package Metagame {
 		protected function save():void {
 			if ((C.DEBUG && C.FORGET_UNLOCKS) || C.ALL_UNLOCKED) return;
 			
+			C.save.write("unlockedSizes", sizes);
 			C.save.write("unlockedScenarios", scenarios);
 			C.save.write("unlockedDifficulties", difficulties);
 		}
@@ -84,10 +98,14 @@ package Metagame {
 				newUnlocks = [];
 			
 			var unlockText:String = condition.name;
-			if (condition.getAssocList == scLst)
+			var assocList:Function = condition.getAssocList;
+			if (assocList == scLst)
 				unlockText += " Mission";
-			else if (condition.getAssocList == dfLst)
+			else if (assocList == dfLst)
 				unlockText += " Difficulty";
+			else if (assocList == szLst)
+				unlockText += " Size";
+			
 			unlockText += " [<- " + condition.reqStatValue;
 			switch (condition.reqStat) {
 				case Statblock.MISSIONS_WON:
@@ -177,6 +195,22 @@ package Metagame {
 			return scenarios;
 		}
 		
+		public function sizeUnlocked(setting:int):Boolean {
+			if (C.ALL_UNLOCKED)
+				return true;
+			
+			C.log("Unlocked: " + setting, sizes[setting]);
+			return sizes[setting];
+		}
+		
+		public function unlockedSizes():int {
+			var unlocked:int = 0;
+			for (var i:int = C.difficulty.SMALL; i < C.difficulty.MAX_SIZE; i++)
+				if (sizes[i])
+					unlocked++;
+			return unlocked;
+		}
+		
 		
 		protected function scLst():Array {
 			return scenarios;
@@ -184,6 +218,10 @@ package Metagame {
 		
 		protected function dfLst():Array {
 			return difficulties;
+		}
+		
+		protected function szLst():Array {
+			return sizes;
 		}
 	}
 
