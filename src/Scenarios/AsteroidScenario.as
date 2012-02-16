@@ -18,12 +18,8 @@ package Scenarios {
 		public function AsteroidScenario(Seed:Number = NaN) {
 			super(Seed);
 			
-			goal = 0.75;
+			goalMultiplier = 0.75;
 			missionType = AsteroidMission;
-		}
-		
-		override protected function blockLimitToFullyMine():int {
-			return 50;
 		}
 		
 		override protected function repositionLevel():void {

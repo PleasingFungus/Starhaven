@@ -77,7 +77,6 @@ package Meteoroids {
 				return;
 			
 			timer++;
-			C.log("Timer incremented to " + timer + " out of " + nextWave);
 			if (timer >= nextWave)
 				startWave();
 			else if (nextWave == timer + 2)

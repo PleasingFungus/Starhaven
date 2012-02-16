@@ -26,7 +26,7 @@ package Scenarios.Tutorials {
 			
 			mapBuffer = 0;
 			spawner = PlanetSpawner;
-			goal = 0.75;
+			goalMultiplier = 0.75;
 			rotateable = false;
 		}
 		
@@ -87,7 +87,7 @@ package Scenarios.Tutorials {
 		}
 		
 		override protected function get goalPercent():int {
-			return station.mineralsMined * 100 / (initialMinerals * goal);
+			return station.mineralsMined * 100 / (initialMinerals * goalMultiplier);
 		}
 		
 		[Embed(source = "../../../lib/missions/tutorial_mining.png")] private static const _mission_image:Class;

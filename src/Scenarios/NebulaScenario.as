@@ -17,15 +17,11 @@ package Scenarios {
 			missionType = NebulaMission;
 			bg_sprites = _bgs;
 			mapBuffer = 20;
-			goal = 0.52;
+			goalMultiplier = 0.52;
 		}
 		
 		override protected function _getBounds():Rectangle {
 			return C.B.OUTER_BOUNDS;
-		}
-		
-		override protected function blockLimitToFullyMine():int {
-			return 100;
 		}
 		
 		override protected function buildLevel():void {

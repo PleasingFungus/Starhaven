@@ -29,10 +29,6 @@ package Scenarios {
 			conduitLimit = 8;
 		}
 		
-		override protected function blockLimitToFullyMine():int {
-			return 90;
-		}
-		
 		override protected function repositionLevel():void {
 			rock.gridLoc.x = station.core.gridLoc.x;
 			rock.gridLoc.y = Math.ceil((mission as WaterMission).atmosphere / 2);

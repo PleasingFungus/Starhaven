@@ -49,7 +49,7 @@ package
 		protected var currentMino:Smino;
 		protected var bag:GrabBag;
 		
-		protected var spawnTimer:Number = SPAWN_TIME * 1.5;
+		protected var spawnTimer:Number;
 		protected var spawner:Class;
 		protected var tracker:MeteoroidTracker;
 		protected var hud:HUD;
@@ -64,8 +64,9 @@ package
 		
 		protected var resourceSource:ResourceSource;
 		protected var initialMinerals:int;
-		protected var goal:Number;
+		protected var goalMultiplier:Number;
 		protected var goalFraction:int;
+		protected var blockLimitMultiplier:Number;
 		protected var missionOver:Boolean;
 		
 		protected var mapDim:Point;
@@ -98,7 +99,8 @@ package
 			
 			C.log("Seed: " + seed);
 			
-			goal = 0.6;
+			goalMultiplier = 0.6;
+			blockLimitMultiplier = 1;
 			rotateable = true;
 			centerPoint = new Point;
 		}
@@ -110,7 +112,7 @@ package
 			C.B.maxDim = new Point(mapDim.x * 2, mapDim.y * 2);
 			C.fluid = null;
 			Mino.resetGrid();
-			createGCT(0);
+			createGCT(-1);
 			FlashText.activeTexts = [];
 			
 			_buffer = new BitmapData(FlxG.width, FlxG.height, true, FlxState.bgColor );
@@ -119,6 +121,7 @@ package
 			_rotation = 0;
 			hasUpdated = false;
 			frame = 0;
+			spawnTimer = SPAWN_TIME * 1.5;
 			
 			setupBags();
 			
@@ -162,14 +165,16 @@ package
 				bg = new FlxSprite().loadGraphic(bg_sprite);
 		}
 		
-		protected function blockLimitToFullyMine():int {
-			return 40;
+		protected function notionalBlockLimit():int {
+			var toMine:int = initialMinerals * goalMultiplier;
+			var baseLimit:Number = toMine / 7.5; //7.5 blocks for every 50 minerals?
+			var adjustedLimit:Number = baseLimit * blockLimitMultiplier;
+			C.log("Limit: " + toMine, baseLimit, adjustedLimit);
+			return adjustedLimit;
 		}
 		
 		protected function createGCT(miningTime:int):void {
 			add(new GlobalCycleTimer());
-			GlobalCycleTimer.notionalMiningTime = blockLimitToFullyMine() * goal * C.difficulty.scale();
-												  //C.difficulty.blockLimit(blockLimitToFullyMine() * goal);
 			GlobalCycleTimer.miningTime = miningTime;
 		}
 		
@@ -190,7 +195,11 @@ package
 		
 		protected function setHudStation():void {
 			hud.setStation(station);
-			hud.setGoal(goal);
+			hud.setGoal(goalMultiplier);
+			
+			GlobalCycleTimer.notionalMiningTime = notionalBlockLimit();
+			if (GlobalCycleTimer.miningTime == -1)
+				GlobalCycleTimer.miningTime = GlobalCycleTimer.notionalMiningTime;
 		}
 		
 		protected function createTracker(waveMeteos:Number = 3):void {
@@ -502,6 +511,8 @@ package
 		private function rotateUpdate():void {
 			checkRotateControls();
 			station.update();
+			if (dangeresque)
+				targetCursor.update();
 		}
 		
 		private var inputTimer:Number = 0;
@@ -744,7 +755,7 @@ package
 		}
 		
 		protected function get goalPercent():int {
-			return station.mineralsLaunched * 100 / (initialMinerals * goal);
+			return station.mineralsLaunched * 100 / (initialMinerals * goalMultiplier);
 		}
 		
 		protected function checkEndConditions():void {

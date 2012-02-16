@@ -18,7 +18,7 @@ package Scenarios {
 		
 		public function DustScenario(Seed:Number = NaN) {
 			super(Seed);
-			goal = 0.56;
+			goalMultiplier = 0.56;
 			bg_sprites = _bgs;
 			mapBuffer = 26;
 			bgMissionType = AsteroidMission;
@@ -89,10 +89,6 @@ package Scenarios {
 					assortment.push(makeBag(MediumBarracks));
 			}
 			return assortment;
-		}
-		
-		override protected function blockLimitToFullyMine():int {
-			return 130;
 		}
 		
 		override protected function bgAstrColor(astrScale:Number):uint {

@@ -23,13 +23,9 @@ package Scenarios {
 			mapBuffer = 0;
 			spawner = PlanetSpawner;
 			missionType = PlanetMission;
-			goal = 0.65; //should be higher?
+			goalMultiplier = 0.65; //should be higher?
 			rotateable = false;
 			conduitLimit = 9;
-		}
-		
-		override protected function blockLimitToFullyMine():int {
-			return 60;
 		}
 		
 		override protected function repositionLevel():void {

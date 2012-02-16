@@ -47,11 +47,6 @@ package  {
 			return Math.floor(setting) / 2;
 		}
 		
-		public function blockLimit(base:Number):int {
-			var difficultyFactor:Number = 1 + 1 / (1 + setting) //double scaling is problematic
-			return base * difficultyFactor * scale();
-		}
-		
 		public function initialWaveSpacing():Number {
 			if (setting <= EASY && !C.IN_TUTORIAL)
 				return 1.5;
@@ -74,6 +69,9 @@ package  {
 				desiredWaves = 4;
 			
 			var waveSpacing:Number = remainingTime / desiredWaves;
+			
+			if (waveSpacing < bagSize / 2)
+				waveSpacing = bagSize / 2;
 			
 			C.log("Later wave spacing: " + bagSize, remainingTime, desiredWaves, waveSpacing);
 			return waveSpacing / bagSize; //multiplied by bagSize on the other end, because, good code
