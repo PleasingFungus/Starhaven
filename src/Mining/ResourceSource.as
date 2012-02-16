@@ -10,6 +10,7 @@ package Mining {
 		function mine(point:Point):void;
 		function unmine(point:Point):void;
 		function totalResources():int;
+		function totalBlocks():int;
 	}
 	
 }

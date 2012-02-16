@@ -18,6 +18,7 @@ package Scenarios {
 			bg_sprites = _bgs;
 			mapBuffer = 20;
 			goalMultiplier = 0.52;
+			minoLimitMultiplier = 0.4;
 		}
 		
 		override protected function _getBounds():Rectangle {

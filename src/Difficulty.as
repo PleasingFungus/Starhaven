@@ -68,7 +68,7 @@ package  {
 			else
 				desiredWaves = 4;
 			
-			var waveSpacing:Number = remainingTime / desiredWaves;
+			var waveSpacing:Number = remainingTime / (desiredWaves - 1);
 			
 			if (waveSpacing < bagSize / 2)
 				waveSpacing = bagSize / 2;

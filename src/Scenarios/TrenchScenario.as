@@ -27,7 +27,7 @@ package Scenarios {
 			rotateable = false;
 		}
 		
-		override protected function blockLimitToFullyMine():int {
+		override protected function minoLimitToFullyMine():int {
 			return 100;
 		}
 		

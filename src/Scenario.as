@@ -66,7 +66,7 @@ package
 		protected var initialMinerals:int;
 		protected var goalMultiplier:Number;
 		protected var goalFraction:int;
-		protected var blockLimitMultiplier:Number;
+		protected var minoLimitMultiplier:Number;
 		protected var missionOver:Boolean;
 		
 		protected var mapDim:Point;
@@ -100,7 +100,7 @@ package
 			C.log("Seed: " + seed);
 			
 			goalMultiplier = 0.6;
-			blockLimitMultiplier = 1;
+			minoLimitMultiplier = 1;
 			rotateable = true;
 			centerPoint = new Point;
 		}
@@ -165,10 +165,10 @@ package
 				bg = new FlxSprite().loadGraphic(bg_sprite);
 		}
 		
-		protected function notionalBlockLimit():int {
-			var toMine:int = initialMinerals * goalMultiplier;
-			var baseLimit:Number = toMine / 7.5; //7.5 blocks for every 50 minerals?
-			var adjustedLimit:Number = baseLimit * blockLimitMultiplier;
+		protected function notionalMinoLimit():int {
+			var toMine:int = station.resourceSource.totalBlocks() * goalMultiplier;
+			var baseLimit:Number = toMine * 0.75; //semi-arbitrary
+			var adjustedLimit:Number = baseLimit * minoLimitMultiplier;
 			C.log("Limit: " + toMine, baseLimit, adjustedLimit);
 			return adjustedLimit;
 		}
@@ -197,7 +197,7 @@ package
 			hud.setStation(station);
 			hud.setGoal(goalMultiplier);
 			
-			GlobalCycleTimer.notionalMiningTime = notionalBlockLimit();
+			GlobalCycleTimer.notionalMiningTime = notionalMinoLimit();
 			if (GlobalCycleTimer.miningTime == -1)
 				GlobalCycleTimer.miningTime = GlobalCycleTimer.notionalMiningTime;
 		}

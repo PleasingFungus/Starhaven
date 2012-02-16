@@ -32,7 +32,6 @@ package Missions {
 				rightCut = new Point(-xAxis - 2, 0);
 				secAxes = new Point(xAxis, yAxis / 2);
 			}
-			C.log("Axes: "+xAxis, yAxis);
 			
 			mapBlocks = [];
 			

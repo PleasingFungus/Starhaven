@@ -93,7 +93,6 @@ package Missions {
 				iAxis = minorAxis;
 				jAxis = majorAxis;
 			}
-			C.log("Axes: "+iAxis, jAxis);
 			
 			mapBlocks = [];
 			

@@ -45,6 +45,13 @@ package Mining {
 			return total;
 		}
 		
+		public function totalBlocks():int {
+			var total:int = 0;
+			for each (var resourceSource:ResourceSource in members)
+				total += resourceSource.totalBlocks();
+			return total;
+		}
+		
 	}
 
 }

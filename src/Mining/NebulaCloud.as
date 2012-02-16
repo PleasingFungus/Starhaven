@@ -53,6 +53,14 @@ package Mining {
 			return mineralsAvailable;
 		}
 		
+		public function totalBlocks():int {
+			var blockCount:int = 0;
+			for each (var block:MineralBlock in blocks)
+				if (!block.damaged)
+					blockCount++;
+			return blockCount;
+		}
+		
 		public function resourceAt(point:Point):MineralBlock {
 			//var absCenter:Point = absoluteCenter;
 			//for each (var mineralBlock:MineralBlock in blocks)

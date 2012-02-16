@@ -18,10 +18,11 @@ package Scenarios {
 		
 		public function DustScenario(Seed:Number = NaN) {
 			super(Seed);
-			goalMultiplier = 0.56;
 			bg_sprites = _bgs;
 			mapBuffer = 26;
 			bgMissionType = AsteroidMission;
+			goalMultiplier = 0.56;
+			minoLimitMultiplier = 0.7;
 		}
 		
 		override protected function _getBounds():Rectangle {
