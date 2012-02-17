@@ -38,13 +38,15 @@ package  {
 		public function get meteoroidMultiplier():Number {
 			if (C.IN_TUTORIAL)	
 				return 1;
-			return Math.floor(setting) / 2;
+			return setting / 2;
 		}
 		
 		public function get meteoroidSpeedFactor():Number {
 			if (C.IN_TUTORIAL)	
 				return .5;
-			return Math.floor(setting) / 2;
+			if (setting < HARD)
+				return setting / 2;
+			return 1 + setting * 0.4;
 		}
 		
 		public function initialWaveSpacing():Number {

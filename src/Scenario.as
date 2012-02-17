@@ -96,6 +96,7 @@ package
 			else 
 				seed = Seed;
 			
+			C.log("Starting level: " + C.scenarioList.names[C.scenarioList.index(this)]);
 			C.log("Seed: " + seed);
 			
 			goalMultiplier = 0.6;
@@ -167,6 +168,8 @@ package
 		protected function notionalMinoLimit():int {
 			var toMine:int = station.resourceSource.totalBlocks() * goalMultiplier;
 			var baseLimit:Number = toMine * 0.65; //semi-arbitrary
+			if (!rotateable)
+				baseLimit *= 0.42;
 			var adjustedLimit:Number = baseLimit * minoLimitMultiplier;
 			C.log("Limit: " + toMine, baseLimit, adjustedLimit);
 			return adjustedLimit;

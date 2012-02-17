@@ -42,6 +42,7 @@ package Credits {
 									 "Michael 'Chrono' Bennett",
 									 "James 'Walliard' Falcounbridge",
 									 "Jeffrey 'Jiefu' McGannigan",
+									 "James 'Nagilfar' Draskovic",
 									 "'Kiwi'");
 			colIsWide = true;
 			addCredit("Additional Thanks");
