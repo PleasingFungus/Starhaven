@@ -60,7 +60,6 @@ package
 		protected var parallaxBG:FlxGroup;
 		
 		protected var rotateable:Boolean;
-		protected var centerPoint:Point;
 		
 		protected var resourceSource:ResourceSource;
 		protected var initialMinerals:int;
@@ -102,7 +101,6 @@ package
 			goalMultiplier = 0.6;
 			minoLimitMultiplier = 1;
 			rotateable = true;
-			centerPoint = new Point;
 		}
 		
 		override public function create():void
@@ -110,6 +108,7 @@ package
 			Mino.all_minos = [];
 			C.B = new Bounds();
 			C.B.maxDim = new Point(mapDim.x * 2, mapDim.y * 2);
+			C.B.viewLimited = !rotateable;
 			C.fluid = null;
 			Mino.resetGrid();
 			createGCT(-1);
@@ -167,7 +166,7 @@ package
 		
 		protected function notionalMinoLimit():int {
 			var toMine:int = station.resourceSource.totalBlocks() * goalMultiplier;
-			var baseLimit:Number = toMine * 0.75; //semi-arbitrary
+			var baseLimit:Number = toMine * 0.65; //semi-arbitrary
 			var adjustedLimit:Number = baseLimit * minoLimitMultiplier;
 			C.log("Limit: " + toMine, baseLimit, adjustedLimit);
 			return adjustedLimit;
@@ -729,7 +728,7 @@ package
 				(shouldZoomOut && !zoomToggled)) {
 				if (_scale == 1)
 					adjustScale(true);
-				C.B.centerDrawShiftOn(centerPoint);
+				C.B.centerDrawShiftOn(station.centroidOffset.add(station.core.absoluteCenter));
 			} else {
 				if (_scale != 1)
 					adjustScale(false);

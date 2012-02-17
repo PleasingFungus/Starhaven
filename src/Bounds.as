@@ -21,6 +21,7 @@ package  {
 		public var scale:Number;
 		public var drawShift:Point;
 		public var buffer:int;
+		public var viewLimited:Boolean;
 		
 		public function Bounds() {
 			var w:int = FlxG.width / C.BLOCK_SIZE;
@@ -48,6 +49,9 @@ package  {
 		public function centerDrawShiftOn(gridLoc:Point, downShift:Boolean = false):void {			
 			drawShift.x = FlxG.width / (2 * scale) - gridLoc.x * C.BLOCK_SIZE;
 			drawShift.y = FlxG.height / ((downShift ? 4 : 2) * scale) - gridLoc.y * C.BLOCK_SIZE;
+			
+			if (!viewLimited)
+				return;
 			
 			var maxYShift:int = OUTER_BOUNDS.bottom * C.BLOCK_SIZE - FlxG.height / scale;
 			if (drawShift.y < -maxYShift)
