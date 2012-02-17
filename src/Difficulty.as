@@ -32,7 +32,7 @@ package  {
 		
 		
 		public function increaseDifficulty():void {
-			setting = setting + (MAX_DIFFICULTY - setting) / 4;
+			setting = setting + (MAX_DIFFICULTY - setting) / 10;
 		}
 		
 		public function get meteoroidMultiplier():Number {
@@ -88,7 +88,7 @@ package  {
 		
 		public function name(forSetting:Number = -1):String {
 			if (forSetting == -1)
-				forSetting = setting;
+				forSetting = initialSetting;
 			return ["Beginner", "Easy", "Normal", "Hard", "Too Hard"][Math.floor(forSetting)];
 		}
 		

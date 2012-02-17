@@ -91,7 +91,7 @@ package  {
 		
 		protected function choose():void {
 			if (onSelect != null) {
-				FlxG.fade.start(0xff000000, 0.4, onFadeEnd);
+				FlxG.fade.start(0xff000000, FadeState.FADE_TIME, onFadeEnd);
 				C.sound.playPersistent(choiceSound, 0.5);
 			}
 		}

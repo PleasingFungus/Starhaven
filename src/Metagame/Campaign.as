@@ -50,6 +50,7 @@ package Metagame {
 		public function winMission(missionStatblock:Statblock):void {
 			takeScreenshot();
 			//missionNo++; //handled in statblock.sum
+			C.difficulty.increaseDifficulty();
 			endMission(missionStatblock);
 		}
 		

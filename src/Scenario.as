@@ -13,6 +13,7 @@ package
 	import HUDs.BlinkText;
 	import HUDs.FlashText;
 	import HUDs.Minimap;
+	import HUDs.PauseLayer;
 	import MainMenu.MenuState;
 	import MainMenu.QuickPlayState;
 	import MainMenu.SkipTutorialState;
@@ -441,39 +442,7 @@ package
 			if (pauseLayer && pauseLayer.exists)
 				return;
 			
-			pauseLayer = new FlxGroup();
-			
-			var darkShroud:FlxSprite = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
-			darkShroud.alpha = 0.5;
-			pauseLayer.add(darkShroud);
-			
-			MenuThing.resetThings();
-			var col:Array = [];
-			var quitButton:MenuThing = new MenuThing("Quit", exitToMenu);
-			quitButton.setFormat(C.FONT, 20);
-			col.push(pauseLayer.add(quitButton));
-			quitButton.setY(FlxG.height / 2 - 40);
-			
-			if (!C.campaign) {
-				var resetButton:MenuThing = new MenuThing("Restart", resetLevel);
-				resetButton.setFormat(C.FONT, 20);
-				col.push(pauseLayer.add(resetButton));
-				resetButton.setY(FlxG.height / 2);
-			}
-			
-			if (!C.accomplishments.tutorialDone) {
-				var skipButton:StateThing = new StateThing("Skip Tutorials", SkipTutorialState);
-				col.push(pauseLayer.add(skipButton));
-				skipButton.setY(FlxG.height / 2 + 40);
-			}
-			
-			//MenuThing.addColumn(col, FlxG.width/2 - quitButton.fullWidth/2);
-			
-			var pauseText:FlxText = new BlinkText(0, FlxG.height - 40, "Press any key to unpause.", 16)
-			pauseText.active = false;
-			pauseLayer.add(pauseText);
-			
-			hudLayer.add(pauseLayer);
+			hudLayer.add(pauseLayer = new PauseLayer(exitToMenu, resetLevel));
 			C.HUD_ENABLED = true;
 			
 			lastSubstate = substate;

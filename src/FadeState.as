@@ -9,7 +9,7 @@ package  {
 		
 		protected var background:FlxSprite;
 		override public function create():void {
-			FlxG.flash.start(0xff000000, 0.4); 
+			FlxG.flash.start(0xff000000, FADE_TIME); 
 			C.resetMouse();
 			
 			add(background = new FlxSprite());
@@ -34,7 +34,7 @@ package  {
 		private var fadeTarget:Class;
 		protected function fadeTo(state:Class):void {
 			fadeTarget = state;
-			FlxG.fade.start(0xff000000, 0.4, finishFade);
+			FlxG.fade.start(0xff000000, FADE_TIME, finishFade);
 		}
 		
 		protected function fadeBackTo(state:Class):void {
@@ -45,6 +45,8 @@ package  {
 		protected function finishFade():void {
 			FlxG.state = new fadeTarget;
 		}
+		
+		public static const FADE_TIME:Number = 0.27;
 		
 		[Embed(source = "../lib/art/backgrounds/garradd_3.jpg")] private const DEFAULT_BG:Class;
 	}
