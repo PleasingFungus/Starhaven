@@ -22,38 +22,38 @@ package InfoScreens {
 			add(description);
 		}
 		
-		public static function onFirstDisconnect():NewPlayerEvent {
+		private static function onFirstDisconnect():NewPlayerEvent {
 			var title:String = "Module Not Connected To Grid";
 			var description:String = "The module you just dropped is darkened, and maybe even showing a red NO POWER icon.\n\n";
 			description += "This is because it's not connected to the grid! To be powered, a module needs to be adjacent to a powered conduit, or to a power source, such as a solar panel or the station's core reactor.\n\n";
 			description += "But don't panic! Just hook up a powered conduit to the module, it'll start working properly.";
 			
-			seen[DISCONNECT] = true;
-			saveSeen();
-			
 			return new NewPlayerEvent(title, description);
 		}
 		
-		public static function onFirstUncrewed():NewPlayerEvent {
+		private static function onFirstUncrewed():NewPlayerEvent {
 			var title:String = "Inadequate Staff";
 			var description:String = "The module you just dropped is darkened, and maybe even showing a red NO CREW icon.\n\n";
 			description += "It needs crew. But don't panic! Drop a barracks next to it, and once both this module and the barracks are powered, crew will automatically move over and start to work. ";
 			description += "Piece of cake!";
 			
-			seen[DECREW] = true;
-			saveSeen();
-			
 			return new NewPlayerEvent(title, description);
 		}
 		
-		public static function onFirstSubmerged():NewPlayerEvent {
+		private static function onFirstSubmerged():NewPlayerEvent {
 			var title:String = "Module Underwater!";
 			var description:String = "The module you just dropped is darkened, and has a red water drop over it.\n\n";
 			description += "That's because you put it underwater! Modules can't get power underwater. They'd short out!\n\n";
 			description += "Scoops work without power, but everything else should stay above the water line.";
 			
-			seen[SUBMERGE] = true;
-			saveSeen();
+			return new NewPlayerEvent(title, description);
+		}
+		
+		private static function onFirstMeteoroids():NewPlayerEvent {
+			var title:String = "Meteors Incoming!";
+			var description:String = "Red arrows are about to appear in the sky. They indicate where the meteors will come from, and where they're going.\n\n"
+			description += "Use mouse or keyboard to position your targeting cursor, and then fire by clicking or pressing "+ControlSet.BOMB_KEY+" to launch a rocket from the nearest gun.\n\n";
+			description += "Try aiming ahead of the meteors to detonate the rockets where they will be, not where they are!";
 			
 			return new NewPlayerEvent(title, description);
 		}
@@ -95,17 +95,24 @@ package InfoScreens {
 			if (C.NO_COMBAT_ROTATING)
 				description += "This ability is temporarily disabled during meteoroid showers, so plan accordingly!";
 			
-			seen[ROTATEABLE] = true;
-			saveSeen();
-			
 			return new NewPlayerEvent(title, description, 0.8);
+		}
+		
+		public static function fire(event:int):void {
+			if (!seen[event]) {
+				C.hudLayer.add(EVENTS[event]());	
+				
+				seen[event] = true;
+				saveSeen();
+			}
 		}
 		
 		public static const DISCONNECT:int = 0;
 		public static const DECREW:int = 1;
 		public static const SUBMERGE:int = 2;
-		public static const ASTEROIDS:int = 6;
+		public static const METEOROIDS:int = 6;
 		public static const ROTATEABLE:int = 11;
+		private static const EVENTS:Vector.<Function> = new Vector.<Function>(20);
 		
 		private static function saveSeen():void {
 			if (!(C.DEBUG && C.FORGET_EVENTS))
@@ -118,6 +125,12 @@ package InfoScreens {
 				seen = C.save.read("Seen Events") as Array;
 			if (!seen)
 				seen = [];
+			
+			EVENTS[DISCONNECT] = onFirstDisconnect;
+			EVENTS[DECREW] = onFirstUncrewed;
+			EVENTS[SUBMERGE] = onFirstSubmerged;
+			EVENTS[METEOROIDS] = onFirstMeteoroids;
+			EVENTS[ROTATEABLE] = rotationMinitutorial;
 		}
 	}
 

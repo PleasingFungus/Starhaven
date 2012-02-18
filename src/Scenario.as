@@ -314,12 +314,13 @@ package
 		
 		protected function checkMinoEvents():void {
 			if (!currentMino.exists) return;
-			if (!NewPlayerEvent.seen[NewPlayerEvent.DISCONNECT] && !currentMino.powered)
-				hudLayer.add(NewPlayerEvent.onFirstDisconnect());
-			else if (!NewPlayerEvent.seen[NewPlayerEvent.DECREW] && station.crewDeficit)
-				hudLayer.add(NewPlayerEvent.onFirstUncrewed());
-			else if (!NewPlayerEvent.seen[NewPlayerEvent.SUBMERGE] && currentMino.submerged)
-				hudLayer.add(NewPlayerEvent.onFirstSubmerged());
+			
+			if (!currentMino.powered)
+				NewPlayerEvent.fire(NewPlayerEvent.DISCONNECT);
+			else if (station.crewDeficit)
+				NewPlayerEvent.fire(NewPlayerEvent.DECREW);
+			else if (currentMino.submerged && !currentMino.waterproofed)
+				NewPlayerEvent.fire(NewPlayerEvent.SUBMERGE);
 		}
 		
 		protected function spawnNextMino():void {
@@ -394,6 +395,7 @@ package
 			dangeresque = true;
 			
 			hudLayer.add(targetCursor = new TargetingCursor);
+			NewPlayerEvent.fire(NewPlayerEvent.METEOROIDS);
 		}
 		
 		protected function endCombat():void {
