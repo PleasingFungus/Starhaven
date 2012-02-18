@@ -42,11 +42,11 @@ package  {
 		}
 		
 		public function get meteoroidSpeedFactor():Number {
-			if (C.IN_TUTORIAL)	
+			if (C.IN_TUTORIAL || setting <= EASY)	
 				return .5;
 			if (setting < HARD)
 				return setting / 2;
-			return 1 + setting * 0.4;
+			return 1 + (setting-1) * 0.4;
 		}
 		
 		public function initialWaveSpacing():Number {

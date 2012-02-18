@@ -47,7 +47,7 @@ package Scenarios.Tutorials {
 		}
 	
 		override protected function setupBags():void {
-			BagType.all = [new BagType("Assorted Bag", 1, [makeBag(SmallBarracks), makeBag(RocketGun), makeBag(RocketGun)])];
+			BagType.all = [new BagType([makeBag(SmallBarracks), makeBag(RocketGun), makeBag(RocketGun)])];
 		}
 		
 		override protected function buildLevel():void {

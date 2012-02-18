@@ -31,6 +31,11 @@ package Meteoroids {
 		override protected function executeCycle():void {
 			super.executeCycle();
 			checkExpansion();
+			//checkKills();
+		}
+		
+		override public function update():void {
+			super.update();
 			checkKills();
 		}
 		

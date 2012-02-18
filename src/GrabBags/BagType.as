@@ -7,17 +7,10 @@ package GrabBags {
 		
 		public var name:String;
 		public var weight:Number;
-		public var minStage:int;
-		public var maxStage:int;
 		protected var _minos:Array;
-		public function BagType(Name:String, Weight:Number, Minos:Array,
-								MinStage:int = 0, MaxStage:int = int.MAX_VALUE) {
-			name = Name;
-			weight = Weight;
+		public function BagType(Minos:Array, Weight:Number = 1) {
 			_minos = Minos;
-			
-			minStage = MinStage;
-			maxStage = MaxStage;
+			weight = Weight;
 		}
 		
 		public function get minos():Array {

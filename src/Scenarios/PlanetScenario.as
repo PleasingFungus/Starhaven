@@ -24,6 +24,7 @@ package Scenarios {
 			spawner = PlanetSpawner;
 			missionType = PlanetMission;
 			goalMultiplier = 0.65; //should be higher?
+			minoLimitMultiplier = 0.8;
 			rotateable = false;
 			conduitLimit = 9;
 		}

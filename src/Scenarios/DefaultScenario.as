@@ -18,6 +18,7 @@ package Scenarios {
 		protected var missionType:Class;
 		protected var rock:BaseAsteroid;
 		protected var conduitLimit:int = int.MAX_VALUE;
+		protected var conduitsUsed:int;
 		public function DefaultScenario(Seed:Number) {
 			super(Seed);
 			
@@ -29,6 +30,7 @@ package Scenarios {
 		
 		
 		override public function create():void {
+			conduitsUsed = 0;
 			createMission();
 			mapDim = mission.fullMapSize;
 			super.create();
@@ -82,8 +84,9 @@ package Scenarios {
 		
 		
 		override protected function setupBags():void {
-			BagType.all = [new BagType("Assorted Bag", 1, [new BagType("Asst. 1", 1, getAssortment(0)),
-														   new BagType("AsBag2", 1, getAssortment(1))])];
+			var a1:BagType = new BagType(getAssortment(0));
+			var a2:BagType = new BagType(getAssortment(1));
+			BagType.all = [new BagType([a1, a2])];
 		}
 		
 		protected function getAssortment(index:int):Array {
@@ -104,12 +107,12 @@ package Scenarios {
 		
 		protected function makeBag(primarySmino:Class):BagType {
 			primarySmino = replace(primarySmino);
-			if (conduitLimit <= 0)
-				return new BagType(null, 1, [primarySmino]);
+			if (conduitsUsed >= conduitLimit)
+				return new BagType([primarySmino]);
 			
 			var conduit:Class = replace(Conduit);
-			conduitLimit--;
-			return new BagType(null, 1, [primarySmino, conduit]);
+			conduitsUsed++;
+			return new BagType([primarySmino, conduit]);
 		}
 		
 		protected function replace(original:Class):Class {

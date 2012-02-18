@@ -97,7 +97,7 @@ package
 			else 
 				seed = Seed;
 			
-			C.log("Starting level: " + C.scenarioList.names[C.scenarioList.index(this)]);
+			C.log("\nStarting level: " + C.scenarioList.names[C.scenarioList.index(this)]);
 			C.log("Seed: " + seed);
 			
 			goalMultiplier = 0.6;
