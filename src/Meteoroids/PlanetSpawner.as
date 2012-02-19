@@ -10,14 +10,14 @@ package Meteoroids {
 		
 		protected var malevolent:Boolean;
 		protected var allowedWidth:Number;
-		public function PlanetSpawner(Warning:int, Target:Mino) {
-			super( Warning, Target);
+		public function PlanetSpawner(Warning:int, Target:Mino, SpeedFactor:Number = 1) {
+			super( Warning, Target, SpeedFactor);
 			malevolent = false;
 			allowedWidth = 0.1;
 		}
 		
 		override public function spawnMeteoroid():Meteoroid {
-			var Y:int = C.B.OUTER_BOUNDS.top - 10;
+			var Y:int = C.B.OUTER_BOUNDS.top - 10 * speedFactor;
 			
 			var X:int, targetCenter:Point;
 			if (malevolent) {
@@ -32,7 +32,7 @@ package Meteoroids {
 				allowedWidth += (1 - allowedWidth) * WIDTH_GROW_RATE; 
 			}
 			
-			return new Meteoroid(X, Y, targetCenter);
+			return new Meteoroid(X, Y, targetCenter, speedFactor);
 		}
 		
 		protected const WIDTH_GROW_RATE:Number = 1/8;

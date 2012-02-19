@@ -18,12 +18,12 @@ package Meteoroids {
 		protected var direction:Point;
 		protected var rotation:int;
 		protected var explosionRadius:int = 3;
-		public function Meteoroid(X:int, Y:int, Target:Point = null) {
+		public function Meteoroid(X:int, Y:int, Target:Point = null, speedFactor:Number = 1) {
 			var blocks:Array = [new Block(0, 0), new Block(1, 0),
 								new Block(0, 1), new Block(1, 1)];
 			super(X, Y, blocks, new Point(0, 0), 0xff8e4b35, _sprite);
 			dangerous = true;
-			cycleSpeed = 1 / period;
+			cycleSpeed = speedFactor / period;
 			
 			semigridLoc = new Point(gridLoc.x, gridLoc.y);
 			if (!Target)

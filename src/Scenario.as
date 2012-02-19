@@ -62,12 +62,14 @@ package
 		protected var parallaxBG:FlxGroup;
 		
 		protected var rotateable:Boolean;
+		protected var goalMultiplier:Number;
+		protected var minoLimitMultiplier:Number;
+		protected var meteoSpeedMultiplier:Number;
 		
 		protected var resourceSource:ResourceSource;
 		protected var initialMinerals:int;
-		protected var goalMultiplier:Number;
 		protected var goalFraction:int;
-		protected var minoLimitMultiplier:Number;
+		
 		protected var missionOver:Boolean;
 		
 		protected var mapDim:Point;
@@ -104,6 +106,7 @@ package
 			
 			goalMultiplier = 0.6;
 			minoLimitMultiplier = 1;
+			meteoSpeedMultiplier = 1;
 			
 			rotateable = true;
 			mapBuffer = 12;
@@ -213,7 +216,7 @@ package
 		}
 		
 		protected function createTracker(waveMeteos:Number = 3):void {
-			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, waveMeteos, BagType.all[0].length);
+			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, waveMeteos, BagType.all[0].length, meteoSpeedMultiplier);
 			hud.setTracker(tracker);
 			add(tracker);
 		}

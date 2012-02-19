@@ -35,7 +35,7 @@ package Meteoroids {
 		
 		override public function update():void {
 			super.update();
-			if (lastMouse.x != FlxG.mouse.x || lastMouse.y != FlxG.mouse.y)
+			if (lastMouse.x != FlxG.mouse.x + FlxG.quake.x || lastMouse.y != FlxG.mouse.y + FlxG.quake.y)
 				moveToMouse();
 			else
 				checkKeyboard();
@@ -48,8 +48,8 @@ package Meteoroids {
 		}
 		
 		protected function moveToMouse():void {
-			x = lastMouse.x = FlxG.mouse.x;
-			y = lastMouse.y = FlxG.mouse.y;
+			x = lastMouse.x = FlxG.mouse.x + FlxG.quake.x;
+			y = lastMouse.y = FlxG.mouse.y + FlxG.quake.y;
 			
 			useTime += FlxG.elapsed;
 		}

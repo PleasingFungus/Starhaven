@@ -8,9 +8,11 @@ package Meteoroids {
 		
 		protected var warning:int;
 		protected var target:Mino;
-		public function Spawner(Warning:int, Target:Mino = null) {
+		protected var speedFactor:Number;
+		public function Spawner(Warning:int, Target:Mino = null, SpeedFactor:Number = 1) {
 			warning = Warning;
 			target = Target;
+			speedFactor = SpeedFactor;
 		}
 		
 		public function spawnMeteoroid():Meteoroid {

@@ -33,7 +33,6 @@ package Meteoroids {
 			super.update();
 			move();
 			checkCollide();
-			checkBounds();
 			checkTarget();
 		}
 		

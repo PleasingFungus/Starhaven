@@ -46,7 +46,9 @@ package  {
 				return .5;
 			if (setting < HARD)
 				return setting / 2;
-			return 1 + (setting-1) * 0.4;
+			if (setting < V_HARD)
+				return 1 + (setting - NORMAL) * 0.4;
+			return 1.4 + (setting - HARD) * 0.2;
 		}
 		
 		public function initialWaveSpacing():Number {

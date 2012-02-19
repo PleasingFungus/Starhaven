@@ -28,9 +28,9 @@ package Meteoroids {
 		public static var kills:int;
 		
 		public function MeteoroidTracker(MinoLayer:FlxGroup, spawnerType:Class, MeteoroidTarget:Mino,
-										Duration:Number, Warning:Number, WaveMeteos:Number, WaveSpacing:int) {
+										Duration:Number, Warning:Number, WaveMeteos:Number, WaveSpacing:int, MeteoSpeed:Number) {
 			minoLayer = MinoLayer;
-			this.spawner = new spawnerType(Warning, MeteoroidTarget);
+			this.spawner = new spawnerType(Warning, MeteoroidTarget, MeteoSpeed * C.difficulty.meteoroidSpeedFactor);
 			
 			waveSpacing = WaveSpacing;
 			nextWave = getNextWave();
