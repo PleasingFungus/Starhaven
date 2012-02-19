@@ -46,7 +46,7 @@ package Meteoroids {
 		
 		protected function checkCollide():void {
 			for each (var mino:Mino in Mino.all_minos)
-				if (mino.exists && mino.active && !mino.dead && mino != parent
+				if (mino.exists && mino.active && !mino.dead && mino != parent && mino.dangerous
 					&& mino.intersectsPoint(gridLoc)) {
 					explode();
 					mino.takeExplodeDamage(gridLoc.x, gridLoc.y, null);

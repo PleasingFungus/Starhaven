@@ -5,6 +5,7 @@ package Scenarios {
 	import Mining.MineralBlock;
 	import flash.geom.Rectangle;
 	import Sminos.NebularAccumulator;
+	import InfoScreens.NewPlayerEvent;
 	/**
 	 * ...
 	 * @author ...
@@ -17,12 +18,9 @@ package Scenarios {
 			missionType = NebulaMission;
 			bg_sprites = _bgs;
 			mapBuffer = 20;
+			zoomBuffer = 30;
 			goalMultiplier = 0.52;
 			minoLimitMultiplier = 0.4;
-		}
-		
-		override protected function _getBounds():Rectangle {
-			return C.B.OUTER_BOUNDS;
 		}
 		
 		override protected function buildLevel():void {
@@ -40,6 +38,16 @@ package Scenarios {
 			initialMinerals = station.mineralsAvailable;
 			
 			minoLayer.add(nebula);
+		}
+		
+		override protected function createBG():void {
+			super.createBG();
+			bg.color = 0xc0ffc0; //desaturate?
+		}
+		
+		override protected function checkPlayerEvents():void {
+			NewPlayerEvent.fire(NewPlayerEvent.NEBULA);
+			super.checkPlayerEvents();
 		}
 		
 		[Embed(source = "../../lib/art/backgrounds/nebula_1.jpg")] private static const _bg01:Class;

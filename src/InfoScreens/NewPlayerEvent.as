@@ -9,7 +9,6 @@ package InfoScreens {
 		
 		public function NewPlayerEvent(Name:String, Descr:String, Scale:Number = 1) {
 			super();
-			bg.alpha = .65;
 			
 			var title:FlxText = new FlxText(0, 10, FlxG.width, Name);
 			title.setFormat(C.TITLEFONT, 32, 0xffffff, 'center');
@@ -20,6 +19,12 @@ package InfoScreens {
 			var description:FlxText = new FlxText(40, title.y + title.height + 15, FlxG.width - 80, Descr);
 			description.setFormat(C.BLOCKFONT, 16 * Scale, 0xffffff);
 			add(description);
+		}
+		
+		override public function render():void {
+			alpha = 1;
+			bg.alpha = 0.75;
+			super.render();
 		}
 		
 		private static function onFirstDisconnect():NewPlayerEvent {
@@ -95,7 +100,24 @@ package InfoScreens {
 			if (C.NO_COMBAT_ROTATING)
 				description += "This ability is temporarily disabled during meteoroid showers, so plan accordingly!";
 			
-			return new NewPlayerEvent(title, description, 0.8);
+			return new NewPlayerEvent(title, description);
+		}
+		
+		public static function nebulaMinitutorial():NewPlayerEvent {
+			var title:String = "Nebulas!";
+			var description:String = "Nebulas are filled with mineral-rich gasses, thin enough to pass through but rife with precious elements. ";
+			description += "To mine them, you must use Accumulators - when anchored, they suck up all minerals within their radius.\n\n";
+			
+			return new NewPlayerEvent(title, description);
+		}
+		
+		public static function waterMinitutorial():NewPlayerEvent {
+			var title:String = "Water and Scoops!";
+			var description:String = "Mining beneath an alien sea is a tricky business. Many modules, including barracks, launchers, and drills, simply won't work, though thankfully your conduits ARE waterproofed.\n\n";
+			description += "So instead of drills, you'll use scoops - designed to sink to the bottom of the sea, then drill through rock and liberate the minerals within to float to the surface.\n\n";
+			description += "And once the minerals hit the surface, you can collect them with any powered module!";
+			
+			return new NewPlayerEvent(title, description);
 		}
 		
 		public static function fire(event:int):void {
@@ -112,6 +134,8 @@ package InfoScreens {
 		public static const SUBMERGE:int = 2;
 		public static const METEOROIDS:int = 6;
 		public static const ROTATEABLE:int = 11;
+		public static const NEBULA:int = 12;
+		public static const WATER:int = 13;
 		private static const EVENTS:Vector.<Function> = new Vector.<Function>(20);
 		
 		private static function saveSeen():void {
@@ -131,6 +155,8 @@ package InfoScreens {
 			EVENTS[SUBMERGE] = onFirstSubmerged;
 			EVENTS[METEOROIDS] = onFirstMeteoroids;
 			EVENTS[ROTATEABLE] = rotationMinitutorial;
+			EVENTS[NEBULA] = nebulaMinitutorial;
+			EVENTS[WATER] = waterMinitutorial;
 		}
 	}
 

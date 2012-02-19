@@ -25,6 +25,7 @@ package
 	import Meteoroids.MeteoroidTracker;
 	import Meteoroids.SlowRocket;
 	import Meteoroids.TargetingCursor;
+	import Mining.NebulaCloud;
 	import Mining.ResourceSource;
 	import SFX.Fader;
 	import SFX.PowerSound;
@@ -70,7 +71,8 @@ package
 		protected var missionOver:Boolean;
 		
 		protected var mapDim:Point;
-		protected var mapBuffer:int = 12;
+		protected var mapBuffer:int;
+		protected var zoomBuffer:int;
 		
 		private var arrowHint:ArrowHelper;
 		private var stationHint:StationHint;
@@ -102,7 +104,10 @@ package
 			
 			goalMultiplier = 0.6;
 			minoLimitMultiplier = 1;
+			
 			rotateable = true;
+			mapBuffer = 12;
+			zoomBuffer = -1;
 		}
 		
 		override public function create():void
@@ -135,6 +140,8 @@ package
 			name = "Scenario";
 			substate = SUBSTATE_NORMAL;
 			dangeresque = false;
+			
+			checkPlayerEvents();
 			
 			//if (C.DEBUG)
 				//FlxG.mouse.load(_combat_cursor, 15, 15);
@@ -187,7 +194,7 @@ package
 			station.rotateable = rotateable;
 			minoLayer.add(station);
 			minoLayer.add(station.core);
-			C.B.PlayArea = _getBounds();
+			setBounds();
 			buildLevel();
 			station.silent = false;
 		}
@@ -224,6 +231,14 @@ package
 			return hud;
 		}
 		
+		protected function checkPlayerEvents():void {
+			if (rotateable)
+				NewPlayerEvent.fire(NewPlayerEvent.ROTATEABLE);
+			else if (C.fluid)
+				NewPlayerEvent.fire(NewPlayerEvent.WATER);
+			checkCamera();
+		}
+		
 		
 		
 		
@@ -256,10 +271,8 @@ package
 			checkGoal();
 			checkEndConditions();
 			
-			if (!missionOver) {
+			if (!missionOver)
 				checkArrowHint();
-				checkPlayerEvents();
-			}
 			
 			if (tracker.safe == dangeresque) { //mismatch!
 				if (tracker.safe)
@@ -344,7 +357,7 @@ package
 		
 		protected function onAnchor():void {
 			killCurrentMino();
-			C.B.PlayArea = _getBounds();
+			setBounds();
 		}
 		
 		protected function popNextMino():Smino {
@@ -577,7 +590,7 @@ package
 			if (ControlSet.ST_CCW_KEY.pressed())
 				station.smoothRotateCounterclockwise();
 			if (station.justRotated) {
-				C.B.PlayArea = _getBounds();
+				setBounds();
 				if (_scale == 1)
 					checkCamera();
 				station.justRotated = false;
@@ -713,11 +726,6 @@ package
 		
 		
 		
-		protected function checkPlayerEvents():void {
-			if (rotateable && !NewPlayerEvent.seen[NewPlayerEvent.ROTATEABLE])
-				hudLayer.add(NewPlayerEvent.rotationMinitutorial());
-			
-		}
 		
 		protected function checkGoal():void {
 			var newFraction:int = Math.floor(goalPercent / 25);
@@ -882,7 +890,7 @@ package
 		
 		
 		
-		protected function _getBounds():Rectangle {
+		protected function setBounds():void {
 			//return new Rectangle(C.B.OUTER_BOUNDS.x, C.B.OUTER_BOUNDS.y - mapBuffer,
 								 //C.B.OUTER_BOUNDS.width, C.B.OUTER_BOUNDS.height + mapBuffer);
 			
@@ -903,11 +911,18 @@ package
 													 //Math.min(stationBounds.right + mapBuffer, C.B.OUTER_BOUNDS.right),
 													 //Math.min(stationBounds.bottom + mapBuffer, C.B.OUTER_BOUNDS.bottom));
 			
-			return mapBounds;
+			C.B.PlayArea = mapBounds;
+			
+			//var buf:int = zoomBuffer >= 0 ? zoomBuffer : mapBuffer;
+			//var zoomBounds:Rectangle = new Rectangle(stationBounds.x - zoomBuffer,
+													 //stationBounds.y - zoomBuffer,
+													 //stationBounds.width + zoomBuffer * 2,
+													 //stationBounds.height + zoomBuffer * 2);
+			//C.B.ZoomArea = zoomBounds;
 		}
 		
 		private function adjustScale(zoomedOut:Boolean):void {
-			C.B.PlayArea = _getBounds();
+			setBounds();
 			if (zoomedOut) {
 				var yScale:Number = C.B.BASE_AREA.height / C.B.PlayArea.height;
 				var xScale:Number = C.B.BASE_AREA.height / C.B.PlayArea.width;

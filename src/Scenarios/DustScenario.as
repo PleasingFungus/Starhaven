@@ -10,6 +10,7 @@ package Scenarios {
 	import org.flixel.*;
 	import Sminos.*;
 	import flash.display.BitmapData;
+	import InfoScreens.NewPlayerEvent;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -23,10 +24,6 @@ package Scenarios {
 			bgMissionType = AsteroidMission;
 			goalMultiplier = 0.56;
 			minoLimitMultiplier = 0.7;
-		}
-		
-		override protected function _getBounds():Rectangle {
-			return C.B.OUTER_BOUNDS;
 		}
 		
 		override protected function createMission():void {
@@ -92,9 +89,19 @@ package Scenarios {
 			return assortment;
 		}
 		
+		override protected function createBG():void {
+			super.createBG();
+			bg.color = 0xc0ffc0; //desaturate?
+		}
+		
 		override protected function bgAstrColor(astrScale:Number):uint {
 			var colorComponent:int = 0xf0 * astrScale; //max 0x80
 			return (colorComponent << 16) | (colorComponent << 8) | colorComponent;
+		}
+		
+		override protected function checkPlayerEvents():void {
+			NewPlayerEvent.fire(NewPlayerEvent.NEBULA);
+			super.checkPlayerEvents();
 		}
 		
 		[Embed(source = "../../lib/art/backgrounds/nebula_1.jpg")] private static const _bg01:Class;

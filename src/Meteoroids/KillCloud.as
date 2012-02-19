@@ -78,7 +78,7 @@ package Meteoroids {
 		
 		protected function checkKills():void {
 			for each (var mino:Mino in Mino.all_minos)
-				if (mino.exists && mino.active && !mino.dead
+				if (mino.exists && mino.active && !mino.dead && mino.dangerous
 					&& mino.intersect(this)) {
 					explodeAt(mino);
 					break;
