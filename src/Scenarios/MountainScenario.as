@@ -9,6 +9,8 @@ package Scenarios {
 		public function MountainScenario(Seed:Number = NaN) {
 			super(Seed);
 			missionType = MountainMission;
+			minoLimitMultiplier *= 0.9;
+			goalMultiplier *= 0.8;
 		}
 		
 	}

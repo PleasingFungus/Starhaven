@@ -66,8 +66,6 @@ package  {
 			
 			var desiredWaves:int;
 			if (setting <= EASY)
-				desiredWaves = 2;
-			else if (setting <= NORMAL)
 				desiredWaves = 3;
 			else
 				desiredWaves = 4;

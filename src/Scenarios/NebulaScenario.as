@@ -21,7 +21,7 @@ package Scenarios {
 			zoomBuffer = 30;
 			goalMultiplier = 0.52;
 			minoLimitMultiplier = 0.4;
-			meteoSpeedMultiplier = 2/3;
+			meteoSpeedMultiplier = 4/5;
 		}
 		
 		override protected function buildLevel():void {

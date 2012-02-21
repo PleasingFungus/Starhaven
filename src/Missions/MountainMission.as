@@ -9,7 +9,7 @@ package Missions {
 		
 		public function MountainMission(Seed:Number, Scale:Number) {
 			mapWidth = 60 * Scale;
-			rockDepth = 24;
+			rockDepth = 22;
 			atmosphere = 24;
 			
 			super(Seed, Scale);
