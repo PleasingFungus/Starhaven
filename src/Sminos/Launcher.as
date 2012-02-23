@@ -8,23 +8,20 @@ package Sminos {
 	import Meteoroids.SlowRocket;
 	import Mining.MetalRocket;
 	import org.flixel.*;
-	/**
-	 * ...
-	 * @author ...
-	 */
+	
 	public class Launcher extends Smino {
 		
 		protected var launchCapacity:int;
 		protected var launchRemaining:int;
+		//protected var launchesQueued:int;
+		//protected var launchTime:Number;
 		protected var capacityText:Icontext;
-		public var rocketsLoaded:int;
-		protected var rocketCapacity:int;
+		
 		public function Launcher(X:int, Y:int, blocks:Array, center:Point,
 								 Sprite:Class = null, InopSprite:Class = null) {
 			super(X, Y, blocks, center, 0xff1e5a2c, 0xff42a45a, Sprite, InopSprite);
 			
 			launchRemaining = launchCapacity = blocks.length * LAUNCH_SIZE;
-			rocketCapacity = blocks.length;
 			capacityText = new Icontext(0, 0, 100, launchCapacity + "", C.ICONS[C.GOODS]);
 			
 			cladeName = "Launcher";
@@ -36,14 +33,14 @@ package Sminos {
 			super.executeCycle();
 			
 			if (operational && launchRemaining && station.mineralsMined >= LAUNCH_SIZE) {
-				var launch:int = Math.min(launchRemaining, Math.floor(station.mineralsMined/LAUNCH_SIZE) * LAUNCH_SIZE);
-				launchRemaining -= launch;
-				station.mineralsMined -= launch;
-				station.mineralsLaunched += launch;
-				LaunchText.launch(launch);
+				launchRemaining -= LAUNCH_SIZE;
+				station.mineralsMined -= LAUNCH_SIZE;
+				station.mineralsLaunched += LAUNCH_SIZE;
+				LaunchText.launch(LAUNCH_SIZE);
 				
-				for (var i:int = launchRemaining / LAUNCH_SIZE; i < (launchRemaining + launch) / LAUNCH_SIZE; i++)
-					Mino.layer.add(new MetalRocket(absoluteCenter.x + blocks[i].x, absoluteCenter.y + blocks[i].y));
+				var i:int = launchRemaining / LAUNCH_SIZE;
+				Mino.layer.add(new MetalRocket(absoluteCenter.x + blocks[i].x, absoluteCenter.y + blocks[i].y));
+				
 				C.sound.play(LAUNCH_NOISES[int(FlxU.random() * LAUNCH_NOISES.length)]);
 			}
 		}
@@ -102,6 +99,8 @@ package Sminos {
 		[Embed(source = "../../lib/sound/game/launch_mineral_1.mp3")] protected const _LAUNCH_NOISE_1:Class;
 		[Embed(source = "../../lib/sound/game/launch_mineral_2.mp3")] protected const _LAUNCH_NOISE_2:Class;
 		protected const LAUNCH_NOISES:Array = [_LAUNCH_NOISE_1, _LAUNCH_NOISE_2];
+		
+		//protected const LAUNCH_TIMER:int = 0.2;
 	}
 
 }
