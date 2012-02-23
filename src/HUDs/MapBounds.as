@@ -42,7 +42,7 @@ package HUDs {
 				vstripe.x = C.B.OUTER_BOUNDS.left * C.BLOCK_SIZE + C.B.drawShift.x - vstripe.width;
 				vstripe.alpha = 1 - (C.B.StationBounds.left - C.B.OUTER_BOUNDS.left) / PROX_LIMIT;
 				vstripe.render();
-			} else vstripe.render();
+			}
 			if (C.B.StationBounds.right + PROX_LIMIT >= C.B.OUTER_BOUNDS.right) {
 				vstripe.x = C.B.OUTER_BOUNDS.right * C.BLOCK_SIZE + C.B.drawShift.x;
 				vstripe.alpha = 1 - (C.B.OUTER_BOUNDS.right - C.B.StationBounds.right) / PROX_LIMIT;

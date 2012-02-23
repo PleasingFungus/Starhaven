@@ -6,7 +6,6 @@ package  {
 	import org.flixel.FlxG;
 	import SFX.Fader;
 	import Controls.ControlSet;
-	import SFX.PowerSound;
 	
 	import Sminos.*;
 	/**
@@ -533,7 +532,7 @@ package  {
 		
 		
 		[Embed(source = "../lib/art/other/thruster.png")] protected static const _thruster_sprite:Class;
-		[Embed(source = "../lib/sound/game/thud1.mp3")] protected const THUD_NOISE:Class;
+		[Embed(source = "../lib/sound/game/thud_metal.mp3")] protected const THUD_NOISE:Class;
 		
 		
 		public static const OP_FALLING:int = -1;

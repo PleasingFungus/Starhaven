@@ -13,7 +13,7 @@ package SFX {
 		public var newPowerdown:Boolean;
 		public function PowerSound() {
 			super();
-			upNoise = new FlxSound().loadEmbedded(POWERUP_NOISE);
+			//upNoise = new FlxSound().loadEmbedded(POWERUP_NOISE);
 			downNoise = new FlxSound;
 			upNoise.volume = downNoise.volume = C.sound.volume;
 		}
@@ -29,7 +29,7 @@ package SFX {
 			downNoise.update();
 		}
 		
-		[Embed(source = "../../lib/sound/game/powerup2.mp3")] protected const POWERUP_NOISE:Class;
+		//[Embed(source = "../../lib/sound/game/powerup2.mp3")] protected const POWERUP_NOISE:Class;
 	}
 
 }

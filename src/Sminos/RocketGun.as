@@ -2,6 +2,7 @@ package Sminos {
 	import flash.geom.Point;
 	import Meteoroids.SlowRocket;
 	import org.flixel.FlxSprite;
+	import org.flixel.FlxU;
 	import SFX.RocketGunTracer;
 	/**
 	 * ...
@@ -73,7 +74,7 @@ package Sminos {
 		public function fireOn(target:Point):void {
 			rocketsLoaded--;
 			Mino.layer.add(new SlowRocket(fireOrigin, target, this));
-			C.sound.play(LAUNCH_NOISE);
+			C.sound.play(LAUNCH_NOISES[int(FlxU.random() * LAUNCH_NOISES.length)]);
 		}
 		
 		public function get fireOrigin():Point {
@@ -112,7 +113,9 @@ package Sminos {
 		[Embed(source = "../../lib/art/sminos/agun_in.png")] private static const _sprite_in:Class;
 		[Embed(source = "../../lib/sound/vo/agun.mp3")] public static const _desc:Class;
 		[Embed(source = "../../lib/art/other/rocket_combat_unlit_2.png")] private static const _combat_rocket_sprite:Class;
-		[Embed(source = "../../lib/sound/game/rocketlaunch.mp3")] private static const LAUNCH_NOISE:Class;
+		[Embed(source = "../../lib/sound/game/rocket_gun_1.mp3")] protected const _LAUNCH_NOISE_1:Class;
+		[Embed(source = "../../lib/sound/game/rocket_gun_2.mp3")] protected const _LAUNCH_NOISE_2:Class;
+		protected const LAUNCH_NOISES:Array = [_LAUNCH_NOISE_1, _LAUNCH_NOISE_2];
 	}
 
 }

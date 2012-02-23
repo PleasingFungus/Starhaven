@@ -99,7 +99,6 @@ package Meteoroids {
 		protected const SPEED:int = 200;
 		
 		[Embed(source = "../../lib/art/other/rocket_combat_2.png")] private static const _sprite:Class;
-		[Embed(source = "../../lib/sound/game/rocketlaunch.mp3")] protected const LAUNCH_NOISE:Class;
 	}
 
 }

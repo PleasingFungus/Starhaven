@@ -93,7 +93,7 @@ package Meteoroids {
 		
 		
 		private const MAX_RADIUS:int = 2;
-		[Embed(source = "../../lib/sound/game/longboom.mp3")] protected const EXPLODE_NOISE:Class;
+		[Embed(source = "../../lib/sound/game/explosion_rocket.mp3")] protected const EXPLODE_NOISE:Class;
 	}
 
 }

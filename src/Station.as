@@ -7,7 +7,6 @@ package  {
 	import Mining.ResourceSource;
 	import SFX.Fader;
 	import SFX.PickupSound;
-	import SFX.PowerSound;
 	import Sminos.StationCore;
 	import org.flixel.FlxG;
 	/**
@@ -25,7 +24,6 @@ package  {
 		
 		protected var lastOperational:Array;
 		protected var newOperational:Boolean;
-		protected var powerSound:PowerSound;
 		protected var pickupSound:PickupSound;
 		
 		public var resourceSource:ResourceSource;
@@ -40,8 +38,6 @@ package  {
 			super(core);
 			core.addToGrid();
 			
-			/*lastOperational = [core];
-			powerSound = new PowerSound;*/
 			pickupSound = new PickupSound;
 			silent = true;
 			
@@ -166,11 +162,6 @@ package  {
 				if (smino.crewDeficit)
 					crewDeficit = true;
 			}
-		}
-		
-		protected function huntNewOperational(smino:Smino):void {
-			if (!smino.transmitsPower && smino.operational && lastOperational.indexOf(smino) == -1)
-				powerSound.newPowerup = true;
 		}
 		
 		protected function populateOperational(smino:Smino):void {

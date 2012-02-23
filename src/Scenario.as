@@ -28,7 +28,6 @@ package
 	import Mining.NebulaCloud;
 	import Mining.ResourceSource;
 	import SFX.Fader;
-	import SFX.PowerSound;
 	import Sminos.Bomb;
 	import Sminos.RocketGun;
 	import Sminos.StationCore;

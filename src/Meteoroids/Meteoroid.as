@@ -205,7 +205,7 @@ package Meteoroids {
 		
 		[Embed(source = "../../lib/art/other/asteroid_agon.png")] private static const _sprite:Class;
 		[Embed(source = "../../lib/art/other/arrow.png")] private static const _warning_sprite:Class;
-		[Embed(source = "../../lib/sound/game/boom2.mp3")] protected const EXPLODE_NOISE:Class;
+		[Embed(source = "../../lib/sound/game/explosion_meteo_space.mp3")] protected const EXPLODE_NOISE:Class;
 	}
 
 }
