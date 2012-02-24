@@ -62,15 +62,8 @@ package Missions {
 		}
 		
 		protected function buildMinerals():void {
-			var totalArea:int = mapBlocks.length;
-			var largeClusters:int = totalArea * .008;
-			var smallClusters:int = totalArea * .012;
-			
-			for (var i:int = 0; i < largeClusters; i++)
-				genCluster(3);
-			for (i = 0; i < smallClusters; i++)
-				genCluster(2);
-			genNoise();
+			goalFactor = 0.8;
+			genMinerals();
 		}
 		
 		protected function buildReturns():void {

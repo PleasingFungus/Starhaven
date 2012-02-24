@@ -49,17 +49,7 @@ package Missions {
 						
 				}
 			
-			var totalArea:int = mapBlocks.length;
-			var largeClusters:int = totalArea * .008;
-			var smallClusters:int = totalArea * .012;
-			//var largeClusters:int = Math.ceil(size / 6);
-			//var smallClusters:int = Math.ceil(size / 4);
-			
-			for (var i:int = 0; i < largeClusters; i++)
-				genCluster(3, FlxU.random() < 1/3 ? MineralBlock.MED_MINERALS : MineralBlock.WEAK_MINERALS);
-			for (i = 0; i < smallClusters; i++)
-				genCluster(2);
-			genNoise();
+			genMinerals();
 			
 			rawMap = new Terrain(mapBlocks, new Point(Math.floor(xAxis * 2 - 1), Math.floor(yAxis * 2 - 1)));
 			fullMapSize = new Point(majorAxis + 15, majorAxis + 15);

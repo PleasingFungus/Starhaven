@@ -43,10 +43,6 @@ package Missions {
 			return Math.floor(rockDepth - (FlxU.random() * 2 + 2));
 		}
 		
-		override protected function randomMineralType():int {
-			return MineralBlock.WEAK_MINERALS;
-		}
-		
 	}
 
 }

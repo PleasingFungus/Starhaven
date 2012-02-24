@@ -70,10 +70,6 @@ package Missions {
 			return null;
 		}
 		
-		override protected function randomMineralType():int {
-			return MineralBlock.WEAK_MINERALS;
-		}
-		
 		protected const planetDepth:int = 9;
 		protected const waterDepth:int = 2;
 		protected const surfaceDepth:int = 9;

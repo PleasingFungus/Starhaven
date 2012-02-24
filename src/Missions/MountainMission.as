@@ -37,10 +37,6 @@ package Missions {
 			return deep;
 		}
 		
-		override protected function randomMineralType():int {
-			return MineralBlock.WEAK_MINERALS;
-		}
-		
 	}
 
 }

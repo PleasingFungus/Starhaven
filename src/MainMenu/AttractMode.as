@@ -34,7 +34,7 @@ package MainMenu {
 			shroud = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
 			shroud.alpha = 0.25;
 			
-			spawnTimer = 0;//C.CYCLE_TIME * 10;
+			spawnTimer = C.CYCLE_TIME * 10;
 			//0 for debugging
 			fastfallers = new Vector.<Smino>
 			

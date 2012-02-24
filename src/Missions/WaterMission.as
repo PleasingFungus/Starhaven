@@ -30,15 +30,8 @@ package Missions {
 		}
 			
 		override protected function buildMinerals():void {
-			var totalArea:int = mapBlocks.length;
-			var largeClusters:int = totalArea * .006;
-			var smallClusters:int = totalArea * .009;
-			
-			for (var i:int = 0; i < largeClusters; i++)
-				genCluster(3, FlxU.random() < 1/3 ? MineralBlock.MED_MINERALS : MineralBlock.WEAK_MINERALS);
-			for (i = 0; i < smallClusters; i++)
-				genCluster(2);
-			genNoise();
+			goalFactor = 0.7;
+			genMinerals();
 		}
 		
 		override protected function buildReturns():void {	

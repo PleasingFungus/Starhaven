@@ -79,6 +79,15 @@ package Missions {
 			}
 		}
 		
+		override protected function randomMineralType():int {
+			var roll:Number = FlxU.random();
+			if (roll < 4/7)
+				return MineralBlock.WEAK_MINERALS;
+			if (roll < 6/7)
+				return MineralBlock.MED_MINERALS;
+			return MineralBlock.STRONG_MINERALS;
+		}
+		
 	}
 
 }

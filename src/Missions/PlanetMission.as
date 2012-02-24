@@ -16,9 +16,6 @@ package Missions {
 			
 			super(Seed, Scale);
 		}
-		override protected function randomMineralType():int {
-			return MineralBlock.WEAK_MINERALS;
-		}
 	}
 
 }
