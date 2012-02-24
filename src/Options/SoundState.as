@@ -43,10 +43,14 @@ package Options {
 		}
 		
 		private function getGlobalVolume():Number {
+			if (FlxG.mute)
+				return 0;
 			return FlxG.volume;
 		}
 		
 		private function setGlobalVolume(n:Number):Number {
+			if (n != 0 && FlxG.mute)
+				FlxG.mute = false;
 			return FlxG.volume = n;
 		}
 		

@@ -30,10 +30,10 @@ package Sminos {
 			mineralText = new Icontext(x, y + height / 2 - 8, width, storedMinerals+"", C.ICONS[C.MINERALS]);
 		}
 		
-		override protected function anchorTo(Parent:Aggregate):void {
+		override protected function anchorTo(hit:Mino):void {
 			checkWater();
 			if (!submerged) {
-				parent = Parent;
+				parent = hit.parent;
 				if (parent is Station)
 					targetResource = (parent as Station).resourceSource;
 				//drill();
@@ -65,7 +65,7 @@ package Sminos {
 			MinedText.mine(storedMinerals);
 			powerReq = 1;
 			drilling = false;
-			super.anchorTo(parent);
+			super.anchorTo(targetResource as Mino);
 		}
 		
 		protected var drilledMinos:Array = [];
@@ -183,7 +183,7 @@ package Sminos {
 		
 		override public function setTutorial(station:Station):void {
 			silent = true;
-			super.anchorTo(station);
+			super.anchorTo(station.core);
 		}
 		
 		[Embed(source = "../../lib/sound/vo/drills.mp3")] public static const _desc:Class;

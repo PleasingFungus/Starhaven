@@ -31,6 +31,7 @@ package  {
 		public var cycleTime:Number = 0;
 		public var cycleSpeed:Number = 1;
 		protected var touchedHorizontally:Boolean;
+		protected var wasUnderwater:Boolean;
 		
 		public var dangerous:Boolean;
 		public var current:Boolean;
@@ -201,10 +202,10 @@ package  {
 		protected function fall():void {
 			var hit:Mino = moveDown();
 			if (hit && hit.parent)
-				anchorTo(hit.parent);
+				anchorTo(hit);
 		}
 		
-		protected function anchorTo(Parent:Aggregate):void { }
+		protected function anchorTo(hit:Mino):void { }
 		
 		public function addToGrid():void {
 			var absCenter:Point = absoluteCenter;
@@ -236,8 +237,12 @@ package  {
 			var hit:Mino = intersects();
 			if (hit)
 				gridLoc.y -= 1;
+			else if (C.fluid && !wasUnderwater && C.fluid.intersect(this)) {
+				C.sound.play(SPLASH_NOISE);
+				wasUnderwater = true;
+			}
 			if (hit && forced) {
-				anchorTo(hit.parent);
+				anchorTo(hit);
 			}
 			touchedHorizontally = false;
 			return hit;
@@ -265,7 +270,7 @@ package  {
 				gridLoc.x += 1;
 				if (sidewaysAttachable) {
 					if (touchedHorizontally)
-						anchorTo(hit.parent);
+						anchorTo(hit);
 					else
 						touchedHorizontally = true;
 				}
@@ -286,7 +291,7 @@ package  {
 				gridLoc.x -= 1;
 				if (sidewaysAttachable) {
 					if (touchedHorizontally)
-						anchorTo(hit.parent);
+						anchorTo(hit);
 					else
 						touchedHorizontally = true;
 				}
@@ -639,6 +644,7 @@ package  {
 		
 		[Embed(source = "../lib/art/other/lattice.png")] protected static const _damage_block:Class;
 		[Embed(source = "../lib/art/other/latticev2.png")] protected static const _damage_block_v:Class;
+		[Embed(source = "../lib/sound/game/splash.mp3")] protected const SPLASH_NOISE:Class;
 	}
 
 }

@@ -73,12 +73,12 @@ package  {
 		}
 		
 		
-		override protected function anchorTo(Parent:Aggregate):void {
+		override protected function anchorTo(hit:Mino):void {
 			checkBounds();
 			if (!exists)
 				return;
 			
-			Parent.add(this);
+			hit.parent.add(this);
 			addToGrid();
 			notifyNeighbors();
 			mergeNeighbors();
@@ -92,7 +92,7 @@ package  {
 			
 			if (!silent) {
 				FlxG.quake.start(0.015, 0.075);
-				C.sound.play(THUD_NOISE);
+				C.sound.play(hit is Smino ? THUD_METAL : THUD_ROCK);
 			}
 		}
 		
@@ -124,8 +124,10 @@ package  {
 		}
 		
 		protected function checkWater():void {
-			if (!waterproofed && C.fluid && C.fluid.intersect(this))
+			if (!waterproofed && C.fluid && C.fluid.intersect(this)) {
 				submerged = true;
+				C.sound.play(SUBMERGE_NOISE);
+			}
 		}
 		
 		public function hungerForPower():void {
@@ -527,12 +529,14 @@ package  {
 		
 		public function setTutorial(station:Station):void {
 			silent = true;
-			anchorTo(station);
+			anchorTo(station.core);
 		}
 		
 		
 		[Embed(source = "../lib/art/other/thruster.png")] protected static const _thruster_sprite:Class;
-		[Embed(source = "../lib/sound/game/thud_metal.mp3")] protected const THUD_NOISE:Class;
+		[Embed(source = "../lib/sound/game/thud_metal.mp3")] protected const THUD_METAL:Class;
+		[Embed(source = "../lib/sound/game/thud_rock.mp3")] protected const THUD_ROCK:Class;
+		[Embed(source = "../lib/sound/game/submersion_shortout.mp3")] protected const SUBMERGE_NOISE:Class;
 		
 		
 		public static const OP_FALLING:int = -1;

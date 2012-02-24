@@ -29,7 +29,7 @@ package Credits {
 			addCredit("Programming", "Nicholas Feinberg");
 			addCredit("Art Lead", "Jackson Potter 'Jr.'");
 			addCredit("Additional Art", "Nicholas Feinberg");
-			addCredit("Sound", "Nicholas Feinberg", "w/ Stephen Lavelle's bfxr");
+			addCredit("Sound", "Nicholas Feinberg", "w/ Stephen Lavelle's bfxr", "www.soundrangers.com");
 			addCredit("Music", "Jeremy 'Solatrus' Iamurri", "Nick Smalley On Guitar");
 			colIsWide = true;
 			addCredit("Playtesting", "Alexander 'Droqen' Martin - 'Dropen'",

@@ -37,16 +37,20 @@ package Sminos {
 				shroud.render();
 		}
 		
-		override protected function anchorTo(Parent:Aggregate):void {
+		override protected function anchorTo(hit:Mino):void {
 			explode(radius);
+			C.sound.play(GROUND_BOOM);
 		}
 		
 		public function manuallyDetonate():void {
 			explode(radius);
+			C.sound.play(SKY_BOOM);
 		}
 		
 		[Embed(source = "../../lib/art/sminos/bomb.png")] private static const _sprite:Class;
 		[Embed(source = "../../lib/sound/vo/bombs.mp3")] public static const _desc:Class;
+		[Embed(source = "../../lib/sound/game/explosion_bomb.mp3")] private static const GROUND_BOOM:Class;
+		[Embed(source = "../../lib/sound/game/explosion_rocket.mp3")] private static const SKY_BOOM:Class;
 	}
 
 }

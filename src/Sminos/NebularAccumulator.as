@@ -47,8 +47,8 @@ package Sminos {
 			C.hudLayer.add(new IconLeech(null, renderShroud));
 		}
 		
-		override protected function anchorTo(Parent:Aggregate):void {
-			super.anchorTo(Parent);
+		override protected function anchorTo(hit:Mino):void {
+			super.anchorTo(hit);
 			suck();
 		}
 		
