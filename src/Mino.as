@@ -238,7 +238,7 @@ package  {
 			if (hit)
 				gridLoc.y -= 1;
 			else if (C.fluid && !wasUnderwater && C.fluid.intersect(this)) {
-				C.sound.play(SPLASH_NOISE);
+				C.sound.play(SPLASH_NOISE, 0.5);
 				wasUnderwater = true;
 			}
 			if (hit && forced) {

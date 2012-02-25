@@ -74,7 +74,7 @@ package Sminos {
 		public function fireOn(target:Point):void {
 			rocketsLoaded--;
 			Mino.layer.add(new SlowRocket(fireOrigin, target, this));
-			C.sound.play(LAUNCH_NOISES[int(FlxU.random() * LAUNCH_NOISES.length)]);
+			C.sound.play(LAUNCH_NOISES[int(FlxU.random() * LAUNCH_NOISES.length)], 0.5);
 		}
 		
 		public function get fireOrigin():Point {

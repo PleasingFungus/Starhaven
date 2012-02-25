@@ -41,7 +41,7 @@ package Sminos {
 				var i:int = launchRemaining / LAUNCH_SIZE;
 				Mino.layer.add(new MetalRocket(absoluteCenter.x + blocks[i].x, absoluteCenter.y + blocks[i].y));
 				
-				C.sound.play(LAUNCH_NOISES[int(FlxU.random() * LAUNCH_NOISES.length)]);
+				C.sound.play(LAUNCH_NOISES[int(FlxU.random() * LAUNCH_NOISES.length)], 0.5);
 			}
 		}
 		

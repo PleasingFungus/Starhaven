@@ -140,7 +140,7 @@ package  {
 							mino.visible = true;
 						forcedRotationDirection = initialRotationDirection = NaN;
 						FlxG.quake.start(0.02, 0.075);
-						C.sound.play(CCW_NOISE, 2/3);
+						C.sound.play(END_ROTATE_NOISE)//, 1/3);
 					}
 				}
 			}
@@ -152,14 +152,14 @@ package  {
 		protected function rotateClockwise():Mino {
 			var hit:Mino = rotate(true);
 			if (!hit)
-				C.sound.play(CW_NOISE);
+				C.sound.play(ROTATE_NOISE, 2/3)//, 1/2);
 			return hit;
 		}
 		
 		protected function rotateCounterclockwise():Mino {
 			var hit:Mino = rotate(false);
 			if (!hit)
-				C.sound.play(CW_NOISE);
+				C.sound.play(ROTATE_NOISE, 2/3)//, 1/2);
 			return hit;
 		}
 		
@@ -333,8 +333,10 @@ package  {
 			debugOutline.render();
 		}
 		
-		[Embed(source = "../lib/sound/game/thudcw.mp3")] protected const CW_NOISE:Class;
-		[Embed(source = "../lib/sound/game/thudccw.mp3")] protected const CCW_NOISE:Class;
+		//[Embed(source = "../lib/sound/game/thudcw.mp3")] protected const ROTATE_NOISE:Class;
+		//[Embed(source = "../lib/sound/game/thudccw.mp3")] protected const END_ROTATE_NOISE:Class;
+		[Embed(source = "../lib/sound/game/thud_rock3.mp3")] protected const ROTATE_NOISE:Class;
+		[Embed(source = "../lib/sound/game/thud_rock4.mp3")] protected const END_ROTATE_NOISE:Class;
 	}
 
 }

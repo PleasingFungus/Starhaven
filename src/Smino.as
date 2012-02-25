@@ -126,7 +126,7 @@ package  {
 		protected function checkWater():void {
 			if (!waterproofed && C.fluid && C.fluid.intersect(this)) {
 				submerged = true;
-				C.sound.play(SUBMERGE_NOISE);
+				C.sound.play(SUBMERGE_NOISE, 0.5);
 			}
 		}
 		
@@ -534,8 +534,8 @@ package  {
 		
 		
 		[Embed(source = "../lib/art/other/thruster.png")] protected static const _thruster_sprite:Class;
-		[Embed(source = "../lib/sound/game/thud_metal.mp3")] protected const THUD_METAL:Class;
-		[Embed(source = "../lib/sound/game/thud_rock.mp3")] protected const THUD_ROCK:Class;
+		[Embed(source = "../lib/sound/game/thud_metal2.mp3")] protected const THUD_METAL:Class;
+		[Embed(source = "../lib/sound/game/thud_rock4.mp3")] protected const THUD_ROCK:Class;
 		[Embed(source = "../lib/sound/game/submersion_shortout.mp3")] protected const SUBMERGE_NOISE:Class;
 		
 		

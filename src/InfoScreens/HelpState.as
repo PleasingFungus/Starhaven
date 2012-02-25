@@ -117,14 +117,14 @@ package InfoScreens {
 				if (page > 0) {
 					page--;
 					create();
-					C.sound.play(UP_SOUND, 0.5);
+					C.sound.play(UP_SOUND, 0.25);
 				} else
 					fadeBackTo(MenuState);
 			} else if (FlxG.keys.justPressed("RIGHT") || FlxG.mouse.justPressed() || FlxG.keys.anyKey()) {
 				if (page < PAGES.length - 1) {
 					page++;
 					create();
-					C.sound.play(DOWN_SOUND, 0.5);
+					C.sound.play(DOWN_SOUND, 0.25);
 				} else
 					fadeBackTo(MenuState);
 			}

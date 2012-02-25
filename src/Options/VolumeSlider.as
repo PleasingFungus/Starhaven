@@ -77,12 +77,12 @@ package Options {
 			if (leftArrow.key.justPressed() && volume > 0) {
 				volume--;
 				if (deltaSound)
-					C.sound.play(deltaSound)
+					C.sound.play(deltaSound, 0.5)
 			}
 			if (rightArrow.key.justPressed() && volume < 10) {
 				volume++;
 				if (deltaSound)
-					C.sound.play(deltaSound)
+					C.sound.play(deltaSound, 0.5)
 			}
 		}
 		
