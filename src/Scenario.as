@@ -198,7 +198,6 @@ package
 			minoLayer.add(station.core);
 			setBounds();
 			buildLevel();
-			station.silent = false;
 		}
 		
 		protected function buildLevel():void {

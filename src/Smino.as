@@ -92,7 +92,7 @@ package  {
 			
 			if (!silent) {
 				FlxG.quake.start(0.015, 0.075);
-				C.sound.play(hit is Smino ? THUD_METAL : THUD_ROCK);
+				C.sound.play(hit is Smino ? THUD_METAL : THUD_ROCK, 1);
 			}
 		}
 		

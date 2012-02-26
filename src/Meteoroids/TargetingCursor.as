@@ -94,8 +94,8 @@ package Meteoroids {
 			super.render();
 		}
 		
-		protected const ACCEL_TIME:Number = 0.25;
-		protected const MAX_SPEED:Number = 250;
+		protected const ACCEL_TIME:Number = 0.30;
+		protected const MAX_SPEED:Number = 300;
 		protected const HINT_SPACING:Number = 30;
 		
 		protected const DIRECTIONS:Array = [new Point( -1, 0), new Point(0, -1), new Point(1, 0), new Point(0, 1)];

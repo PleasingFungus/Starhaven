@@ -7,6 +7,7 @@ package  {
 	import Mining.ResourceSource;
 	import SFX.Fader;
 	import SFX.PickupSound;
+	import SFX.PowerSound;
 	import Sminos.StationCore;
 	import org.flixel.FlxG;
 	/**
@@ -22,9 +23,11 @@ package  {
 		public var slowJuice:Boolean;
 		public var silent:Boolean;
 		
-		protected var lastOperational:Array;
-		protected var newOperational:Boolean;
+		protected var lastCrewed:Array;
+		protected var newCrewed:Array;
+		protected var lastPowered:Array;
 		protected var pickupSound:PickupSound;
+		protected var powerSound:PowerSound;
 		
 		public var resourceSource:ResourceSource;
 		protected var _mineralsMined:int;
@@ -38,7 +41,10 @@ package  {
 			super(core);
 			core.addToGrid();
 			
+			lastCrewed = [];
+			lastPowered = [];
 			pickupSound = new PickupSound;
+			powerSound = new PowerSound;
 			silent = true;
 			
 			lifespan = 0;
@@ -55,6 +61,7 @@ package  {
 			updateMinoStatus();
 			checkMinerals();
 			lifespan += FlxG.elapsed;
+			silent = false;
 		}
 		
 		protected function updateMinoStatus():void {
@@ -72,13 +79,15 @@ package  {
 			}
 			
 			iterOverMembers(nullCrew);
+			newCrewed = [];
 			iterOverMembers(huntCrew);
+			lastCrewed = newCrewed;
 			
-			/*iterOverMembers(huntNewOperational);
+			iterOverMembers(huntNewPowered);
 			//TODO: check for newly inoperational things [damage only?]
-			lastOperational = [];
-			iterOverMembers(populateOperational);
-			powerSound.update();*/
+			lastPowered = [];
+			iterOverMembers(populatePowered);
+			powerSound.update();
 		}
 		
 		protected var newlyPowered:Boolean;
@@ -161,12 +170,23 @@ package  {
 				smino.hungerForCrew();
 				if (smino.crewDeficit)
 					crewDeficit = true;
+				else if (smino.crewEmployed) {
+					if (lastCrewed.indexOf(smino) == -1 && !silent)
+						C.sound.crew();
+					newCrewed.push(smino);
+				}
 			}
 		}
 		
-		protected function populateOperational(smino:Smino):void {
-			if (!smino.transmitsPower && smino.operational)
-				lastOperational.push(smino);
+		protected function huntNewPowered(smino:Smino):void {
+			if (!silent && !powerSound.newPowerup && !smino.transmitsPower &&
+				smino.powered && lastPowered.indexOf(smino) == -1)
+				powerSound.newPowerup = true;
+		}
+		
+		protected function populatePowered(smino:Smino):void {
+			if (!smino.transmitsPower && smino.powered)
+				lastPowered.push(smino);
 		}
 		
 		protected function checkMinerals():void {

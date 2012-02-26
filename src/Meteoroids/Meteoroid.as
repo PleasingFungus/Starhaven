@@ -55,6 +55,7 @@ package Meteoroids {
 			var hit:Mino = intersects();
 			if (hit) {
 				explode(explosionRadius);
+				C.sound.play(GROUND_EXPLODE_NOISE, 0.75);
 				exists = false;
 			}
 			
@@ -180,7 +181,6 @@ package Meteoroids {
 			super.explode(radius);
 			solid = false;
 			dead = true;
-			C.sound.play(EXPLODE_NOISE, 0.5);
 		}
 		
 		
@@ -193,6 +193,7 @@ package Meteoroids {
 		
 		override protected function beDamaged():void {
 			explode(1);
+			C.sound.play(SPACE_EXPLODE_NOISE, 1);
 			var crystalNum:int = 2;
 			if (!C.IN_TUTORIAL)
 				for (var i:int = 0; i < crystalNum; i++)
@@ -205,7 +206,8 @@ package Meteoroids {
 		
 		[Embed(source = "../../lib/art/other/asteroid_agon.png")] private static const _sprite:Class;
 		[Embed(source = "../../lib/art/other/arrow.png")] private static const _warning_sprite:Class;
-		[Embed(source = "../../lib/sound/game/explosion_meteo_space.mp3")] protected const EXPLODE_NOISE:Class;
+		[Embed(source = "../../lib/sound/game/explosion_meteo_space.mp3")] protected const SPACE_EXPLODE_NOISE:Class;
+		[Embed(source = "../../lib/sound/game/explosion_meteo_ground.mp3")] protected const GROUND_EXPLODE_NOISE:Class;
 	}
 
 }

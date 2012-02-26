@@ -39,12 +39,12 @@ package Sminos {
 		
 		override protected function anchorTo(hit:Mino):void {
 			explode(radius);
-			C.sound.play(GROUND_BOOM, 0.5);
+			C.sound.play(GROUND_BOOM, 0.75);
 		}
 		
 		public function manuallyDetonate():void {
 			explode(radius);
-			C.sound.play(SKY_BOOM, 0.5);
+			C.sound.play(SKY_BOOM, 0.75);
 		}
 		
 		[Embed(source = "../../lib/art/sminos/bomb.png")] private static const _sprite:Class;

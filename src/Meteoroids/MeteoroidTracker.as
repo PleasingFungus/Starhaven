@@ -77,10 +77,14 @@ package Meteoroids {
 				return;
 			
 			timer++;
-			if (timer >= nextWave)
+			if (timer >= nextWave) {
 				startWave();
-			else if (nextWave == timer + 2)
+				C.sound.play(START_KLAXON);
+			}
+			else if (nextWave == timer + 2) {
 				FlxG.state.add(new FlashText("Meteors Inbound!", 0xff2020, 2));
+				C.sound.play(WARNING_KLAXON);
+			}
 		}
 		
 		protected function popMeteoroid():void {
@@ -164,6 +168,9 @@ package Meteoroids {
 			return levels[Math.floor(fraction * levels.length)];
 			//return fraction*100+"%";
 		}
+		
+		[Embed(source = "../../lib/sound/game/klaxon_warning2.mp3")] protected const WARNING_KLAXON:Class;
+		[Embed(source = "../../lib/sound/game/klaxon_start2.mp3")] protected const START_KLAXON:Class;
 	}
 
 }

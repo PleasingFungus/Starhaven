@@ -15,7 +15,7 @@ package SFX {
 			
 			smallChime = new FlxSound().loadEmbedded(COLLECT_NOISE);
 			largeChime = new FlxSound().loadEmbedded(BIG_COLLECT_NOISE);
-			smallChime.volume = largeChime.volume = C.sound.volume;
+			smallChime.volume = largeChime.volume = C.sound.volume * 0.9;
 		}
 		
 		override public function update():void {
