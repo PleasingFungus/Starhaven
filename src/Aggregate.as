@@ -335,8 +335,8 @@ package  {
 		
 		//[Embed(source = "../lib/sound/game/thudcw.mp3")] protected const ROTATE_NOISE:Class;
 		//[Embed(source = "../lib/sound/game/thudccw.mp3")] protected const END_ROTATE_NOISE:Class;
-		[Embed(source = "../lib/sound/game/thud_rock3.mp3")] protected const ROTATE_NOISE:Class;
-		[Embed(source = "../lib/sound/game/thud_rock4.mp3")] protected const END_ROTATE_NOISE:Class;
+		[Embed(source = "../lib/sound/game/rotate_rock.mp3")] protected const ROTATE_NOISE:Class;
+		[Embed(source = "../lib/sound/game/end_rotate_rock.mp3")] protected const END_ROTATE_NOISE:Class;
 	}
 
 }

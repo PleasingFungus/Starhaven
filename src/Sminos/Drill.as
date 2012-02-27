@@ -187,8 +187,7 @@ package Sminos {
 		}
 		
 		[Embed(source = "../../lib/sound/vo/drills.mp3")] public static const _desc:Class;
-		[Embed(source = "../../lib/sound/game/thud_rock3.mp3")] protected const DRILL_NOISE:Class;
-		//[Embed(source = "../../lib/sound/game/drill.mp3")] protected const DRILL_NOISE:Class;
+		[Embed(source = "../../lib/sound/game/drill.mp3")] protected const DRILL_NOISE:Class;
 		
 	}
 
