@@ -57,8 +57,7 @@ package MainMenu {
 		protected function spawn():void {
 			var X:int = FlxU.random() * C.B.BASE_AREA.width;
 			
-			var i:int = FlxU.random() * ALL_SMINOS.length;
-			var sminoType:Class = ALL_SMINOS[i];
+			var sminoType:Class = C.randomChoice(ALL_SMINOS);
 			var newSmino:Smino = new sminoType(X, 0);
 			
 			newSmino.gridLoc.y -= newSmino.blockDim.y + 1;

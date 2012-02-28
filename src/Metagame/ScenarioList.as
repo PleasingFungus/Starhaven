@@ -15,10 +15,10 @@ package Metagame {
 		public function ScenarioList() {
 			all = [MiningTutorial, HousingTutorial, DefenseTutorial,
 				   PlanetScenario, AsteroidScenario, MountainScenario, NebulaScenario,
-				   WaterScenario, DustScenario, DCrescentScenario];
+				   WaterScenario, DustScenario];
 			names = ["1 - Mining & Power", "2 - Housing & Launching", "3 - Asteroids & Meteoroids",
 					 "Moon", "Asteroid", "Mountain", "Nebula",
-					 "Sea", "Dust", "Irregular"];
+					 "Sea", "Dust"];
 		}
 		
 		public function index(scenario:Scenario):int {

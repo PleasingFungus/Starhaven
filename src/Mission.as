@@ -56,13 +56,10 @@ package  {
 		}
 		
 		protected function findRandomBlock():MineralBlock {;
-			var randomIndex:int = FlxU.random() * mapBlocks.length;
-			var randomBlock:MineralBlock = mapBlocks[randomIndex];
+			var randomBlock:MineralBlock = C.randomChoice(mapBlocks);
 			
-			while (!validMineralLoc(randomBlock)) {
-				randomIndex = FlxU.random() * mapBlocks.length;
-				randomBlock = mapBlocks[randomIndex];
-			}
+			while (!validMineralLoc(randomBlock))
+				randomBlock = C.randomChoice(mapBlocks)
 			
 			return randomBlock;
 		}

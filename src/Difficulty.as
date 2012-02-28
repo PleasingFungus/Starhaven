@@ -43,9 +43,9 @@ package  {
 		
 		public function get meteoroidSpeedFactor():Number {
 			if (C.IN_TUTORIAL || setting <= EASY)	
-				return .5;
+				return .75;
 			if (setting < HARD)
-				return setting / 2;
+				return setting / 2 + .25;
 			if (setting < V_HARD)
 				return 1 + (setting - NORMAL) * 0.4;
 			return 1.4 + (setting - HARD) * 0.2;

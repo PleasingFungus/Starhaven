@@ -35,13 +35,8 @@ package MainMenu {
 			MenuThing.addColumn(centerCol, FlxG.width * 13 / 32);
 			
 			var rightCol:Array = [];
-			addScenario(PlanetScenario, rightCol);
-			addScenario(AsteroidScenario, rightCol);
-			addScenario(MountainScenario, rightCol);
-			addScenario(NebulaScenario, rightCol);
-			addScenario(WaterScenario, rightCol);
-			addScenario(DustScenario, rightCol);
-			addScenario(DCrescentScenario, rightCol);
+			for each (var scenario:Class in C.scenarioList.all.slice(C.scenarioList.FIRST_SCENARIO_INDEX))
+				addScenario(scenario, rightCol);
 			MenuThing.addColumn(rightCol, FlxG.width * 11 / 16);
 			
 			//var info:FlxText = new FlxText(0, FlxG.height - 25, FlxG.width, "Use arrow keys to navigate and enter to select.");

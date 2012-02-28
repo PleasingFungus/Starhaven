@@ -75,7 +75,7 @@ package GrabBags {
 		
 		protected function randomConduit():Class {
 			var conduits:Array = [LongConduit, /*TConduit, */HookConduit, LeftHookConduit];
-			return conduits[Math.floor(FlxU.random() * conduits.length)];
+			return C.randomChoice(conduits);
 		}
 		
 		

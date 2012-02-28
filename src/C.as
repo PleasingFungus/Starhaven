@@ -168,6 +168,10 @@ package  {
 			return i; //error!
 		}
 		
+		public static function randomChoice(options:Array):* {
+			return options[int(FlxU.random() * options.length)];
+		}
+		
 		
 		public static function renderTime(totalSeconds:int):String {
 			var seconds:int = totalSeconds % 60;

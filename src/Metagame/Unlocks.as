@@ -37,7 +37,7 @@ package Metagame {
 						  new UnlockCondition(scLst, C.scenarioList.cIndex(NebulaScenario), Statblock.BLOCKS_DROPPED, 150, C.scenarioList.nameOf(NebulaScenario)),
 						  new UnlockCondition(scLst, C.scenarioList.cIndex(WaterScenario), Statblock.MINERALS_LAUNCHED, 2000, C.scenarioList.nameOf(WaterScenario)),
 						  new UnlockCondition(szLst, C.difficulty.LARGE, Statblock.MISSIONS_WON, 6, C.difficulty.scaleName(C.difficulty.LARGE)),
-						  new UnlockCondition(scLst, C.scenarioList.cIndex(DCrescentScenario), Statblock.MISSIONS_WON, 7, C.scenarioList.nameOf(DCrescentScenario)),
+						  //new UnlockCondition(scLst, C.scenarioList.cIndex(DCrescentScenario), Statblock.MISSIONS_WON, 7, C.scenarioList.nameOf(DCrescentScenario)),
 						  new UnlockCondition(dfLst, C.difficulty.V_HARD, Statblock.MISSIONS_WON, 8, C.difficulty.name(C.difficulty.V_HARD)),
 						  new UnlockCondition(scLst, C.scenarioList.cIndex(DustScenario), Statblock.MISSIONS_WON, 12, C.scenarioList.nameOf(DustScenario))];
 		}

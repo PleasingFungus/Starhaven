@@ -92,7 +92,7 @@ package  {
 			
 			if (!silent) {
 				FlxG.quake.start(0.015, 0.075);
-				C.sound.play(hit is Smino ? THUD_METAL : THUD_ROCK, 1);
+				C.sound.play(hit is Smino ? C.randomChoice(THUD_METALS) : C.randomChoice(THUD_ROCKS), 1);
 			}
 		}
 		
@@ -534,8 +534,14 @@ package  {
 		
 		
 		[Embed(source = "../lib/art/other/thruster.png")] protected static const _thruster_sprite:Class;
-		[Embed(source = "../lib/sound/game/thud_metal2.mp3")] protected const THUD_METAL:Class;
-		[Embed(source = "../lib/sound/game/thud_rock_1.mp3")] protected const THUD_ROCK:Class;
+		[Embed(source = "../lib/sound/game/thud_metal2.mp3")] protected const _THUD_METAL_1:Class;
+		[Embed(source = "../lib/sound/game/thud_metal4.mp3")] protected const _THUD_METAL_2:Class;
+		[Embed(source = "../lib/sound/game/thud_metal5.mp3")] protected const _THUD_METAL_3:Class;
+		protected const THUD_METALS:Array = [_THUD_METAL_1, _THUD_METAL_2, _THUD_METAL_3];
+		[Embed(source = "../lib/sound/game/thud_rock_1.mp3")] protected const _THUD_ROCK_1:Class;
+		[Embed(source = "../lib/sound/game/thud_rock_2.mp3")] protected const _THUD_ROCK_2:Class;
+		[Embed(source = "../lib/sound/game/thud_rock_3.mp3")] protected const _THUD_ROCK_3:Class;
+		protected const THUD_ROCKS:Array = [_THUD_ROCK_1, _THUD_ROCK_2, _THUD_ROCK_3];
 		[Embed(source = "../lib/sound/game/submersion_shortout.mp3")] protected const SUBMERGE_NOISE:Class;
 		
 		

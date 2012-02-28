@@ -168,10 +168,9 @@ package
 		}
 		
 		protected function createBG():void {
-			if (bg_sprites) {
-				var bg_index:int = FlxU.random() * bg_sprites.length;
-				bg = new FlxSprite().loadGraphic(bg_sprites[bg_index]);
-			} else if (bg_sprite)
+			if (bg_sprites)
+				bg = new FlxSprite().loadGraphic(C.randomChoice(bg_sprites));
+			else if (bg_sprite)
 				bg = new FlxSprite().loadGraphic(bg_sprite);
 		}
 		
