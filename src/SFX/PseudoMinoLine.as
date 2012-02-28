@@ -79,15 +79,25 @@ package SFX {
 			direction.normalize(1);
 			
 			var stepper:Point = Start.clone();
-			var path:Vector.<Point> = new Vector.<Point>(Math.ceil(delta.length));
-			for (var i:int = 0; i < path.length; i++) {
-				var block:Point = new Point(Math.floor(stepper.x),
-											Math.floor(stepper.y));
-				path[i] = block;
+			var path:Vector.<Point> = new Vector.<Point>;
+			for (var i:int = 0; i < delta.length; i++) {
+				addUnique(path, new Point(Math.floor(stepper.x), Math.floor(stepper.y)));
+				addUnique(path, new Point(Math.ceil(stepper.x), Math.floor(stepper.y)));
+				addUnique(path, new Point(Math.floor(stepper.x), Math.ceil(stepper.y)));
+				addUnique(path, new Point(Math.ceil(stepper.x), Math.ceil(stepper.y)));
 				stepper.offset(direction.x, direction.y);
 			}
 			
 			return path;
+		}
+		
+		private static function addUnique(path:Vector.<Point>, newBlock:Point):void {
+			for (var i:int = Math.max(0, path.length - 7); i < path.length; i++) {
+				var block:Point = path[i];
+				if (block.x == newBlock.x && block.y == newBlock.y)
+					return;
+			}
+			path.push(newBlock);
 		}
 		
 		public static function findMin(A:Point, B:Point):Point {
