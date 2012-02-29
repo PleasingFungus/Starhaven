@@ -9,6 +9,7 @@ package  {
 		public var initialSetting:Number = NORMAL;
 		public var setting:Number = NORMAL;
 		public var scaleSetting:int = MEDIUM;
+		public var bagSize:int = -1; //needs to be set by scenario!
 		public function Difficulty() {
 			
 		}
@@ -61,7 +62,6 @@ package  {
 			if (C.IN_TUTORIAL)
 				return 1/2;
 			
-			var bagSize:int = BagType.all[0].length;
 			var remainingTime:int = GlobalCycleTimer.notionalMiningTime - initialWaveSpacing() * bagSize;
 			
 			var desiredWaves:int;

@@ -20,7 +20,7 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "0.701";
+		public static const VERSION:String = "0.8";
 		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
@@ -36,6 +36,7 @@ package  {
 		public static const AUDIO_DESCRIPTIONS:Boolean = true;
 		public static const NO_CREW:Boolean = false;
 		public static const NO_COMBAT_ROTATING:Boolean = false;
+		public static const NO_REPORTING:Boolean = true;
 		
 		public static const FORGET_TUTORIALS:Boolean = false;
 		public static const FORGET_EVENTS:Boolean = false;
@@ -67,15 +68,17 @@ package  {
 		public static const BLOCK_SIZE:int = 16;
 		public static const CYCLE_TIME:Number = .5;
 		public static var B:Bounds;
+		
+		public static var accomplishments:Accomplishments;
 		public static var campaign:Campaign;
 		public static var difficulty:Difficulty;
-		public static var scenarioList:ScenarioList;
-		public static var accomplishments:Accomplishments;
-		public static var unlocks:Unlocks;
-		public static var music:M4aMusic;
-		public static var sound:EffectSound;
-		public static var save:FlxSave;
 		public static var fluid:Mino;
+		public static var music:M4aMusic;
+		public static var netStats:NetworkStats;
+		public static var unlocks:Unlocks;
+		public static var save:FlxSave;
+		public static var scenarioList:ScenarioList;
+		public static var sound:EffectSound;
 		
 		public static function init():void {
 			B = new Bounds;
@@ -85,6 +88,8 @@ package  {
 			accomplishments = new Accomplishments;
 			unlocks = new Unlocks;
 			sound = new EffectSound;
+			netStats = new NetworkStats;
+			netStats.init();
 			
 			
 			ICONS[MINERALS] = _minerals_icon;
@@ -120,8 +125,10 @@ package  {
 				return;
 			
 			printReady = true;
-			log(initialBuffer);
-			initialBuffer = null;
+			if (initialBuffer) {
+				log(initialBuffer);
+				initialBuffer = null;
+			}
 		}
 		
 		

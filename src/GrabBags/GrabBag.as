@@ -78,19 +78,6 @@ package GrabBags {
 			return C.randomChoice(conduits);
 		}
 		
-		
-		public static function chooseBag():GrabBag {
-			var choices:Array = [];
-			var weights:Array = [];
-			for each (var bag:BagType in BagType.all) {
-				choices.push(bag);
-				weights.push(bag.weight);
-			}
-			
-			var choice:BagType = choices[C.weightedChoice(weights)];
-			return new GrabBag(choice.minos);
-		}
-		
 		public function toString():String {
 			return "{"+minos+"}";
 		}

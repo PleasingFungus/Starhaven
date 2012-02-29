@@ -18,7 +18,6 @@ package Scenarios {
 			missionType = NebulaMission;
 			bg_sprites = _bgs;
 			mapBuffer = 20;
-			zoomBuffer = 30;
 			goalMultiplier = 0.52;
 			minoLimitMultiplier = 0.4;
 			meteoSpeedMultiplier = 4/5;

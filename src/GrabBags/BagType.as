@@ -35,8 +35,6 @@ package GrabBags {
 					len++;
 			return len;
 		}
-		
-		public static var all:Array;
 	}
 
 }

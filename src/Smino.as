@@ -168,7 +168,6 @@ package  {
 			
 			var neighbors:Array = getNeighbors();
 			for each (var neighbor:Smino in neighbors) {
-				//C.log(neighbor.name +': ' + neighbor.surplusCrew);
 				if (neighbor.surplusCrew <= 0)
 					continue;
 				

@@ -86,7 +86,8 @@ package Scenarios {
 		override protected function setupBags():void {
 			var a1:BagType = new BagType(getAssortment(0));
 			var a2:BagType = new BagType(getAssortment(1));
-			BagType.all = [new BagType([a1, a2])];
+			bagType = new BagType([a1, a2]);
+			C.difficulty.bagSize = bagType.length;
 		}
 		
 		protected function getAssortment(index:int):Array {

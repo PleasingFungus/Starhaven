@@ -63,5 +63,16 @@ package {
 			if (FlxG.state is Scenario)
 				(FlxG.state as Scenario).leavePauseState();
 		}
+		
+		override protected function onEnterFrame(event:Event):void {
+			try {
+				super.onEnterFrame(event);
+			} catch (exception:Error) {
+				if (C.netStats)
+					C.netStats.logException(exception);
+				C.log(exception.getStackTrace());
+				throw(exception);
+			}
+		}
 	}
 }

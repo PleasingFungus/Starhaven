@@ -67,8 +67,6 @@ package Meteoroids {
 					Mino.layer.add(new Pyrotechnic(absBlock.x, absBlock.y, UP, 0xbec0c0c0));
 				}
 			}
-			
-			//C.log("Meteoroid @" + gridLoc, exists, active, !dead, dangerous);
 		}
 		
 		public function get dirVec():Point {

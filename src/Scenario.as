@@ -46,24 +46,42 @@ package
 		
 		protected var seed:Number;
 		
-		protected var station:Station;
-		protected var currentMino:Smino;
-		protected var bag:GrabBag;
-		
-		protected var spawnTimer:Number;
+		//static [defined by class]
 		protected var spawner:Class;
-		protected var tracker:MeteoroidTracker;
-		protected var hud:HUD;
 		
 		protected var bg:FlxSprite;
 		protected var bg_sprite:Class;
 		protected var bg_sprites:Array;
-		protected var parallaxBG:FlxGroup;
+		
+		protected var mapBuffer:int;
 		
 		protected var rotateable:Boolean;
 		protected var goalMultiplier:Number;
 		protected var minoLimitMultiplier:Number;
 		protected var meteoSpeedMultiplier:Number;
+		
+		protected var victoryText:String = "Mineral goal reached!";
+		
+		//initialized and variable in-play/create
+		protected var minoLayer:FlxGroup;
+		protected var iconLayer:FlxGroup;
+		protected var hudLayer:FlxGroup;
+		
+		protected var station:Station;
+		protected var currentMino:Smino;
+		protected var bag:GrabBag;
+		protected var bagType:BagType;
+		
+		private var arrowHint:ArrowHelper;
+		private var stationHint:StationHint;
+		private var targetCursor:TargetingCursor;
+		protected var combatMinoPool:Array;
+		
+		protected var spawnTimer:Number;
+		protected var tracker:MeteoroidTracker;
+		protected var hud:HUD;
+		
+		protected var parallaxBG:FlxGroup;
 		
 		protected var resourceSource:ResourceSource;
 		protected var initialMinerals:int;
@@ -72,16 +90,6 @@ package
 		protected var missionOver:Boolean;
 		
 		protected var mapDim:Point;
-		protected var mapBuffer:int;
-		protected var zoomBuffer:int;
-		
-		private var arrowHint:ArrowHelper;
-		private var stationHint:StationHint;
-		private var targetCursor:TargetingCursor;
-		
-		protected var minoLayer:FlxGroup;
-		protected var iconLayer:FlxGroup;
-		protected var hudLayer:FlxGroup;
 		
 		private var _buffer:BitmapData;
 		private var _bufferRect:Rectangle;
@@ -89,8 +97,15 @@ package
 		private var _rotation:Number;
 		private var zoomToggled:Boolean;
 		
+		private var hasUpdated:Boolean;
+		private var frame:int;
+		private var minoWasCool:Boolean;
+		
 		public static var substate:int;
 		public static var dangeresque:Boolean;
+		
+		private var lastSubstate:int;
+		private var pauseLayer:FlxGroup;
 		
 		public function Scenario(Seed:Number) {
 			if (C.DEBUG && !isNaN(C.DEBUG_SEED))
@@ -109,7 +124,6 @@ package
 			
 			rotateable = true;
 			mapBuffer = 12;
-			zoomBuffer = -1;
 		}
 		
 		override public function create():void
@@ -213,7 +227,7 @@ package
 		}
 		
 		protected function createTracker(waveMeteos:Number = 3):void {
-			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, waveMeteos, BagType.all[0].length, meteoSpeedMultiplier);
+			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, waveMeteos, bagType.length, meteoSpeedMultiplier);
 			hud.setTracker(tracker);
 			add(tracker);
 		}
@@ -242,8 +256,6 @@ package
 		
 		
 		
-		protected var hasUpdated:Boolean;
-		protected var frame:int;
 		override public function update():void {
 			hasUpdated = true;
 			if (C.DEBUG) frame++;
@@ -282,7 +294,6 @@ package
 			}
 		}
 		
-		protected var minoWasCool:Boolean;
 		protected function checkCurrentMino():void {
 			if (currentMino && currentMino.gridLoc.y > C.B.PlayArea.bottom) {
 				if (!(currentMino is Bomb))
@@ -362,7 +373,7 @@ package
 		
 		protected function popNextMino():Smino {
 			if (!bag || bag.empty())
-				bag = chooseNextBag();
+				bag = new GrabBag(bagType.minos);
 			
 			var X:int = 0;
 			var Y:int;
@@ -395,10 +406,6 @@ package
 			return spawnedMino;
 		}
 		
-		protected function chooseNextBag():GrabBag {
-			return GrabBag.chooseBag();
-		}
-		
 		protected function initCombat():void {
 			initCombatMinoPool();
 			for each (var gun:RocketGun in combatMinoPool)
@@ -423,7 +430,6 @@ package
 			targetCursor = null;
 		}
 		
-		protected var combatMinoPool:Array;
 		protected function initCombatMinoPool():void {
 			combatMinoPool = [];
 			for each (var mino:Mino in station.members)
@@ -451,8 +457,6 @@ package
 		}
 		
 		
-		private var lastSubstate:int;
-		private var pauseLayer:FlxGroup;
 		public function enterPauseState():void {
 			if (pauseLayer && pauseLayer.exists)
 				return;
@@ -485,7 +489,18 @@ package
 		
 		private function resetLevel(_:String):void {
 			defaultGroup = new FlxGroup;
+			
 			currentMino = null;
+			arrowHint = null;
+			stationHint = null;
+			targetCursor = null;
+			combatMinoPool = null;
+			pauseLayer = null;
+			
+			hasUpdated = false;
+			missionOver = false;
+			frame = 0;
+			
 			FlxG.fade.stop();
 			create();
 		}
@@ -750,7 +765,6 @@ package
 				beginEndgame();
 		}
 		
-		protected var victoryText:String = "Mineral goal reached!";
 		protected function beginEndgame():void {
 			FlxG.flash.start(0xefffffff, 3.5/*, endGame*/);
 			
