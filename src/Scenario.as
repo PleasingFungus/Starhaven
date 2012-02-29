@@ -164,6 +164,7 @@ package
 			//else
 				FlxG.mouse.hide();
 			C.music.intendedMusic = C.music.PLAY_MUSIC;
+			C.netStats.startLevel(this);
 		}
 		
 		protected function setupBags():void { }
