@@ -75,8 +75,11 @@ package Metagame {
 			for each (var condition:UnlockCondition in conditions)
 				checkUnlock(condition);
 			
-			if (newUnlocks)
+			if (newUnlocks.length) {
+				for each (var unlock:String in newUnlocks)
+					C.netStats.newUnlock(unlock);
 				save();
+			}
 		}
 		
 		protected function save():void {

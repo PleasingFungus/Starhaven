@@ -14,6 +14,7 @@ package  {
 	import flash.geom.Point;
 	import SFX.ExplosionSpark;
 	import Sminos.Barracks;
+	import Globals.GlobalCycleTimer;
 	
 	/**
 	 * ...

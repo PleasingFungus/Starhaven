@@ -15,6 +15,7 @@ package  {
 	import InfoScreens.NewPieceInfo;
 	import InfoScreens.NewPlayerEvent;
 	import Controls.ControlSet;
+	import Globals.*;
 	/**
 	 * ...
 	 * @author Nicholas Feinberg
@@ -79,6 +80,7 @@ package  {
 		public static var save:FlxSave;
 		public static var scenarioList:ScenarioList;
 		public static var sound:EffectSound;
+		public static var timer:PlayTimer;
 		
 		public static function init():void {
 			B = new Bounds;
@@ -88,6 +90,7 @@ package  {
 			accomplishments = new Accomplishments;
 			unlocks = new Unlocks;
 			sound = new EffectSound;
+			timer = new PlayTimer;
 			netStats = new NetworkStats;
 			netStats.init();
 			
@@ -113,11 +116,12 @@ package  {
 			NewPieceInfo.init();
 			NewPlayerEvent.init();
 			ControlSet.load();
-			C.difficulty.load();
-			C.accomplishments.load();
-			C.unlocks.load();
-			C.sound.load();
-			C.music.load();
+			difficulty.load();
+			accomplishments.load();
+			unlocks.load();
+			sound.load();
+			music.load();
+			timer.load();
 		}
 		
 		public static function setPrintReady():void {

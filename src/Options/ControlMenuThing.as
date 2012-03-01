@@ -75,10 +75,12 @@ package Options {
 					var okey:Key = ControlSet.CONFIGURABLE_CONTROLS[i];
 					if (okey.key == keyname) {
 						okey.key = key.key; //swap!
+						C.netStats.changeKey(okey, keyname, okey.key);
 						break;
 					}
 				}
 				
+				C.netStats.changeKey(key, key.key, keyname);
 				key.key = keyname;
 				
 				ControlSet.save();

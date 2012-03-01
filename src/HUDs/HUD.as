@@ -2,6 +2,7 @@ package HUDs {
 	import Meteoroids.MeteoroidTracker;
 	import org.flixel.*;
 	import Controls.ControlSet;
+	import Globals.GlobalCycleTimer;
 	
 	/**
 	 * ...

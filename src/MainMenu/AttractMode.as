@@ -7,6 +7,7 @@ package MainMenu {
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import Globals.Bounds;
 	
 	/**
 	 * ...

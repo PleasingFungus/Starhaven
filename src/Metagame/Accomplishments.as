@@ -28,7 +28,7 @@ package Metagame {
 			setDefaults();
 			
 			if (C.DEBUG && C.FORGET_TUTORIALS) {
-				for (var i:int = C.scenarioList.FIRST_TUTORIAL_INDEX; i < C.scenarioList.LAST_TUTORIAL_INDEX; i++)
+				for (var i:int = C.scenarioList.FIRST_TUTORIAL_INDEX; i <= C.scenarioList.LAST_TUTORIAL_INDEX; i++)
 					winsByScenario[i] = 0;
 				tutorialDone = false;
 			}
@@ -40,7 +40,7 @@ package Metagame {
 			if (!winsByDifficulty)
 				winsByDifficulty = new Array(C.difficulty.MAX_DIFFICULTY);
 			if (!bestStats)
-				bestStats = new Statblock(0, 0, 0, 0);
+				bestStats = new Statblock(0, 0, 0, 0, 0); //change 'best time'...?
 		}
 		
 		public function registerVictory(scenario:Scenario):void {
@@ -70,7 +70,16 @@ package Metagame {
 		public function setTutorialsDone():void {
 			tutorialDone = true;
 			C.save.write("tutorialDone", tutorialDone);
+			C.netStats.finishTutorial(totalTutorialsBeaten()); 
 			C.IN_TUTORIAL = false;
+		}
+		
+		private function totalTutorialsBeaten():int {
+			var total:int = 0;
+			for (var i:int = C.scenarioList.FIRST_TUTORIAL_INDEX; i <= C.scenarioList.LAST_TUTORIAL_INDEX; i++)
+				if (winsByScenario[i])
+					total++;
+			return total;
 		}
 		
 		public function registerRecords(missionsCompleted:int, statblock:Statblock):void {

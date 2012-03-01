@@ -16,7 +16,6 @@ package
 	import HUDs.PauseLayer;
 	import MainMenu.MenuState;
 	import MainMenu.QuickPlayState;
-	import MainMenu.SkipTutorialState;
 	import MainMenu.StateThing;
 	import MainMenu.TutorialSelectState;
 	import Metagame.Campaign;
@@ -36,6 +35,8 @@ package
 	import InfoScreens.NewPlayerEvent;
 	import Icons.FloatingIconText;
 	import HUDs.MapBounds;
+	import Globals.GlobalCycleTimer;
+	import Globals.Bounds;
 	
 	import GrabBags.*;
 	import org.flixel.*;
@@ -280,6 +281,7 @@ package
 			
 			super.update();
 			hudLayer.update();
+			C.timer.update();
 			
 			checkGoal();
 			checkEndConditions();
@@ -513,6 +515,7 @@ package
 		private function rotateUpdate():void {
 			checkRotateControls();
 			station.update();
+			C.timer.update();
 			if (dangeresque)
 				targetCursor.update();
 		}
@@ -808,7 +811,7 @@ package
 			else if (GlobalCycleTimer.outOfTime())
 				endSub.text = "Out of blocks!";
 			else
-				endSub.text = "Station destroyed!";
+				endSub.text = "Station destroyed!"
 			endSub.setFormat(C.FONT, 24, 0xffffff, 'center');
 			hudLayer.add(endSub);
 			
@@ -849,14 +852,17 @@ package
 			
 		}
 		
-		protected function endGame():void {		
+		protected function endGame():void {
+			var victory:Boolean = won();
+			C.netStats.endLevel(this, makeStatblock(victory), victory);
+			
 			if (C.campaign) {
-				if (won()) {
-					C.campaign.winMission(makeStatblock(true));
-					FlxG.state = new CampaignState;
+				if (victory) {
+					C.campaign.winMission(makeStatblock(victory));
+					FlxG.state = new CampaignState(!victory);
 				} else {
-					C.campaign.endMission(makeStatblock(false));
-					FlxG.state = new CampaignState(true);
+					C.campaign.endMission(makeStatblock(victory));
+					FlxG.state = new CampaignState(!victory);
 				}
 			} else if (C.IN_TUTORIAL) {
 				var curLevel:int = C.scenarioList.index(this);
@@ -875,7 +881,7 @@ package
 		
 		protected function makeStatblock(won:Boolean):Statblock {
 			return new Statblock(won ? 1 : 0, GlobalCycleTimer.minosDropped,
-								 station.mineralsLaunched, MeteoroidTracker.kills)
+								 station.mineralsLaunched, MeteoroidTracker.kills, station.lifespan)
 		}
 		
 		protected function exitToMenu(_:String = null):void {

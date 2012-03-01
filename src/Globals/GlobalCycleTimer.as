@@ -1,4 +1,4 @@
-package  {
+package Globals {
 	import org.flixel.FlxObject;
 	import org.flixel.FlxG;
 	

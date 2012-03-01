@@ -32,6 +32,7 @@ package MainMenu {
 			add(cancelButton);
 			
 			C.music.intendedMusic = C.music.MENU_MUSIC;
+			C.IN_TUTORIAL = false;
 		}
 		
 		override public function update():void {

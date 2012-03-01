@@ -1,4 +1,4 @@
-package  {
+package Globals {
 	import org.flixel.FlxG;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;

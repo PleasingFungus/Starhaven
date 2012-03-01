@@ -6,6 +6,7 @@ package {
 	import InfoScreens.NewPieceInfo;
 	import InfoScreens.NewPlayerEvent;
 	import MainMenu.MenuState;
+	import MainMenu.LockState;
 	
 	import org.flixel.*;
 	
@@ -16,7 +17,8 @@ package {
 	{
 		public function Starhome()
 		{
-			super(480, 480, MenuState, 1);
+			var locked:Boolean = false;
+			super(480, 480, locked ? LockState : MenuState, 1);
 			useDefaultHotKeys = false;
 			init();
 		}

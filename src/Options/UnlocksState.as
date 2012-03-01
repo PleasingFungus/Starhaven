@@ -71,6 +71,7 @@ package Options {
 		protected function toggleUnlock(_:String):void {
 			C.ALL_UNLOCKED = !C.ALL_UNLOCKED;
 			C.save.write("ALL_UNLOCKED", C.ALL_UNLOCKED);
+			C.netStats.toggleUnlocks();
 			defaultGroup.members = [];
 			FlxG.state = new UnlocksState
 		}
