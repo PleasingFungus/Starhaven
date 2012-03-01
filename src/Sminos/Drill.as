@@ -30,10 +30,12 @@ package Sminos {
 			mineralText = new Icontext(x, y + height / 2 - 8, width, storedMinerals+"", C.ICONS[C.MINERALS]);
 		}
 		
+		private var anchorTarget:Mino;
 		override protected function anchorTo(hit:Mino):void {
 			checkWater();
 			if (!submerged) {
 				parent = hit.parent;
+				anchorTarget = hit;
 				if (parent is Station)
 					targetResource = (parent as Station).resourceSource;
 				//drill();
@@ -65,7 +67,8 @@ package Sminos {
 			MinedText.mine(storedMinerals);
 			powerReq = 1;
 			drilling = false;
-			super.anchorTo(targetResource as Mino);
+			super.anchorTo(anchorTarget);
+			anchorTarget = null;
 		}
 		
 		protected var drilledMinos:Array = [];

@@ -22,7 +22,7 @@ package Scenarios {
 			bg_sprites = _bgs;
 			mapBuffer = 26;
 			bgMissionType = AsteroidMission;
-			goalMultiplier = 0.56;
+			//goalMultiplier = 0.65;
 			minoLimitMultiplier = 0.7;
 		}
 		
@@ -53,7 +53,9 @@ package Scenarios {
 				aBlock.valueFactor *= 2;
 			
 			station.resourceSource = new MetaResource([rock, nebula]);
+			station.checkMinerals();
 			initialMinerals = station.mineralsAvailable;
+			C.log("Resources: "+rock.totalResources(), nebula.totalResources(), station.resourceSource.totalResources(), station.mineralsAvailable);
 			
 			minoLayer.add(nebula);
 		}
@@ -75,16 +77,16 @@ package Scenarios {
 		}
 		
 		override protected function getAssortment(index:int):Array {
-			var assortment:Array = [makeBag(SmallLauncher), makeBag(RocketGun)];
+			var assortment:Array = [makeBag(NebularAccumulator), makeBag(LongDrill), makeBag(RocketGun)];
 			if (index)
-				assortment.push(makeBag(LongDrill));
+				assortment.push(makeBag(MediumLauncher), makeBag(SmallLauncher));
 			else
-				assortment.push(makeBag(NebularAccumulator), makeBag(MediumLauncher));
-			
+				assortment.push(makeBag(SmallLauncher));
+				
 			if (!(C.DEBUG && C.NO_CREW)) {
-				assortment.push(makeBag(SmallBarracks));
 				if (index)
 					assortment.push(makeBag(MediumBarracks));
+				assortment.push(makeBag(SmallBarracks));
 			}
 			return assortment;
 		}

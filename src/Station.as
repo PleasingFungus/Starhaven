@@ -189,7 +189,7 @@ package  {
 				lastPowered.push(smino);
 		}
 		
-		protected function checkMinerals():void {
+		public function checkMinerals():void {
 			var lastAvailable:int = _mineralsAvailable;
 			
 			_mineralsAvailable = resourceSource.totalResources();

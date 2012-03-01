@@ -46,7 +46,7 @@ package Meteoroids {
 			gridLoc.x = Math.floor(semigridLoc.x);
 			gridLoc.y = Math.floor(semigridLoc.y);
 			
-			if (outsideOuterBounds() && gridLoc.x * direction.x >= 0 && gridLoc.y * direction.y >= 0) {
+			if (outsidePlayArea() && gridLoc.x * direction.x >= 0 && gridLoc.y * direction.y >= 0) {
 				dead = true;
 				exists = false;
 				return;
@@ -60,6 +60,7 @@ package Meteoroids {
 			}
 			
 			if (C.fluid && C.fluid.intersect(this)) {
+				C.sound.play(SPACE_EXPLODE_NOISE, 1); //would like a steam noise...
 				explode(explosionRadius - 1);
 				exists = false;
 				for each (var block:Block in blocks) {

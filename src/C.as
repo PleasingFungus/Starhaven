@@ -25,6 +25,7 @@ package  {
 		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
+		public static const BETA_LOCKED:Boolean = true;
 		
 		public static const DISPLAY_BOUNDS:Boolean = false;
 		public static const DISPLAY_COLLISION:Boolean = false;

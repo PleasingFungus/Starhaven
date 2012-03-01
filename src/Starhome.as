@@ -2,11 +2,12 @@ package {
 	import Controls.ControlSet;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import Globals.Timelock;
 	import GrabBags.GrabBag;
 	import InfoScreens.NewPieceInfo;
 	import InfoScreens.NewPlayerEvent;
 	import MainMenu.MenuState;
-	import MainMenu.LockState;
+	import MainMenu.WaitState;
 	
 	import org.flixel.*;
 	
@@ -17,8 +18,7 @@ package {
 	{
 		public function Starhome()
 		{
-			var locked:Boolean = false;
-			super(480, 480, locked ? LockState : MenuState, 1);
+			super(480, 480, C.BETA_LOCKED ? WaitState : MenuState, 1);
 			useDefaultHotKeys = false;
 			init();
 		}

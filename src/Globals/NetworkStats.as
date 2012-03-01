@@ -48,7 +48,7 @@ package Globals {
 		}
 		
 		public function endLevel(level:Scenario, stats:Statblock, won:Boolean):void {
-			//if (C.DEBUG && C.NO_REPORTING) return;
+			if (C.DEBUG && C.NO_REPORTING) return;
 			
 			var variables : URLVariables = new URLVariables();  
 			variables.func = "endLevel";
