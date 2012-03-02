@@ -515,10 +515,10 @@ package  {
 		
 		public function outsideScreenArea():Boolean {
 			var db:Rectangle = getDrawBounds();
-			db.x /= C.B.scale;
-			db.y /= C.B.scale;
-			db.width /= C.B.scale;
-			db.height /= C.B.scale;
+			db.x *= C.B.scale;
+			db.y *= C.B.scale;
+			db.width *= C.B.scale;
+			db.height *= C.B.scale;
 			return !C.B.screenArea.containsRect(db);
 		} //TODO: TESTME
 		

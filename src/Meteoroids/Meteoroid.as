@@ -158,11 +158,16 @@ package Meteoroids {
 					//break;
 			//}
 			
-			var warnX:int = (Math.cos(Math.PI + angleToScreen) + 1) * (FlxG.width - margin*2);
-			var warnY:int = (Math.sin(Math.PI + angleToScreen) + 1) * (FlxG.height - margin*2);
+			if (visible || outsideScreenArea()) {
+				warningSprite.x = (Math.cos(Math.PI + angleToScreen) + 1) * (FlxG.width - margin * 2);
+				warningSprite.y = (Math.sin(Math.PI + angleToScreen) + 1) * (FlxG.height - margin * 2);
+			} else {
+				warningSprite.x = gridLoc.x * C.BLOCK_SIZE + C.B.drawShift.x;
+				warningSprite.y = gridLoc.y * C.BLOCK_SIZE + C.B.drawShift.y;
+			}
 			
-			warningSprite.x = warnX * C.B.scale;
-			warningSprite.y = warnY * C.B.scale;
+			warningSprite.x *= C.B.scale;
+			warningSprite.y *= C.B.scale;
 			
 			if (warningPulseUp)
 				warningSprite.alpha = 0.5 + 0.5 * warningPulseTimer / WARNING_PULSE_PERIOD;
