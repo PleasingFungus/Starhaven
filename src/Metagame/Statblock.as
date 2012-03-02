@@ -83,12 +83,17 @@ package Metagame {
 			titledCol.addCol(C.decimalize(Value) + Unit);
 			if (Best != -1) {
 				var bestText:String = "Best: " + C.decimalize(Best);
-				var next:int = C.unlocks.nextUnlockFor(Index);
-				if (next != -1)
-					bestText += ", Next: " + C.decimalize(next);
+				var req:int = C.unlocks.requiredDifficultyForNext(Index);
+				C.log(Index, req);
+				if (req > C.difficulty.initialSetting) {
+					bestText += ", Next: \n[Req's " + C.difficulty.name(req)+"+]";
+				} else {
+					var next:int = C.unlocks.nextUnlockFor(Index);
+					if (next != -1)
+						bestText += ", Next: " + C.decimalize(next);
+				}
 				titledCol.addCol(bestText);
 			}
-			//'next' goes here
 			colGroup.add(titledCol);
 			
 			colIndex ++;

@@ -58,6 +58,7 @@ package Globals {
 			C.timer.networkSend(variables);
 			variables.won = won;
 			
+			C.log("Sending end level thing");
 			sendRequest(variables);
 		}
 		
@@ -69,8 +70,7 @@ package Globals {
 			
 			variables.tutorialsBeaten = tutorialsBeaten;
 			variables.skipped = tutorialsBeaten < C.scenarioList.LAST_TUTORIAL_INDEX;
-			if (variables.skipped)
-				variables.fromMenu = !C.IN_TUTORIAL; //shenanagains
+			variables.fromMenu = !C.IN_TUTORIAL ? 1 : 0; //shenanagains
 			
 			sendRequest(variables);
 		}

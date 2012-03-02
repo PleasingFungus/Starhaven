@@ -75,7 +75,7 @@ package Metagame {
 			for each (var condition:UnlockCondition in conditions)
 				checkUnlock(condition);
 			
-			if (newUnlocks.length) {
+			if (newUnlocks && newUnlocks.length) {
 				for each (var unlock:String in newUnlocks)
 					C.netStats.newUnlock(unlock);
 				save();
@@ -153,9 +153,17 @@ package Metagame {
 			return display;
 		}
 		
+		public function requiredDifficultyForNext(category:int):int {
+			var lowest:int = -1;
+			for each (var unlock:UnlockCondition in conditions)
+				if (unlock.reqStat == category && !unlock.holds() && (lowest == -1 || unlock.reqDiff < lowest))
+					lowest = unlock.reqDiff;
+			return lowest;
+		}
+		
 		public function nextUnlockFor(category:int):int {
 			for each (var unlock:UnlockCondition in conditions)
-				if (!unlock.holds() && unlock.reqStat == category && C.difficulty.initialSetting >= unlock.reqDiff)
+				if (unlock.reqStat == category && !unlock.holds() && C.difficulty.initialSetting >= unlock.reqDiff)
 					return unlock.reqStatValue;
 			return -1;
 		}

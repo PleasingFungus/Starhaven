@@ -520,7 +520,7 @@ package  {
 			db.width *= C.B.scale;
 			db.height *= C.B.scale;
 			return !C.B.screenArea.containsRect(db);
-		} //TODO: TESTME
+		}
 		
 		
 		

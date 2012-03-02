@@ -885,6 +885,7 @@ package
 		}
 		
 		protected function exitToMenu(_:String = null):void {
+			C.netStats.endLevel(this, makeStatblock(false), false);
 			if (C.IN_TUTORIAL)
 				FlxG.state = new TutorialSelectState;
 			else if (C.campaign) {
