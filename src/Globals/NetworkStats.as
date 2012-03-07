@@ -11,23 +11,35 @@ package Globals {
 	public class NetworkStats {
 		
 		private var loader:URLLoader;
+		public var allowed:int;
 		public function NetworkStats() {
 			loader = new URLLoader(); 
 			loader.addEventListener(Event.COMPLETE, on_complete);
+			allowed = -1;
 		}
 		
 		public function init():void {
-			if (C.DEBUG && C.NO_REPORTING) return;
-			
 			var variables : URLVariables = new URLVariables();  
 			variables.func = "startup";
 			variables.version = C.VERSION;
 			sendRequest(variables);
 		}
 		
-		public function logException(exception:Error):void {
-			if (C.DEBUG && C.NO_REPORTING) return;
+		public function load():void {
+			allowed = (C.save.read("netAllowed") as int) - 1; //defaults to -1
+		}
+		
+		public function setAllowed(newSetting:int):void {
+			var variables : URLVariables = new URLVariables();  
+			variables.func = "setAllowed";
+			variables.permission = newSetting;
+			sendRequest(variables);
 			
+			allowed = newSetting;
+			C.save.write("netAllowed", allowed + 1);
+		}
+		
+		public function logException(exception:Error):void {
 			var variables : URLVariables = new URLVariables();  
 			variables.func = "error";
 			variables.stacktrace = exception.getStackTrace();
@@ -36,8 +48,6 @@ package Globals {
 		}
 		
 		public function startLevel(level:Scenario):void {
-			if (C.DEBUG && C.NO_REPORTING) return;
-			
 			var variables : URLVariables = new URLVariables();  
 			variables.func = "startLevel";
 			
@@ -47,9 +57,7 @@ package Globals {
 			sendRequest(variables);
 		}
 		
-		public function endLevel(level:Scenario, stats:Statblock, won:Boolean):void {
-			if (C.DEBUG && C.NO_REPORTING) return;
-			
+		public function endLevel(level:Scenario, stats:Statblock, won:Boolean, quit:Boolean):void {
 			var variables : URLVariables = new URLVariables();  
 			variables.func = "endLevel";
 			
@@ -57,14 +65,13 @@ package Globals {
 			stats.networkSend(variables);
 			C.timer.networkSend(variables);
 			variables.won = won;
+			variables.quit = quit;
 			
 			C.log("Sending end level thing");
 			sendRequest(variables);
 		}
 		
 		public function finishTutorial(tutorialsBeaten:int):void {
-			if (C.DEBUG && C.NO_REPORTING) return;
-			
 			var variables : URLVariables = new URLVariables();  
 			variables.func = "finishTutorial";
 			
@@ -76,8 +83,6 @@ package Globals {
 		}
 		
 		public function newUnlock(unlock:String):void {
-			if (C.DEBUG && C.NO_REPORTING) return;
-			
 			var variables : URLVariables = new URLVariables();  
 			variables.func = "newUnlock";
 			
@@ -87,8 +92,6 @@ package Globals {
 		}
 		
 		public function toggleUnlocks():void {
-			if (C.DEBUG && C.NO_REPORTING) return;
-			
 			var variables : URLVariables = new URLVariables();  
 			variables.func = "toggleUnlocks";
 			
@@ -98,8 +101,6 @@ package Globals {
 		}
 		
 		public function changeKey(key:Key, from:String, to:String):void {
-			if (C.DEBUG && C.NO_REPORTING) return;
-			
 			var variables : URLVariables = new URLVariables();  
 			variables.func = "changeKey";
 			
@@ -111,11 +112,18 @@ package Globals {
 		}
 		
 		private function sendRequest(variables:URLVariables):void {
+			if (!canSend())
+				return;
+			
 			var request : URLRequest = new URLRequest("http://pleasingfungus.com/starhaven/stats.php"); 
 			request.method = URLRequestMethod.POST;  
 			request.data = variables;  
 			
 			loader.load(request); 
+		}
+		
+		private function canSend():Boolean {
+			return allowed != 0 && !(C.DEBUG && C.NO_REPORTING);
 		}
 		
 		private function addLevelEventInfo(level:Scenario, variables:URLVariables):void {

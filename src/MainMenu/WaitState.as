@@ -19,8 +19,14 @@ package MainMenu {
 		
 		override public function update():void {
 			super.update();
-			if (lock.loaded)
-				FlxG.state = lock.locked ? new LockState(lock.lockMessage) : new MenuState;
+			if (lock.loaded) {
+				if (lock.locked)
+					FlxG.state = new LockState(lock.lockMessage);
+				else if (C.netStats.allowed == -1)
+					FlxG.state = new NetPermissionState;
+				else
+					FlxG.state = new MenuState;
+			}
 		}
 		
 	}

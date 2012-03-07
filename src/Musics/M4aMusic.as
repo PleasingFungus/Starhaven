@@ -118,7 +118,7 @@ package Musics {
 			}
 		} 
 		
-		public const PLAY_MUSIC:String = "http://dl.dropbox.com/u/4070358/Starhaven/2-4-2012_2.m4a";//"../../lib/music/2-4-2012_2.m4a";
+		public const PLAY_MUSIC:String = "http://pleasingfungus.com/starhaven/music/2-4-2012_2.m4a";
 		public const MENU_MUSIC:String = null;
 		
 		

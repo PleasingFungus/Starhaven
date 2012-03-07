@@ -100,6 +100,8 @@ package MainMenu {
 		private var glowColorTransform:ColorTransform = new ColorTransform(1, 1, 1, C.GLOW_ALPHA);
 		private const blurFilter:BlurFilter = new BlurFilter(C.GLOW_SCALE, C.GLOW_SCALE, 1);
 		private function drawGlow():void {
+			if (!C.DRAW_GLOW)
+				return;
 			if (!glowBuffer)
 				glowBuffer = FlxG.buffer.clone();
 			glowBuffer.applyFilter(FlxG.buffer, new Rectangle(0, 0, FlxG.width, FlxG.height), new Point(), blurFilter);

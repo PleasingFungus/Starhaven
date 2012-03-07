@@ -17,7 +17,10 @@ package Helpers {
 			keys = [];
 			
 			keys.push(add(ControlSet.MINO_L_KEY.generateKeySprite()));
-			keys.push(add(ControlSet.MINO_CCW_KEY.generateKeySprite()));
+			if (ControlSet.MINO_CCW_KEY.key)
+				keys.push(add(ControlSet.MINO_CCW_KEY.generateKeySprite()));
+			else
+				keys.push(add(ControlSet.MINO_CW_KEY.generateKeySprite()));
 			keys.push(add(ControlSet.MINO_R_KEY.generateKeySprite()));
 			keys.push(add(ControlSet.FASTFALL_KEY.generateKeySprite()));
 			

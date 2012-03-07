@@ -21,7 +21,7 @@ package Options {
 			this.key = key;
 			//
 			//text.font = C.BLOCKFONT;
-			//text.size = 12;
+			text.size = 12;
 			createHighlight();
 		}
 		

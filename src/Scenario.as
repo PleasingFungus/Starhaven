@@ -202,7 +202,7 @@ package
 		
 		protected function createGCT(miningTime:int):void {
 			add(new GlobalCycleTimer());
-			GlobalCycleTimer.miningTime = miningTime;
+			GlobalCycleTimer.miningTime = 0//miningTime;
 		}
 		
 		protected function createStation():void {
@@ -854,7 +854,7 @@ package
 		
 		protected function endGame():void {
 			var victory:Boolean = won();
-			C.netStats.endLevel(this, makeStatblock(victory), victory);
+			C.netStats.endLevel(this, makeStatblock(victory), victory, false);
 			
 			if (C.campaign) {
 				if (victory) {
@@ -885,7 +885,7 @@ package
 		}
 		
 		protected function exitToMenu(_:String = null):void {
-			C.netStats.endLevel(this, makeStatblock(false), false);
+			C.netStats.endLevel(this, makeStatblock(false), false, true);
 			if (C.IN_TUTORIAL)
 				FlxG.state = new TutorialSelectState;
 			else if (C.campaign) {

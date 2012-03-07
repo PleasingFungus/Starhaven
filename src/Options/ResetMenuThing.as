@@ -8,6 +8,8 @@ package Options {
 		
 		public function ResetMenuThing() {
 			super("Reset Controls");
+			text.size = 12;
+			createHighlight();
 		}
 		
 		

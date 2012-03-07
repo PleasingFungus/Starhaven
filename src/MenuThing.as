@@ -13,6 +13,7 @@ package  {
 		protected var text:FlxText;
 		protected var highlight:FlxSprite;
 		protected var moused:Boolean;
+		protected var fades:Boolean;
 		
 		protected var i:int;
 		public var selected:Boolean;
@@ -21,24 +22,25 @@ package  {
 		
 		public static var menuThings:Array;
 		
-		public function MenuThing(desc:String, OnSelect:Function = null) {
+		public function MenuThing(desc:String, OnSelect:Function = null, Fade:Boolean = true) {
 			super();
 			
 			i = menuThings.length;
 			menuThings.push(this);
 			onSelect = OnSelect;
+			fades = Fade;
 			
 			init(desc);
 		}
 		
-		protected function init(desc:String = null):void {
+		public function init(desc:String = null):void {
 			if (text) remove(text);
 			text = new FlxText(0, FlxG.height / 4 + i * 40, FlxG.width, desc);
 			text.alignment = 'center';
 			//text.size = 16;
 			//text.font = C.FONT;
 			text.font = C.BLOCKFONT;
-			text.size = 12;
+			text.size = 20;
 			add(text);
 			
 			createHighlight();
@@ -91,7 +93,10 @@ package  {
 		
 		protected function choose():void {
 			if (onSelect != null) {
-				FlxG.fade.start(0xff000000, FadeState.FADE_TIME, onFadeEnd);
+				if (fades)
+					FlxG.fade.start(0xff000000, FadeState.FADE_TIME, onFadeEnd);
+				else
+					onFadeEnd();
 				C.sound.playPersistent(choiceSound, 0.25);
 			}
 		}

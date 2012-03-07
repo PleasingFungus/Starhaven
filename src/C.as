@@ -21,7 +21,7 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "0.903";
+		public static const VERSION:String = "0.908";
 		public static const DEBUG:Boolean = false;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
@@ -113,6 +113,7 @@ package  {
 		
 		public static function load():void {
 			ALL_UNLOCKED = save.read("ALL_UNLOCKED");
+			DRAW_GLOW = !save.read("DONT_DRAW_GLOW"); //default to on
 			
 			NewPieceInfo.init();
 			NewPlayerEvent.init();
@@ -123,6 +124,7 @@ package  {
 			sound.load();
 			music.load();
 			timer.load();
+			netStats.load();
 		}
 		
 		public static function setPrintReady():void {
@@ -134,6 +136,11 @@ package  {
 				log(initialBuffer);
 				initialBuffer = null;
 			}
+		}
+		
+		public static function toggleGlow(_:String=null):void {
+			DRAW_GLOW = !DRAW_GLOW;
+			save.write("DONT_DRAW_GLOW", !DRAW_GLOW); //shenanagains
 		}
 		
 		
