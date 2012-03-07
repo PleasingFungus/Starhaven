@@ -15,6 +15,7 @@ package Scenarios.Tutorials {
 	import Sminos.LongDrill;
 	import Sminos.Conduit;
 	import InfoScreens.NewPlayerEvent;
+	import Mining.PlanetMaterial;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -56,7 +57,7 @@ package Scenarios.Tutorials {
 		}
 		
 		override protected function buildLevel():void {
-			var planet:BaseAsteroid = new BaseAsteroid( -10, 0, mission.rawMap.map, mission.rawMap.center);
+			var planet:PlanetMaterial = new PlanetMaterial( -10, 0, mission.rawMap.map, mission.rawMap.center);
 			station.core.center.x += 1;
 			station.core.center.y -= 4;
 			

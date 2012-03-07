@@ -18,7 +18,8 @@ package Meteoroids {
 		protected var direction:Point;
 		protected var rotation:int;
 		protected var explosionRadius:int = 3;
-		public function Meteoroid(X:int, Y:int, Target:Point = null, speedFactor:Number = 1) {
+		protected var hasBeard:Boolean;
+		public function Meteoroid(X:int, Y:int, Target:Point = null, speedFactor:Number = 1, HasBeard:Boolean = false) {
 			var blocks:Array = [new Block(0, 0), new Block(1, 0),
 								new Block(0, 1), new Block(1, 1)];
 			super(X, Y, blocks, new Point(0, 0), 0xff8e4b35, _sprite);
@@ -35,6 +36,8 @@ package Meteoroids {
 			rotation = FlxU.random() * 3;
 			C.hudLayer.add(new IconLeech(null, renderTop));
 			setupWarning();
+			
+			hasBeard = HasBeard;
 			
 			all_minos.push(this);
 			name = "Meteoroid";
@@ -105,14 +108,14 @@ package Meteoroids {
 			
 			super.render();
 			
-			//if (outsideScreenArea() || (C.DEBUG && C.ALWAYS_SHOW_INCOMING))
-				//renderWarning();
+			//if (hasBeard)
+				//renderBeard();
 		}
 		
 		override public function renderTop(force:Boolean = false):void {
 			if (!exists)
 				return;
-			else if (/*outsideScreenArea() || */(C.DEBUG && C.ALWAYS_SHOW_INCOMING) || !visible)
+			else if ((C.DEBUG && C.ALWAYS_SHOW_INCOMING) || !visible)
 				renderWarning();
 		}
 		
@@ -133,30 +136,6 @@ package Meteoroids {
 			warningSprite.angle = angleToScreen * 180 / Math.PI;
 			
 			var margin:int = 10;
-			//var adjustedAngle:Number = angleToScreen;
-			//if (adjustedAngle < 0) adjustedAngle += Math.PI * 2;
-			//var side:int = Math.floor((adjustedAngle + Math.PI / 4) / (Math.PI * 2)) % 4;
-			//adjustedAngle -= Math.PI / 4 + side * Math.PI * 2;
-			//var warnX:int, warnY:int;
-			//
-			//switch (side) {
-				//case 0:
-					//warnX = margin;
-					//warnY = Math.tan(adjustedAngle) * -FlxG.width / 2;
-					//break;
-				//case 1:
-					//warnY = margin;
-					//warnX = Math.tan(adjustedAngle) * -FlxG.height / 2;
-					//break;
-				//case 2:
-					//warnX = FlxG.width - (margin + warningSprite.width);
-					//warnY = Math.tan(adjustedAngle) * FlxG.width / 2;
-					//break;
-				//case 3:
-					//warnY = FlxG.height - (margin + warningSprite.height);
-					//warnX = Math.tan(adjustedAngle) * FlxG.height / 2;
-					//break;
-			//}
 			
 			if (visible || outsideScreenArea()) {
 				warningSprite.x = (Math.cos(Math.PI + angleToScreen) + 1) * (FlxG.width - margin * 2);
@@ -179,6 +158,22 @@ package Meteoroids {
 				warningPulseUp = !warningPulseUp;
 			}
 			warningSprite.render();
+		}
+		
+		protected var beardSprite:FlxSprite;
+		protected function setupBeard():void {
+			beardSprite = new FlxSprite().loadGraphic(_beard_sprite);
+			beardSprite.alpha = 0.5;
+		}
+		
+		protected function renderBeard():void {
+			if (!beardSprite)
+				setupBeard();
+			beardSprite.x = gridLoc.x * C.BLOCK_SIZE + C.B.drawShift.x;
+			beardSprite.y = gridLoc.y * C.BLOCK_SIZE + C.B.drawShift.y;
+			beardSprite.angle = Math.atan2(direction.y, direction.x) * 180 / Math.PI - 90;
+			C.log("beard: " + direction, beardSprite.angle);
+			beardSprite.render();
 		}
 		
 		override protected function explode(radius:int):void {
@@ -208,8 +203,9 @@ package Meteoroids {
 			return 1 / 3;
 		}
 		
-		[Embed(source = "../../lib/art/other/asteroid_agon.png")] private static const _sprite:Class;
-		[Embed(source = "../../lib/art/other/arrow.png")] private static const _warning_sprite:Class;
+		[Embed(source = "../../lib/art/other/asteroid_agon.png")] private const _sprite:Class;
+		[Embed(source = "../../lib/art/other/arrow.png")] private const _warning_sprite:Class;
+		[Embed(source = "../../lib/art/other/asteroid_roundbeard.png")] private const _beard_sprite:Class;
 		[Embed(source = "../../lib/sound/game/explosion_meteo_space.mp3")] protected const SPACE_EXPLODE_NOISE:Class;
 		[Embed(source = "../../lib/sound/game/explosion_meteo_ground.mp3")] protected const GROUND_EXPLODE_NOISE:Class;
 	}

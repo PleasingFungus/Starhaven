@@ -32,7 +32,7 @@ package Meteoroids {
 				allowedWidth += (1 - allowedWidth) * WIDTH_GROW_RATE; 
 			}
 			
-			return new Meteoroid(X, Y, targetCenter, speedFactor);
+			return new Meteoroid(X, Y, targetCenter, speedFactor, true);
 		}
 		
 		protected const WIDTH_GROW_RATE:Number = 1/8;

@@ -44,9 +44,13 @@ package Mining {
 				var X:int = (block.x - topLeft.x) * C.BLOCK_SIZE * blockScale;
 				var Y:int = (block.y - topLeft.y) * C.BLOCK_SIZE * blockScale;
 				
-				Stamp.color = block.color;
+				Stamp.color = blockColor(block);
 				draw(Stamp, X, Y);
 			}
+		}
+		
+		protected function blockColor(block:MineralBlock):uint {
+			return block.color;
 		}
 		
 		public function totalResources():int {

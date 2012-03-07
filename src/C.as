@@ -21,8 +21,8 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "0.908";
-		public static const DEBUG:Boolean = false;
+		public static const VERSION:String = "0.909";
+		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
 		public static const BETA_LOCKED:Boolean = true;

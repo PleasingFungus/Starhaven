@@ -3,6 +3,7 @@ package Scenarios {
 	import flash.geom.Rectangle;
 	import Mining.BaseAsteroid;
 	import Mining.MineralBlock;
+	import Mining.PlanetMaterial;
 	import Mining.Terrain;
 	import Missions.PlanetMission;
 	import Missions.TerrestrialMission;
@@ -17,6 +18,7 @@ package Scenarios {
 	 */
 	public class PlanetScenario extends DefaultScenario {
 		
+		private var skyline:FlxSprite;
 		public function PlanetScenario(Seed:Number = NaN) {
 			super(Seed);
 			
@@ -36,8 +38,14 @@ package Scenarios {
 			rock.gridLoc.y = Math.ceil((mission as TerrestrialMission).atmosphere / 2);
 		}
 		
+		override protected function buildRock():void {
+			rock = new PlanetMaterial( -1, -1, mission.rawMap.map, mission.rawMap.center);
+			rock.color = skyline.color;
+		}
+		
 		override protected function addElements():void {
-			var planet_bg:Mino = new Mino(rock.gridLoc.x, rock.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030);
+			var planet_bg:Mino = new Mino(rock.gridLoc.x, rock.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff23170f);
+			//planet_bg.color = C.interpolateColors(planet_bg.color, skyline.color, 0.5);
 			minoLayer.add(planet_bg);
 			super.addElements();
 		}
@@ -69,7 +77,7 @@ package Scenarios {
 			for (y = 0; y < FLXH; y++) {
 				var skyFraction:Number = y / FLXH;
 				skyFraction = 1 - (1 - skyFraction) * (1 - skyFraction);
-				var brightness:Number = 0.3 + 0.6 * skyFraction;
+				var brightness:Number = 0.25 + 0.45 * skyFraction;
 				strip.color = C.HSVToRGB(hue, .5, 1);
 				strip.alpha = brightness;
 				sky.draw(strip, 0, y * C.BLOCK_SIZE);
@@ -120,17 +128,17 @@ package Scenarios {
 			bg = sky;
 			
 			parallaxBG = new FlxGroup;
-			var skyline:FlxSprite = new FlxSprite(-FlxG.width / 2, FlxG.height / 2, _skyline);
+			skyline = new FlxSprite(-FlxG.width / 2, FlxG.height / 2, _skyline);
 			skyline.scrollFactor.x = skyline.scrollFactor.y = 0.25;
 			skyline.color = getLandColor(hue);
 			parallaxBG.add(skyline);
 		}
 		
 		protected function getLandColor(skyHue:Number):uint {
-			return C.HSVToRGB(skyHue, .25, 0.9);;
+			return C.HSVToRGB(skyHue, .25, 0.72);
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/skyline.png")] private const _skyline:Class;
+		[Embed(source = "../../lib/art/backgrounds/skyline_dirt.png")] private const _skyline:Class;
 	}
 
 }
