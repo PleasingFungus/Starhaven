@@ -8,7 +8,7 @@ package InfoScreens {
 	public class NewPlayerEvent extends InfoScreen {
 		
 		public function NewPlayerEvent(Name:String, Descr:String, Scale:Number = 1) {
-			super();
+			super(SetInfopauseState);
 			
 			var title:FlxText = new FlxText(0, 10, FlxG.width, Name);
 			title.setFormat(C.TITLEFONT, 32, 0xffffff, 'center');
@@ -137,6 +137,8 @@ package InfoScreens {
 		public static const NEBULA:int = 12;
 		public static const WATER:int = 13;
 		private static const EVENTS:Vector.<Function> = new Vector.<Function>(20);
+		
+		public static var SetInfopauseState:Function;
 		
 		private static function saveSeen():void {
 			if (!(C.DEBUG && C.FORGET_EVENTS))

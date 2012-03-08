@@ -28,7 +28,10 @@ package  {
 		protected const spinupTime:Number = 0.25;
 		private var wasForced:Boolean;
 		
-		public function Aggregate(Core:Mino) {
+		private var setRotationState:Function;
+		private var rotationOngoing:Boolean;
+		
+		public function Aggregate(Core:Mino, SetRotationState:Function) {
 			super();
 			add(core = Core);
 			
@@ -36,6 +39,7 @@ package  {
 			centroidOffset = new Point;
 			rotateSpeed = 0;
 			forcedRotationDirection = NaN;
+			setRotationState = SetRotationState;
 		}
 		
 		public function add(mino:Mino):Mino {
@@ -74,23 +78,22 @@ package  {
 			if (!initialRotationDirection)
 				initialRotationDirection = direction;
 			forcedRotate = true;
-			Scenario.substate = Scenario.SUBSTATE_ROTPAUSE;
+			setRotationState(true);
+			rotationOngoing = true;
 			for each (var mino:Mino in members)
 				mino.visible = false;
 		}
 		
 		override public function update():void {
-			if (Scenario.substate == Scenario.SUBSTATE_ROTPAUSE)
+			justRotated = false;
+			
+			if (rotationOngoing)
 				rotateSmoothly();
-			else
-				justRotated = false;
+			
 			super.update();
 		}
 		
 		public function rotateSmoothly():void {
-			justRotated = false;
-			
-			
 			var curRot:Number = rotation;
 			var rotationDirection:Number = forcedRotate ? forcedRotationDirection : -initialRotationDirection;
 			
@@ -135,7 +138,10 @@ package  {
 						initialRotationDirection = forcedRotationDirection;
 					else {
 						justRotated = true;
-						Scenario.substate = Scenario.SUBSTATE_NORMAL;
+						
+						setRotationState(false);
+						rotationOngoing = false;
+						
 						for each (var mino:Mino in members)
 							mino.visible = true;
 						forcedRotationDirection = initialRotationDirection = NaN;
@@ -235,7 +241,7 @@ package  {
 		
 		
 		override public function render():void {
-			if (Scenario.substate == Scenario.SUBSTATE_ROTPAUSE)
+			if (rotationOngoing)
 				renderRotated();
 			
 			if (C.DEBUG && C.DISPLAY_BOUNDS)
@@ -277,7 +283,7 @@ package  {
 					mino.render();
 			for each (mino in members)
 				if (mino.exists)
-					mino.renderTop(true);
+					mino.renderTop(!rotationOngoing, true);
 			C.B.drawShift = realShift;
 			
 			var coreX:int = (core.gridLoc.x + centroidOffset.x + .5) * C.BLOCK_SIZE;

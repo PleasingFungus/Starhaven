@@ -31,7 +31,6 @@ package  {
 		public var description:String = "Placeholder description.";
 		public var audioDescription:Class;
 		
-		protected var leech:IconLeech;
 		protected var powerIcon:Icontext;
 		protected var housingIcon:Icontext;
 		
@@ -60,7 +59,7 @@ package  {
 			
 			cycleSpeed = .8 * C.B.BASE_AREA.width / C.B.PlayArea.width;
 			
-			C.iconLayer.add(new IconLeech(null, renderTop));
+			C.iconLeeches.push(this);
 			if (powerGen > 0) {
 				powerIcon = new Icontext(x, y + height / 2 - 8, width, "+" + powerGen, C.ICONS[C.POWER]);
 				powerIcon.color = 0x0;
@@ -337,10 +336,10 @@ package  {
 			super.render();
 		}
 		
-		override public function renderTop(force:Boolean = false):void {
+		override public function renderTop(substateNormal:Boolean, force:Boolean = false):void {
 			if (!exists)
 				return;
-			else if (Scenario.substate == Scenario.SUBSTATE_NORMAL/* || force*/) {
+			else if (substateNormal) {
 				iconRender();
 				if (falling && C.RENDER_THRUSTERS)
 					thrusterRender();

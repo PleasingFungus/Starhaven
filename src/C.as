@@ -150,7 +150,9 @@ package  {
 		
 		
 		public static var iconLayer:FlxGroup;
+		public static var iconLeeches:Vector.<Mino>;
 		public static var hudLayer:FlxGroup;
+		public static var hudLeeches:Vector.<Mino>;
 		
 		
 		

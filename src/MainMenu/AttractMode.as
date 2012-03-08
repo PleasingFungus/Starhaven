@@ -31,13 +31,15 @@ package MainMenu {
 			
 			Mino.layer = this;
 			C.iconLayer = iconLayer = new FlxGroup;
+			C.iconLeeches = new Vector.<Mino>; //unused
 			C.hudLayer = new FlxGroup; //unused
+			C.hudLeeches = new Vector.<Mino>; //unused
 			shroud = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
 			shroud.alpha = 0.25;
 			
 			spawnTimer = C.CYCLE_TIME * 10;
 			//0 for debugging
-			fastfallers = new Vector.<Smino>
+			fastfallers = new Vector.<Smino>;
 			
 			instantiated++;
 		}
@@ -91,6 +93,8 @@ package MainMenu {
 		override public function render():void {
 			super.render();
 			iconLayer.render();
+			for each (var leech:Mino in C.iconLeeches)
+				leech.renderTop(true);
 			drawGlow();
 			shroud.render();
 		}

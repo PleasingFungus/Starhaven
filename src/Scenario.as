@@ -102,7 +102,7 @@ package
 		private var frame:int;
 		private var minoWasCool:Boolean;
 		
-		public static var substate:int;
+		public var substate:int;
 		public static var dangeresque:Boolean;
 		
 		private var lastSubstate:int;
@@ -137,6 +137,7 @@ package
 			Mino.resetGrid();
 			createGCT(-1);
 			FlashText.activeTexts = [];
+			NewPlayerEvent.SetInfopauseState = setInfopauseState; 
 			
 			_buffer = new BitmapData(FlxG.width, FlxG.height, true, FlxState.bgColor );
 			_bufferRect = new Rectangle(0, 0, FlxG.width, FlxG.height);
@@ -173,7 +174,9 @@ package
 		protected function makeLayers():void {
 			minoLayer = new FlxGroup();
 			iconLayer = new FlxGroup();
+			C.iconLeeches = new Vector.<Mino>;
 			hudLayer = createHUD();
+			C.hudLeeches = new Vector.<Mino>;
 			createBG();
 			add(minoLayer);
 			add(iconLayer);
@@ -206,7 +209,7 @@ package
 		}
 		
 		protected function createStation():void {
-			station = new Station();
+			station = new Station(function setRotationState(isRotating:Boolean):void { substate = isRotating ? SUBSTATE_ROTPAUSE : SUBSTATE_NORMAL; });
 			station.minimap = hud.minimap;
 			station.rotateable = rotateable;
 			minoLayer.add(station);
@@ -253,6 +256,10 @@ package
 			else if (C.fluid)
 				NewPlayerEvent.fire(NewPlayerEvent.WATER);
 			checkCamera();
+		}
+		
+		private function setInfopauseState(infopaused:Boolean):void {
+			substate = infopaused ? SUBSTATE_INFOPAUSE : SUBSTATE_NORMAL;
 		}
 		
 		
@@ -364,7 +371,7 @@ package
 				minoLayer.add(new BombHelper(currentMino));
 			
 			if (C.ANNOYING_NEW_PIECE_POPUP && !NewPieceInfo.seenPieces[NewPieceInfo.getPieceName(currentMino)])
-				hudLayer.add(new NewPieceInfo(currentMino));
+				hudLayer.add(new NewPieceInfo(currentMino, setInfopauseState));
 			
 			spawnTimer = SPAWN_TIME;
 		}
@@ -784,10 +791,6 @@ package
 			if (won())
 				C.accomplishments.registerVictory(this);
 			
-			//var shroud:FlxSprite = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
-			//shroud.alpha = 0.5;
-			//hudLayer.add(shroud);
-			
 			var endText:FlxText = new FlxText(20, FlxG.height / 2 - 30, FlxG.width - 40, " ");
 			endText.setFormat(C.FONT, 48, 0xffffff, 'center');
 			
@@ -1009,6 +1012,8 @@ package
 				renderMapBounds();
 			
 			super.render();
+			for each (var leech:Mino in C.iconLeeches)
+				leech.renderTop(substate == SUBSTATE_NORMAL);
 			if (C.DEBUG && C.DISPLAY_COLLISION)
 				renderCollision();
 			else if (substate == SUBSTATE_ROTPAUSE)
@@ -1020,8 +1025,11 @@ package
 			if (C.DRAW_GLOW)
 				drawGlow();
 			
-			if (C.HUD_ENABLED)
+			if (C.HUD_ENABLED) {
 				hudLayer.render();
+				for each (leech in C.hudLeeches)
+					leech.renderTop(substate == SUBSTATE_NORMAL);
+			}
 		}
 		
 		private function renderParallaxBG():void {
@@ -1068,11 +1076,11 @@ package
 			FlxG.buffer.draw(glowBuffer, null, glowColorTransform, BlendMode.SCREEN);
 		}
 		
-		public static const SUBSTATE_NORMAL:int = 0;
-		public static const SUBSTATE_INFOPAUSE:int = 1;
-		public static const SUBSTATE_ROTPAUSE:int = 2;
-		public static const SUBSTATE_MISSOVER:int = 3;
-		public static const SUBSTATE_PAUSED:int = 4;
+		protected const SUBSTATE_NORMAL:int = 0;
+		protected const SUBSTATE_INFOPAUSE:int = 1;
+		protected const SUBSTATE_ROTPAUSE:int = 2;
+		protected const SUBSTATE_MISSOVER:int = 3;
+		protected const SUBSTATE_PAUSED:int = 4;
 		
 		private const SPAWN_TIME:Number = 2;
 	}

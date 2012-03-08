@@ -32,7 +32,7 @@ package Sminos {
 			shroud.alpha = 1/4;
 		}
 		
-		override public function renderTop(force:Boolean = false):void {
+		override public function renderTop(_:Boolean, force:Boolean = false):void {
 			if (exists && !dead && C.HUD_ENABLED)
 				shroud.render();
 		}

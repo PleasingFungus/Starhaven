@@ -81,8 +81,8 @@ package Sminos {
 			return absoluteCenter.add(blocks[blocks.length - 1]);
 		}
 		
-		override public function renderTop(force:Boolean = false):void {
-			super.renderTop(force);
+		override public function renderTop(_:Boolean, force:Boolean = false):void {
+			super.renderTop(_, force);
 			if (tracer.visible) {
 				tracer.render();
 				tracer.visible = false;

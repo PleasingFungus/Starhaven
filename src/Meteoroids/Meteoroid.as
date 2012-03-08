@@ -6,7 +6,6 @@ package Meteoroids {
 	import org.flixel.FlxU;
 	import org.flixel.FlxG;
 	import SFX.Pyrotechnic;
-	import Icons.IconLeech;
 	/**
 	 * ...
 	 * @author Nicholas Feinberg
@@ -34,7 +33,7 @@ package Meteoroids {
 			direction.normalize(1);
 			
 			rotation = FlxU.random() * 3;
-			C.hudLayer.add(new IconLeech(null, renderTop));
+			C.hudLeeches.push(this);
 			setupWarning();
 			
 			hasBeard = HasBeard;
@@ -112,7 +111,7 @@ package Meteoroids {
 				//renderBeard();
 		}
 		
-		override public function renderTop(force:Boolean = false):void {
+		override public function renderTop(_:Boolean, force:Boolean = false):void {
 			if (!exists)
 				return;
 			else if ((C.DEBUG && C.ALWAYS_SHOW_INCOMING) || !visible)

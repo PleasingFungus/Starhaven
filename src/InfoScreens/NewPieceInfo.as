@@ -19,8 +19,8 @@ package InfoScreens {
 		protected var description:FlxText;
 		protected var audioDescription:FlxSound;
 		protected var htext:FlxText;
-		public function NewPieceInfo(mino:Smino) {
-			super();
+		public function NewPieceInfo(mino:Smino, SetInfopauseState:Function) {
+			super(SetInfopauseState);
 			
 			this.mino = mino;
 			

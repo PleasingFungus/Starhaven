@@ -36,9 +36,9 @@ package  {
 		
 		public var lifespan:Number;
 		
-		public function Station() {
+		public function Station(SetRotationState:Function) {
 			var core:StationCore = new StationCore(0, 0);//C.HALFWIDTH, C.HALFHEIGHT);
-			super(core);
+			super(core, SetRotationState);
 			core.addToGrid();
 			
 			lastCrewed = [];

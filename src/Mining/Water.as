@@ -5,7 +5,6 @@ package Mining {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import org.flixel.FlxSprite;
-	import Icons.IconLeech;
 	
 	/**
 	 * ...
@@ -27,7 +26,7 @@ package Mining {
 			
 			name = "Water";
 			super(0, center.y, blocks, center, 0xff8aaee3);
-			C.iconLayer.add(new IconLeech(null, renderTop));
+			C.iconLeeches.push(this);
 			
 			falling = false;
 			//addToGrid();
@@ -75,7 +74,7 @@ package Mining {
 			//_framePixels = normalSpr;
 		}
 		
-		override public function renderTop(_:Boolean = false):void {
+		override public function renderTop(__:Boolean, _:Boolean = false):void {
 			alpha = 0.5;
 			super.render();
 			

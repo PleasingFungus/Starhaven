@@ -1,6 +1,5 @@
 package Sminos {
 	import flash.geom.Point;
-	import Icons.IconLeech;
 	import Icons.Icontext;
 	import Mining.MineralBlock;
 	import org.flixel.FlxG;
@@ -44,7 +43,7 @@ package Sminos {
 			shroud.gridLoc = gridLoc;
 			shroud.alpha = 1 / 4;
 			
-			C.hudLayer.add(new IconLeech(null, renderShroud));
+			C.iconLeeches.push(this);
 		}
 		
 		override protected function anchorTo(hit:Mino):void {

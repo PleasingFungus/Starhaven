@@ -157,8 +157,8 @@ package Sminos {
 		}
 		
 		private const INITIAL_SHROUD_ALPHA:Number = 0.75;
-		override public function renderTop(force:Boolean = false):void {
-			super.renderTop();
+		override public function renderTop(_:Boolean, force:Boolean = false):void {
+			super.renderTop(_);
 			if (exists && shroud) {
 				shroud.alpha -= FlxG.elapsed * INITIAL_SHROUD_ALPHA;
 				if (shroud.alpha < 0)

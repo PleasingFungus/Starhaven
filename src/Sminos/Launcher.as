@@ -47,15 +47,15 @@ package Sminos {
 		
 		protected var rocket:FlxSprite;
 		protected var combatRocket:FlxSprite;
-		override public function renderTop(force:Boolean = false):void {
-			if (exists && (Scenario.substate == Scenario.SUBSTATE_NORMAL || force) && !damaged && launchRemaining) {
+		override public function renderTop(substateNormal:Boolean, force:Boolean = false):void {
+			if (exists && (substateNormal || force) && !damaged && launchRemaining) {
 				if (!rocket)
 					rocket = new FlxSprite().loadGraphic(_rocket_sprite);
 				renderOnBlocks(rocket, Math.floor(launchRemaining / LAUNCH_SIZE));
 			}
 			
 			
-			super.renderTop(force);
+			super.renderTop(substateNormal, force);
 		}
 		
 		protected function renderOnBlocks(sprite:FlxSprite, number:int):void {

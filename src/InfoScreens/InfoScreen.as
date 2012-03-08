@@ -7,9 +7,11 @@ package InfoScreens {
 	 */
 	public class InfoScreen extends FlxGroup {
 		
+		protected var setInfopauseState:Function;
 		protected var bg:FlxSprite;
 		protected var continueText:FlxText;
-		public function InfoScreen() {
+		public function InfoScreen(SetInfopauseState:Function) {
+			setInfopauseState = SetInfopauseState;
 			create();
 		}
 		
@@ -20,15 +22,15 @@ package InfoScreens {
 			add(continueText = new FlxText(0, FlxG.height - 20, FlxG.width, "press ENTER to unpause").setFormat(C.FONT, 12, 0xffffff, 'center'));
 			
 			FlxG.timeScale = 0;
-			Scenario.substate = Scenario.SUBSTATE_INFOPAUSE;
+			setInfopauseState(true);
 		}
 		
 		override public function update():void {
 			super.update();
 			if (FlxG.keys.justPressed("ENTER")) {
 				FlxG.timeScale = 1;
-				Scenario.substate = Scenario.SUBSTATE_NORMAL;
 				exists = false;
+				setInfopauseState(false);
 			}
 		}
 	}

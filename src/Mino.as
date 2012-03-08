@@ -6,7 +6,6 @@ package  {
 	import flash.geom.Rectangle;
 	import flash.sampler.NewObjectSample;
 	import flash.utils.Dictionary;
-	import Icons.IconLeech;
 	import Icons.NoCrewIcon;
 	import Icons.NoPowerIcon;
 	import Mining.BaseAsteroid;
@@ -388,7 +387,7 @@ package  {
 			super.render();
 		}
 		
-		public function renderTop(force:Boolean = false):void { }
+		public function renderTop(substateNormal:Boolean, force:Boolean = false):void { }
 		
 		override public function getScreenXY(point:FlxPoint=null):FlxPoint {
 			point = super.getScreenXY(point);
