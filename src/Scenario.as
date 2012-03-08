@@ -103,7 +103,7 @@ package
 		private var minoWasCool:Boolean;
 		
 		public var substate:int;
-		public static var dangeresque:Boolean;
+		public var dangeresque:Boolean;
 		
 		private var lastSubstate:int;
 		private var pauseLayer:FlxGroup;

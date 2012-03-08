@@ -43,6 +43,10 @@ package Globals {
 			var variables : URLVariables = new URLVariables();  
 			variables.func = "error";
 			variables.stacktrace = exception.getStackTrace();
+			if (!variables.stacktrace)
+				variables.stacktrace = exception.message;
+			if (!variables.stacktrace)
+				return;
 			variables.version = C.VERSION;
 			sendRequest(variables);
 		}

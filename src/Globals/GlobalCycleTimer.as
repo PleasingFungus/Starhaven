@@ -29,14 +29,8 @@ package Globals {
 			}
 			
 			justDropped = lastDroppedCount != minosDropped;
-			if (justDropped) {
-				
-				//for each (var mino:Mino in Mino.all_minos)
-					//if (mino && mino.exists && mino.active)
-						//mino.executeDropCycle();
-				
+			if (justDropped)
 				lastDroppedCount = minosDropped;
-			}
 		}
 		
 		public static function outOfTime():Boolean {

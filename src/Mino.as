@@ -189,9 +189,6 @@ package  {
 				cycleTime -= C.CYCLE_TIME;
 				executeCycle();
 			}
-			
-			if (GlobalCycleTimer.justDropped)
-				executeDropCycle();
 		}
 		
 		protected function executeCycle():void {
@@ -220,8 +217,6 @@ package  {
 				if (getGrid(absCenter.x + block.x, absCenter.y + block.y) == this)
 					setGrid(absCenter.x + block.x, absCenter.y + block.y, null);
 		}
-		
-		public function executeDropCycle():void { }
 		
 		public function takeExplodeDamage(X:int, Y:int, Source:Mino):void { }
 		public function beHit(Source:Mino):void { }

@@ -24,7 +24,6 @@ package Sminos {
 		
 		[Embed(source = "../../lib/art/sminos/small_launch.png")] private static const _sprite:Class;
 		[Embed(source = "../../lib/art/sminos/small_launch_in.png")] private static const _sprite_in:Class;
-		[Embed(source = "../../lib/art/sminos/small_launch_danger.png")] private static const _sprite_danger:Class;
 	}
 
 }
