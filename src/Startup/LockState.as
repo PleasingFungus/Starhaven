@@ -1,4 +1,4 @@
-package MainMenu {
+package Startup {
 	import org.flixel.*;
 	/**
 	 * ...

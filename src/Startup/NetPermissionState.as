@@ -1,5 +1,6 @@
-package MainMenu {
+package Startup {
 	import org.flixel.*;
+	import MainMenu.MenuState;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg

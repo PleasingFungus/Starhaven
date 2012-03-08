@@ -1,6 +1,7 @@
-package MainMenu {
+package Startup {
 	import Globals.Timelock;
 	import org.flixel.*;
+	import MainMenu.MenuState;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg

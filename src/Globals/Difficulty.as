@@ -44,12 +44,12 @@ package Globals {
 		
 		public function get meteoroidSpeedFactor():Number {
 			if (C.IN_TUTORIAL || setting <= EASY)	
-				return .75;
+				return 0.6;
 			if (setting < HARD)
-				return setting / 2 + .25;
+				return (setting - EASY) * 0.7 + 0.6; //0.6 to 1.3 [easy+ to hard-]
 			if (setting < V_HARD)
-				return 1 + (setting - NORMAL) * 0.4;
-			return 1.4 + (setting - HARD) * 0.2;
+				return 1.3 + (setting - HARD) * 0.2; //1.3 to 1.5 [hard]
+			return 1.5 + (setting - HARD) * 0.1; 	 //1.5 to 1.6 [v.hard]
 		}
 		
 		public function initialWaveSpacing():Number {

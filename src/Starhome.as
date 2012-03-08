@@ -7,7 +7,8 @@ package {
 	import InfoScreens.NewPieceInfo;
 	import InfoScreens.NewPlayerEvent;
 	import MainMenu.MenuState;
-	import MainMenu.WaitState;
+	import Startup.WaitState;
+	import Startup.CrashState;
 	
 	import org.flixel.*;
 	
@@ -73,7 +74,9 @@ package {
 				if (C.netStats)
 					C.netStats.logException(exception);
 				C.log(exception.getStackTrace());
-				throw(exception);
+				if (C.DEBUG)
+					throw(exception);
+				FlxG.state = new CrashState;
 			}
 		}
 	}
