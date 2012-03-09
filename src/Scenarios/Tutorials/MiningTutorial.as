@@ -92,6 +92,28 @@ package Scenarios.Tutorials {
 			return station.mineralsMined * 100 / (initialMinerals * goalMultiplier);
 		}
 		
+		override protected function checkEndConditions():void {
+			super.checkEndConditions();
+			if (!missionOver && insufficientMineralsRemain())
+				beginEndgame();
+		}
+		
+		protected function insufficientMineralsRemain():Boolean {
+			var inField:int = station.mineralsAvailable;
+			var mined:int = 0;
+			for each (var mino:Mino in Mino.all_minos)
+				if (mino.exists)
+					mined += mino.storedMinerals;
+			var goalMin:int = initialMinerals * goalMultiplier;
+			return inField + mined < goalMin;
+		}
+		
+		override protected function getEndText():String {
+			if (won() || station.core.damaged)
+				return super.getEndText();
+			return "Insufficient minerals remain!";
+		}
+		
 		[Embed(source = "../../../lib/missions/tutorial_mining.png")] private static const _mission_image:Class;
 	}
 

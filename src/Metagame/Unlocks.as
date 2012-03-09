@@ -13,6 +13,7 @@ package Metagame {
 		protected var sizes:Array;
 		protected var scenarios:Array;
 		protected var difficulties:Array;
+		protected var bonuses:Array;
 		
 		protected var newUnlocks:Array;
 		public function Unlocks() {
@@ -60,6 +61,9 @@ package Metagame {
 				for (i = C.difficulty.V_EASY; i <= C.difficulty.NORMAL; i++)
 					difficulties[i] = true;
 			}
+			
+			if (!bonuses)
+				bonuses = [];
 		}
 		
 		public function load():void {
@@ -68,6 +72,7 @@ package Metagame {
 			sizes = C.save.read("unlockedSizes") as Array;
 			scenarios = C.save.read("unlockedScenarios") as Array;
 			difficulties = C.save.read("unlockedDifficulties") as Array;
+			bonuses = C.save.read("unlockedBonuses") as Array;
 			setDefaults();
 		}
 		
@@ -88,6 +93,7 @@ package Metagame {
 			C.save.write("unlockedSizes", sizes);
 			C.save.write("unlockedScenarios", scenarios);
 			C.save.write("unlockedDifficulties", difficulties);
+			C.save.write("unlockedBonuses", bonuses);
 		}
 		
 		protected function checkUnlock(condition:UnlockCondition):void {
@@ -220,6 +226,17 @@ package Metagame {
 				if (sizes[i])
 					unlocked++;
 			return unlocked;
+		}
+		
+		public function unlockedBonuses():int {
+			var unlockTotal:int = 0;
+			for (var i:int = 0; i < bonuses.length; i++)
+				if (bonuses[i])
+					unlockTotal++;
+			
+			if (!unlockTotal && C.DEBUG)
+				return 1;
+			return unlockTotal;
 		}
 		
 		

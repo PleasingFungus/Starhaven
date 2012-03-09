@@ -1,4 +1,5 @@
 package MainMenu {
+	import Bonuses.BonusState;
 	import Controls.ControlSet;
 	import org.flixel.*;
 	import InfoScreens.HelpState;
@@ -38,6 +39,8 @@ package MainMenu {
 				add(new MemoryThing("Single Levels", QuickPlayState));
 			} else
 				add(new MemoryThing("Play", C.accomplishments.nextUnbeaten()));
+			if (C.unlocks.unlockedBonuses())
+				add(new MemoryThing("Bonuses", BonusState));
 			add(new MemoryThing("Options", OptionsState));
 			add(new MemoryThing("Credits", CreditsState));
 			

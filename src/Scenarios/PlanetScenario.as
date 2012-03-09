@@ -1,17 +1,14 @@
 package Scenarios {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import Meteoroids.PlanetSpawner;
 	import Mining.BaseAsteroid;
 	import Mining.MineralBlock;
 	import Mining.PlanetMaterial;
 	import Mining.Terrain;
 	import Missions.PlanetMission;
 	import Missions.TerrestrialMission;
-	import org.flixel.FlxGroup;
-	import org.flixel.FlxSprite;
-	import org.flixel.FlxU;
-	import Meteoroids.PlanetSpawner;
-	import org.flixel.FlxG;
+	import org.flixel.*;
 	/**
 	 * ...
 	 * @author ...

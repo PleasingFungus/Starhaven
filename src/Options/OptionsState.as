@@ -1,5 +1,7 @@
 package Options {
 	import Controls.ControlSet;
+	import MainMenu.SkipTutorialState;
+	import MainMenu.StateThing;
 	import org.flixel.*;
 	import MainMenu.MemoryThing;
 	import MainMenu.MenuState;
@@ -23,7 +25,10 @@ package Options {
 			MenuThing.resetThings();
 			add(new MemoryThing("Controls", ControlsState));
 			add(new MemoryThing("Sound", SoundState));
-			add(new MemoryThing("Unlocks", UnlocksState));
+			if (C.accomplishments.tutorialDone)
+				add(new MemoryThing("Unlocks", UnlocksState));
+			else
+				add(new StateThing("Skip Tutorials", SkipTutorialState));
 			add(glowThing = new MenuThing("Glow: " + (C.DRAW_GLOW ? "ON" : "OFF"), toggleGlow, false));
 			add(new MemoryThing("Back", MenuState));
 			

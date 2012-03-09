@@ -797,28 +797,37 @@ package
 			if (won()) {
 				endText.text = "Victory!";
 				endText.color = 0x10ff18;
-				shakeIntensity = 0;
 			} else {
 				endText.text = "Defeat.";
 				endText.color = 0xff2810;
-				if (!station.core.damaged)
-					station.core.takeExplodeDamage( -1, -1, station.core);
-				FlxG.quake.start(shakeIntensity, SHAKE_TIME);
-				shakeTimer = SHAKE_TIME;
 			}
 			hudLayer.add(endText);
 			
-			var endSub:FlxText = new FlxText(20, endText.y + endText.height + 5, FlxG.width - 40, " ");
-			if (won())
-				endSub.text = victoryText;
-			else if (GlobalCycleTimer.outOfTime())
-				endSub.text = "Out of blocks!";
-			else
-				endSub.text = "Station destroyed!"
+			var endSub:FlxText = new FlxText(20, endText.y + endText.height + 5, FlxG.width - 40, getEndText());
 			endSub.setFormat(C.FONT, 24, 0xffffff, 'center');
 			hudLayer.add(endSub);
 			
+			//if (won())
+				//shakeIntensity = 0;
+			//else {
+				//if (!station.core.damaged)
+					//station.core.takeExplodeDamage( -1, -1, station.core);
+			if (station.core.damaged) {
+				FlxG.quake.start(shakeIntensity, SHAKE_TIME);
+				shakeTimer = SHAKE_TIME;
+			}
+			//}
+			
 			hudLayer.add(new BlinkText(0, FlxG.height - 25, "Press "+ControlSet.CONFIRM_KEY+" To Continue", 16));
+		}
+		
+		protected function getEndText():String {
+			if (won())
+				return victoryText;
+			else if (GlobalCycleTimer.outOfTime())
+				return "Out of blocks!";
+			else
+				return "Station destroyed!"
 		}
 		
 		private var overTimer:Number = 0.8;
