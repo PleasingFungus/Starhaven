@@ -6,8 +6,8 @@ package Globals {
 	 */
 	public class Difficulty {
 		
-		public var initialSetting:Number = NORMAL;
-		public var setting:Number = NORMAL;
+		public var initialSetting:Number = EASY;
+		public var setting:Number = EASY;
 		public var scaleSetting:int = MEDIUM;
 		public var bagSize:int = -1; //needs to be set by scenario!
 		public function Difficulty() {
@@ -16,10 +16,10 @@ package Globals {
 		
 		public function load():void {
 			setting = (C.save.read("difficulty") as int) - 1;
-			if (setting == -1) setting = NORMAL;
+			if (setting == -1) setting = EASY;
 			
 			initialSetting = (C.save.read("initDifficulty") as int) - 1;
-			if (initialSetting == -1) initialSetting = NORMAL;
+			if (initialSetting == -1) initialSetting = EASY;
 			
 			scaleSetting = (C.save.read("scaleSetting") as int) - 1;
 			if (scaleSetting == -1) scaleSetting = MEDIUM;

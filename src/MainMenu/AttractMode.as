@@ -31,14 +31,13 @@ package MainMenu {
 			
 			Mino.layer = this;
 			C.iconLayer = iconLayer = new FlxGroup;
-			C.iconLeeches = new Vector.<Mino>; //unused
+			C.iconLeeches = new Vector.<Mino>;
 			C.hudLayer = new FlxGroup; //unused
 			C.hudLeeches = new Vector.<Mino>; //unused
 			shroud = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
 			shroud.alpha = 0.25;
 			
 			spawnTimer = C.CYCLE_TIME * 10;
-			//0 for debugging
 			fastfallers = new Vector.<Smino>;
 			
 			instantiated++;
@@ -53,7 +52,7 @@ package MainMenu {
 		
 		protected function checkSpawnTimer():void {
 			spawnTimer -= FlxG.elapsed;
-			if (spawnTimer <= 0 && instantiated <= 1)
+			if (spawnTimer <= 0)// && instantiated <= 1)
 				spawn();
 		}
 		
@@ -69,11 +68,15 @@ package MainMenu {
 			else if (newSmino.bounds.right >= C.B.BASE_AREA.width)
 				newSmino.gridLoc.x -= newSmino.bounds.right - C.B.BASE_AREA.width + 1;
 			
-			if (FlxU.random() > 0.75)
+			var fastfalling:Boolean = FlxU.random() > 0.75;
+			if (fastfalling)
 				fastfallers.push(newSmino);
 			
 			add(newSmino);
-			spawnTimer += C.CYCLE_TIME * newSmino.blockDim.y + 2;
+			
+			var passageTime:Number = C.CYCLE_TIME * newSmino.blockDim.y + 2;
+			if (fastfalling) passageTime /= 2;
+			spawnTimer += passageTime;
 		}
 		
 		protected function checkFastfallers():void {
@@ -94,7 +97,7 @@ package MainMenu {
 			super.render();
 			iconLayer.render();
 			for each (var leech:Mino in C.iconLeeches)
-				leech.renderTop(true);
+				leech.renderTop(true, true);
 			drawGlow();
 			shroud.render();
 		}

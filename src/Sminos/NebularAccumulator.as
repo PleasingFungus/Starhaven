@@ -94,8 +94,13 @@ package Sminos {
 				renderMineralsIcon();
 		}
 		
-		protected function renderShroud(force:Boolean = false):void {
-			if (exists && shroud) {
+		override public function renderTop(_:Boolean, force:Boolean = false):void {
+			super.renderTop(_, force);
+			renderShroud(force);
+		}
+		
+		protected function renderShroud(force:Boolean):void {
+			if (exists && shroud && !force) { //"force" = shenanagains to disable for attract mode
 				if (!falling)
 					shroud.alpha -= FlxG.elapsed;
 				if (shroud.alpha < 0)

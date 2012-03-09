@@ -14,6 +14,7 @@ package Meteoroids {
 		protected var speed:Number = 0;
 		protected var movedLast:Boolean;
 		protected var hints:FlxGroup;
+		protected var mouse:FlxSprite;
 		protected var useTime:Number;
 		protected var keyPresses:int;
 		public function TargetingCursor() {
@@ -30,6 +31,8 @@ package Meteoroids {
 			hints.add(new KeyHelper(ControlSet.RIGHT_KEY));
 			hints.add(new KeyHelper(ControlSet.DOWN_KEY));
 			hints.add(new KeyHelper(ControlSet.BOMB_KEY));
+			hints.add(mouse = new FlxSprite().loadGraphic(_mouse));
+			mouse.alpha = 0.5;
 			useTime = 0;
 		}
 		
@@ -83,8 +86,10 @@ package Meteoroids {
 				hints.members[i].x = x - hints.members[i].width/2 + DIRECTIONS[i].x * HINT_SPACING;
 				hints.members[i].y = y - hints.members[i].height/2 + DIRECTIONS[i].y * HINT_SPACING;
 			}
-			hints.members[i].x = x - hints.members[i].width/2;
+			hints.members[i].x = x - hints.members[i].width/2; //bomb
 			hints.members[i].y = y - hints.members[i].height / 2 + HINT_SPACING * 2;
+			mouse.x = x + HINT_SPACING * 2;
+			mouse.y = y + height / 2 - mouse.height / 2;
 			hints.update();
 		}
 		
@@ -101,6 +106,7 @@ package Meteoroids {
 		protected const DIRECTIONS:Array = [new Point( -1, 0), new Point(0, -1), new Point(1, 0), new Point(0, 1)];
 		
 		[Embed(source = "../../lib/art/ui/target_cursor.png")] private static const _combat_cursor:Class;
+		[Embed(source = "../../lib/art/help/mouse.png")] private static const _mouse:Class;
 	}
 
 }

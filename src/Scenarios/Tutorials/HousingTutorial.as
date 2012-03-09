@@ -21,7 +21,7 @@ package Scenarios.Tutorials {
 			
 			mapBuffer = 0;
 			spawner = PlanetSpawner;
-			goalMultiplier = 0.6;
+			goalMultiplier = 1;
 			rotateable = false;
 		}
 		
@@ -51,7 +51,7 @@ package Scenarios.Tutorials {
 			station.core.addToGrid();
 			
 			station.resourceSource = planet;
-			station.mineralsMined = 600;
+			station.mineralsMined = 400;
 			initialMinerals = station.mineralsMined;
 			
 			var planet_bg:Mino = new Mino(planet.gridLoc.x, planet.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030);

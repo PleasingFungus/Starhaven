@@ -27,7 +27,7 @@ package Scenarios.Tutorials {
 			
 			mapBuffer = 0;
 			spawner = PlanetSpawner;
-			goalMultiplier = 0.75;
+			goalMultiplier = 0.5;
 			rotateable = false;
 		}
 		
