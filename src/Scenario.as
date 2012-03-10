@@ -279,7 +279,7 @@ package
 			C.music.update(); //might update double-fast? oops
 		}
 		
-		private function normalUpdate():void {
+		protected function normalUpdate():void {
 			checkCurrentMino();
 			checkInput();
 			checkCamera();
@@ -497,7 +497,7 @@ package
 			FlxG.mouse.hide();
 		}
 		
-		private function resetLevel(_:String):void {
+		protected function resetLevel(_:String):void {
 			defaultGroup = new FlxGroup;
 			
 			currentMino = null;
@@ -529,7 +529,7 @@ package
 		
 		private var inputTimer:Number = 0;
 		private var inputTime:Number = .1;
-		private function checkInput():void {
+		protected function checkInput():void {
 			checkContinuousInput();
 			checkDiscontinuousInput();
 			if (dangeresque)

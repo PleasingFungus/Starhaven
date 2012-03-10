@@ -22,18 +22,10 @@ package MainMenu {
 		public function AttractMode() {
 			super();
 			
-			Mino.all_minos = [];
-			C.B = new Bounds();
-			C.B.maxDim = new Point(C.B.BASE_AREA.width, C.B.BASE_AREA.height);
-			C.B.drawShift = new Point;
-			C.fluid = null;
-			Mino.resetGrid();
+			C.makeScenarioReady(this);
+			C.B.maxDim = new Point(B.BASE_AREA.width, B.BASE_AREA.height);
+			iconLayer = C.iconLayer;
 			
-			Mino.layer = this;
-			C.iconLayer = iconLayer = new FlxGroup;
-			C.iconLeeches = new Vector.<Mino>;
-			C.hudLayer = new FlxGroup; //unused
-			C.hudLeeches = new Vector.<Mino>; //unused
 			shroud = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
 			shroud.alpha = 0.25;
 			

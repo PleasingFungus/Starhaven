@@ -127,6 +127,40 @@ package  {
 			netStats.load();
 		}
 		
+		public static function toggleGlow(_:String=null):void {
+			DRAW_GLOW = !DRAW_GLOW;
+			save.write("DONT_DRAW_GLOW", !DRAW_GLOW); //shenanagains
+		}
+		
+		
+		
+		public static var iconLayer:FlxGroup;
+		public static var iconLeeches:Vector.<Mino>;
+		public static var hudLayer:FlxGroup;
+		public static var hudLeeches:Vector.<Mino>;
+		
+		public static function makeScenarioReady(minoLayer:FlxGroup):void {
+			Mino.all_minos = [];
+			B = new Bounds();
+			fluid = null;
+			Mino.resetGrid();
+			
+			Mino.layer = minoLayer;
+			iconLayer = new FlxGroup;
+			iconLeeches = new Vector.<Mino>;
+			hudLayer = new FlxGroup;
+			hudLeeches = new Vector.<Mino>;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		private static var initialBuffer:String = null;
+		private static var printReady:Boolean = false;
 		public static function setPrintReady():void {
 			if (printReady)
 				return;
@@ -138,27 +172,6 @@ package  {
 			}
 		}
 		
-		public static function toggleGlow(_:String=null):void {
-			DRAW_GLOW = !DRAW_GLOW;
-			save.write("DONT_DRAW_GLOW", !DRAW_GLOW); //shenanagains
-		}
-		
-		
-		
-		
-		
-		
-		
-		public static var iconLayer:FlxGroup;
-		public static var iconLeeches:Vector.<Mino>;
-		public static var hudLayer:FlxGroup;
-		public static var hudLeeches:Vector.<Mino>;
-		
-		
-		
-		
-		private static var initialBuffer:String = null;
-		private static var printReady:Boolean = false;
 		public static function log(...args):void {
 			var outStr:String = "";
 			if (args.length > 1)
