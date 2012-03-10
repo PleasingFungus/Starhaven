@@ -1,5 +1,5 @@
 package MainMenu {
-	import Bonuses.BonusState;
+	import GameBonuses.BonusState;
 	import Controls.ControlSet;
 	import org.flixel.*;
 	import InfoScreens.HelpState;

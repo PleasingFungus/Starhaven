@@ -1,8 +1,11 @@
-package Bonuses.Attack {
+package GameBonuses.Attack {
+	import GameBonuses.BonusState;
+	import Missions.LoadedMission;
 	import Scenarios.DefaultScenario;
 	import org.flixel.*;
 	import Mining.PlanetMaterial;
 	import Controls.ControlSet;
+	import flash.geom.Point;
 	
 	/**
 	 * ...
@@ -19,19 +22,26 @@ package Bonuses.Attack {
 		}
 		
 		private var skyline:FlxSprite;
+		private var aggregate:Aggregate;
 		protected var lives:int;
-		protected var currentMeteo:
+		protected var initialLives:int = 4;
 		
 		override public function create():void {
+			lives = initialLives;
+			
 			super.create();
-			//TODO: add loaded mission
-			//TODO: add preplaced parts
-			//TODO: replace hud
 		}
+		
+		override protected function registerStart():void { }
 		
 		override protected function createStation():void {
 			setBounds();
 			buildLevel();
+		}
+		
+		override protected function setBounds():void {
+			if (aggregate)
+				C.B.PlayArea = C.B.StationBounds = aggregate.bounds;
 		}
 		
 		override protected function createBG():void {
@@ -80,26 +90,44 @@ package Bonuses.Attack {
 			return C.HSVToRGB(skyHue, .25, 0.72);
 		}
 		
+		override protected function createMission():void {
+			mission = new LoadedMission(_raw_mission);
+		}
+		
 		override protected function buildRock():void {
 			rock = new PlanetMaterial( -1, -1, mission.rawMap.map, mission.rawMap.center);
 			rock.color = skyline.color;
 		}
 		
+		override protected function repositionLevel():void {
+			rock.center.x += 1;
+			rock.center.y -= 4;
+		}
+		
+		override protected function eraseOverlap():void { } //not needed
+		
 		override protected function addElements():void {
 			var planet_bg:Mino = new Mino(rock.gridLoc.x, rock.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff23170f);
 			//planet_bg.color = C.interpolateColors(planet_bg.color, skyline.color, 0.5);
 			minoLayer.add(planet_bg);
-			super.addElements();
+			
+			Mino.resetGrid();
+			rock.addToGrid();
+			Mino.all_minos.push(rock);			
+			minoLayer.add(rock);
 			
 			addBase();
 		}
 		
 		protected function addBase():void {
-			//TODO
+			aggregate = new Aggregate(rock, null);
+			setBounds();
+			
 		}
 		
 		override protected function setupBags():void { } //not needed
 		override protected function createTracker(_:Number = 3):void { } //likewise
+		override protected function setHudStation():void { } //actively detrimental
 		
 		override protected function createHUD():FlxGroup { 
 			var hud:FlxGroup = new FlxGroup();
@@ -145,7 +173,17 @@ package Bonuses.Attack {
 		}
 		
 		override protected function checkCamera():void {
+			super.checkCamera();
 			//TODO
+		}
+		
+		override protected function shouldZoomOut():Boolean {
+			return true;
+		}
+		
+		
+		override protected function centerOnStation():void {
+			C.B.centerDrawShiftOn(aggregate.centroidOffset.add(aggregate.core.absoluteCenter));
 		}
 		
 		override protected function checkGoal():void {
@@ -158,10 +196,34 @@ package Bonuses.Attack {
 		
 		override protected function resetLevel(_:String):void {
 			super.resetLevel(_);
+			//TODO?
+		}
+		
+		override protected function won():Boolean {
+			//TODO
+			return false;
+		}
+		
+		override protected function getEndText():String {
+			if (won())
+				return victoryText;
+			return "Out of lives!";
+		}
+		
+		override protected function registerEnd(quit:Boolean):void {
 			//TODO
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/skyline_dirt.png")] private const _skyline:Class;
+		override protected function endGame():void {
+			FlxG.state = new BonusState;
+		}
+		
+		override protected function exitToMenu(_:String = null):void {
+			FlxG.state = new BonusState;
+		}
+		
+		[Embed(source = "../../../lib/art/backgrounds/skyline_dirt.png")] private const _skyline:Class;
+		[Embed(source = "../../../lib/missions/tutorial_housing.png")] private const _raw_mission:Class;
 	}
 
 }

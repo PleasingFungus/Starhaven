@@ -72,8 +72,8 @@ package Meteoroids {
 			}
 			
 			var delta:Point = target.subtract(gridLoc);
-			if ((delta.x > 0) != (gridVelocity.x > 0) ||
-				(delta.y > 0) != (gridVelocity.y > 0))
+			if (((delta.x > 0) != (gridVelocity.x > 0) || !gridVelocity.x) &&
+				((delta.y > 0) != (gridVelocity.y > 0) || !gridVelocity.y))
 				explode();
 		}
 		

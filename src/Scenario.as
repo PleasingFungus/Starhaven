@@ -166,6 +166,10 @@ package
 			//else
 				FlxG.mouse.hide();
 			C.music.intendedMusic = C.music.PLAY_MUSIC;
+			registerStart();
+		}
+		
+		protected function registerStart():void {
 			C.netStats.startLevel(this);
 		}
 		
@@ -736,16 +740,24 @@ package
 		
 		protected function checkCamera():void {
 			C.B.buffer = mapBuffer;
-			var shouldZoomOut:Boolean = !currentMino && (!GlobalCycleTimer.minosDropped || dangeresque);
+			var shouldZoomOut:Boolean = this.shouldZoomOut();
 			if ((!shouldZoomOut && zoomToggled) ||
 				(shouldZoomOut && !zoomToggled)) {
 				if (_scale == 1)
 					adjustScale(true);
-				C.B.centerDrawShiftOn(station.centroidOffset.add(station.core.absoluteCenter));
+				centerOnStation();
 			} else {
 				if (_scale != 1)
 					adjustScale(false);
 			}
+		}
+		
+		protected function shouldZoomOut():Boolean {
+			return !currentMino && (!GlobalCycleTimer.minosDropped || dangeresque);
+		}
+		
+		protected function centerOnStation():void {
+			C.B.centerDrawShiftOn(station.centroidOffset.add(station.core.absoluteCenter));
 		}
 		
 		
@@ -788,8 +800,7 @@ package
 						mino.exists = false;
 				dangeresque = false;
 			}
-			if (won())
-				C.accomplishments.registerVictory(this);
+			registerEnd(false);
 			
 			var endText:FlxText = new FlxText(20, FlxG.height / 2 - 30, FlxG.width - 40, " ");
 			endText.setFormat(C.FONT, 48, 0xffffff, 'center');
@@ -819,6 +830,13 @@ package
 			//}
 			
 			hudLayer.add(new BlinkText(0, FlxG.height - 25, "Press "+ControlSet.CONFIRM_KEY+" To Continue", 16));
+		}
+		
+		protected function registerEnd(quit:Boolean):void {
+			var victory:Boolean = !quit && won();
+			if (victory)
+				C.accomplishments.registerVictory(this);
+			C.netStats.endLevel(this, makeStatblock(victory), victory, quit);
 		}
 		
 		protected function getEndText():String {
@@ -866,7 +884,6 @@ package
 		
 		protected function endGame():void {
 			var victory:Boolean = won();
-			C.netStats.endLevel(this, makeStatblock(victory), victory, false);
 			
 			if (C.campaign) {
 				if (victory) {
@@ -897,7 +914,7 @@ package
 		}
 		
 		protected function exitToMenu(_:String = null):void {
-			C.netStats.endLevel(this, makeStatblock(false), false, true);
+			registerEnd(true);
 			if (C.IN_TUTORIAL)
 				FlxG.state = new TutorialSelectState;
 			else if (C.campaign) {
@@ -925,34 +942,13 @@ package
 		
 		
 		protected function setBounds():void {
-			//return new Rectangle(C.B.OUTER_BOUNDS.x, C.B.OUTER_BOUNDS.y - mapBuffer,
-								 //C.B.OUTER_BOUNDS.width, C.B.OUTER_BOUNDS.height + mapBuffer);
-			
 			var stationBounds:Rectangle = C.B.StationBounds = station.bounds;
 			var mapBounds:Rectangle =  new Rectangle(stationBounds.x - mapBuffer,
 													 stationBounds.y - mapBuffer,
 													 stationBounds.width + mapBuffer * 2,
 													 stationBounds.height + mapBuffer * 2);
 			
-			//var D:int = Math.max(mapBounds.width, mapBounds.height);
-			//mapBounds.x -= (D - mapBounds.width) / 2;
-			//mapBounds.y -= (D - mapBounds.height) / 2;
-			//mapBounds.width = mapBounds.height = D;
-			//C.log("Setting map bounds to: " + mapBounds);
-			
-			//var mapBounds:Rectangle =  new Rectangle(Math.max(stationBounds.x - mapBuffer, C.B.OUTER_BOUNDS.x),
-													 //Math.max(stationBounds.y - mapBuffer, C.B.OUTER_BOUNDS.y),
-													 //Math.min(stationBounds.right + mapBuffer, C.B.OUTER_BOUNDS.right),
-													 //Math.min(stationBounds.bottom + mapBuffer, C.B.OUTER_BOUNDS.bottom));
-			
 			C.B.PlayArea = mapBounds;
-			
-			//var buf:int = zoomBuffer >= 0 ? zoomBuffer : mapBuffer;
-			//var zoomBounds:Rectangle = new Rectangle(stationBounds.x - zoomBuffer,
-													 //stationBounds.y - zoomBuffer,
-													 //stationBounds.width + zoomBuffer * 2,
-													 //stationBounds.height + zoomBuffer * 2);
-			//C.B.ZoomArea = zoomBounds;
 		}
 		
 		private function adjustScale(zoomedOut:Boolean):void {
@@ -980,10 +976,6 @@ package
 			_buffer = new BitmapData(bufferWidth, bufferHeight, true, FlxState.bgColor);
 			
 		}
-		
-		//protected function get zoomedOut():Boolean {
-			//return (GlobalCycleTimer.minosDropped <= 1 && !currentMino) || !tracker.safe;
-		//}
 		
 		
 		
@@ -1041,11 +1033,7 @@ package
 			}
 		}
 		
-		private function renderParallaxBG():void {
-			//var rangeOfMotion:Point = new Point(FlxG.width - parallaxBG.width,
-												//FlxG.height - parallaxBG.height);
-			//C.B.getMaxShift
-			
+		private function renderParallaxBG():void {			
 			for each (var obj:FlxSprite in parallaxBG.members) {
 				obj.offset.x = -C.B.drawShift.x * obj.scrollFactor.x * C.B.scale;
 				obj.offset.y = -C.B.drawShift.y * obj.scrollFactor.y * C.B.scale;

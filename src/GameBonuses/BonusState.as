@@ -1,4 +1,5 @@
-package Bonuses {
+package GameBonuses {
+	import GameBonuses.Attack.AttackScenario;
 	import org.flixel.*;
 	import MainMenu.MemoryThing;
 	import MainMenu.MenuState;
@@ -19,6 +20,7 @@ package Bonuses {
 			add(t);
 			
 			MenuThing.resetThings();
+			add(new MemoryThing("Attack Mode!", AttackScenario));
 			add(new MemoryThing("Back", MenuState));
 		}
 		

@@ -51,9 +51,11 @@ package Meteoroids {
 					} else if (mino is ResourceSource) {
 						var resourceSource:ResourceSource = mino as ResourceSource;
 						var mineralBlock:MineralBlock = resourceSource.resourceAt(grid);
-						if (mineralBlock.type > MineralBlock.BEDROCK && mineralBlock.type < MineralBlock.STRONG_MINERALS)
-							mineralBlock.type++;
-						mino.newlyDamaged = true;
+						if (mineralBlock) {
+							if (mineralBlock.type > MineralBlock.BEDROCK && mineralBlock.type < MineralBlock.STRONG_MINERALS)
+								mineralBlock.type++;
+							mino.newlyDamaged = true;
+						}
 					}
 					exists = false;
 				}

@@ -68,14 +68,14 @@ package {
 		}
 		
 		override protected function onEnterFrame(event:Event):void {
-			try {
+			if (C.DEBUG)
+				super.onEnterFrame(event)
+			else try {
 				super.onEnterFrame(event);
 			} catch (exception:Error) {
 				if (C.netStats)
 					C.netStats.logException(exception);
 				C.log(exception.getStackTrace());
-				if (C.DEBUG)
-					throw(exception);
 				FlxG.state = new CrashState;
 			}
 		}

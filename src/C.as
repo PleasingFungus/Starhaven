@@ -139,9 +139,10 @@ package  {
 		public static var hudLayer:FlxGroup;
 		public static var hudLeeches:Vector.<Mino>;
 		
-		public static function makeScenarioReady(minoLayer:FlxGroup):void {
+		public static function makeScenarioReady(minoLayer:FlxGroup, maxDim:Point):void {
 			Mino.all_minos = [];
 			B = new Bounds();
+			B.maxDim = maxDim.clone();
 			fluid = null;
 			Mino.resetGrid();
 			

@@ -22,8 +22,7 @@ package MainMenu {
 		public function AttractMode() {
 			super();
 			
-			C.makeScenarioReady(this);
-			C.B.maxDim = new Point(B.BASE_AREA.width, B.BASE_AREA.height);
+			C.makeScenarioReady(this, new Point(C.B.BASE_AREA.width, C.B.BASE_AREA.height));
 			iconLayer = C.iconLayer;
 			
 			shroud = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000);
