@@ -15,7 +15,6 @@ package Meteoroids {
 		protected var semigridLoc:Point;
 		protected var target:Point;
 		protected var direction:Point;
-		protected var rotation:int;
 		protected var explosionRadius:int = 3;
 		protected var hasBeard:Boolean;
 		public function Meteoroid(X:int, Y:int, Target:Point = null, speedFactor:Number = 1, HasBeard:Boolean = false) {
@@ -32,7 +31,6 @@ package Meteoroids {
 			direction = new Point(Target.x - gridLoc.x, Target.y - gridLoc.y);
 			direction.normalize(1);
 			
-			rotation = FlxU.random() * 3;
 			C.hudLeeches.push(this);
 			setupWarning();
 			

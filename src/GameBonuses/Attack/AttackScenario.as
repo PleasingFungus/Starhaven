@@ -1,11 +1,13 @@
 package GameBonuses.Attack {
 	import GameBonuses.BonusState;
+	import HUDs.MapBounds;
 	import Missions.LoadedMission;
 	import Scenarios.DefaultScenario;
 	import org.flixel.*;
 	import Mining.PlanetMaterial;
 	import Controls.ControlSet;
 	import flash.geom.Point;
+	import Sminos.SecondaryReactor;
 	
 	/**
 	 * ...
@@ -17,17 +19,22 @@ package GameBonuses.Attack {
 			super(NaN);
 			
 			rotateable = false;
+			canFastfall = false;
+			C.B.viewLimited = true;
 			mapBuffer = 0;
 			victoryText = "Targets destroyed!";
 		}
 		
 		private var skyline:FlxSprite;
 		private var aggregate:Aggregate;
+		private var arrowHint:AttackHelper;
+		protected var stations:Vector.<Station>
 		protected var lives:int;
-		protected var initialLives:int = 4;
+		protected var initialLives:int = 3;
 		
 		override public function create():void {
 			lives = initialLives;
+			stations = new Vector.<Station>;
 			
 			super.create();
 		}
@@ -40,8 +47,10 @@ package GameBonuses.Attack {
 		}
 		
 		override protected function setBounds():void {
-			if (aggregate)
-				C.B.PlayArea = C.B.StationBounds = aggregate.bounds;
+			if (!aggregate) return;
+			
+			C.B.StationBounds = aggregate.bounds;
+			C.B.PlayArea = aggregate.bounds; //spawns a copy each
 		}
 		
 		override protected function createBG():void {
@@ -95,13 +104,13 @@ package GameBonuses.Attack {
 		}
 		
 		override protected function buildRock():void {
-			rock = new PlanetMaterial( -1, -1, mission.rawMap.map, mission.rawMap.center);
+			rock = new PlanetMaterial(-10, 0, mission.rawMap.map, mission.rawMap.center);
 			rock.color = skyline.color;
 		}
 		
 		override protected function repositionLevel():void {
-			rock.center.x += 1;
-			rock.center.y -= 4;
+			rock.center.x += 0;
+			rock.center.y += 0;
 		}
 		
 		override protected function eraseOverlap():void { } //not needed
@@ -111,18 +120,28 @@ package GameBonuses.Attack {
 			//planet_bg.color = C.interpolateColors(planet_bg.color, skyline.color, 0.5);
 			minoLayer.add(planet_bg);
 			
-			Mino.resetGrid();
-			rock.addToGrid();
 			Mino.all_minos.push(rock);			
 			minoLayer.add(rock);
 			
 			addBase();
+			
+			setBounds();
 		}
 		
 		protected function addBase():void {
 			aggregate = new Aggregate(rock, null);
-			setBounds();
+			aggregate.centroidOffset.x = 17;
+			aggregate.centroidOffset.y = 20;
 			
+			var station:Station = new AttackStation(null);
+			station.core.gridLoc.y += 4;
+			Mino.resetGrid(); //fix initial core loc
+			rock.addToGrid(); //fix resulting missing rock
+			station.core.addToGrid();
+			
+			minoLayer.add(station.core);
+			minoLayer.add(station);
+			stations.push(station);
 		}
 		
 		override protected function setupBags():void { } //not needed
@@ -130,7 +149,12 @@ package GameBonuses.Attack {
 		override protected function setHudStation():void { } //actively detrimental
 		
 		override protected function createHUD():FlxGroup { 
-			var hud:FlxGroup = new FlxGroup();
+			hud = new AttackHud();
+			
+			var bounds:MapBounds = new MapBounds();
+			minoLayer.add(bounds);
+			hud.bounds = bounds;
+			
 			//TODO
 			return hud;
 		}
@@ -156,52 +180,96 @@ package GameBonuses.Attack {
 			
 			defaultGroup.update();
 			hudLayer.update();
+			(hud as AttackHud).updateLives(lives);
 			
 			checkGoal();
 			checkEndConditions();
 		}
 		
 		override protected function checkCurrentMino():void {
-			//TODO
+			if (currentMino && currentMino.gridLoc.y > C.B.PlayArea.bottom) {
+				currentMino.exists = false;
+				lives--;
+				killCurrentMino();
+			}
+			
+			var minoIsCool:Boolean = currentMino && currentMino.holdsAttention;
+			
+			if (!minoIsCool) {
+				if (minoWasCool) {
+					lives--;
+					onAnchor();
+				}
+				
+				spawnTimer -= FlxG.elapsed;
+				if (spawnTimer <= 0)
+					spawnNextMino();
+			}
+			minoWasCool = minoIsCool;
 		}
 		
+		override protected function spawnNextMino():void {
+			if (currentMino)
+				onAnchor();
+			
+			var Y:int;
+			if (rotateable)
+				Y = - C.B.getFurthest() + 1;
+			else
+				Y = C.B.PlayArea.top - 15;
+			minoLayer.add(currentMino = new MeteoMino(0, Y));
+			currentMino.gridLoc.y -= currentMino.blockDim.y + 1;
+			//currentMino.current = true;
+			
+			if (!arrowHint)
+				minoLayer.add(arrowHint = new AttackHelper(currentMino));
+			else if (arrowHint.exists)
+				arrowHint.parent = currentMino;
+			
+			spawnTimer = SPAWN_TIME;
+		}
+		
+		//override protected function killCurrentMino():void {
+			//super.killCurrentMino();
+		//}
+		
 		override protected function checkInput():void {
-			//TODO
+			if (currentMino && currentMino.falling) //probably somewhat redundant
+				checkMinoMoveInput();
 			
 			if (ControlSet.CANCEL_KEY.justPressed())
 				enterPauseState();
 		}
 		
-		override protected function checkCamera():void {
-			super.checkCamera();
-			//TODO
-		}
+		override protected function get inputScale():Number { return 1; }
 		
 		override protected function shouldZoomOut():Boolean {
 			return true;
 		}
 		
-		
 		override protected function centerOnStation():void {
 			C.B.centerDrawShiftOn(aggregate.centroidOffset.add(aggregate.core.absoluteCenter));
 		}
 		
-		override protected function checkGoal():void {
-			//TODO
+		override protected function get goalPercent():int {
+			var deadStations:int = 0;
+			for each (var station:Station in stations)
+				if (station.core.dead)
+					deadStations++;
+			return deadStations * 100 / stations.length;
 		}
 		
 		override protected function checkEndConditions():void {
-			//TODO
+			if (substate == SUBSTATE_MISSOVER)
+				return; //to avoid double-triggering on debug input
+			
+			if (won() || (lives == 0 && (!currentMino || currentMino.dead)))
+				beginEndgame();
 		}
 		
 		override protected function resetLevel(_:String):void {
 			super.resetLevel(_);
 			//TODO?
-		}
-		
-		override protected function won():Boolean {
-			//TODO
-			return false;
 		}
 		
 		override protected function getEndText():String {
@@ -210,8 +278,10 @@ package GameBonuses.Attack {
 			return "Out of lives!";
 		}
 		
+		override protected function contemplateShaking():void { } //nope
+		
 		override protected function registerEnd(quit:Boolean):void {
-			//TODO
+			//TODO [high scores]
 		}
 		
 		override protected function endGame():void {

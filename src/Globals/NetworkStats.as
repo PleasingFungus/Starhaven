@@ -71,7 +71,6 @@ package Globals {
 			variables.won = won;
 			variables.quit = quit;
 			
-			C.log("Sending end level thing");
 			sendRequest(variables);
 		}
 		

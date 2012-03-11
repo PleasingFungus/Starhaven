@@ -125,7 +125,7 @@ package Scenarios {
 			bg = sky;
 			
 			parallaxBG = new FlxGroup;
-			skyline = new FlxSprite(-FlxG.width / 2, FlxG.height / 2, _skyline);
+			skyline = new FlxSprite(-FlxG.width / 2, FlxG.height / 2 - 100, _skyline);
 			skyline.scrollFactor.x = skyline.scrollFactor.y = 0.25;
 			skyline.color = getLandColor(hue);
 			parallaxBG.add(skyline);
@@ -135,7 +135,8 @@ package Scenarios {
 			return C.HSVToRGB(skyHue, .25, 0.72);
 		}
 		
-		[Embed(source = "../../lib/art/backgrounds/skyline_dirt.png")] private const _skyline:Class;
+		[Embed(source = "../../lib/art/backgrounds/skyline_mtn.png")] private const _skyline:Class;
+		[Embed(source = "../../lib/art/backgrounds/mountain.png")] private const _mountain:Class;
 	}
 
 }

@@ -46,12 +46,20 @@ package Globals {
 			return max;
 		}
 		
-		public function centerDrawShiftOn(gridLoc:Point, downShift:Boolean = false):void {			
+		private var DEBUG_ONCE:Boolean;
+		public function centerDrawShiftOn(gridLoc:Point, downShift:Boolean = false):void {
+			if (!DEBUG_ONCE)
+				C.log("Centering on " + gridLoc);
+			
 			drawShift.x = FlxG.width / (2 * scale) - gridLoc.x * C.BLOCK_SIZE;
 			drawShift.y = FlxG.height / ((downShift ? 4 : 2) * scale) - gridLoc.y * C.BLOCK_SIZE;
 			
-			if (!viewLimited)
+			if (!DEBUG_ONCE)
+				C.log("Unlimited center at " + drawShift);
+			if (!viewLimited) {
+				DEBUG_ONCE = true;
 				return;
+			}
 			
 			var maxYShift:int = OUTER_BOUNDS.bottom * C.BLOCK_SIZE - FlxG.height / scale;
 			if (drawShift.y < -maxYShift)
@@ -63,6 +71,11 @@ package Globals {
 			var minXShift:int = (OUTER_BOUNDS.left - buffer) * C.BLOCK_SIZE
 			if (drawShift.x > -minXShift)
 				drawShift.x = -minXShift;
+			
+			if (!DEBUG_ONCE) {
+				C.log("Limited center at " + drawShift);
+				DEBUG_ONCE = true;
+			}
 		}
 		
 		//public function getMaxShift():Point {

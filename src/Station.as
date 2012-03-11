@@ -37,8 +37,7 @@ package  {
 		public var lifespan:Number;
 		
 		public function Station(SetRotationState:Function) {
-			var core:StationCore = new StationCore(0, 0);//C.HALFWIDTH, C.HALFHEIGHT);
-			super(core, SetRotationState);
+			super(makeCore(), SetRotationState);
 			core.addToGrid();
 			
 			lastCrewed = [];
@@ -48,6 +47,10 @@ package  {
 			silent = true;
 			
 			lifespan = 0;
+		}
+		
+		protected function makeCore():Smino {
+			return new StationCore(0, 0);
 		}
 		
 		//override public function merge(other:Aggregate):void {
@@ -72,11 +75,8 @@ package  {
 					break;
 				}
 			
-			if (newDamage) {
-				resetPower();
-				cleanup();
-				minimap.dirty = true;
-			}
+			if (newDamage)
+				handleDamage();
 			
 			iterOverMembers(nullCrew);
 			newCrewed = [];
@@ -88,6 +88,12 @@ package  {
 			lastPowered = [];
 			iterOverMembers(populatePowered);
 			powerSound.update();
+		}
+		
+		protected function handleDamage():void {
+			resetPower();
+			cleanup();
+			minimap.dirty = true;
 		}
 		
 		protected var newlyPowered:Boolean;

@@ -57,6 +57,7 @@ package
 		protected var mapBuffer:int;
 		
 		protected var rotateable:Boolean;
+		protected var canFastfall:Boolean;
 		protected var goalMultiplier:Number;
 		protected var minoLimitMultiplier:Number;
 		protected var meteoSpeedMultiplier:Number;
@@ -100,7 +101,7 @@ package
 		
 		private var hasUpdated:Boolean;
 		private var frame:int;
-		private var minoWasCool:Boolean;
+		protected var minoWasCool:Boolean;
 		
 		public var substate:int;
 		public var dangeresque:Boolean;
@@ -124,6 +125,7 @@ package
 			meteoSpeedMultiplier = 1;
 			
 			rotateable = true;
+			canFastfall = true;
 			mapBuffer = 12;
 		}
 		
@@ -531,8 +533,8 @@ package
 				targetCursor.update();
 		}
 		
-		private var inputTimer:Number = 0;
-		private var inputTime:Number = .1;
+		protected var inputTimer:Number = 0;
+		protected var inputTime:Number = .1;
 		protected function checkInput():void {
 			checkContinuousInput();
 			checkDiscontinuousInput();
@@ -562,22 +564,24 @@ package
 		protected function checkMinoMoveInput():void {
 			if (ControlSet.MINO_L_KEY.justPressed()) {
 				currentMino.moveLeft();
-				inputTimer = 0;
-			} else if (ControlSet.MINO_R_KEY.justPressed()) {
+				inputTimer = -1;
+			} 
+			
+			if (ControlSet.MINO_R_KEY.justPressed()) {
 				currentMino.moveRight();
-				inputTimer = 0;
-			} else if (ControlSet.FASTFALL_KEY.justPressed()) {
+				inputTimer = -1;
+			} 
+			
+			if (canFastfall && ControlSet.FASTFALL_KEY.justPressed()) {
 				currentMino.moveDown(true);
+				inputTimer = -1;
+			} 
+			
+			if (inputTimer == -1)
 				inputTimer = 0;
-			} else {
+			else {
 				inputTimer += FlxG.elapsed;
-				
-				var minoDist:int = Math.abs(currentMino.gridLoc.y - station.core.gridLoc.y);
-				var inputScale:Number = Math.max(0.5, Math.min(1, 30 / minoDist));
-				//var nearby:int = C.B.getFurthest() * 0.5;
-				//if (minoDist > nearby)
-					//inputScale = Math.min(2, (minoDist - nearby) / (nearby * 2));
-				//C.log(minoDist, nearby, (minoDist - nearby) / (nearby * 2/3), inputScale);
+				var inputScale:Number = this.inputScale;
 				
 				if (inputTimer >= inputTime * inputScale) {
 					inputTimer -= inputTime * inputScale;
@@ -587,10 +591,20 @@ package
 					if (ControlSet.MINO_R_KEY.pressed())
 						currentMino.moveRight();
 				
-					if (ControlSet.FASTFALL_KEY.pressed())
+					if (canFastfall && ControlSet.FASTFALL_KEY.pressed())
 						currentMino.moveDown(true);
 				}
 			}
+		}
+		
+		protected function get inputScale():Number {
+			var minoDist:int = Math.abs(currentMino.gridLoc.y - station.core.gridLoc.y);
+			var inputScale:Number = Math.max(0.5, Math.min(1, 30 / minoDist));
+			//var nearby:int = C.B.getFurthest() * 0.5;
+			//if (minoDist > nearby)
+				//inputScale = Math.min(2, (minoDist - nearby) / (nearby * 2));
+			//C.log(minoDist, nearby, (minoDist - nearby) / (nearby * 2/3), inputScale);
+			return inputScale;
 		}
 		
 		protected function checkMinoSpawnInput():void {
@@ -818,6 +832,13 @@ package
 			endSub.setFormat(C.FONT, 24, 0xffffff, 'center');
 			hudLayer.add(endSub);
 			
+			hudLayer.add(new BlinkText(0, FlxG.height - 25, "Press "+ControlSet.CONFIRM_KEY+" To Continue", 16));
+			
+			contemplateShaking();
+		}
+		
+		protected function contemplateShaking():void {
+			
 			//if (won())
 				//shakeIntensity = 0;
 			//else {
@@ -828,8 +849,6 @@ package
 				shakeTimer = SHAKE_TIME;
 			}
 			//}
-			
-			hudLayer.add(new BlinkText(0, FlxG.height - 25, "Press "+ControlSet.CONFIRM_KEY+" To Continue", 16));
 		}
 		
 		protected function registerEnd(quit:Boolean):void {
@@ -1079,6 +1098,6 @@ package
 		protected const SUBSTATE_MISSOVER:int = 3;
 		protected const SUBSTATE_PAUSED:int = 4;
 		
-		private const SPAWN_TIME:Number = 2;
+		protected const SPAWN_TIME:Number = 2;
 	}
 }
