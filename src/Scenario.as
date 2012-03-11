@@ -397,7 +397,7 @@ package
 				Y = - C.B.getFurthest() + 1;
 			else
 				Y = C.B.PlayArea.top - 15;
-			var choice:Class = bag.grabMino();
+			var choice:Class = getMinoChoice();
 			var spawnedMino:Smino = new choice(X, Y)
 			spawnedMino.gridLoc.y -= spawnedMino.blockDim.y + 1;
 			
@@ -420,6 +420,10 @@ package
 			
 			spawnedMino.current = true;
 			return spawnedMino;
+		}
+		
+		protected function getMinoChoice():Class {
+			return bag.grabMino();
 		}
 		
 		protected function initCombat():void {

@@ -184,7 +184,7 @@ package Sminos {
 			return super.holdsAttention || drilling;
 		}
 		
-		override public function setTutorial(station:Aggregate):void {
+		override public function stealthAnchor(station:Aggregate):void {
 			silent = true;
 			super.anchorTo(station.core);
 		}

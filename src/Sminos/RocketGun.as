@@ -47,7 +47,7 @@ package Sminos {
 		}
 		
 		public function canFireOn(target:Point, checkForBlock:Boolean = false):Boolean {
-			if (!operational || !rocketsLoaded)
+			if (!exists || !operational || !rocketsLoaded)
 				return false;
 			
 			if (!withinArc(target))
@@ -71,8 +71,9 @@ package Sminos {
 			return segment == facing || segment == ((facing + 1) & 3);
 		}
 		
-		public function fireOn(target:Point):void {
-			rocketsLoaded--;
+		public function fireOn(target:Point, useAmmo:Boolean = true):void {
+			if (useAmmo)
+				rocketsLoaded--;
 			Mino.layer.add(new SlowRocket(fireOrigin, target, this));
 			C.sound.play(LAUNCH_NOISES[int(FlxU.random() * LAUNCH_NOISES.length)], 0.5);
 		}

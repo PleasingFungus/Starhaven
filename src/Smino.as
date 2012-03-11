@@ -525,7 +525,7 @@ package  {
 				local_cache.push(neighbor);
 		}
 		
-		public function setTutorial(station:Aggregate):void {
+		public function stealthAnchor(station:Aggregate):void {
 			silent = true;
 			anchorTo(station.core);
 		}

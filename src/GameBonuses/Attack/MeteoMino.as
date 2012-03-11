@@ -15,7 +15,7 @@ package GameBonuses.Attack {
 			super(X, Y, blocks, new Point(0, 0), 0xff8e4b35, 0xff8e4b35, _sprite);
 			
 			dangerous = true;
-			cycleSpeed = 1; //todo
+			cycleSpeed = 1.25;
 			
 			all_minos.push(this);
 			name = "Attack Meteoroid";
@@ -73,7 +73,7 @@ package GameBonuses.Attack {
 		}
 		
 		override protected function beDamaged():void {
-			explode(1);
+			explode(explosionRadius);
 			C.sound.play(SPACE_EXPLODE_NOISE, 1);
 		}
 		

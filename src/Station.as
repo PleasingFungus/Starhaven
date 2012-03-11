@@ -281,9 +281,11 @@ package  {
 		
 		public function print():void {
 			var printString:String = '[';
-			for each (var mino:Mino in members.slice(0, members.length - 1))
-				printString += '"'+mino.serialize() + '", ';
-			C.log(printString + '"'+members[members.length - 1].serialize() + '"]');
+			for each (var mino:Mino in members)
+				if (mino is Smino && mino != core)
+					printString += '"'+mino.serialize() + '", ';
+			printString = printString.substr(0, printString.length - 2) + ']';
+			C.log(printString);
 		}
 	}
 

@@ -1,4 +1,5 @@
 package Scenarios.Tutorials {
+	import Editor.StationLoader;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import Mining.*
@@ -66,29 +67,14 @@ package Scenarios.Tutorials {
 		}
 		
 		protected function addDrills():void {
-			addSmino(3-20,19-14, LongDrill);
-			addSmino(9-20,18-14, LongDrill);
-			addSmino(14 - 20, 19 - 14, LongDrill);
-			addSmino(24 - 20, 19 - 14, LongDrill);
-			addSmino(30-20,18-14, LongDrill);
-			addSmino(36-20,17-14, LongDrill);
-
-			addSmino(24 - 20, 18 - 14, LongConduit, FlxSprite.RIGHT);
-			addSmino(27 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
-			addSmino(31 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
-			addSmino(34 - 20, 16 - 14, LongConduit, FlxSprite.RIGHT);
-
-			addSmino(15 - 20, 18 - 14, LongConduit, FlxSprite.RIGHT);
-			addSmino(12 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
-			addSmino(8 - 20, 17 - 14, LongConduit, FlxSprite.RIGHT);
-			addSmino(5 - 20, 18 - 14, LongConduit, FlxSprite.RIGHT);
+			new StationLoader(station, ["Long Drill,4,6,3", "Long Drill,10,4,3", "Long Drill,16,3,3", "Long Drill,-6,5,3", "Long Drill,-11,4,3", "Long Drill,-17,5,3", "Long-Conduit,3,5,0", "Long-Conduit,6,4,0", "Long-Conduit,9,3,0", "Long-Conduit,12,2,0", "Long-Conduit,16,2,0", "Long-Conduit,-6,4,0", "Long-Conduit,-9,3,0", "Long-Conduit,-13,3,0", "Long-Conduit,-16,4,0"]);
 		}
 		
 		protected function addSmino(X:int, Y:int, minoType:Class, Facing:int = FlxSprite.DOWN):void {
 			var smino:Smino = new minoType(X, Y);
 			while (smino.facing != Facing)
 				smino.rotateClockwise(true);
-			smino.setTutorial(station);
+			smino.stealthAnchor(station);
 			minoLayer.add(smino);
 		}
 		

@@ -36,7 +36,7 @@ package MainMenu {
 		}
 		
 		protected function skipTutorials(_:String):void {
-			C.accomplishments.setTutorialsDone();
+			C.accomplishments.stealthAnchorsDone();
 			FlxG.state = new MenuState;
 		}
 		

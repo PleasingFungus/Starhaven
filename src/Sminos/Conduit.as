@@ -41,7 +41,7 @@ package Sminos {
 		
 		override public function render():void {
 			super.render();
-			if (operational)
+			if (operational && exists)
 				renderRipple();
 		}
 		

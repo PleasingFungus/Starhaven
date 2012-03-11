@@ -1,13 +1,16 @@
 package GameBonuses.Attack {
 	import GameBonuses.BonusState;
 	import HUDs.MapBounds;
+	import Meteoroids.SlowRocket;
 	import Missions.LoadedMission;
 	import Scenarios.DefaultScenario;
 	import org.flixel.*;
 	import Mining.PlanetMaterial;
 	import Controls.ControlSet;
 	import flash.geom.Point;
+	import Sminos.RocketGun;
 	import Sminos.SecondaryReactor;
+	import Editor.StationLoader;
 	
 	/**
 	 * ...
@@ -22,7 +25,6 @@ package GameBonuses.Attack {
 			canFastfall = false;
 			C.B.viewLimited = true;
 			mapBuffer = 0;
-			victoryText = "Targets destroyed!";
 		}
 		
 		private var skyline:FlxSprite;
@@ -32,11 +34,21 @@ package GameBonuses.Attack {
 		protected var lives:int;
 		protected var initialLives:int = 3;
 		
+		protected var gunTimer:Number;
+		protected var GUN_COOLDOWN:Number = 1.2;
+		protected var gunIndex:int;
+		
 		override public function create():void {
 			lives = initialLives;
 			stations = new Vector.<Station>;
 			
 			super.create();
+			
+			spawnTimer /= 2;
+			gunTimer = GUN_COOLDOWN * 2;
+			gunIndex = 0;
+			
+			initCombatMinoPool();
 		}
 		
 		override protected function registerStart():void { }
@@ -124,6 +136,10 @@ package GameBonuses.Attack {
 			minoLayer.add(rock);
 			
 			addBase();
+			if (stations.length > 1)
+				victoryText = "Targets destroyed!";
+			else
+				victoryText = "Target destroyed!";
 			
 			setBounds();
 		}
@@ -134,10 +150,17 @@ package GameBonuses.Attack {
 			aggregate.centroidOffset.y = 20;
 			
 			var station:Station = new AttackStation(null);
+			station.core.gridLoc.x -= 1;
 			station.core.gridLoc.y += 4;
 			Mino.resetGrid(); //fix initial core loc
 			rock.addToGrid(); //fix resulting missing rock
 			station.core.addToGrid();
+			
+			//new StationLoader(station, ["Hook-Conduit,2,4,0", "Hook-Conduit,-4,4,0", "Long-Conduit,-7,5,3", "Hook-Conduit,-7,1,0", "LeftHook-Conduit,-7,-1,2", "LeftHook-Conduit,3,3,2", "Long-Conduit,6,2,3", "LeftHook-Conduit,7,-1,2", "Hook-Conduit,6,-2,0", "Small Barracks,7,-3,3", "Rocket Gun,5,-4,1", "Rocket Gun,8,-5,1", "Hook-Conduit,9,-2,2", "Small Barracks,-9,-1,3", "Rocket Gun,-7,-3,1", "Rocket Gun,-10,-3,1", "Long-Conduit,-10,1,3", "Small Barracks,1,2,3", "Rocket Gun,-1,2,1"]);
+			new StationLoader(station, ["Hook-Conduit,-4,4,0", "Long-Conduit,-9,4,0", "Long-Conduit,1,4,0", "LeftHook-Conduit,3,2,2", "LeftHook-Conduit,8,2,0", "Long-Conduit,8,-1,3", "LeftHook-Conduit,9,-4,2", "LeftHook-Conduit,6,-4,2", "LeftHook-Conduit,-11,2,3", "Long-Conduit,-11,0,3", "LeftHook-Conduit,-11,-4,2", "Small Barracks,8,-6,3", "Small Barracks,1,2,3", "Small Barracks,-11,-6,3", "Rocket Gun,-8,-6,1", "Rocket Gun,6,-6,1", "Rocket Gun,2,0,1", "Hook-Conduit,-12,-5,0"]);
+			for each (var member:Mino in station.members)
+				aggregate.members.push(member);
+			setBounds();
 			
 			minoLayer.add(station.core);
 			minoLayer.add(station);
@@ -148,7 +171,7 @@ package GameBonuses.Attack {
 			var smino:Smino = new minoType(X, Y);
 			while (smino.facing != Facing)
 				smino.rotateClockwise(true);
-			smino.setTutorial(aggregate);
+			smino.stealthAnchor(aggregate);
 			minoLayer.add(smino);
 		}
 		
@@ -171,6 +194,17 @@ package GameBonuses.Attack {
 			//TODO
 		}
 		
+		override protected function initCombatMinoPool():void {
+			combatMinoPool = [];
+			for each (var station:Station in stations)
+				for each (var mino:Mino in station.members)
+					if (mino.exists && mino is RocketGun)
+						combatMinoPool.push(mino);
+			
+			for each (var gun:RocketGun in combatMinoPool)
+				gun.loadRockets();
+		}
+		
 		
 		
 		
@@ -183,6 +217,7 @@ package GameBonuses.Attack {
 		
 		override protected function normalUpdate():void {
 			checkCurrentMino();
+			checkGuns();
 			checkCamera();
 			checkInput();
 			
@@ -235,6 +270,30 @@ package GameBonuses.Attack {
 				arrowHint.parent = currentMino;
 			
 			spawnTimer = SPAWN_TIME;
+			gunTimer = GUN_COOLDOWN * 2;
+		}
+		
+		protected function checkGuns():void {
+			if (!currentMino || !combatMinoPool.length)
+				return;
+			
+			gunTimer -= FlxG.elapsed;
+			if (gunTimer <= 0) {
+				var target:Point = currentMino.absoluteCenter;
+				
+				for (var i:int = 0; i < combatMinoPool.length; i++) {
+					var gun:RocketGun = combatMinoPool[(gunIndex + i) % combatMinoPool.length];
+					var dist:Number = target.subtract(gun.absoluteCenter).length;
+					var travelTime:Number = dist * C.BLOCK_SIZE / SlowRocket.SPEED;
+					var adjTarget:Point = target.add(new Point(0, Math.round(travelTime * 1.25 / C.CYCLE_TIME))); 
+					if (gun.canFireOn(adjTarget, true)) {
+						gun.fireOn(adjTarget, false);
+						gunIndex = (gunIndex + 1) % combatMinoPool.length;
+						gunTimer = GUN_COOLDOWN;
+						return;
+					}
+				}
+			}
 		}
 		
 		//override protected function killCurrentMino():void {
@@ -262,7 +321,7 @@ package GameBonuses.Attack {
 		override protected function get goalPercent():int {
 			var deadStations:int = 0;
 			for each (var station:Station in stations)
-				if (station.core.dead)
+				if (!station.core.exists)
 					deadStations++;
 			return deadStations * 100 / stations.length;
 		}
@@ -271,7 +330,7 @@ package GameBonuses.Attack {
 			if (substate == SUBSTATE_MISSOVER)
 				return; //to avoid double-triggering on debug input
 			
-			if (won() || (lives == 0 && (!currentMino || currentMino.dead)))
+			if (won() || (lives < 0 && (!currentMino || currentMino.dead)))
 				beginEndgame();
 		}
 		

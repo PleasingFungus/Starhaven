@@ -1,4 +1,5 @@
 package MainMenu {
+	import Editor.EditorState;
 	import GameBonuses.BonusState;
 	import Controls.ControlSet;
 	import org.flixel.*;
@@ -41,6 +42,8 @@ package MainMenu {
 				add(new MemoryThing("Play", C.accomplishments.nextUnbeaten()));
 			if (C.unlocks.unlockedBonuses())
 				add(new MemoryThing("Bonuses", BonusState));
+			if (C.DEBUG)
+				add(new MemoryThing("Editor", EditorState));
 			add(new MemoryThing("Options", OptionsState));
 			add(new MemoryThing("Credits", CreditsState));
 			
