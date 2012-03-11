@@ -144,6 +144,14 @@ package GameBonuses.Attack {
 			stations.push(station);
 		}
 		
+		protected function addSmino(X:int, Y:int, minoType:Class, Facing:int = FlxSprite.DOWN):void {
+			var smino:Smino = new minoType(X, Y);
+			while (smino.facing != Facing)
+				smino.rotateClockwise(true);
+			smino.setTutorial(aggregate);
+			minoLayer.add(smino);
+		}
+		
 		override protected function setupBags():void { } //not needed
 		override protected function createTracker(_:Number = 3):void { } //likewise
 		override protected function setHudStation():void { } //actively detrimental
