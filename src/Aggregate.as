@@ -298,35 +298,6 @@ package  {
 			FlxG.buffer = realBuffer
 		
 		}
-			//var rotateCenter:Point = new Point(C.BLOCK_SIZE * (core.gridLoc.x + .5) + C.B.drawShift.x,
-												//C.BLOCK_SIZE * (core.gridLoc.y + .5) + C.B.drawShift.y);
-			//
-			//_matrix.identity();
-			//_matrix.translate(-rotateCenter.x, -rotateCenter.y);
-			//_matrix.rotate(rotation);
-			//_matrix.translate(rotateCenter.x, rotateCenter.y);
-			//
-			//var realBuffer:BitmapData = FlxG.buffer;
-			//if (!_buffer || _buffer.width != realBuffer.width || _buffer.height != realBuffer.height) {
-				//if (_buffer)
-					//_buffer.dispose();
-				//_buffer = new BitmapData(realBuffer.width, realBuffer.height, true, 0x0);
-				//_bufferRect.setEmpty();
-				//_bufferRect.inflate(_buffer.width, _buffer.height);
-			//}
-			//FlxG.buffer = _buffer;
-			//_buffer.fillRect(_bufferRect, 0x00000000);
-			//
-			//for each (var mino:Mino in members)
-				//if (mino.exists)
-					//mino.render();
-			//for each (mino in members)
-				//if (mino.exists)
-					//mino.renderTop(true);
-			//
-			//realBuffer.draw(_buffer, _matrix, null, null, null, true);
-			//FlxG.buffer = realBuffer;
-		//}
 		
 		private function renderDebugOutline():void {
 			var b:Rectangle = bounds;

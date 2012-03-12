@@ -125,10 +125,14 @@ package Scenarios {
 			bg = sky;
 			
 			parallaxBG = new FlxGroup;
-			skyline = new FlxSprite(-FlxG.width / 2, FlxG.height / 2 - 100, _skyline);
+			skyline = new FlxSprite(-FlxG.width / 2, FlxG.height / 2 - 100, skylineSpr);
 			skyline.scrollFactor.x = skyline.scrollFactor.y = 0.25;
 			skyline.color = getLandColor(hue);
 			parallaxBG.add(skyline);
+		}
+		
+		protected function get skylineSpr():Class {
+			return _skyline;
 		}
 		
 		protected function getLandColor(skyHue:Number):uint {

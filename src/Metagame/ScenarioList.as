@@ -22,7 +22,7 @@ package Metagame {
 		}
 		
 		public function index(scenario:Scenario):int {
-			for (var i:int = 0; i < all.length; i++)
+			for (var i:int = all.length - 1; i >= 0; i--) //backwards because sea/mtn inherit from planet; will report them as 'moon' otherwise (this is a hack)
 				if (scenario is all[i])
 					return i;
 			return -1;

@@ -38,13 +38,21 @@ package Scenarios {
 		override protected function addElements():void {
 			var planet_bg:Mino = new Mino(rock.gridLoc.x, rock.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff303030);
 			minoLayer.add(planet_bg);
+			
+			minoLayer.add(new Water(C.B.OUTER_BOUNDS.top + (mission as WaterMission).atmosphere));
+			
 			super.addElements();
-			minoLayer.members.splice(0, 0, new Water(C.B.OUTER_BOUNDS.top + (mission as WaterMission).atmosphere));
 		}
 		
 		override protected function getLandColor(skyHue:Number):uint {
 			return 0x38619c;
 		}
+		
+		override protected function get skylineSpr():Class {
+			return _skyline;
+		}
+		
+		[Embed(source = "../../lib/art/backgrounds/skyline.png")] private const _skyline:Class;
 	}
 
 }

@@ -1,5 +1,7 @@
 package GameBonuses {
 	import GameBonuses.Attack.AttackScenario;
+	import GameBonuses.Attack.AttackState;
+	import MainMenu.MysteryThing;
 	import org.flixel.*;
 	import MainMenu.MemoryThing;
 	import MainMenu.MenuState;
@@ -12,7 +14,7 @@ package GameBonuses {
 		
 		override public function create():void {
 			super.create();
-			loadBackground(BG, 0.65);
+			loadBackground(BG, 0.5);
 			
 			var t:FlxText;
 			
@@ -21,8 +23,15 @@ package GameBonuses {
 			add(t);
 			
 			MenuThing.resetThings();
-			add(new MemoryThing("Attack Mode!", AttackScenario));
+			addBonus("Reverse Mode!", AttackState);
 			add(new MemoryThing("Back", MenuState));
+		}
+		
+		protected function addBonus(name:String, bonus:Class):void {
+			if (C.unlocks.bonusUnlocked(bonus))
+				add(new MemoryThing(name, bonus));
+			else
+				add(new MysteryThing());
 		}
 		
 		override public function update():void {

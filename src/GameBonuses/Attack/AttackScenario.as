@@ -1,5 +1,4 @@
 package GameBonuses.Attack {
-	import GameBonuses.BonusState;
 	import HUDs.MapBounds;
 	import Meteoroids.SlowRocket;
 	import Missions.LoadedMission;
@@ -18,6 +17,8 @@ package GameBonuses.Attack {
 	 */
 	public class AttackScenario extends DefaultScenario {
 		
+		protected var initialLives:int;
+		
 		public function AttackScenario() {
 			super(NaN);
 			
@@ -27,16 +28,13 @@ package GameBonuses.Attack {
 			mapBuffer = 0;
 		}
 		
-		private var skyline:FlxSprite;
-		private var aggregate:Aggregate;
 		private var arrowHint:AttackHelper;
+		protected var aggregate:Aggregate;
 		protected var stations:Vector.<Station>
 		protected var lives:int;
-		protected var initialLives:int = 3;
 		
-		protected var gunTimer:Number;
-		protected var GUN_COOLDOWN:Number = 1.2;
-		protected var gunIndex:int;
+		protected var gunTimers:Array;
+		protected const GUN_COOLDOWN:Number = 2.4;
 		
 		override public function create():void {
 			lives = initialLives;
@@ -45,8 +43,6 @@ package GameBonuses.Attack {
 			super.create();
 			
 			spawnTimer /= 2;
-			gunTimer = GUN_COOLDOWN * 2;
-			gunIndex = 0;
 			
 			initCombatMinoPool();
 		}
@@ -65,73 +61,7 @@ package GameBonuses.Attack {
 			C.B.PlayArea = aggregate.bounds; //spawns a copy each
 		}
 		
-		override protected function createBG():void {
-			var FLXW:int = FlxG.width / C.BLOCK_SIZE;
-			var FLXH:int = FlxG.height / C.BLOCK_SIZE;
-			var x:int, y:int;
-			
-			var sky:FlxSprite = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000, true, "sky");
-			sky.fill(0xff000000);
-			
-			//generate 'sun'
-			var stamp:FlxSprite = new FlxSprite().createGraphic(C.BLOCK_SIZE, C.BLOCK_SIZE);
-			stamp.color = 0xfffd00;
-			var sunAngle:Number = FlxU.random() * Math.PI / 2 + Math.PI * 5/4;
-			var sunPoint:Point = new Point((Math.cos(sunAngle) * .8 + 1) * FLXW / 2, 
-										   (Math.sin(sunAngle) * .8 + 1) * FLXH / 2
-										   /*FLXW / 2, FLXH / 4*/);
-			var sunRad:int = FlxU.random() * 3;
-			for (x = sunPoint.x - sunRad; x <= sunPoint.x + sunRad; x++)
-				for (y = sunPoint.y - sunRad; y <= sunPoint.y + sunRad; y++)
-					sky.draw(stamp, x * C.BLOCK_SIZE, y * C.BLOCK_SIZE);
-			
-			//basic sky color
-			
-			var hue:Number = FlxU.random();
-			var strip:FlxSprite = new FlxSprite().createGraphic(FlxG.width, C.BLOCK_SIZE);
-			for (y = 0; y < FLXH; y++) {
-				var skyFraction:Number = y / FLXH;
-				skyFraction = 1 - (1 - skyFraction) * (1 - skyFraction);
-				var brightness:Number = 0.25 + 0.45 * skyFraction;
-				strip.color = C.HSVToRGB(hue, .5, 1);
-				strip.alpha = brightness;
-				sky.draw(strip, 0, y * C.BLOCK_SIZE);
-			}
-			
-			bg = sky;
-			
-			parallaxBG = new FlxGroup;
-			skyline = new FlxSprite(-FlxG.width / 2, FlxG.height / 2, _skyline);
-			skyline.scrollFactor.x = skyline.scrollFactor.y = 0.25;
-			skyline.color = getLandColor(hue);
-			parallaxBG.add(skyline);
-		}
-		
-		protected function getLandColor(skyHue:Number):uint {
-			return C.HSVToRGB(skyHue, .25, 0.72);
-		}
-		
-		override protected function createMission():void {
-			mission = new LoadedMission(_raw_mission);
-		}
-		
-		override protected function buildRock():void {
-			rock = new PlanetMaterial(-10, 0, mission.rawMap.map, mission.rawMap.center);
-			rock.color = skyline.color;
-		}
-		
-		override protected function repositionLevel():void {
-			rock.center.x += 0;
-			rock.center.y += 0;
-		}
-		
-		override protected function eraseOverlap():void { } //not needed
-		
 		override protected function addElements():void {
-			var planet_bg:Mino = new Mino(rock.gridLoc.x, rock.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff23170f);
-			//planet_bg.color = C.interpolateColors(planet_bg.color, skyline.color, 0.5);
-			minoLayer.add(planet_bg);
-			
 			Mino.all_minos.push(rock);			
 			minoLayer.add(rock);
 			
@@ -149,31 +79,31 @@ package GameBonuses.Attack {
 			aggregate.centroidOffset.x = 17;
 			aggregate.centroidOffset.y = 20;
 			
+			makeStations();
+			
+			Mino.resetGrid(); //fix initial core locs
+			for each (var mino:Mino in Mino.all_minos)
+				if (mino.exists)
+					mino.addToGrid();
+		}
+		
+		protected function makeStations():void { }
+		
+		protected function makeStation(x:int, y:int, sminos:Array):void {
 			var station:Station = new AttackStation(null);
-			station.core.gridLoc.x -= 1;
-			station.core.gridLoc.y += 4;
-			Mino.resetGrid(); //fix initial core loc
-			rock.addToGrid(); //fix resulting missing rock
+			station.core.gridLoc.x += x;
+			station.core.gridLoc.y += y;
 			station.core.addToGrid();
 			
-			//new StationLoader(station, ["Hook-Conduit,2,4,0", "Hook-Conduit,-4,4,0", "Long-Conduit,-7,5,3", "Hook-Conduit,-7,1,0", "LeftHook-Conduit,-7,-1,2", "LeftHook-Conduit,3,3,2", "Long-Conduit,6,2,3", "LeftHook-Conduit,7,-1,2", "Hook-Conduit,6,-2,0", "Small Barracks,7,-3,3", "Rocket Gun,5,-4,1", "Rocket Gun,8,-5,1", "Hook-Conduit,9,-2,2", "Small Barracks,-9,-1,3", "Rocket Gun,-7,-3,1", "Rocket Gun,-10,-3,1", "Long-Conduit,-10,1,3", "Small Barracks,1,2,3", "Rocket Gun,-1,2,1"]);
-			new StationLoader(station, ["Hook-Conduit,-4,4,0", "Long-Conduit,-9,4,0", "Long-Conduit,1,4,0", "LeftHook-Conduit,3,2,2", "LeftHook-Conduit,8,2,0", "Long-Conduit,8,-1,3", "LeftHook-Conduit,9,-4,2", "LeftHook-Conduit,6,-4,2", "LeftHook-Conduit,-11,2,3", "Long-Conduit,-11,0,3", "LeftHook-Conduit,-11,-4,2", "Small Barracks,8,-6,3", "Small Barracks,1,2,3", "Small Barracks,-11,-6,3", "Rocket Gun,-8,-6,1", "Rocket Gun,6,-6,1", "Rocket Gun,2,0,1", "Hook-Conduit,-12,-5,0"]);
+			new StationLoader(station, sminos);
 			for each (var member:Mino in station.members)
 				aggregate.members.push(member);
-			setBounds();
 			
 			minoLayer.add(station.core);
 			minoLayer.add(station);
 			stations.push(station);
 		}
 		
-		protected function addSmino(X:int, Y:int, minoType:Class, Facing:int = FlxSprite.DOWN):void {
-			var smino:Smino = new minoType(X, Y);
-			while (smino.facing != Facing)
-				smino.rotateClockwise(true);
-			smino.stealthAnchor(aggregate);
-			minoLayer.add(smino);
-		}
 		
 		override protected function setupBags():void { } //not needed
 		override protected function createTracker(_:Number = 3):void { } //likewise
@@ -203,6 +133,14 @@ package GameBonuses.Attack {
 			
 			for each (var gun:RocketGun in combatMinoPool)
 				gun.loadRockets();
+			
+			gunTimers = new Array(combatMinoPool.length);
+			setGunTimers();
+		}
+		
+		protected function setGunTimers():void {
+			for (var i:int = 0; i < gunTimers.length; i++)
+				gunTimers[i] = GUN_COOLDOWN + GUN_COOLDOWN * i / (gunTimers.length + 1); //+1 provides a gap between volleys
 		}
 		
 		
@@ -270,28 +208,27 @@ package GameBonuses.Attack {
 				arrowHint.parent = currentMino;
 			
 			spawnTimer = SPAWN_TIME;
-			gunTimer = GUN_COOLDOWN * 2;
+			setGunTimers();
 		}
 		
 		protected function checkGuns():void {
 			if (!currentMino || !combatMinoPool.length)
 				return;
 			
-			gunTimer -= FlxG.elapsed;
-			if (gunTimer <= 0) {
-				var target:Point = currentMino.absoluteCenter;
+			var target:Point = currentMino.absoluteCenter;
+			
+			for (var i:int = 0; i < combatMinoPool.length; i++) {
+				gunTimers[i] -= FlxG.elapsed;
+				if (gunTimers[i] > 0)
+					continue;
 				
-				for (var i:int = 0; i < combatMinoPool.length; i++) {
-					var gun:RocketGun = combatMinoPool[(gunIndex + i) % combatMinoPool.length];
-					var dist:Number = target.subtract(gun.absoluteCenter).length;
-					var travelTime:Number = dist * C.BLOCK_SIZE / SlowRocket.SPEED;
-					var adjTarget:Point = target.add(new Point(0, Math.round(travelTime * 1.25 / C.CYCLE_TIME))); 
-					if (gun.canFireOn(adjTarget, true)) {
-						gun.fireOn(adjTarget, false);
-						gunIndex = (gunIndex + 1) % combatMinoPool.length;
-						gunTimer = GUN_COOLDOWN;
-						return;
-					}
+				var gun:RocketGun = combatMinoPool[i];
+				var dist:Number = target.subtract(gun.absoluteCenter).length;
+				var travelTime:Number = dist * C.BLOCK_SIZE / SlowRocket.SPEED;
+				var adjTarget:Point = target.add(new Point(0, Math.round(travelTime * 1.25 / C.CYCLE_TIME))); 
+				if (gun.canFireOn(adjTarget, true)) {
+					gun.fireOn(adjTarget, false);
+					gunTimers[i] = GUN_COOLDOWN;
 				}
 			}
 		}
@@ -352,15 +289,12 @@ package GameBonuses.Attack {
 		}
 		
 		override protected function endGame():void {
-			FlxG.state = new BonusState;
+			FlxG.state = new AttackState;
 		}
 		
 		override protected function exitToMenu(_:String = null):void {
-			FlxG.state = new BonusState;
+			FlxG.state = new AttackState;
 		}
-		
-		[Embed(source = "../../../lib/art/backgrounds/skyline_dirt.png")] private const _skyline:Class;
-		[Embed(source = "../../../lib/missions/tutorial_housing.png")] private const _raw_mission:Class;
 	}
 
 }

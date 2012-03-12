@@ -5,6 +5,7 @@ package Editor {
 	import Scenarios.PlanetScenario;
 	import Missions.LoadedMission;
 	import Mining.PlanetMaterial;
+	import Mining.Water;
 	
 	/**
 	 * ...
@@ -50,8 +51,8 @@ package Editor {
 		
 		override protected function buildLevel():void {
 			var planet:PlanetMaterial = new PlanetMaterial( -15, 0, mission.rawMap.map, mission.rawMap.center);
-			station.core.center.x += 1;
-			station.core.center.y -= 4;
+			station.core.center.x += 4;
+			station.core.center.y += 6;
 			
 			Mino.resetGrid();
 			station.core.addToGrid();
@@ -61,6 +62,9 @@ package Editor {
 			var planet_bg:Mino = new Mino(planet.gridLoc.x, planet.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff23170f);
 			
 			minoLayer.add(planet_bg);
+			
+			minoLayer.add(new Water(C.B.OUTER_BOUNDS.top + 12));
+			
 			minoLayer.add(planet);
 			station.add(planet);
 			Mino.all_minos.push(planet);
@@ -68,6 +72,16 @@ package Editor {
 			
 			loadStation();
 		}
+		
+		override protected function getLandColor(skyHue:Number):uint {
+			return 0x38619c;
+		}
+		
+		override protected function get skylineSpr():Class {
+			return _skyline;
+		}
+		
+		[Embed(source = "../../lib/art/backgrounds/skyline.png")] private const _skyline:Class;
 		
 		
 		
