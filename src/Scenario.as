@@ -54,6 +54,9 @@ package
 		protected var bg_sprite:Class;
 		protected var bg_sprites:Array;
 		
+		protected var buildMusic:String;
+		protected var combatMusic:String;
+		
 		protected var mapBuffer:int;
 		
 		protected var rotateable:Boolean;
@@ -167,7 +170,10 @@ package
 				//FlxG.mouse.load(_combat_cursor, 15, 15);
 			//else
 				FlxG.mouse.hide();
-			C.music.intendedMusic = C.music.PLAY_MUSIC;
+			if (buildMusic && C.newMusicOK)
+				C.music.intendedMusic = buildMusic;
+			else
+				C.music.intendedMusic = C.music.OLD_PLAY_MUSIC;
 			registerStart();
 		}
 		
@@ -239,6 +245,7 @@ package
 		
 		protected function createTracker(waveMeteos:Number = 3):void {
 			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, waveMeteos, bagType.length, meteoSpeedMultiplier);
+			tracker.shouldPlayKlaxon = !combatMusic || !C.newMusicOK; 
 			hud.setTracker(tracker);
 			add(tracker);
 		}
@@ -433,6 +440,8 @@ package
 			if (stationHint && stationHint.exists && !C.NO_COMBAT_ROTATING)
 				stationHint.visible = false;
 			dangeresque = true;
+			if (combatMusic && C.newMusicOK)
+				C.music.combatMusic = combatMusic;
 			
 			hudLayer.add(targetCursor = new TargetingCursor);
 			NewPlayerEvent.fire(NewPlayerEvent.METEOROIDS);
@@ -445,6 +454,7 @@ package
 			if (stationHint && stationHint.exists && !C.NO_COMBAT_ROTATING)
 				stationHint.visible = true;
 			dangeresque = false;
+			C.music.combatMusic = null;
 			
 			targetCursor.exists = false;
 			targetCursor = null;
@@ -459,7 +469,7 @@ package
 		
 		protected function checkCombatCursor():void {
 			var target:Point = C.B.screenToBlocks(targetCursor.x, targetCursor.y);
-			var closest:RocketGun = findClosestValidLauncher(target);
+			var closest:RocketGun = findClosestLauncherAny(target);
 			if (closest)
 				closest.aimAt(target);
 		}
@@ -685,7 +695,7 @@ package
 				enterPauseState();
 		}
 		
-		protected function dropBomb():void {			
+		protected function dropBomb():void {
 			currentMino.active = currentMino.current = currentMino.bombCarrying = false;
 			minoLayer.add(currentMino = new Bomb(currentMino))//0, - C.B.getFurthest() - 1));
 			currentMino.current = true;
@@ -703,6 +713,10 @@ package
 		}
 		
 		protected function findClosestValidLauncher(target:Point):RocketGun {
+			return findClosestLauncher(target, true);
+		}
+		
+		protected function findClosestLauncherAny(target:Point):RocketGun {
 			var closest:RocketGun = findClosestLauncher(target, true);
 			if (closest)
 				return closest;
@@ -713,7 +727,7 @@ package
 			var dist:int = int.MAX_VALUE;
 			var closest:RocketGun;
 			for each (var gun:RocketGun in combatMinoPool)
-				if (gun.exists && gun.canFireOn(target, true)) {
+				if (gun.exists && gun.canFireOn(target, checkForBlock)) {
 					var gunDist:int = target.subtract(gun.fireOrigin).length;
 					if (gunDist < dist) {
 						dist = gunDist;
@@ -817,6 +831,7 @@ package
 					if (mino.dangerous)
 						mino.exists = false;
 				dangeresque = false;
+				C.music.combatMusic = null;
 			}
 			registerEnd(false);
 			
@@ -908,6 +923,8 @@ package
 		protected function endGame():void {
 			var victory:Boolean = won();
 			
+			C.log("ending: campaign=" + (C.campaign != null), "in_tutorial=" + C.IN_TUTORIAL);
+			
 			if (C.campaign) {
 				if (victory) {
 					C.campaign.winMission(makeStatblock(victory));
@@ -918,7 +935,8 @@ package
 				}
 			} else if (C.IN_TUTORIAL) {
 				var curLevel:int = C.scenarioList.index(this);
-				if (!won()) {
+				C.log('ending tutorial: won=' + victory, "next=" + nextLevel, "nextWins=" + C.accomplishments.winsByScenario[nextLevel], "tutDone=" + C.accomplishments.tutorialDone);
+				if (!victory) {
 					FlxG.state = new C.scenarioList.all[curLevel];
 				} else {				
 					var nextLevel:int = curLevel + 1;

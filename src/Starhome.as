@@ -19,7 +19,7 @@ package {
 	{
 		public function Starhome()
 		{
-			super(480, 480, C.BETA_LOCKED ? WaitState : MenuState, 1);
+			super(480, 480, C.BETA ? WaitState : MenuState, 1);
 			useDefaultHotKeys = false;
 			init();
 		}

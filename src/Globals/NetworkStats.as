@@ -15,7 +15,7 @@ package Globals {
 		public function NetworkStats() {
 			loader = new URLLoader(); 
 			loader.addEventListener(Event.COMPLETE, on_complete);
-			allowed = -1;
+			allowed = C.BETA ? -1 : 0;
 		}
 		
 		public function init():void {

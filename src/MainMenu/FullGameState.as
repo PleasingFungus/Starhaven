@@ -40,12 +40,9 @@ package MainMenu {
 			
 			MenuThing.menuThings[MenuThing.menuThings.indexOf(rightCol[0])].select();
 			
-			//C.music.intendedMusic = C.music.MENU_MUSIC;
 			var cancelButton:StateThing = new StateThing("Cancel", MenuState);
 			cancelButton.setY(FlxG.height - 60);
 			add(cancelButton);
-			
-			C.music.intendedMusic = C.music.MENU_MUSIC;
 		}
 		
 		override public function update():void {

@@ -31,12 +31,10 @@ package MainMenu {
 			confirm.setY(explanatoryText.y + explanatoryText.height + 60);
 			confirm.setFormat(C.FONT, 20);
 			MenuThing.menuThings[0].select();
-			
-			C.music.intendedMusic = C.music.MENU_MUSIC;
 		}
 		
 		protected function skipTutorials(_:String):void {
-			C.accomplishments.stealthAnchorsDone();
+			C.accomplishments.setTutorialDone();
 			FlxG.state = new MenuState;
 		}
 		

@@ -21,6 +21,9 @@ package HUDs {
 			stateTitle.setFormat(C.FONT, 20, 0xffffff, 'center');
 			add(stateTitle);
 			
+			if (C.DEBUG)
+				stateTitle.text += "\nTUT: " + C.IN_TUTORIAL;
+			
 			if (C.campaign) {
 				var campaignText:String = "Mission: " + (C.campaign.missionsRun.length);
 				campaignText += " (ED " + C.difficulty.name(C.difficulty.setting) +  ")";

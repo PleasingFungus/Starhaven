@@ -31,7 +31,6 @@ package MainMenu {
 			cancelButton.setY(FlxG.height - 60);
 			add(cancelButton);
 			
-			C.music.intendedMusic = C.music.MENU_MUSIC;
 			C.IN_TUTORIAL = false;
 		}
 		

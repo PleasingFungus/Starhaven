@@ -27,7 +27,6 @@ package Startup {
 			sorry.y -= sorry.height / 2;
 			add(sorry);
 			
-			C.music.intendedMusic = C.music.MENU_MUSIC;
 			bgColor = 0x0;
 		}
 		

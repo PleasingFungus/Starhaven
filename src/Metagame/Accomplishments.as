@@ -64,10 +64,11 @@ package Metagame {
 			if (!indexOK)
 				C.log(index +" vs " + C.scenarioList.LAST_TUTORIAL_INDEX);
 			if (!tutorialDone && indexOK)
-				stealthAnchorsDone();
+				setTutorialDone();
 		}
 		
-		public function stealthAnchorsDone():void {
+		public function setTutorialDone():void {
+			C.log("Tutorial over!");
 			tutorialDone = true;
 			C.save.write("tutorialDone", tutorialDone);
 			C.netStats.finishTutorial(totalTutorialsBeaten()); 

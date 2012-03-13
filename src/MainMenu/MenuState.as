@@ -20,6 +20,8 @@ package MainMenu {
 			}
 			C.IN_TUTORIAL = false;
 			
+			if (!C.music.intendedMusic && C.newMusicOK)
+				C.music.forceSwap(C.music.MENU_MUSIC);
 			
 			super.create();
 			
@@ -51,12 +53,10 @@ package MainMenu {
 			//t.setFormat(C.FONT, 12, 0xffffff, 'center');
 			//add(t);
 			
-			
 			t = new FlxText(0, 4, FlxG.width - 5, C.VERSION + (C.DEBUG ? "-DEBUG" : ""));
 			t.setFormat(C.FONT, 12, 0xffffff, 'right');
 			add(t);
 			
-			C.music.intendedMusic = C.music.MENU_MUSIC;
 			bgColor = 0x0;
 		}
 		

@@ -26,6 +26,7 @@ package Scenarios {
 			minoLimitMultiplier = 0.8;
 			rotateable = false;
 			conduitLimit = 9;
+			buildMusic = C.music.MUSIC_PREFIX + "Surface%20Tension.mp3";
 		}
 		
 		override protected function repositionLevel():void {

@@ -14,6 +14,12 @@ package  {
 			
 			add(background = new FlxSprite());
 			loadBackground(DEFAULT_BG);
+			
+			if (C.newMusicOK)
+				C.music.intendedMusic = C.music.MENU_MUSIC;
+			else
+				C.music.intendedMusic = null;
+			C.music.combatMusic = null;
 		}
 		
 		protected function loadBackground(rawSpr:Class, Color:Number = 0.5):void {

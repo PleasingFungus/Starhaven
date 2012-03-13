@@ -24,8 +24,8 @@ package SFX {
 		public function pointTo(end:Point, start:Point = null):void {
 			if (!start)
 				start = this.start;
-			if (this.start.equals(start) && this.end.equals(end))
-				return;
+			//if (this.start.equals(start) && this.end.equals(end))
+				//return;
 			
 			path = findPath(start, end);
 			

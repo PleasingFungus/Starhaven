@@ -17,6 +17,8 @@ package Meteoroids {
 		private var spawnTimer:Number;
 		public var waveTime:Number;
 		
+		public var shouldPlayKlaxon:Boolean;
+		
 		public var waveSpacing:int;
 		
 		public var meteoroids:FlxGroup;
@@ -44,6 +46,7 @@ package Meteoroids {
 			C.log("Wave spacing: " + waveSpacing);
 			waveTime = 0;
 			kills = 0;
+			shouldPlayKlaxon = true;
 			
 			meteoroids = new FlxGroup();
 			
@@ -79,7 +82,8 @@ package Meteoroids {
 			timer++;
 			if (timer >= nextWave) {
 				startWave();
-				C.sound.play(START_KLAXON);
+				if (shouldPlayKlaxon)
+					C.sound.play(START_KLAXON);
 			}
 			else if (nextWave == timer + 2) {
 				FlxG.state.add(new FlashText("Meteors Inbound!", 0xff2020, 2));

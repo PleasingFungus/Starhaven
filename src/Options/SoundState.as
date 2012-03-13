@@ -78,7 +78,7 @@ package Options {
 		
 		protected function checkMusic():void {
 			if (selectedSlider < 2 && !C.music.intendedMusic)
-				C.music.forceSwap(C.music.PLAY_MUSIC);
+				C.music.forceSwap(C.music.MENU_MUSIC);
 			else if (selectedSlider >= 2 && C.music.intendedMusic)
 				C.music.forceSwap(null);
 		}

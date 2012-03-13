@@ -61,8 +61,6 @@ package Metagame {
 			for each (var option:MenuThing in MenuThing.menuThings)
 				option.setY(FlxG.height - 40);
 			MenuThing.menuThings[0].select();
-			
-			C.music.intendedMusic = C.music.MENU_MUSIC;
 		}
 		
 		override public function update():void {

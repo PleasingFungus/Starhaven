@@ -46,8 +46,8 @@ package Musics
 		}
 		
 		//[Embed(source = "../../lib/music/temp_menu_l.mp3")] public static const MENU_MUSIC:Class;
-		//[Embed(source = "../../lib/music/temp_game_l.mp3")] public static const PLAY_MUSIC:Class;
-		[Embed(source = "../../lib/music/2-4-2012_2.mp3")] public const PLAY_MUSIC:Class;
+		//[Embed(source = "../../lib/music/temp_game_l.mp3")] public static const OLD_PLAY_MUSIC:Class;
+		[Embed(source = "../../lib/music/2-4-2012_2.mp3")] public const OLD_PLAY_MUSIC:Class;
 		public const MENU_MUSIC:* = null;
 		
 		private static const MUSIC_VOLUME:Number = .6;

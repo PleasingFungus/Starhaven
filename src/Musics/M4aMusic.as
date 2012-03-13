@@ -13,9 +13,12 @@ package Musics {
 	public class M4aMusic extends FlxObject {
 		
 		public var intendedMusic:String;
+		public var combatMusic:String;
+		
 		private var music:String;
 		private var player:NetStream;
 		private var paused:Boolean;
+		
 		public var musicVolume:Number;
 		public function M4aMusic() {
 			musicVolume = 0.5;
@@ -118,9 +121,9 @@ package Musics {
 			}
 		} 
 		
-		public const PLAY_MUSIC:String = "http://pleasingfungus.com/starhaven/music/2-4-2012_2.m4a";
-		public const MENU_MUSIC:String = null;
-		
+		public const OLD_PLAY_MUSIC:String = "http://pleasingfungus.com/starhaven/music/2-4-2012_2.m4a";
+		public const MENU_MUSIC:String = "http://pleasingfungus.com/starhaven/music/Menu_rough.m4a";
+		public const MUSIC_PREFIX:String = "http://pleasingfungus.com/starhaven/music/";
 		
 		private function get MUSIC_VOLUME():Number {
 			return FlxG.getMuteValue() * musicVolume * FlxG.volume * 2;

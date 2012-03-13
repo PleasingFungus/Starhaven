@@ -47,7 +47,7 @@ package Scenarios.Tutorials {
 		}
 	
 		override protected function setupBags():void {
-			bagType = new BagType([makeBag(SmallBarracks), makeBag(RocketGun), makeBag(RocketGun)]);
+			bagType = new BagType([makeBag(SmallBarracks), makeBag(RocketGun), new BagType([RocketGun, SmallBarracks])]);
 			C.difficulty.bagSize = bagType.length;
 		}
 		

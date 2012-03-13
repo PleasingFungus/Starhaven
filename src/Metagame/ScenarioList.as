@@ -1,6 +1,8 @@
 package Metagame {
 	import Scenarios.*;
 	import Scenarios.Tutorials.*;
+	import flash.utils.getQualifiedClassName;
+	import flash.utils.getDefinitionByName;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -22,10 +24,7 @@ package Metagame {
 		}
 		
 		public function index(scenario:Scenario):int {
-			for (var i:int = all.length - 1; i >= 0; i--) //backwards because sea/mtn inherit from planet; will report them as 'moon' otherwise (this is a hack)
-				if (scenario is all[i])
-					return i;
-			return -1;
+			return cIndex(getDefinitionByName(getQualifiedClassName(scenario)) as Class);
 		}
 		
 		public function cIndex(scenario:Class):int {
