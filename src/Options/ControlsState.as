@@ -10,6 +10,7 @@ package Options {
 	 */
 	public class ControlsState extends FadeState {
 		
+		private var inertiaButton:MenuThing;
 		override public function create():void {
 			super.create();
 			loadBackground(BG, 0.75);
@@ -39,6 +40,11 @@ package Options {
 			rightCol.push(add(new ResetMenuThing()));
 			MenuThing.addColumn(rightCol, FlxG.width / 2 + 15);
 			
+			add(inertiaButton = new MenuThing("Rotation Inertia: " + (ControlSet.ROTATE_INERTIA ? "On" : "Off"), setRotateInertia, false));
+			inertiaButton.setFormat(C.FONT, 12);
+			MenuThing.addColumn([inertiaButton], FlxG.width / 4);
+			inertiaButton.setY(FlxG.height * 3 / 4);
+			
 			
 			MenuThing.menuThings[0].select();
 			
@@ -47,6 +53,13 @@ package Options {
 			//t = new FlxText(0, FlxG.height - 25, FlxG.width, "Arrow keys navigate, enter selects, escape exits.");
 			//t.setFormat(C.FONT, 12, 0xffffff, 'center');
 			//add(t);
+		}
+		
+		protected function setRotateInertia(_:String):void {
+			ControlSet.ROTATE_INERTIA = !ControlSet.ROTATE_INERTIA;
+			inertiaButton.init("Rotation Inertia: " + (ControlSet.ROTATE_INERTIA ? "On" : "Off"));
+			inertiaButton.setY(FlxG.height * 3 / 4);
+			ControlSet.save();
 		}
 		
 		override public function update():void {

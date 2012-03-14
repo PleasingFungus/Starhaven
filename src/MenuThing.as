@@ -34,13 +34,26 @@ package  {
 		}
 		
 		public function init(desc:String = null):void {
-			if (text) remove(text);
-			text = new FlxText(0, FlxG.height / 4 + i * 40, FlxG.width, desc);
-			text.alignment = 'center';
-			//text.size = 16;
-			//text.font = C.FONT;
-			text.font = C.BLOCKFONT;
-			text.size = 20;
+			var X:int = 0;
+			var Y:int = FlxG.height / 4 + i * 40;
+			var size:int = 20;
+			var align:String = 'center';
+			var font:String = C.BLOCKFONT;
+			
+			if (text) {
+				X = text.x;
+				Y = text.y;
+				align = text.alignment;
+				size = text.size;
+				font = text.font;
+				
+				remove(text);
+			}
+			
+			text = new FlxText(X, Y, FlxG.width, desc);
+			text.alignment = align;
+			text.font = font;
+			text.size = size;
 			add(text);
 			
 			createHighlight();

@@ -1,4 +1,5 @@
 package  {
+	import Controls.ControlSet;
 	import flash.display.BitmapData;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -95,9 +96,9 @@ package  {
 		
 		public function rotateSmoothly():void {
 			var curRot:Number = rotation;
-			var rotationDirection:Number = forcedRotate ? forcedRotationDirection : -initialRotationDirection;
+			var rotationDirection:Number = forcedRotate || !ControlSet.ROTATE_INERTIA ? forcedRotationDirection : -initialRotationDirection;
 			
-			if (wasForced != forcedRotate)
+			if (wasForced != forcedRotate && ControlSet.ROTATE_INERTIA)
 				rotateSpeed = initRotSpeed;
 			else if (rotateSpeed < finalRotSpeed)
 				rotateSpeed += FlxG.elapsed * (finalRotSpeed - initRotSpeed) / spinupTime;

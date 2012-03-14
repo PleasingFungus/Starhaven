@@ -39,6 +39,8 @@ package Controls {
 		public static const DISABLE_HUD_KEY:Key = new Key("SEMICOLON");
 		public static const ZOOM_KEY:Key = new Key("QUOTE");
 		
+		public static var ROTATE_INERTIA:Boolean = false;
+		
 		public static const CONFIGURABLE_CONTROLS:Array = [MINO_CCW_KEY, MINO_CW_KEY, MINO_L_KEY, MINO_R_KEY, FASTFALL_KEY, ST_CCW_KEY, ST_CW_KEY,
 														   BOMB_KEY];
 		
@@ -64,6 +66,7 @@ package Controls {
 			for each (var key:Key in CONFIGURABLE_CONTROLS)
 				savedKeys.push(key.key + '+' + key.modified);
 			C.save.write("Controls", savedKeys);
+			C.save.write("RotateInertia", ROTATE_INERTIA);
 		}
 		
 		public static function load():void {
@@ -84,6 +87,8 @@ package Controls {
 						CONFIGURABLE_CONTROLS[i].modified = modbool;
 					}
 				}
+			
+			ROTATE_INERTIA = C.save.read("RotateInertia") as Boolean;
 		}
 		
 		public static function reset():void {
@@ -99,6 +104,8 @@ package Controls {
 			BOMB_KEY.key = "SPACE";
 			MINO_HELP_KEY.key = "H";
 			//ZOOM_KEY.key = "Z";
+			
+			ROTATE_INERTIA = false;
 		}
 	}
 
