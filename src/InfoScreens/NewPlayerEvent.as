@@ -87,7 +87,6 @@ package InfoScreens {
 			var description:String = "From time to time, when running a mining station, deadly METEOROIDS will rain down on you.\n\n";
 			description += "You have one defense against this: red ROCKET GUNS. Once you power and crew them, they'll automatically load DEFENSE ROCKETS at the start of meteoroid waves.\n\n";
 			description += "A targeting cursor will appear, letting you fire a rocket from the nearest GUN to intercept and destroy inbound meteoroids.\n\n";
-			description += "You can also slow time for a limited duration every wave, by holding " + ControlSet.FASTFALL_KEY + ".";
 			description += "Survive 3 waves to win!";
 			
 			return new NewPlayerEvent(title, description, 0.8);
