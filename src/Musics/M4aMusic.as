@@ -12,12 +12,14 @@ package Musics {
 	 */
 	public class M4aMusic extends FlxObject {
 		
-		public var intendedMusic:String;
-		public var combatMusic:String;
+		public var intendedMusic:MusicTrack;
+		public var combatMusic:MusicTrack;
 		
+		private var track:MusicTrack; //todo
 		private var music:String;
 		private var player:NetStream;
 		private var paused:Boolean;
+		private var trackTime:Number;
 		
 		public var musicVolume:Number;
 		public function M4aMusic() {
@@ -51,23 +53,39 @@ package Musics {
 			if (!player)
 				firstTimeInit();
 			
+			updateNormalMusic();
+		}
+		
+		protected function updateNormalMusic():void {
+			
 			if (!music) {
 				if (intendedMusic)
-					loadMusic(0);
-			} else if (FlxG.mute || !MUSIC_VOLUME) {
+					loadTrack();
+			} else if (!checkPause())
+				checkVolume();
+		}
+		
+		protected function checkPause():Boolean {
+			if (FlxG.mute || !MUSIC_VOLUME) {
 				if (!paused) {
 					player.pause();
 					paused = true;
 				}
+				return true;
 			} else if (paused) {
 				player.resume();
 				paused = false;
-			} else if (music != intendedMusic) {
+			} 
+			return false;
+		}
+		
+		protected function checkVolume():void {
+			if (track != intendedMusic) {
 				incrementVolume(-MUSIC_VOLUME * FlxG.elapsed / FADE_TIME);
 				if (player.soundTransform.volume <= 0) {
-					if (intendedMusic)
-						loadMusic(0);
-					else
+					if (intendedMusic) 
+						loadTrack();
+					else 
 						killMusic();
 				}
 			} else if (player.soundTransform.volume < MUSIC_VOLUME) {
@@ -81,24 +99,44 @@ package Musics {
 			}
 		}
 		
-		public function forceSwap(newMusic:String):void {
+		protected function checkLoop():void {
+			if (track.loops || music == track.intro)
+				loadMusic();
+		}
+		
+		
+		
+		public function forceSwap(newMusic:MusicTrack):void {
 			intendedMusic = newMusic;
 			if (intendedMusic)
-				loadMusic(MUSIC_VOLUME);
+				loadTrack();
 			else
 				killMusic();
 		}
 		
-		protected function loadMusic(volume:Number):void {
-			player.play(intendedMusic);
+		protected function loadTrack(newTrack:MusicTrack = null):void {
+			if (!newTrack) newTrack = intendedMusic;
+			track = newTrack;
+			if (track.intro)
+				loadMusic(MUSIC_VOLUME, track.intro);
+			else
+				loadMusic(0, track.body);
+		}
+		
+		protected function loadMusic(volume:Number = -1, newMusic:String = null):void {
+			if (volume == -1) volume = player.soundTransform.volume;
+			if (!newMusic) newMusic = intendedMusic.body;
+			player.play(newMusic);
 			player.resume(); //just in case
 			setVolume(volume);
-			music = intendedMusic;
+			music = newMusic;
+			trackTime = 0;
 		}
 		
 		protected function killMusic():void {
 			player.pause();
 			music = null;
+			track = null;
 		}
 		
 		protected function incrementVolume(amount:Number):void {
@@ -106,23 +144,33 @@ package Musics {
 		}
 		
 		protected function setVolume(level:Number):void {
+			//if (level == player.soundTransform.volume) return; //premature optimization
+			
 			var sound:SoundTransform = player.soundTransform;
 			sound.volume = level;
 			player.soundTransform = sound; //so, so dumb
 		}
 		
 		protected function netStatusHandler(p_evt:NetStatusEvent):void {
-			if (p_evt.info.code == "NetStream.Play.FileStructureInvalid") {
-				C.log("The MP4's file structure is invalid.");
-			} else if (p_evt.info.code == "NetStream.Play.NoSupportedTrackFound") {
-				C.log("The MP4 doesn't contain any supported tracks");
-			} else if (p_evt.info.level == "error") {
-				C.log("There was some sort of error with the NetStream", p_evt);
+			switch (p_evt.info.code) {
+				case "NetStream.Play.FileStructureInvalid":
+					C.log("The MP4's file structure is invalid.");
+					break;
+				case "NetStream.Play.NoSupportedTrackFound":
+					C.log("The MP4 doesn't contain any supported tracks");
+					break;
+				case "NetStream.Play.Stop":
+					C.log("DEBUG: MP4 stopped");
+					checkLoop();
+					break;
+				default: if (p_evt.info.level == "error")
+					C.log("There was some sort of error with the NetStream", p_evt);
+					break;
 			}
 		} 
 		
-		public const OLD_PLAY_MUSIC:String = "http://pleasingfungus.com/starhaven/music/2-4-2012_2.m4a";
-		public const MENU_MUSIC:String = "http://pleasingfungus.com/starhaven/music/Menu_rough.m4a";
+		public const OLD_PLAY_MUSIC:MusicTrack = new MusicTrack("http://pleasingfungus.com/starhaven/music/2-4-2012_2.m4a");
+		public const MENU_MUSIC:MusicTrack = new MusicTrack("http://pleasingfungus.com/starhaven/music/Menu_rough.m4a");
 		public const MUSIC_PREFIX:String = "http://pleasingfungus.com/starhaven/music/";
 		
 		private function get MUSIC_VOLUME():Number {

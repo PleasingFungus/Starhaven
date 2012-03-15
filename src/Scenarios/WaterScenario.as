@@ -12,6 +12,7 @@ package Scenarios {
 	import GrabBags.BagType;
 	import Sminos.SmallBarracks;
 	import Sminos.SmallLauncher;
+	import Musics.MusicTrack;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -27,6 +28,7 @@ package Scenarios {
 			missionType = WaterMission;
 			rotateable = false;
 			conduitLimit = 8;
+			buildMusic = new MusicTrack(C.music.MUSIC_PREFIX + "ST_AD_Loop.m4a", C.music.MUSIC_PREFIX + "ST_AD_Intro.m4a");
 		}
 		
 		override protected function repositionLevel():void {
