@@ -64,22 +64,15 @@ package InfoScreens {
 		}
 		
 		public static function miningTutorial():NewPlayerEvent {
-			var title:String = "Mining and Power!";
-			var description:String = "You control power conduits and drills that will start falling from the sky as soon as you press " + ControlSet.CONFIRM_KEY + ". ";
-			description += "Use the drills to harvest minerals from the purple mineral clusters in the ground, and the conduits to connect the drills to the station core and collect their minerals. ";
-			description += "\n\nIf you make a mistake, each drill comes with a single bomb, dropped with '" + ControlSet.BOMB_KEY + "'; you can use those to blow up misplaced parts. (But don't blow up the station core!) ";
-			description += "\n\nTo succeed, just collect 50% of the minerals present; you can check your progress in the bottom-left. Go to it!";
-			
-			return new NewPlayerEvent(title, description, 0.8);
+			var tut:NewPlayerEvent = new NewPlayerEvent(" ", " ");
+			tut.add(new FlxSprite().loadGraphic(_mining_glyphs));
+			return tut;
 		}
 		
 		public static function housingTutorial():NewPlayerEvent {
-			var title:String = "Housing and Launching!";
-			var description:String = "Once you collect minerals, you need to launch them back to your home-base (offscreen).\n\n";
-			description += "To do this, you'll need to use two new modules. Blue barracks, which provide crew to adjacent modules, and green launchers, which provide one-man mineral rockets.\n\n";
-			description += "Power both, use them together, and you'll be done in no time!";
-			
-			return new NewPlayerEvent(title, description, 0.8);
+			var tut:NewPlayerEvent = new NewPlayerEvent(" ", " ");
+			tut.add(new FlxSprite().loadGraphic(_launching_glyphs));
+			return tut;
 		}
 		
 		public static function defenseTutorial():NewPlayerEvent {
@@ -87,7 +80,6 @@ package InfoScreens {
 			var description:String = "From time to time, when running a mining station, deadly METEOROIDS will rain down on you.\n\n";
 			description += "You have one defense against this: red ROCKET GUNS. Once you power and crew them, they'll automatically load DEFENSE ROCKETS at the start of meteoroid waves.\n\n";
 			description += "A targeting cursor will appear, letting you fire a rocket from the nearest GUN to intercept and destroy inbound meteoroids.\n\n";
-			description += "You can also slow time for a limited duration every wave, by holding " + ControlSet.FASTFALL_KEY + ".";
 			description += "Survive 3 waves to win!";
 			
 			return new NewPlayerEvent(title, description, 0.8);
@@ -160,6 +152,9 @@ package InfoScreens {
 			EVENTS[NEBULA] = nebulaMinitutorial;
 			EVENTS[WATER] = waterMinitutorial;
 		}
+		
+		[Embed(source = "../../lib/art/tutorial/mining_glyphs.png")] private static const _mining_glyphs:Class;
+		[Embed(source = "../../lib/art/tutorial/launching_glyphs.png")] private static const _launching_glyphs:Class;
 	}
 
 }
