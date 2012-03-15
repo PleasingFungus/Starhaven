@@ -13,11 +13,15 @@ package Helpers {
 		public var parent:Aggregate;
 		public var presses:int;
 		
+		private static var done:Boolean;
+		
 		public function StationHint(Parent:Aggregate) {
 			add(leftKey = ControlSet.ST_CW_KEY.generateKeySprite());
 			add(rightKey = ControlSet.ST_CCW_KEY.generateKeySprite());
 			
 			parent = Parent;
+			
+			exists = !done;
 		}
 		
 		override public function update():void {
@@ -43,6 +47,7 @@ package Helpers {
 			if (rightKey.key.justPressed())
 				presses++;
 			exists = presses < PRESS_LIMIT;
+			done = !exists;
 		}
 		
 		protected static const BUFFER:int = 6;

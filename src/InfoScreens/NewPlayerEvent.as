@@ -68,7 +68,7 @@ package InfoScreens {
 			var description:String = "You control power conduits and drills that will start falling from the sky as soon as you press " + ControlSet.CONFIRM_KEY + ". ";
 			description += "Use the drills to harvest minerals from the purple mineral clusters in the ground, and the conduits to connect the drills to the station core and collect their minerals. ";
 			description += "\n\nIf you make a mistake, each drill comes with a single bomb, dropped with '" + ControlSet.BOMB_KEY + "'; you can use those to blow up misplaced parts. (But don't blow up the station core!) ";
-			description += "\n\nTo succeed, just collect 75% of the minerals present; you can check your progress in the bottom-left. Go to it!";
+			description += "\n\nTo succeed, just collect 50% of the minerals present; you can check your progress in the bottom-left. Go to it!";
 			
 			return new NewPlayerEvent(title, description, 0.8);
 		}

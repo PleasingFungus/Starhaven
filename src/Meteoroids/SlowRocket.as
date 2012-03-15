@@ -16,7 +16,7 @@ package Meteoroids {
 		protected var fuse:Number;
 		public function SlowRocket(Origin:Point, Target:Point, Parent:Mino) {
 			super()
-			loadRotatedGraphic(_sprite);
+			loadRotatedGraphic(_sprite, 32);
 			
 			gridLoc = Origin.clone();
 			semigridLoc = gridLoc.clone();

@@ -13,6 +13,8 @@ package Helpers {
 		public var parent:Smino;
 		public var presses:Array;
 		
+		private static var done:Boolean;
+		
 		public function ArrowHelper(Parent:Smino) {
 			keys = [];
 			
@@ -26,6 +28,8 @@ package Helpers {
 			
 			parent = Parent;
 			presses = [0, 0, 0, 0];
+			
+			exists = !done;
 		}
 		
 		override public function update():void {
@@ -60,6 +64,7 @@ package Helpers {
 					if (pressCount < PRESS_LIMIT)
 						return;
 			exists = false;
+			done = true;
 		}
 		
 		protected static const BUFFER:int = 4;
