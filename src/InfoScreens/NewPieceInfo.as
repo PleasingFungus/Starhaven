@@ -40,6 +40,7 @@ package InfoScreens {
 			if (C.AUDIO_DESCRIPTIONS && mino.audioDescription) {
 				audioDescription = new FlxSound();
 				audioDescription.loadEmbedded(mino.audioDescription);
+				audioDescription.volume = C.sound.volume * 1;
 				audioDescription.play();
 				FlxG.state.add(audioDescription);
 			}
