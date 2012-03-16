@@ -113,7 +113,7 @@ package Sminos {
 		[Embed(source = "../../lib/art/sminos/agun.png")] private static const _sprite:Class;
 		[Embed(source = "../../lib/art/sminos/agun_in.png")] private static const _sprite_in:Class;
 		[Embed(source = "../../lib/sound/vo/agun.mp3")] public static const _desc:Class;
-		[Embed(source = "../../lib/art/other/rocket_combat_unlit_2.png")] private static const _combat_rocket_sprite:Class;
+		[Embed(source = "../../lib/art/other/rocket_combat_unlit_3.png")] private static const _combat_rocket_sprite:Class;
 		[Embed(source = "../../lib/sound/game/rocket_gun_1.mp3")] protected const _LAUNCH_NOISE_1:Class;
 		[Embed(source = "../../lib/sound/game/rocket_gun_2.mp3")] protected const _LAUNCH_NOISE_2:Class;
 		protected const LAUNCH_NOISES:Array = [_LAUNCH_NOISE_1, _LAUNCH_NOISE_2];

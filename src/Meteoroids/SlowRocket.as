@@ -98,7 +98,7 @@ package Meteoroids {
 		
 		public static const SPEED:int = 200;
 		
-		[Embed(source = "../../lib/art/other/rocket_combat_2.png")] private static const _sprite:Class;
+		[Embed(source = "../../lib/art/other/rocket_combat_3.png")] private static const _sprite:Class;
 	}
 
 }
