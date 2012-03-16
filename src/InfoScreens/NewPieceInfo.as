@@ -27,13 +27,9 @@ package InfoScreens {
 			var name:String = getPieceName(mino);
 			title = new FlxText(0, 10, FlxG.width, name);
 			title.setFormat(C.TITLEFONT, 28, 0xffffff/*, 'center'*/);
-			//add(title);
 			
 			description = new FlxText(40, title.y + title.height + 30, 275, mino.description);
 			description.setFormat(C.BLOCKFONT, 16, 0xffffff);
-			//add(description);
-			
-			//TODO: autogen'd iconography! (oooo)
 			
 			htext = new FlxText( 0, -1, FlxG.width, ControlSet.MINO_HELP_KEY.toString()+" to see this screen again later");
 			htext.setFormat(C.FONT, 12, 0xffffff, 'center');

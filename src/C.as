@@ -12,7 +12,7 @@ package  {
 	import Icons.NoCrewIcon;
 	import Icons.NoPowerIcon;
 	import SFX.EffectSound;
-	import InfoScreens.NewPieceInfo;
+	import HUDs.NewPieceInfo;
 	import InfoScreens.NewPlayerEvent;
 	import Controls.ControlSet;
 	import Globals.*;
@@ -21,8 +21,8 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "0.919";
-		public static const DEBUG:Boolean = false;
+		public static const VERSION:String = "0.921";
+		public static const DEBUG:Boolean = true;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
 		public static const BETA:Boolean = true;

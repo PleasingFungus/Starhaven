@@ -14,6 +14,7 @@ package
 	import HUDs.FlashText;
 	import HUDs.Minimap;
 	import HUDs.PauseLayer;
+	import HUDs.NewPieceInfo;
 	import MainMenu.MenuState;
 	import MainMenu.QuickPlayState;
 	import MainMenu.StateThing;
@@ -32,7 +33,6 @@ package
 	import Sminos.RocketGun;
 	import Sminos.StationCore;
 	import Controls.ControlSet;
-	import InfoScreens.NewPieceInfo;
 	import InfoScreens.NewPlayerEvent;
 	import Icons.FloatingIconText;
 	import HUDs.MapBounds;
@@ -385,8 +385,7 @@ package
 			else if (currentMino.bombCarrying)
 				minoLayer.add(new BombHelper(currentMino));
 			
-			if (C.ANNOYING_NEW_PIECE_POPUP && !NewPieceInfo.seenPieces[NewPieceInfo.getPieceName(currentMino)])
-				hudLayer.add(new NewPieceInfo(currentMino, setInfopauseState));
+			hudLayer.add(new NewPieceInfo(currentMino)); //will only exist if not seen before
 			
 			spawnTimer = SPAWN_TIME;
 		}
