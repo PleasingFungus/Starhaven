@@ -26,6 +26,7 @@ package
 	import Meteoroids.TargetingCursor;
 	import Mining.NebulaCloud;
 	import Mining.ResourceSource;
+	import Musics.MusicTrack;
 	import SFX.Fader;
 	import Sminos.Bomb;
 	import Sminos.RocketGun;
@@ -54,8 +55,8 @@ package
 		protected var bg_sprite:Class;
 		protected var bg_sprites:Array;
 		
-		protected var buildMusic:String;
-		protected var combatMusic:String;
+		protected var buildMusic:MusicTrack;
+		protected var combatMusic:MusicTrack;
 		
 		protected var mapBuffer:int;
 		
@@ -174,6 +175,7 @@ package
 				C.music.intendedMusic = buildMusic;
 			else
 				C.music.intendedMusic = C.music.OLD_PLAY_MUSIC;
+			C.log("Setting intent to " + C.music.intendedMusic);
 			registerStart();
 		}
 		
@@ -832,6 +834,9 @@ package
 						mino.exists = false;
 				dangeresque = false;
 				C.music.combatMusic = null;
+			} else if (currentMino) {
+				killCurrentMino();
+				currentMino = null;
 			}
 			registerEnd(false);
 			

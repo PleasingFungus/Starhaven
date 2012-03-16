@@ -7,6 +7,7 @@ package Scenarios {
 	import Mining.MineralBlock;
 	import Mining.Terrain;
 	import Missions.AsteroidMission;
+	import Musics.MusicTrack;
 	import org.flixel.*;
 	import Meteoroids.MeteoroidTracker;
 	/**
@@ -20,6 +21,7 @@ package Scenarios {
 			
 			goalMultiplier = 0.75;
 			missionType = AsteroidMission;
+			//buildMusic = new MusicTrack(C.music.MUSIC_PREFIX + "ST_Intro.m4a"); //just for testing
 		}
 		
 		override protected function repositionLevel():void {

@@ -8,6 +8,7 @@ package Scenarios {
 	import Mining.Terrain;
 	import Missions.PlanetMission;
 	import Missions.TerrestrialMission;
+	import Musics.MusicTrack;
 	import org.flixel.*;
 	/**
 	 * ...
@@ -26,7 +27,7 @@ package Scenarios {
 			minoLimitMultiplier = 0.8;
 			rotateable = false;
 			conduitLimit = 9;
-			buildMusic = C.music.MUSIC_PREFIX + "Surface%20Tension.mp3";
+			buildMusic = new MusicTrack(C.music.MUSIC_PREFIX + "ST_Loop.m4a", C.music.MUSIC_PREFIX + "ST_Intro.m4a");
 		}
 		
 		override protected function repositionLevel():void {
@@ -126,7 +127,8 @@ package Scenarios {
 			bg = sky;
 			
 			parallaxBG = new FlxGroup;
-			skyline = new FlxSprite(-FlxG.width / 2, FlxG.height / 2 - 100, skylineSpr);
+			skyline = new FlxSprite( -FlxG.width / 2, FlxG.height / 2, skylineSpr);
+			skyline.y += 200 - skyline.height;
 			skyline.scrollFactor.x = skyline.scrollFactor.y = 0.25;
 			skyline.color = getLandColor(hue);
 			parallaxBG.add(skyline);
