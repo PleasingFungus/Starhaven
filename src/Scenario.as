@@ -364,12 +364,12 @@ package
 		protected function checkMinoEvents():void {
 			if (!currentMino.exists) return;
 			
-			if (!currentMino.powered)
-				NewPlayerEvent.fire(NewPlayerEvent.DISCONNECT);
-			else if (station.crewDeficit)
-				NewPlayerEvent.fire(NewPlayerEvent.DECREW);
-			else if (currentMino.submerged && !currentMino.waterproofed)
-				NewPlayerEvent.fire(NewPlayerEvent.SUBMERGE);
+			//if (!currentMino.powered)
+				//NewPlayerEvent.fire(NewPlayerEvent.DISCONNECT);
+			//else if (station.crewDeficit)
+				//NewPlayerEvent.fire(NewPlayerEvent.DECREW);
+			//else if (currentMino.submerged && !currentMino.waterproofed)
+				//NewPlayerEvent.fire(NewPlayerEvent.SUBMERGE);
 		}
 		
 		protected function spawnNextMino():void {
@@ -446,7 +446,7 @@ package
 				C.music.combatMusic = combatMusic;
 			
 			hudLayer.add(targetCursor = new TargetingCursor);
-			NewPlayerEvent.fire(NewPlayerEvent.METEOROIDS);
+			//NewPlayerEvent.fire(NewPlayerEvent.METEOROIDS);
 		}
 		
 		protected function endCombat():void {

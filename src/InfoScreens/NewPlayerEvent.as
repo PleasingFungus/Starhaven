@@ -76,13 +76,9 @@ package InfoScreens {
 		}
 		
 		public static function defenseTutorial():NewPlayerEvent {
-			var title:String = "Asteroids and Meteoroids!";
-			var description:String = "From time to time, when running a mining station, deadly METEOROIDS will rain down on you.\n\n";
-			description += "You have one defense against this: red ROCKET GUNS. Once you power and crew them, they'll automatically load DEFENSE ROCKETS at the start of meteoroid waves.\n\n";
-			description += "A targeting cursor will appear, letting you fire a rocket from the nearest GUN to intercept and destroy inbound meteoroids.\n\n";
-			description += "Survive 3 waves to win!";
-			
-			return new NewPlayerEvent(title, description, 0.8);
+			var tut:NewPlayerEvent = new NewPlayerEvent(" ", " ");
+			tut.add(new FlxSprite().loadGraphic(_meteo_glyphs));
+			return tut;
 		}
 		
 		public static function rotationMinitutorial():NewPlayerEvent {
@@ -155,6 +151,7 @@ package InfoScreens {
 		
 		[Embed(source = "../../lib/art/tutorial/mining_glyphs.png")] private static const _mining_glyphs:Class;
 		[Embed(source = "../../lib/art/tutorial/launching_glyphs.png")] private static const _launching_glyphs:Class;
+		[Embed(source = "../../lib/art/tutorial/meteo_glyphs.png")] private static const _meteo_glyphs:Class;
 	}
 
 }
