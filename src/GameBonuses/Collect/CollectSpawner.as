@@ -22,14 +22,14 @@ package GameBonuses.Collect {
 		
 		override public function spawnMeteoroid():Meteoroid {
 			if (!spawnNo) {
-				var spawnRange:Number = 4 / 3;
+				var spawnRange:Number = 3 / 3;
 				var spawnOffset:Number = (2 - spawnRange) / 2;
 				var startingPoint:Number = 0.5 * stationFacing + spawnOffset;
 				
 				spawnAngles = [];
 				for (var i:int = 0; i < totalSpawns; i++) {
 					var spawnStart:Number = startingPoint + i * spawnRange / totalSpawns;
-					var randomFraction:Number = (FlxU.random() * 2 - 1) * spawnOffset / 2;
+					var randomFraction:Number = FlxU.random() * spawnRange / totalSpawns;
 					var spawnAngle:Number = (spawnStart + randomFraction) * Math.PI;
 					spawnAngles.splice(Math.floor(FlxU.random() * (spawnAngles.length + 1)) - 1, 0, spawnAngle);
 				}

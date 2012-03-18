@@ -49,7 +49,7 @@ package GameBonuses.Collect {
 		override protected function createTracker(waveMeteos:Number = 3):void {
 			var warning:Number = 0.5;
 			spawner = new CollectSpawner(warning, station.centerOfRotation, 0.7);
-			tracker = new CollectTracker(spawner, 5, warning, waveMeteos, bagType.length * 2);
+			tracker = new CollectTracker(spawner, 5, warning, waveMeteos, bagType.length * 1.5);
 			tracker.shouldPlayKlaxon = !combatMusic || !C.newMusicOK; 
 			hud.setTracker(tracker);
 			add(tracker);

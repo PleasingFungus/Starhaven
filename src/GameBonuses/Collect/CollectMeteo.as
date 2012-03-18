@@ -60,8 +60,12 @@ package GameBonuses.Collect {
 			
 			var asteroid:BaseAsteroid = hit as BaseAsteroid;
 			
-			var delta:Point = absoluteCenter.subtract(asteroid.absoluteCenter);
+			var absCen:Point = absoluteCenter;
+			var delta:Point = absCen.subtract(asteroid.absoluteCenter);
 			for each (var block:Block in blocks) {
+				if (!C.B.OUTER_BOUNDS.containsPoint(block.add(absCen)))
+					continue;
+				
 				block.x += delta.x;
 				block.y += delta.y;
 				
