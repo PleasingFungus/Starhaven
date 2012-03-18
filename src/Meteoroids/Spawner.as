@@ -1,5 +1,6 @@
 package Meteoroids {
 	import org.flixel.FlxGroup;
+	import flash.geom.Point;
 	/**
 	 * ...
 	 * @author ...
@@ -7,9 +8,9 @@ package Meteoroids {
 	public class Spawner {
 		
 		protected var warning:int;
-		protected var target:Mino;
+		protected var target:Point;
 		protected var speedFactor:Number;
-		public function Spawner(Warning:int, Target:Mino = null, SpeedFactor:Number = 1) {
+		public function Spawner(Warning:int, Target:Point = null, SpeedFactor:Number = 1) {
 			warning = Warning;
 			target = Target;
 			speedFactor = SpeedFactor;

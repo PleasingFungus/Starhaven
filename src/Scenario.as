@@ -24,6 +24,7 @@ package
 	import Metagame.Statblock;
 	import Meteoroids.MeteoroidTracker;
 	import Meteoroids.SlowRocket;
+	import Meteoroids.Spawner;
 	import Meteoroids.TargetingCursor;
 	import Mining.NebulaCloud;
 	import Mining.ResourceSource;
@@ -49,7 +50,7 @@ package
 		protected var seed:Number;
 		
 		//static [defined by class]
-		protected var spawner:Class;
+		protected var spawnerType:Class;
 		
 		protected var bg:FlxSprite;
 		protected var bg_sprite:Class;
@@ -79,7 +80,7 @@ package
 		protected var bagType:BagType;
 		
 		private var arrowHint:ArrowHelper;
-		private var stationHint:StationHint;
+		protected var stationHint:StationHint;
 		private var targetCursor:TargetingCursor;
 		protected var combatMinoPool:Array;
 		
@@ -137,7 +138,7 @@ package
 		{
 			Mino.all_minos = [];
 			C.B = new Bounds();
-			C.B.maxDim = new Point(mapDim.x * 2, mapDim.y * 2);
+			setMaxDim();
 			C.B.viewLimited = !rotateable;
 			C.fluid = null;
 			Mino.resetGrid();
@@ -177,6 +178,10 @@ package
 				C.music.intendedMusic = C.music.OLD_PLAY_MUSIC;
 			C.log("Setting intent to " + C.music.intendedMusic);
 			registerStart();
+		}
+		
+		protected function setMaxDim():void {
+			C.B.maxDim = new Point(mapDim.x * 2, mapDim.y * 2);
 		}
 		
 		protected function registerStart():void {
@@ -246,7 +251,9 @@ package
 		}
 		
 		protected function createTracker(waveMeteos:Number = 3):void {
-			tracker = new MeteoroidTracker(minoLayer, spawner, station.core, 15, 1.5, waveMeteos, bagType.length, meteoSpeedMultiplier);
+			var warning:Number = 1.5;
+			var spawner:Spawner = new spawnerType(warning, station.core.absoluteCenter, meteoSpeedMultiplier * C.difficulty.meteoroidSpeedFactor);
+			tracker = new MeteoroidTracker(spawner, 15, warning, waveMeteos, bagType.length);
 			tracker.shouldPlayKlaxon = !combatMusic || !C.newMusicOK; 
 			hud.setTracker(tracker);
 			add(tracker);
@@ -559,7 +566,7 @@ package
 				checkDebugInput();
 		}
 		
-		private function checkCombatInput():void {
+		protected function checkCombatInput():void {
 			if (FlxG.mouse.justPressed() || ControlSet.BOMB_KEY.justPressed())
 				fireRocket(C.B.screenToBlocks(targetCursor.x, targetCursor.y));
 		}
@@ -648,12 +655,15 @@ package
 				station.smoothRotateClockwise();
 			if (ControlSet.ST_CCW_KEY.pressed())
 				station.smoothRotateCounterclockwise();
-			if (station.justRotated) {
-				setBounds();
-				if (_scale == 1)
-					checkCamera();
-				station.justRotated = false;
-			}
+			if (station.justRotated)
+				compensateForRotation();
+		}
+		
+		protected function compensateForRotation():void {			
+			setBounds();
+			if (_scale == 1)
+				checkCamera();
+			station.justRotated = false;
 		}
 		
 		protected function checkDiscontinuousInput():void {
@@ -790,7 +800,7 @@ package
 		}
 		
 		protected function centerOnStation():void {
-			C.B.centerDrawShiftOn(station.centroidOffset.add(station.core.absoluteCenter));
+			C.B.centerDrawShiftOn(station.centerOfRotation);
 		}
 		
 		

@@ -25,10 +25,7 @@ package Scenarios.Tutorials {
 		public function MiningTutorial() {
 			super(NaN);
 			
-			mapBuffer = 0;
-			spawner = PlanetSpawner;
 			goalMultiplier = 0.5;
-			rotateable = false;
 		}
 		
 		override public function create():void {

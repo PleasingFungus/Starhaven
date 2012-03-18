@@ -1,4 +1,5 @@
 package GameBonuses.Attack {
+	import GameBonuses.BonusState;
 	import HUDs.MapBounds;
 	import Meteoroids.SlowRocket;
 	import Missions.LoadedMission;
@@ -289,11 +290,13 @@ package GameBonuses.Attack {
 		}
 		
 		override protected function endGame():void {
-			FlxG.state = new AttackState;
+			//FlxG.state = new AttackState;
+			FlxG.state = new BonusState;
 		}
 		
 		override protected function exitToMenu(_:String = null):void {
-			FlxG.state = new AttackState;
+			//FlxG.state = new AttackState;
+			FlxG.state = new BonusState;
 		}
 	}
 

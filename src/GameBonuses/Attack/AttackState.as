@@ -11,19 +11,20 @@ package GameBonuses.Attack {
 	public class AttackState extends FadeState {
 		
 		override public function create():void {
-			super.create();
-			loadBackground(BG, 0.5);
-			
-			var t:FlxText;
-			
-			t = new FlxText(0, 10, FlxG.width, "Reverse Mode!");
-			t.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
-			add(t);
-			
-			MenuThing.resetThings();
-			add(new MemoryThing("Level 1", AttackLevelOne));
-			add(new MemoryThing("Level 2", AttackLevelTwo));
-			add(new MemoryThing("Back", BonusState));
+			//super.create();
+			//loadBackground(BG, 0.5);
+			//
+			//var t:FlxText;
+			//
+			//t = new FlxText(0, 10, FlxG.width, "Reverse Mode!");
+			//t.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
+			//add(t);
+			//
+			//MenuThing.resetThings();
+			//add(new MemoryThing("Level 1", AttackLevelOne));
+			//add(new MemoryThing("Level 2", AttackLevelTwo));
+			//add(new MemoryThing("Back", BonusState));
+			FlxG.state = new AttackLevelOne;
 		}
 		
 		override public function update():void {

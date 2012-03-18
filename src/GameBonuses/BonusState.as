@@ -1,6 +1,7 @@
 package GameBonuses {
 	import GameBonuses.Attack.AttackScenario;
 	import GameBonuses.Attack.AttackState;
+	import GameBonuses.Collect.CollectScenario;
 	import MainMenu.MysteryThing;
 	import org.flixel.*;
 	import MainMenu.MemoryThing;
@@ -24,6 +25,7 @@ package GameBonuses {
 			
 			MenuThing.resetThings();
 			addBonus("Reverse Mode!", AttackState);
+			addBonus("Collect Mode!", CollectScenario);
 			add(new MemoryThing("Back", MenuState));
 		}
 		

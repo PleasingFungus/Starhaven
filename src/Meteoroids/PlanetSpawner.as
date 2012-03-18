@@ -10,7 +10,7 @@ package Meteoroids {
 		
 		protected var malevolent:Boolean;
 		protected var allowedWidth:Number;
-		public function PlanetSpawner(Warning:int, Target:Mino, SpeedFactor:Number = 1) {
+		public function PlanetSpawner(Warning:int, Target:Point, SpeedFactor:Number = 1) {
 			super( Warning, Target, SpeedFactor);
 			malevolent = false;
 			allowedWidth = 0.1;
@@ -22,7 +22,7 @@ package Meteoroids {
 			var X:int, targetCenter:Point;
 			if (malevolent) {
 				X = C.B.OUTER_BOUNDS.left + FlxU.random() * C.B.OUTER_BOUNDS.width;
-				targetCenter = target.absoluteCenter;
+				targetCenter = target;
 			} else {
 				var rand:Number = FlxU.random();
 				rand = (rand - 0.5) * allowedWidth;

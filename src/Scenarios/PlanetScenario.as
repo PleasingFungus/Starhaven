@@ -21,7 +21,7 @@ package Scenarios {
 			super(Seed);
 			
 			mapBuffer = 0;
-			spawner = PlanetSpawner;
+			spawnerType = PlanetSpawner;
 			missionType = PlanetMission;
 			goalMultiplier = 0.65; //should be higher?
 			minoLimitMultiplier = 0.8;

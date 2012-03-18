@@ -22,17 +22,14 @@ package Meteoroids {
 		public var waveSpacing:int;
 		
 		public var meteoroids:FlxGroup;
-		private var minoLayer:FlxGroup;
 		protected var spawner:Spawner;
 		protected var next:Meteoroid;
 		protected var spawnCount:int;
 		
 		public static var kills:int;
 		
-		public function MeteoroidTracker(MinoLayer:FlxGroup, spawnerType:Class, MeteoroidTarget:Mino,
-										Duration:Number, Warning:Number, WaveMeteos:Number, WaveSpacing:int, MeteoSpeed:Number) {
-			minoLayer = MinoLayer;
-			this.spawner = new spawnerType(Warning, MeteoroidTarget, MeteoSpeed * C.difficulty.meteoroidSpeedFactor);
+		public function MeteoroidTracker(spawner:Spawner, Duration:Number, Warning:Number, WaveMeteos:Number, WaveSpacing:int) {
+			this.spawner = spawner;
 			
 			waveSpacing = WaveSpacing;
 			nextWave = getNextWave();
@@ -113,7 +110,7 @@ package Meteoroids {
 		public function startWave():void {
 			waveTime = duration + warning;
 			spawnTimer = 0;
-			minoLayer.add(meteoroids = new FlxGroup());
+			Mino.layer.add(meteoroids = new FlxGroup());
 			
 			C.log("Starting wave. waveMeteos: " + waveMeteos);
 			

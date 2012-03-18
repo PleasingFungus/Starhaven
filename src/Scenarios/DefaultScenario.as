@@ -23,7 +23,7 @@ package Scenarios {
 			super(Seed);
 			
 			mapDim = new Point(15, 15);
-			spawner = EggSpawner;
+			spawnerType = EggSpawner;
 			bg_sprite = _bg;
 		}
 		

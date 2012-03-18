@@ -22,11 +22,8 @@ package Scenarios {
 		public function WaterScenario(Seed:Number = NaN) {
 			super(Seed);
 			
-			mapBuffer = 0;
 			miningTool = Scoop;
-			spawner = PlanetSpawner;
 			missionType = WaterMission;
-			rotateable = false;
 			conduitLimit = 8;
 			buildMusic = new MusicTrack(C.music.MUSIC_PREFIX + "ST_AD_Loop.m4a", C.music.MUSIC_PREFIX + "ST_AD_Intro.m4a");
 		}

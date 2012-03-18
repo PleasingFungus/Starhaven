@@ -1,6 +1,7 @@
 package Metagame {
 	import flash.display.Bitmap;
 	import GameBonuses.Attack.AttackState;
+	import GameBonuses.Collect.CollectScenario;
 	import org.flixel.*;
 	import Scenarios.*;
 	/**
@@ -230,7 +231,7 @@ package Metagame {
 		}
 		
 		public function bonusUnlocked(bonus:Class):Boolean {
-			return C.DEBUG || bonuses[[AttackState].indexOf(bonus)];
+			return C.DEBUG || bonuses[[AttackState, CollectScenario].indexOf(bonus)];
 		}
 		
 		public function unlockedBonuses():int {

@@ -36,7 +36,7 @@ package  {
 		public static const ALWAYS_SHOW_INCOMING:Boolean = false;
 		
 		public static const ANNOYING_NEW_PIECE_POPUP:Boolean = true;
-		public static const AUDIO_DESCRIPTIONS:Boolean = true;
+		public static const AUDIO_DESCRIPTIONS:Boolean = false;
 		public static const NO_CREW:Boolean = false;
 		public static const NO_COMBAT_ROTATING:Boolean = false;
 		public static const NO_REPORTING:Boolean = true;

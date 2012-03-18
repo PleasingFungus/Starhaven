@@ -25,8 +25,7 @@ package Scenarios.Tutorials {
 		public function DefenseTutorial() {
 			super(NaN);
 			
-			mapBuffer = 0;
-			spawner = PlanetSpawner;
+			spawnerType = PlanetSpawner;
 			victoryText = "Survived all waves!";
 		}
 		

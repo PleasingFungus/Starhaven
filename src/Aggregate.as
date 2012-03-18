@@ -239,6 +239,10 @@ package  {
 			return b;
 		}
 		
+		public function get centerOfRotation():Point {
+			return core.absoluteCenter.add(centroidOffset);
+		}
+		
 		
 		
 		override public function render():void {

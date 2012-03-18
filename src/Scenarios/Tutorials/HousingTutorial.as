@@ -20,10 +20,7 @@ package Scenarios.Tutorials {
 		public function HousingTutorial() {
 			super(NaN);
 			
-			mapBuffer = 0;
-			spawner = PlanetSpawner;
 			goalMultiplier = 1;
-			rotateable = false;
 		}
 		
 		override public function create():void {

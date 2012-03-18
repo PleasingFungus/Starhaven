@@ -45,8 +45,10 @@ package Globals {
 		public function get meteoroidSpeedFactor():Number {
 			if (C.IN_TUTORIAL || setting <= EASY)	
 				return 0.6;
+			if (setting < NORMAL)
+				return 0.6 + (setting - EASY) * 0.4; //0.6 to 1.0 [easy]
 			if (setting < HARD)
-				return (setting - EASY) * 0.7 + 0.6; //0.6 to 1.3 [easy+ to hard-]
+				return 1.0 + (setting - EASY) * 0.3; //1.0 to 1.3 [normal]
 			if (setting < V_HARD)
 				return 1.3 + (setting - HARD) * 0.2; //1.3 to 1.5 [hard]
 			return 1.5 + (setting - HARD) * 0.1; 	 //1.5 to 1.6 [v.hard]

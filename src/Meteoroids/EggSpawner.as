@@ -1,13 +1,14 @@
 package Meteoroids {
 	import org.flixel.FlxU;
 	import org.flixel.FlxGroup;
+	import flash.geom.Point;
 	/**
 	 * ...
 	 * @author ...
 	 */
 	public class EggSpawner extends Spawner {
 		
-		public function EggSpawner(Warning:int, Target:Mino = null, SpeedFactor:Number = 1) {
+		public function EggSpawner(Warning:int, Target:Point = null, SpeedFactor:Number = 1) {
 			super( Warning, Target, SpeedFactor);
 		}
 		
@@ -20,7 +21,7 @@ package Meteoroids {
 			var X:int = Math.cos(angle) * radius
 			var Y:int = Math.sin(angle) * radius
 			
-			return new Meteoroid(X, Y, target.absoluteCenter, speedFactor);
+			return new Meteoroid(X, Y, target, speedFactor);
 		}
 		
 	}
