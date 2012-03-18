@@ -52,11 +52,14 @@ package Meteoroids {
 				return;
 			}
 			
+			checkIntersect();
+		}
+		
+		protected function checkIntersect():void {
 			var hit:Mino = intersects();
 			if (hit) {
 				explode(explosionRadius);
 				C.sound.play(GROUND_EXPLODE_NOISE, 0.75);
-				exists = false;
 			}
 			
 			if (C.fluid && C.fluid.intersect(this)) {

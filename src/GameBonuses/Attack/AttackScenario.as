@@ -111,7 +111,7 @@ package GameBonuses.Attack {
 		override protected function setHudStation():void { } //actively detrimental
 		
 		override protected function createHUD():FlxGroup { 
-			hud = new AttackHud();
+			hud = new AttackHud(C.accomplishments.bonusHighScores[C.accomplishments.BONUS_REVERSE]);
 			
 			var bounds:MapBounds = new MapBounds();
 			minoLayer.add(bounds);
@@ -264,6 +264,10 @@ package GameBonuses.Attack {
 			return deadStations * 100 / stations.length;
 		}
 		
+		override protected function won():Boolean {
+			return goalFraction >= 4;
+		}
+		
 		override protected function checkEndConditions():void {
 			if (substate == SUBSTATE_MISSOVER)
 				return; //to avoid double-triggering on debug input
@@ -286,7 +290,8 @@ package GameBonuses.Attack {
 		override protected function contemplateShaking():void { } //nope
 		
 		override protected function registerEnd(quit:Boolean):void {
-			//TODO [high scores]
+			if (won())
+				C.accomplishments.registerBonusReverseScore(lives + 1);
 		}
 		
 		override protected function endGame():void {

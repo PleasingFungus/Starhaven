@@ -42,7 +42,9 @@ package Metagame {
 						  new UnlockCondition(szLst, C.difficulty.LARGE, Statblock.MISSIONS_WON, 6, C.difficulty.scaleName(C.difficulty.LARGE)),
 						  //new UnlockCondition(scLst, C.scenarioList.cIndex(DCrescentScenario), Statblock.MISSIONS_WON, 7, C.scenarioList.nameOf(DCrescentScenario)),
 						  new UnlockCondition(dfLst, C.difficulty.V_HARD, Statblock.MISSIONS_WON, 8, C.difficulty.name(C.difficulty.V_HARD)),
-						  new UnlockCondition(scLst, C.scenarioList.cIndex(DustScenario), Statblock.MISSIONS_WON, 12, C.scenarioList.nameOf(DustScenario))];
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(DustScenario), Statblock.MISSIONS_WON, 12, C.scenarioList.nameOf(DustScenario)),
+						  
+						  new UnlockCondition(bnLst, C.accomplishments.BONUS_REVERSE, Statblock.METEOROIDS_DESTROYED, 80, "Reverse")];
 		}
 		
 		protected function setDefaults():void {
@@ -110,12 +112,16 @@ package Metagame {
 			
 			var unlockText:String = condition.name;
 			var assocList:Function = condition.getAssocList;
-			if (assocList == scLst)
-				unlockText += " Mission";
-			else if (assocList == dfLst)
-				unlockText += " Difficulty";
-			else if (assocList == szLst)
-				unlockText += " Size";
+			switch (assocList) {
+				case scLst:
+					unlockText += " Mission"; break;
+				case dfLst:
+					unlockText += " Difficulty"; break;
+				case szLst:
+					unlockText += " Size"; break;
+				case bnLst:
+					unlockText += " Mode"; break;
+			}
 			
 			unlockText += " [<- " + condition.reqStatValue;
 			switch (condition.reqStat) {
@@ -208,7 +214,7 @@ package Metagame {
 		
 		public function allowedScenarios():Array {
 			var scenarios:Array = [];
-			for (var i:int = C.scenarioList.FIRST_SCENARIO_INDEX; i < C.scenarioList.all.length; i++)
+			for (var i:int = C.scenarioList.FIRST_SCENARIO_INDEX; i < C.scenarioList.LAST_SCENARIO_INDEX; i++)
 				if (scenarioUnlocked(C.scenarioList.all[i]))
 					scenarios.push(C.scenarioList.all[i]);
 			return scenarios;
@@ -245,6 +251,8 @@ package Metagame {
 			return unlockTotal;
 		}
 		
+		public function maxBonuses():int { return 2; }
+		
 		
 		protected function scLst():Array {
 			return scenarios;
@@ -256,6 +264,10 @@ package Metagame {
 		
 		protected function szLst():Array {
 			return sizes;
+		}
+		
+		protected function bnLst():Array {
+			return bonuses;
 		}
 	}
 

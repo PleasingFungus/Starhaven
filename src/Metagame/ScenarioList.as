@@ -1,4 +1,6 @@
 package Metagame {
+	import GameBonuses.Attack.AttackLevelOne;
+	import GameBonuses.Collect.CollectScenario;
 	import Scenarios.*;
 	import Scenarios.Tutorials.*;
 	import flash.utils.getQualifiedClassName;
@@ -14,13 +16,18 @@ package Metagame {
 		public const FIRST_TUTORIAL_INDEX:int = 0;
 		public const LAST_TUTORIAL_INDEX:int = 2;
 		public const FIRST_SCENARIO_INDEX:int = 3;
+		public const LAST_SCENARIO_INDEX:int = 8;
 		public function ScenarioList() {
 			all = [MiningTutorial, HousingTutorial, DefenseTutorial,
 				   PlanetScenario, AsteroidScenario, MountainScenario, NebulaScenario,
-				   WaterScenario, DustScenario];
-			names = ["1 - Mining & Power", "2 - Housing & Launching", "3 - Asteroids & Meteoroids",
+				   WaterScenario, DustScenario,
+				   AttackLevelOne,
+				   CollectScenario];
+			names = ["Mining & Power", "Housing & Launching", "Asteroids & Meteoroids",
 					 "Moon", "Asteroid", "Mountain", "Nebula",
-					 "Sea", "Dust"];
+					 "Sea", "Dust",
+					 "Attack-1!",
+					 "Collect!"];
 		}
 		
 		public function index(scenario:Scenario):int {

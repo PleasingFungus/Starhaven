@@ -7,10 +7,10 @@ package Meteoroids {
 	 */
 	public class Spawner {
 		
-		protected var warning:int;
+		protected var warning:Number;
 		protected var target:Point;
 		protected var speedFactor:Number;
-		public function Spawner(Warning:int, Target:Point = null, SpeedFactor:Number = 1) {
+		public function Spawner(Warning:Number, Target:Point = null, SpeedFactor:Number = 1) {
 			warning = Warning;
 			target = Target;
 			speedFactor = SpeedFactor;

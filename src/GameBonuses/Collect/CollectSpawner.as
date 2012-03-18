@@ -13,19 +13,25 @@ package GameBonuses.Collect {
 		
 		public var stationFacing:int;
 		private var spawnNo:int;
+		private var totalSpawns:int;
 		private var spawnAngles:Array;
-		public function CollectSpawner(Warning:int, Target:Point, SpeedFactor:Number) {
+		public function CollectSpawner(Warning:Number, Target:Point, SpeedFactor:Number) {
 			super(Warning, Target, SpeedFactor);
 			stationFacing = FlxSprite.DOWN;
 		}
 		
 		override public function spawnMeteoroid():Meteoroid {
 			if (!spawnNo) {
-				var initialAngle:Number = (FlxU.random() * 1 / 3 + 1 / 6 + 0.5 * stationFacing) * Math.PI;
+				var spawnRange:Number = 4 / 3;
+				var spawnOffset:Number = (2 - spawnRange) / 2;
+				var startingPoint:Number = 0.5 * stationFacing + spawnOffset;
+				
 				spawnAngles = [];
-				for (var i:int = 0; i < 3; i++) {
-					var newAngle:Number = initialAngle + (i * 0.5 + 1 / 3 * FlxU.random()) * Math.PI;
-					spawnAngles.splice(Math.floor(FlxU.random() * (spawnAngles.length + 1)) - 1, 0, newAngle);
+				for (var i:int = 0; i < totalSpawns; i++) {
+					var spawnStart:Number = startingPoint + i * spawnRange / totalSpawns;
+					var randomFraction:Number = (FlxU.random() * 2 - 1) * spawnOffset / 2;
+					var spawnAngle:Number = (spawnStart + randomFraction) * Math.PI;
+					spawnAngles.splice(Math.floor(FlxU.random() * (spawnAngles.length + 1)) - 1, 0, spawnAngle);
 				}
 			}
 				
@@ -42,6 +48,10 @@ package GameBonuses.Collect {
 			
 			return new CollectMeteo(X, Y, target, speedFactor);
 		}
+	
+		public function setWave(TotalSpawns:int):void {
+			totalSpawns = TotalSpawns;
+			spawnNo = 0;
+		}
 	}
-
 }

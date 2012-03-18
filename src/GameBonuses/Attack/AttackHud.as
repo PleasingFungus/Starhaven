@@ -9,7 +9,7 @@ package GameBonuses.Attack {
 	public class AttackHud extends HUD {
 		
 		private var livesDisplay:MeteoDisplay;
-		public function AttackHud() {
+		public function AttackHud(highScore:int) {
 			super();
 			
 			members = [];
@@ -23,7 +23,16 @@ package GameBonuses.Attack {
 			lives.y += livesDisplay.height / 2 - lives.height / 2;
 			add(lives);
 			
-			//TODO
+			if (highScore != -1) {
+				var scoreText:FlxText = new FlxText(8, 8, 120, "BEST: ");
+				scoreText.setFormat(C.FONT, 16);
+				add(scoreText);
+				
+				var scoreDisplay:MeteoDisplay = new MeteoDisplay(scoreText.x + scoreText.textWidth, 8, highScore)
+				add(scoreDisplay);
+				
+				scoreText.y += scoreDisplay.height / 2 - scoreText.height / 2;
+			}
 		}
 		
 		override public function update():void {

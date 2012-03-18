@@ -8,7 +8,7 @@ package Meteoroids {
 	 */
 	public class EggSpawner extends Spawner {
 		
-		public function EggSpawner(Warning:int, Target:Point = null, SpeedFactor:Number = 1) {
+		public function EggSpawner(Warning:Number, Target:Point = null, SpeedFactor:Number = 1) {
 			super( Warning, Target, SpeedFactor);
 		}
 		

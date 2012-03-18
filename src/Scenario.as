@@ -843,7 +843,7 @@ package
 						mino.exists = false;
 				dangeresque = false;
 				C.music.combatMusic = null;
-			} else if (currentMino) {
+			} else if (currentMino) { //FIXME: this seems to do nothing
 				killCurrentMino();
 				currentMino = null;
 			}
@@ -980,7 +980,7 @@ package
 		}
 		
 		protected function won():Boolean {
-			return goalFraction >= 4;
+			return !station.core.damaged && goalFraction >= 4;
 		}
 		
 		protected function getEndCause():int {

@@ -35,7 +35,7 @@ package MainMenu {
 			MenuThing.addColumn(centerCol, FlxG.width * 13 / 32);
 			
 			var rightCol:Array = [];
-			for each (var scenario:Class in C.scenarioList.all.slice(C.scenarioList.FIRST_SCENARIO_INDEX))
+			for each (var scenario:Class in C.scenarioList.all.slice(C.scenarioList.FIRST_SCENARIO_INDEX, C.scenarioList.LAST_SCENARIO_INDEX+1))
 				addScenario(scenario, rightCol);
 			MenuThing.addColumn(rightCol, FlxG.width * 11 / 16);
 			

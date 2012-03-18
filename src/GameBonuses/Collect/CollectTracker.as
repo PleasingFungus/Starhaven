@@ -12,7 +12,19 @@ package GameBonuses.Collect {
 			
 			waveMeteos = WaveMeteos; //ignore difficulty
 			
+			(spawner as CollectSpawner).setWave(waveMeteos);
 			startWave();
+		}
+		
+		override protected function endWave():void {
+			if (waveMeteos < 6) {
+				waveMeteos += 1;
+				duration += 5 / 3;
+			}
+			
+			(spawner as CollectSpawner).setWave(waveMeteos);
+			timer = 0;
+			nextWave = getNextWave();
 		}
 		
 		override protected function getNextWave():int {

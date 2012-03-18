@@ -10,7 +10,7 @@ package Meteoroids {
 		
 		protected var malevolent:Boolean;
 		protected var allowedWidth:Number;
-		public function PlanetSpawner(Warning:int, Target:Point, SpeedFactor:Number = 1) {
+		public function PlanetSpawner(Warning:Number, Target:Point, SpeedFactor:Number = 1) {
 			super( Warning, Target, SpeedFactor);
 			malevolent = false;
 			allowedWidth = 0.1;

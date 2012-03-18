@@ -11,7 +11,7 @@ package Missions {
 		
 		protected var xAxis:int;
 		protected var yAxis:int;
-		protected var bedrockDepth:Number = 0.07;
+		
 		public function AsteroidMission(Seed:Number, Scale:Number) {
 			super(Seed, Scale);
 			
@@ -35,12 +35,13 @@ package Missions {
 			var sqxAxis:int = xAxis * xAxis;
 			var sqyAxis:int = yAxis * yAxis;
 			
+			var bedrockDepth:Number = getBedrockDepth();
 			for (var x:int = -xAxis; x < xAxis; x++)
 				for (var y:int = -yAxis; y < yAxis; y++) {
 					var ellipticalDistance:Number = x*x/sqxAxis + y*y/sqyAxis;
 					if (ellipticalDistance <= 1 && (ellipticalDistance <= 0.9 || FlxU.random() > 0.7))
 						mapBlocks.push(new MineralBlock(x + xAxis, y + yAxis, 5,
-														ellipticalDistance <= bedrockDepth ? MineralBlock.BEDROCK : MineralBlock.ROCK));
+														ellipticalDistance < bedrockDepth ? MineralBlock.BEDROCK : MineralBlock.ROCK));
 						
 				}
 			
@@ -56,6 +57,10 @@ package Missions {
 		
 		protected function convertSize(sizeFraction:Number):int {
 			return 12;
+		}
+		
+		protected function getBedrockDepth():Number {
+			return 0.07;
 		}
 		
 		protected static const eccentricity:Number = 0.25;

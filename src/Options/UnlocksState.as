@@ -47,7 +47,7 @@ package Options {
 			add(sizes);
 			
 			var other:TitledColumn = new TitledColumn(FlxG.width * 3 / 4, FlxG.height * 3/8, "Other");
-			text = C.ALL_UNLOCKED ? "All Unlocked" : "0/0";
+			text = C.unlocks.unlockedBonuses() + "/" + C.unlocks.maxBonuses();
 			other.addCol(text);
 			add(other);
 			

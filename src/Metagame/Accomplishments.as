@@ -12,6 +12,7 @@ package Metagame {
 		public var winsByDifficulty:Array;
 		public var tutorialDone:Boolean;
 		public var bestStats:Statblock;
+		public var bonusHighScores:Array;
 		public function Accomplishments() {
 			setDefaults();
 		}
@@ -25,6 +26,7 @@ package Metagame {
 			winsByScenario = C.save.read("winsByScenario") as Array;
 			winsByDifficulty = C.save.read("winsByDifficulty") as Array;
 			bestStats = Statblock.load("best");
+			bonusHighScores = C.save.read("bonusHighscores") as Array;
 			setDefaults();
 			
 			if (C.DEBUG && C.FORGET_TUTORIALS) {
@@ -41,6 +43,8 @@ package Metagame {
 				winsByDifficulty = new Array(C.difficulty.MAX_DIFFICULTY);
 			if (!bestStats)
 				bestStats = new Statblock(0, 0, 0, 0, 0); //change 'best time'...?
+			if (!bonusHighScores)
+				bonusHighScores = [-1, -1, -1, -1, -1];
 		}
 		
 		public function registerVictory(scenario:Scenario):void {
@@ -99,6 +103,14 @@ package Metagame {
 			C.unlocks.checkUnlocks();
 		}
 		
+		public function registerBonusReverseScore(livesLeft:int):void {
+			var curScore:int = bonusHighScores[BONUS_REVERSE];
+			if (livesLeft > curScore) {
+				bonusHighScores[BONUS_REVERSE] = livesLeft;
+				C.save.write("bonusHighscores", bonusHighScores);
+			}
+		}
+		
 		protected function saveRecord(data:*, name:String):void {
 			if (canSave) {
 				C.log("Saving " + name + ": " + data);
@@ -116,6 +128,9 @@ package Metagame {
 		protected function get canSave():Boolean {
 			return !((C.DEBUG && C.FORGET_ACCOMPLISHMENTS) || C.ALL_UNLOCKED);
 		}
+		
+		public const BONUS_REVERSE:int = 0;
+		public const BONUS_COLLECT:int = 1;
 	}
 
 }

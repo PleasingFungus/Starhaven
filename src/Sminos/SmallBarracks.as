@@ -23,9 +23,6 @@ package Sminos {
 		
 		[Embed(source = "../../lib/art/sminos/small_bear_2.png")] private static const _sprite:Class;
 		[Embed(source = "../../lib/art/sminos/small_bear_in_2.png")] private static const _sprite_in:Class;
-		
-		[Embed(source = "../../lib/art/sminos/small_bear_3.png")] private static const _sprite_2:Class;
-		[Embed(source = "../../lib/art/sminos/small_bear_in_3.png")] private static const _sprite_in_2:Class;
 	}
 
 }

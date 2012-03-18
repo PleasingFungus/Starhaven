@@ -8,7 +8,7 @@ package GameBonuses.Collect {
 	public class CollectMission extends AsteroidMission {
 		
 		public function CollectMission(Seed:Number, _:Number) {
-			super(Seed, 0.6);
+			super(Seed, 0.55);
 		}
 		
 		override protected function genMinerals():void { }
