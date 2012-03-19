@@ -100,8 +100,12 @@ package Musics {
 		}
 		
 		protected function checkLoop():void {
-			if (track.loops || music == track.intro)
-				loadMusic();
+			if (track.loops) {
+				if (track.intro == -1)
+					player.seek(0);
+				else
+					player.seek(track.intro);
+			}
 		}
 		
 		
@@ -118,7 +122,7 @@ package Musics {
 			if (!newTrack) newTrack = intendedMusic;
 			track = newTrack;
 			if (track.intro)
-				loadMusic(MUSIC_VOLUME, track.intro);
+				loadMusic(MUSIC_VOLUME, track.body);
 			else
 				loadMusic(0, track.body);
 		}
@@ -170,7 +174,7 @@ package Musics {
 		} 
 		
 		public const OLD_PLAY_MUSIC:MusicTrack = new MusicTrack("http://pleasingfungus.com/starhaven/music/2-4-2012_2.m4a");
-		public const MENU_MUSIC:MusicTrack = new MusicTrack("http://pleasingfungus.com/starhaven/music/Menu_rough.m4a");
+		public const MENU_MUSIC:MusicTrack = new MusicTrack("http://pleasingfungus.com/starhaven/music/Menu_rough.m4a", -1, false);
 		public const MUSIC_PREFIX:String = "http://pleasingfungus.com/starhaven/music/";
 		
 		private function get MUSIC_VOLUME():Number {

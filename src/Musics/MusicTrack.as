@@ -5,10 +5,10 @@ package Musics {
 	 */
 	public class MusicTrack {
 		
-		public var intro:String;
+		public var intro:Number;
 		public var body:String;
 		public var loops:Boolean;
-		public function MusicTrack(Body:String, Intro:String = null, Loops:Boolean = true) {
+		public function MusicTrack(Body:String, Intro:Number = -1, Loops:Boolean = true) {
 			intro = Intro;
 			body = Body;
 			loops = Loops;
@@ -16,7 +16,7 @@ package Musics {
 		
 		public function toString():String {
 			var str:String = "[Music: " + body;
-			if (intro) str += " - " + intro;
+			if (intro != -1) str += " - " + intro;
 			str += " : L=" + loops + "]";
 			return str;
 		}
