@@ -298,7 +298,7 @@ package
 				case SUBSTATE_ROTPAUSE: rotateUpdate(); break;
 				case SUBSTATE_MISSOVER: overUpdate(); break;
 			}
-			C.music.update(); //might update double-fast? oops
+			C.music.update();
 		}
 		
 		protected function normalUpdate():void {

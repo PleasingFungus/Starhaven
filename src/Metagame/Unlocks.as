@@ -227,7 +227,6 @@ package Metagame {
 			if (C.ALL_UNLOCKED)
 				return true;
 			
-			C.log("Unlocked: " + setting, sizes[setting]);
 			return sizes[setting];
 		}
 		

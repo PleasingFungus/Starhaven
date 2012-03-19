@@ -120,6 +120,7 @@ package Musics {
 		
 		protected function loadTrack(newTrack:MusicTrack = null):void {
 			if (!newTrack) newTrack = intendedMusic;
+			C.log("Loading track " + newTrack);
 			track = newTrack;
 			if (track.intro)
 				loadMusic(MUSIC_VOLUME, track.body);
