@@ -26,25 +26,24 @@ package Metagame {
 		protected function setupUnlockConditions():void {
 			//asteroid	--	mw1		//1 mission
 			//mountain	--	mw3		//3 missions
-			//hard		--	md40	//~4 missions?
-			//nebula	--	bd150	//~5 missions?
-			//water		--	mc2000	//~6 missions?
-			//large		--	mw6		//6 missions
-			//crescent	--	mw7		//7 missions
-			//v hard	--	mw8		//8 missions
-			//dust		--	mw12	//12 missions
+			//nebula	--	bd120	//~3 missions?
+			//water		--	mc2000	//~4 missions?
+			//hard		--	md30	//~5 missions?
+			//large		--	mw5		//5 missions
+			//v hard	--	mw6		//6 missions
+			//dust		--	mw8		//8 missions
 			
 			conditions = [new UnlockCondition(scLst, C.scenarioList.cIndex(AsteroidScenario), Statblock.MISSIONS_WON, 1, C.scenarioList.nameOf(AsteroidScenario), C.difficulty.EASY),
 						  new UnlockCondition(scLst, C.scenarioList.cIndex(MountainScenario), Statblock.MISSIONS_WON, 3,  C.scenarioList.nameOf(MountainScenario), C.difficulty.EASY),
-						  new UnlockCondition(dfLst, C.difficulty.HARD, Statblock.METEOROIDS_DESTROYED, 40,C.difficulty.name(C.difficulty.HARD)),
-						  new UnlockCondition(scLst, C.scenarioList.cIndex(NebulaScenario), Statblock.BLOCKS_DROPPED, 150, C.scenarioList.nameOf(NebulaScenario)),
+						  new UnlockCondition(dfLst, C.difficulty.HARD, Statblock.METEOROIDS_DESTROYED, 30, C.difficulty.name(C.difficulty.HARD)),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(NebulaScenario), Statblock.BLOCKS_DROPPED, 120, C.scenarioList.nameOf(NebulaScenario)),
 						  new UnlockCondition(scLst, C.scenarioList.cIndex(WaterScenario), Statblock.MINERALS_LAUNCHED, 2000, C.scenarioList.nameOf(WaterScenario)),
-						  new UnlockCondition(szLst, C.difficulty.LARGE, Statblock.MISSIONS_WON, 6, C.difficulty.scaleName(C.difficulty.LARGE)),
+						  new UnlockCondition(szLst, C.difficulty.LARGE, Statblock.MISSIONS_WON, 5, C.difficulty.scaleName(C.difficulty.LARGE)),
 						  //new UnlockCondition(scLst, C.scenarioList.cIndex(DCrescentScenario), Statblock.MISSIONS_WON, 7, C.scenarioList.nameOf(DCrescentScenario)),
-						  new UnlockCondition(dfLst, C.difficulty.V_HARD, Statblock.MISSIONS_WON, 8, C.difficulty.name(C.difficulty.V_HARD)),
-						  new UnlockCondition(scLst, C.scenarioList.cIndex(DustScenario), Statblock.MISSIONS_WON, 12, C.scenarioList.nameOf(DustScenario)),
+						  new UnlockCondition(dfLst, C.difficulty.V_HARD, Statblock.MISSIONS_WON, 6, C.difficulty.name(C.difficulty.V_HARD)),
+						  new UnlockCondition(scLst, C.scenarioList.cIndex(DustScenario), Statblock.MISSIONS_WON, 8, C.scenarioList.nameOf(DustScenario)),
 						  
-						  new UnlockCondition(bnLst, C.accomplishments.BONUS_REVERSE, Statblock.METEOROIDS_DESTROYED, 80, "Reverse")];
+						  new UnlockCondition(bnLst, C.accomplishments.BONUS_REVERSE, Statblock.METEOROIDS_DESTROYED, 60, "Reverse")];
 		}
 		
 		protected function setDefaults():void {
@@ -155,11 +154,15 @@ package Metagame {
 			
 			var i:int = 0;
 			for each (var unlock:String in newUnlocks) {
-				var unlockText:FlxText = new FlxText(10, Y, FlxG.width - 20, unlock);
+				var unlockText:FlxText = new FlxText(10, Y, FlxG.width/2 - 20, unlock);
 				unlockText.setFormat(C.FONT, 16, 0xffffff, 'center');
 				display.add(unlockText);
 				
-				if (i & 1) Y += unlockText.height + 5;
+				if (i & 1) {
+					Y += unlockText.height + 5;
+					unlockText.x += FlxG.width/2;
+				}
+				
 				i++;
 			}
 			

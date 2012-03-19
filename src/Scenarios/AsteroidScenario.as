@@ -20,6 +20,7 @@ package Scenarios {
 			super(Seed);
 			
 			goalMultiplier = 0.75;
+			mapBuffer = 20;
 			missionType = AsteroidMission;
 			//buildMusic = new MusicTrack(C.music.MUSIC_PREFIX + "ST_Intro.m4a"); //just for testing
 		}

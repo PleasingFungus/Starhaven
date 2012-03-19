@@ -32,7 +32,7 @@ package Options {
 			var text:String;
 			
 			var scenarios:TitledColumn = new TitledColumn(FlxG.width / 4, FlxG.height * 3/16, "Scenarios");
-			text = C.ALL_UNLOCKED ? "All Unlocked" : C.unlocks.unlockedScenarios() + "/" + (C.scenarioList.all.length - C.scenarioList.FIRST_SCENARIO_INDEX);
+			text = C.ALL_UNLOCKED ? "All Unlocked" : C.unlocks.unlockedScenarios() + "/" + (C.scenarioList.LAST_SCENARIO_INDEX - C.scenarioList.FIRST_SCENARIO_INDEX + 1);
 			scenarios.addCol(text);
 			add(scenarios);
 			
