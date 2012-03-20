@@ -42,7 +42,7 @@ package MainMenu {
 				add(new MemoryThing("Single Levels", QuickPlayState));
 			} else
 				add(new MemoryThing("Play", C.accomplishments.nextUnbeaten()));
-			if (C.unlocks.unlockedBonuses())
+			if (C.UNLOCKS_DISABLED || C.unlocks.unlockedBonuses())
 				add(new MemoryThing("Bonuses", BonusState));
 			if (C.DEBUG)
 				add(new MemoryThing("Editor", EditorState));

@@ -84,13 +84,15 @@ package Metagame {
 			if (Best != -1) {
 				var bestText:String = "Best: " + C.decimalize(Best);
 				var req:int = C.unlocks.requiredDifficultyForNext(Index);
-				C.log(Index, req);
-				if (req > C.difficulty.initialSetting) {
-					bestText += ", Next: \n[Req's " + C.difficulty.name(req)+"+]";
-				} else {
-					var next:int = C.unlocks.nextUnlockFor(Index);
-					if (next != -1)
-						bestText += ", Next: " + C.decimalize(next);
+				
+				if (!C.ALL_UNLOCKED) {
+					if (req > C.difficulty.initialSetting) {
+						bestText += ", Next: \n[Req's " + C.difficulty.name(req)+"+]";
+					} else {
+						var next:int = C.unlocks.nextUnlockFor(Index);
+						if (next != -1)
+							bestText += ", Next: " + C.decimalize(next);
+					}
 				}
 				titledCol.addCol(bestText);
 			}

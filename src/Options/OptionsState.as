@@ -25,10 +25,10 @@ package Options {
 			MenuThing.resetThings();
 			add(new MemoryThing("Controls", ControlsState));
 			add(new MemoryThing("Sound", SoundState));
-			if (C.accomplishments.tutorialDone)
-				add(new MemoryThing("Unlocks", UnlocksState));
-			else
+			if (!C.accomplishments.tutorialDone)
 				add(new StateThing("Skip Tutorials", SkipTutorialState));
+			else if (!C.UNLOCKS_DISABLED)
+				add(new MemoryThing("Unlocks", UnlocksState));
 			add(glowThing = new MenuThing("Glow: " + (C.DRAW_GLOW ? "ON" : "OFF"), toggleGlow, false));
 			add(new MemoryThing("Back", MenuState));
 			

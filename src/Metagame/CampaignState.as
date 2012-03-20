@@ -35,7 +35,8 @@ package Metagame {
 			var statDisplayY:int = title.y + title.height + 55;
 			add(screenshotGroup = C.campaign.renderScreenshots(statDisplayY));
 			add(statGroup = C.campaign.statblock.createDisplay(statDisplayY, C.accomplishments.bestStats));
-			unlockGroup = C.unlocks.createDisplay(statDisplayY);
+			if (!C.UNLOCKS_DISABLED)
+				unlockGroup = C.unlocks.createDisplay(statDisplayY);
 			if (unlockGroup) {
 				add(unlockGroup);
 				statGroup.alpha = 0.25;

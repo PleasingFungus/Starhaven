@@ -25,12 +25,13 @@ package GameBonuses {
 			
 			MenuThing.resetThings();
 			addBonus("Reverse Mode!", AttackState);
-			addBonus("Collect Mode!", CollectScenario);
+			if (C.DEBUG)
+				addBonus("Collect Mode!", CollectScenario);
 			add(new MemoryThing("Back", MenuState));
 		}
 		
 		protected function addBonus(name:String, bonus:Class):void {
-			if (C.unlocks.bonusUnlocked(bonus))
+			if (C.unlocks.bonusUnlocked(bonus) || C.UNLOCKS_DISABLED)
 				add(new MemoryThing(name, bonus));
 			else
 				add(new MysteryThing());

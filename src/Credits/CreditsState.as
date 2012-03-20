@@ -43,7 +43,8 @@ package Credits {
 									 "James 'Walliard' Falcounbridge",
 									 "Jeffrey 'Jiefu' McGannigan",
 									 "James 'Nagilfar' Draskovic",
-									 "'Kiwi'");
+									 "'Kiwi'",
+									 "The TIGSource Feedback forum");
 			colIsWide = true;
 			addCredit("Additional Thanks");
 			addCredit("Fonts", "Tino Meinert - CPMono", "Anna Anthropy - Crypt of Tomorrow");

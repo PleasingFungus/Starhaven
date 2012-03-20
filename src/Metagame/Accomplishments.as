@@ -12,6 +12,7 @@ package Metagame {
 		public var winsByDifficulty:Array;
 		public var tutorialDone:Boolean;
 		public var bestStats:Statblock;
+		public var grindPoints:int;
 		public var bonusHighScores:Array;
 		public function Accomplishments() {
 			setDefaults();
@@ -27,6 +28,7 @@ package Metagame {
 			winsByDifficulty = C.save.read("winsByDifficulty") as Array;
 			bestStats = Statblock.load("best");
 			bonusHighScores = C.save.read("bonusHighscores") as Array;
+			grindPoints = C.save.read('grindPoints') as int;
 			setDefaults();
 			
 			if (C.DEBUG && C.FORGET_TUTORIALS) {
@@ -45,6 +47,7 @@ package Metagame {
 				bestStats = new Statblock(0, 0, 0, 0, 0); //change 'best time'...?
 			if (!bonusHighScores)
 				bonusHighScores = [-1, -1, -1, -1, -1];
+			//grindPoints defaults to 0
 		}
 		
 		public function registerVictory(scenario:Scenario):void {
@@ -99,6 +102,10 @@ package Metagame {
 			
 			if (canSave)
 				bestStats.save("best");
+			
+			grindPoints += statblock.mineralsLaunched;
+			if (canSave)
+				C.save.write('grindPoints', grindPoints);
 			
 			C.unlocks.checkUnlocks();
 		}

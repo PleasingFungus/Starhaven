@@ -22,7 +22,7 @@ package  {
 	 */
 	public class C {
 		public static const VERSION:String = "0.923";
-		public static const DEBUG:Boolean = true;
+		public static const DEBUG:Boolean = false;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
 		public static const BETA:Boolean = true;
@@ -49,7 +49,10 @@ package  {
 		
 		public static var HUD_ENABLED:Boolean = true;
 		public static var IN_TUTORIAL:Boolean = false;
-		public static var ALL_UNLOCKED:Boolean = false;
+		public static const UNLOCKS_DISABLED:Boolean = false;
+		private static var _ALL_UNLOCKED:Boolean = false;
+		public static function get ALL_UNLOCKED():Boolean { return UNLOCKS_DISABLED || _ALL_UNLOCKED; }
+		public static function set ALL_UNLOCKED(newVal:Boolean):void { _ALL_UNLOCKED = newVal; }
 		
 		public static const RENDER_THRUSTERS:Boolean = true;
 		public static const HUD_FLICKERS:Boolean = true;
@@ -157,6 +160,7 @@ package  {
 		public static function get newMusicOK():Boolean {
 			return !BETA || !MUSIC_LOCKED || DEBUG;
 		}
+		
 		
 		
 		
