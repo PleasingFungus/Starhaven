@@ -964,7 +964,7 @@ package
 		}
 		
 		protected function makeStatblock(won:Boolean):Statblock {
-			return new Statblock(won ? 1 : 0, GlobalCycleTimer.minosDropped,
+			return new Statblock(station.mineralsLaunched * C.difficulty.setting, won ? 1 : 0, GlobalCycleTimer.minosDropped,
 								 station.mineralsLaunched, MeteoroidTracker.kills, station.lifespan)
 		}
 		

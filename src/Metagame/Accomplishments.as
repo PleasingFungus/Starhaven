@@ -11,7 +11,7 @@ package Metagame {
 		public var winsByScenario:Array;
 		public var winsByDifficulty:Array;
 		public var tutorialDone:Boolean;
-		public var bestStats:Statblock;
+		public var bestStats:Vector.<Statblock>;
 		public var grindPoints:int;
 		public var bonusHighScores:Array;
 		public function Accomplishments() {
@@ -19,6 +19,8 @@ package Metagame {
 		}
 		
 		public function load():void {
+			var i:int;
+			
 			tutorialDone = C.save.read("tutorialDone") as Boolean;
 			
 			if (C.DEBUG && C.FORGET_ACCOMPLISHMENTS)
@@ -26,13 +28,17 @@ package Metagame {
 			
 			winsByScenario = C.save.read("winsByScenario") as Array;
 			winsByDifficulty = C.save.read("winsByDifficulty") as Array;
-			bestStats = Statblock.load("best");
+			
+			bestStats = new Vector.<Statblock>;
+			for (i = C.difficulty.V_EASY; i < C.difficulty.MAX_DIFFICULTY; i++)
+				bestStats.push(Statblock.load(i+"best"));
+			
 			bonusHighScores = C.save.read("bonusHighscores") as Array;
 			grindPoints = C.save.read('grindPoints') as int;
 			setDefaults();
 			
 			if (C.DEBUG && C.FORGET_TUTORIALS) {
-				for (var i:int = C.scenarioList.FIRST_TUTORIAL_INDEX; i <= C.scenarioList.LAST_TUTORIAL_INDEX; i++)
+				for (i = C.scenarioList.FIRST_TUTORIAL_INDEX; i <= C.scenarioList.LAST_TUTORIAL_INDEX; i++)
 					winsByScenario[i] = 0;
 				tutorialDone = false;
 			}
@@ -41,10 +47,18 @@ package Metagame {
 		protected function setDefaults():void {
 			if (!winsByScenario)
 				winsByScenario = new Array(C.scenarioList.all.length);
+			
 			if (!winsByDifficulty)
 				winsByDifficulty = new Array(C.difficulty.MAX_DIFFICULTY);
+			
 			if (!bestStats)
-				bestStats = new Statblock(0, 0, 0, 0, 0); //change 'best time'...?
+				bestStats = new Vector.<Statblock>;
+			for (var i:int = C.difficulty.V_EASY; i < C.difficulty.MAX_DIFFICULTY; i++)
+				if (i >= bestStats.length)
+					bestStats.push(new Statblock(0, 0, 0, 0, 0, 0));
+				else if (!bestStats[i])
+					bestStats[i] = new Statblock(0, 0, 0, 0, 0, 0);
+			
 			if (!bonusHighScores)
 				bonusHighScores = [-1, -1, -1, -1, -1];
 			//grindPoints defaults to 0
@@ -91,23 +105,28 @@ package Metagame {
 		}
 		
 		public function registerRecords(missionsCompleted:int, statblock:Statblock):void {
-			if (statblock.missionsWon > bestStats.missionsWon)
-				bestStats.missionsWon = statblock.missionsWon;
-			if (statblock.blocksDropped > bestStats.blocksDropped)
-				bestStats.blocksDropped = statblock.blocksDropped;
-			if (statblock.mineralsLaunched > bestStats.mineralsLaunched)
-				bestStats.mineralsLaunched = statblock.mineralsLaunched;
-			if (statblock.meteoroidsDestroyed > bestStats.meteoroidsDestroyed)
-				bestStats.meteoroidsDestroyed = statblock.meteoroidsDestroyed;
+			var bestStat:Statblock = this.bestStat;
+			if (statblock.missionsWon > bestStat.missionsWon)
+				bestStat.missionsWon = statblock.missionsWon;
+			if (statblock.blocksDropped > bestStat.blocksDropped)
+				bestStat.blocksDropped = statblock.blocksDropped;
+			if (statblock.mineralsLaunched > bestStat.mineralsLaunched)
+				bestStat.mineralsLaunched = statblock.mineralsLaunched;
+			if (statblock.meteoroidsDestroyed > bestStat.meteoroidsDestroyed)
+				bestStat.meteoroidsDestroyed = statblock.meteoroidsDestroyed;
 			
 			if (canSave)
-				bestStats.save("best");
+				bestStat.save(C.difficulty.initialSetting + "best");
 			
 			grindPoints += statblock.mineralsLaunched;
 			if (canSave)
 				C.save.write('grindPoints', grindPoints);
 			
 			C.unlocks.checkUnlocks();
+		}
+		
+		public function get bestStat():Statblock {
+			return bestStats[C.difficulty.initialSetting];
 		}
 		
 		public function registerBonusReverseScore(livesLeft:int):void {

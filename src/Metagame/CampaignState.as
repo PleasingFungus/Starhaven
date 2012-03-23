@@ -32,9 +32,9 @@ package Metagame {
 			title.setFormat(C.TITLEFONT, 48, 0xffffff, 'center');
 			add(title);
 		
-			var statDisplayY:int = title.y + title.height + 55;
+			var statDisplayY:int = title.y + title.height + 15;
 			add(screenshotGroup = C.campaign.renderScreenshots(statDisplayY));
-			add(statGroup = C.campaign.statblock.createDisplay(statDisplayY, C.accomplishments.bestStats));
+			add(statGroup = C.campaign.statblock.createDisplay(statDisplayY, C.accomplishments.bestStat));
 			if (!C.UNLOCKS_DISABLED)
 				unlockGroup = C.unlocks.createDisplay(statDisplayY);
 			if (unlockGroup) {
@@ -44,7 +44,7 @@ package Metagame {
 			} else
 				screenshotGroup.alpha = 0.5;
 			
-			var hintText:FlxText = new FlxText(10, FlxG.height - 90, FlxG.width -20, "Press " + ControlSet.BOMB_KEY + " to toggle stats.");
+			var hintText:FlxText = new FlxText(10, FlxG.height - 80, FlxG.width -20, "Press " + ControlSet.BOMB_KEY + " to toggle stats.");
 			hintText.setFormat(C.FONT, 12, 0xffffff, 'center');
 			add(hintText);
 			

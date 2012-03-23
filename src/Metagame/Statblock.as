@@ -8,12 +8,14 @@ package Metagame {
 	 */
 	public class Statblock {
 		
+		public var score:int;
 		public var missionsWon:int;
 		public var blocksDropped:int;
 		public var mineralsLaunched:int;
 		public var meteoroidsDestroyed:int;
 		public var timeElapsed:Number;
-		public function Statblock(MissionsWon:int, BlocksDropped:int, MineralsLaunched:int, MeteoroidsDestroyed:int, TimeElapsed:Number) {
+		public function Statblock(Score:int, MissionsWon:int, BlocksDropped:int, MineralsLaunched:int, MeteoroidsDestroyed:int, TimeElapsed:Number) {
+			score = Score;
 			missionsWon = MissionsWon;
 			blocksDropped = BlocksDropped;
 			mineralsLaunched = MineralsLaunched;
@@ -33,6 +35,7 @@ package Metagame {
 		
 		public function accessByIndex(index:int):int {
 			switch (index) {
+				case SCORE: return score;
 				case MISSIONS_WON: return missionsWon;
 				case BLOCKS_DROPPED: return blocksDropped;
 				case MINERALS_LAUNCHED: return mineralsLaunched;
@@ -45,6 +48,7 @@ package Metagame {
 		
 		public function setByIndex(index:int, value:int):int {
 			switch (index) {
+				case SCORE: return score = value; break;
 				case MISSIONS_WON: return missionsWon = value; break;
 				case BLOCKS_DROPPED: return blocksDropped = value; break;
 				case MINERALS_LAUNCHED: return mineralsLaunched = value; break;
@@ -59,6 +63,12 @@ package Metagame {
 			
 			colY = Y;
 			colIndex = colHeight = 0;
+			
+			var titledCol:TitledColumn = new TitledColumn(FlxG.width/2, colY, "Score");
+			//titledCol.setWidth(FlxG.width);
+			titledCol.addCol(score + " pts");
+			colGroup.add(titledCol);
+			colY += titledCol.height + 30;
 			
 			addStat("Missions Won", MISSIONS_WON, Comparator);
 			addStat("Blocks Dropped", BLOCKS_DROPPED, Comparator);
@@ -107,6 +117,7 @@ package Metagame {
 		}
 		
 		public function save(prefix:String):void {
+			C.save.write(prefix + 'Score', score);
 			C.save.write(prefix + 'Wins', missionsWon);
 			C.save.write(prefix + 'Blocks', blocksDropped);
 			C.save.write(prefix + 'Minerals', mineralsLaunched);
@@ -115,7 +126,8 @@ package Metagame {
 		}
 		
 		public static function load(prefix:String):Statblock {
-			return new Statblock(C.save.read(prefix + 'Wins') as int, 
+			return new Statblock(C.save.read(prefix + 'Score') as int,
+								 C.save.read(prefix + 'Wins') as int, 
 								 C.save.read(prefix + 'Blocks') as int,  
 								 C.save.read(prefix + 'Minerals') as int, 
 								 C.save.read(prefix + 'Meteoroids') as int, 
@@ -123,10 +135,11 @@ package Metagame {
 		}
 		
 		public function toString():String {
-			return missionsWon + " wins, " + blocksDropped + " dropped, " + mineralsLaunched + " launched, " + meteoroidsDestroyed + " destroyed.";
+			return score + " points, " + missionsWon + " wins, " + blocksDropped + " dropped, " + mineralsLaunched + " launched, " + meteoroidsDestroyed + " destroyed.";
 		}
 		
 		public function networkSend(variables:URLVariables):void {
+			variables.score = score;
 			variables.missionsWon = missionsWon;
 			variables.blocksDropped = blocksDropped;
 			variables.mineralsLaunched = mineralsLaunched;
@@ -134,6 +147,7 @@ package Metagame {
 			variables.timeElapsed = timeElapsed;
 		}
 		
+		public static const SCORE:int = 5;
 		public static const MISSIONS_WON:int = 0;
 		public static const BLOCKS_DROPPED:int = 1;
 		public static const MINERALS_LAUNCHED:int = 2;

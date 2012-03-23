@@ -25,7 +25,7 @@ package Metagame {
 			screenshots = [];
 			missionsRun = [];
 			
-			statblock = new Statblock(0,0,0,0,0);
+			statblock = new Statblock(0,0,0,0,0,0);
 			
 		}
 		

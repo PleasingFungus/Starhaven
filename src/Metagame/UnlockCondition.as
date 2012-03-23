@@ -22,7 +22,7 @@ package Metagame {
 		}
 		
 		public function holds():Boolean {
-			return C.accomplishments.bestStats.accessByIndex(reqStat) >= reqStatValue && C.difficulty.initialSetting >= reqDiff;
+			return C.accomplishments.bestStat.accessByIndex(reqStat) >= reqStatValue && C.difficulty.initialSetting >= reqDiff;
 		}
 		
 	}
