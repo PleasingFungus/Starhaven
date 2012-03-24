@@ -71,6 +71,20 @@ package  {
 			all_minos.push(this);
 		}
 		
+		override public function rotateCounterclockwise(Force:Boolean = false):Mino {
+			var hit:Mino = super.rotateCounterclockwise(Force);
+			if (hit && !silent) 
+				C.sound.play(C.sound.ERROR_SOUND, 1);
+			return hit;
+		}
+		
+		override public function rotateClockwise(Force:Boolean = false):Mino {
+			var hit:Mino = super.rotateClockwise(Force);
+			if (hit && !silent)
+				C.sound.play(C.sound.ERROR_SOUND, 1);
+			return hit;
+		}
+		
 		
 		override protected function anchorTo(hit:Mino):void {
 			checkBounds();
@@ -91,7 +105,7 @@ package  {
 			
 			if (!silent) {
 				FlxG.quake.start(0.015, 0.075);
-				C.sound.play(hit is Smino ? C.randomChoice(THUD_METALS) : C.randomChoice(THUD_ROCKS), 1);
+				playThud(hit);
 			}
 		}
 		
@@ -530,16 +544,19 @@ package  {
 			anchorTo(station.core);
 		}
 		
+		public static function playThud(hit:Mino):void {
+			C.sound.play(hit is Smino ? C.randomChoice(THUD_METALS) : C.randomChoice(THUD_ROCKS), 1);
+		}
 		
 		[Embed(source = "../lib/art/other/thruster.png")] protected static const _thruster_sprite:Class;
-		[Embed(source = "../lib/sound/game/thud_metal2.mp3")] protected const _THUD_METAL_1:Class;
-		[Embed(source = "../lib/sound/game/thud_metal4.mp3")] protected const _THUD_METAL_2:Class;
-		[Embed(source = "../lib/sound/game/thud_metal5.mp3")] protected const _THUD_METAL_3:Class;
-		protected const THUD_METALS:Array = [_THUD_METAL_1, _THUD_METAL_2, _THUD_METAL_3];
-		[Embed(source = "../lib/sound/game/thud_rock_1.mp3")] protected const _THUD_ROCK_1:Class;
-		[Embed(source = "../lib/sound/game/thud_rock_2.mp3")] protected const _THUD_ROCK_2:Class;
-		[Embed(source = "../lib/sound/game/thud_rock_3.mp3")] protected const _THUD_ROCK_3:Class;
-		protected const THUD_ROCKS:Array = [_THUD_ROCK_1, _THUD_ROCK_2, _THUD_ROCK_3];
+		[Embed(source = "../lib/sound/game/thud_metal2.mp3")] protected static const _THUD_METAL_1:Class;
+		[Embed(source = "../lib/sound/game/thud_metal4.mp3")] protected static const _THUD_METAL_2:Class;
+		[Embed(source = "../lib/sound/game/thud_metal5.mp3")] protected static const _THUD_METAL_3:Class;
+		protected static const THUD_METALS:Array = [_THUD_METAL_1, _THUD_METAL_2, _THUD_METAL_3];
+		[Embed(source = "../lib/sound/game/thud_rock_1.mp3")] protected static const _THUD_ROCK_1:Class;
+		[Embed(source = "../lib/sound/game/thud_rock_2.mp3")] protected static const _THUD_ROCK_2:Class;
+		[Embed(source = "../lib/sound/game/thud_rock_3.mp3")] protected static const _THUD_ROCK_3:Class;
+		protected static const THUD_ROCKS:Array = [_THUD_ROCK_1, _THUD_ROCK_2, _THUD_ROCK_3];
 		[Embed(source = "../lib/sound/game/submersion_shortout.mp3")] protected const SUBMERGE_NOISE:Class;
 		
 		

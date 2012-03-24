@@ -721,6 +721,8 @@ package
 			var closest:RocketGun = findClosestValidLauncher(target);
 			if (closest)
 				closest.fireOn(target);
+			else
+				C.sound.play(C.sound.ERROR_SOUND, 1);
 		}
 		
 		protected function findClosestValidLauncher(target:Point):RocketGun {

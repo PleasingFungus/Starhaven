@@ -28,6 +28,7 @@ package  {
 		protected const finalRotSpeed:Number = Math.PI * 9 / 6;
 		protected const spinupTime:Number = 0.25;
 		private var wasForced:Boolean;
+		private var lastHitTimer:Number = 0;
 		
 		private var setRotationState:Function;
 		private var rotationOngoing:Boolean;
@@ -120,6 +121,7 @@ package  {
 				crossedDivider = rotation < divider;
 			}
 			
+			lastHitTimer -= FlxG.elapsed;
 			if (crossedDivider) {
 				var hit:Mino;
 				
@@ -132,6 +134,14 @@ package  {
 				
 				if (hit) {
 					rotation = curRot; //bump! revert to last rotation
+					if (!ControlSet.ROTATE_INERTIA) {
+						forcedRotationDirection = -forcedRotationDirection;
+						FlxG.quake.start(0.005, 0.025);
+						//Smino.playThud(hit);
+					}
+					if (lastHitTimer <= 0)
+						C.sound.play(C.sound.ERROR_SOUND, 1);
+					lastHitTimer = 0.5;
 				} else {
 					//rotation = section * Math.PI / 2;
 					rotation = 0; //redundant with piecewise rotation otherwise
@@ -317,6 +327,7 @@ package  {
 		
 		[Embed(source = "../lib/sound/game/rotate_metal.mp3")] protected const ROTATE_NOISE:Class;
 		[Embed(source = "../lib/sound/game/end_rotate_metal.mp3")] protected const END_ROTATE_NOISE:Class;
+
 	}
 
 }
