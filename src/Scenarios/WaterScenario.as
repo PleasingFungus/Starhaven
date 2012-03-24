@@ -25,7 +25,7 @@ package Scenarios {
 			miningTool = Scoop;
 			missionType = WaterMission;
 			conduitLimit = 8;
-			buildMusic = new MusicTrack(C.music.MUSIC_PREFIX + "st_ad.m4a", 12.307692307692);
+			buildMusic = new MusicTrack(C.music.MUSIC_PREFIX + "st_ad.m4a", 12.307692307692, 160);
 		}
 		
 		override protected function repositionLevel():void {

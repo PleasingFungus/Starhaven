@@ -18,8 +18,9 @@ package Musics {
 		private var track:MusicTrack; //todo
 		private var music:String;
 		private var player:NetStream;
+		private var altPlayer:NetStream;
 		private var paused:Boolean;
-		private var trackTime:Number;
+		private var looping:Boolean;
 		
 		public var musicVolume:Number;
 		public function M4aMusic() {
@@ -37,16 +38,23 @@ package Musics {
 		}
 		
 		protected function firstTimeInit():void {
+			player = makePlayer();
+			altPlayer = makePlayer();
+		}
+		
+		protected function makePlayer():NetStream {
 			var connect_nc:NetConnection = new NetConnection();
 			connect_nc.connect(null);
 			
-			player = new NetStream(connect_nc);
+			var player:NetStream = new NetStream(connect_nc);
 			player.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
 			player.client = new Object; 
 			
 			var video:Video = new Video;
 			video.attachNetStream(player);
 			FlxG.stage.addChild(video);
+			
+			return player;
 		}
 		
 		override public function update():void {
@@ -61,19 +69,23 @@ package Musics {
 			if (!music) {
 				if (intendedMusic)
 					loadTrack();
-			} else if (!checkPause())
+			} else if (!checkPause()) {
 				checkVolume();
+				checkLoop();
+			}
 		}
 		
 		protected function checkPause():Boolean {
 			if (FlxG.mute || !MUSIC_VOLUME) {
 				if (!paused) {
 					player.pause();
+					if (looping) altPlayer.pause();
 					paused = true;
 				}
 				return true;
 			} else if (paused) {
 				player.resume();
+				if (looping) altPlayer.resume();
 				paused = false;
 			} 
 			return false;
@@ -100,12 +112,34 @@ package Musics {
 		}
 		
 		protected function checkLoop():void {
-			if (track.loops) {
-				if (track.intro == -1)
-					player.seek(0);
-				else
-					player.seek(track.intro);
+			if (track.loopTime != -1 && !looping) {
+				var toEOT:Number = track.loopTime - toEOT;
+				var estFrameTime:Number = 1 / 30.0;
+				if (toEOT < estFrameTime) {
+					altPlayer.resume(); //implictly set to roughly the right place...?
+					looping = true;
+					C.log("beginning loop");
+				}
 			}
+		}
+		
+		protected function swapPlayers():void {
+			var temp:NetStream = player;
+			player = altPlayer;
+			altPlayer = temp;
+			
+			setToBody(altPlayer);
+			altPlayer.pause();
+			
+			looping = false;
+			C.log("Finishing loop");
+		}
+		
+		protected function setToBody(player:NetStream):void {
+			if (track.intro == -1)
+				player.seek(0);
+			else
+				player.seek(track.intro);
 		}
 		
 		
@@ -126,16 +160,21 @@ package Musics {
 				loadMusic(MUSIC_VOLUME, track.body);
 			else
 				loadMusic(0, track.body);
+			
+			loadMusic(MUSIC_VOLUME, track.body, altPlayer);
+			if (track.intro != -1) 
+				altPlayer.seek(track.intro);
+			altPlayer.pause();
 		}
 		
-		protected function loadMusic(volume:Number = -1, newMusic:String = null):void {
+		protected function loadMusic(volume:Number = -1, newMusic:String = null, player:NetStream = null):void {
+			if (!player) player = this.player;
 			if (volume == -1) volume = player.soundTransform.volume;
 			if (!newMusic) newMusic = intendedMusic.body;
 			player.play(newMusic);
 			player.resume(); //just in case
-			setVolume(volume);
+			setVolume(volume, player);
 			music = newMusic;
-			trackTime = 0;
 		}
 		
 		protected function killMusic():void {
@@ -148,7 +187,8 @@ package Musics {
 			setVolume(player.soundTransform.volume + amount);
 		}
 		
-		protected function setVolume(level:Number):void {
+		protected function setVolume(level:Number, player:NetStream = null):void {
+			if (!player) player = this.player;
 			//if (level == player.soundTransform.volume) return; //premature optimization
 			
 			var sound:SoundTransform = player.soundTransform;
@@ -166,7 +206,7 @@ package Musics {
 					break;
 				case "NetStream.Play.Stop":
 					C.log("DEBUG: MP4 stopped");
-					checkLoop();
+					swapPlayers();
 					break;
 				default: if (p_evt.info.level == "error")
 					C.log("There was some sort of error with the NetStream", p_evt);
@@ -175,7 +215,7 @@ package Musics {
 		} 
 		
 		public const OLD_PLAY_MUSIC:MusicTrack = new MusicTrack("http://pleasingfungus.com/starhaven/music/2-4-2012_2.m4a");
-		public const MENU_MUSIC:MusicTrack = new MusicTrack("http://pleasingfungus.com/starhaven/music/Menu_rough.m4a", -1, false);
+		public const MENU_MUSIC:MusicTrack = new MusicTrack("http://pleasingfungus.com/starhaven/music/Menu_rough.m4a", -1, -1);
 		public const MUSIC_PREFIX:String = "http://pleasingfungus.com/starhaven/music/";
 		
 		private function get MUSIC_VOLUME():Number {

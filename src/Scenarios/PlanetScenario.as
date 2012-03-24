@@ -27,7 +27,7 @@ package Scenarios {
 			minoLimitMultiplier = 0.8;
 			rotateable = false;
 			conduitLimit = 9;
-			buildMusic = new MusicTrack(C.music.MUSIC_PREFIX + "st.m4a", 12.307692307692);
+			buildMusic = new MusicTrack(C.music.MUSIC_PREFIX + "st.m4a", 12.307692307692, 160);
 		}
 		
 		override protected function repositionLevel():void {
