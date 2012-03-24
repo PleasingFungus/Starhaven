@@ -113,17 +113,20 @@ package Musics {
 		
 		protected function checkLoop():void {
 			if (track.loopTime != -1 && !looping) {
-				var toEOT:Number = track.loopTime - toEOT;
-				var estFrameTime:Number = 1 / 30.0;
-				if (toEOT < estFrameTime) {
+				var toEOT:Number = track.loopTime - player.time;
+				if (toEOT < LOOP_GAP) {
 					altPlayer.resume(); //implictly set to roughly the right place...?
 					looping = true;
-					C.log("beginning loop");
 				}
 			}
 		}
 		
 		protected function swapPlayers():void {
+			if (!looping) {
+				setToBody(player);
+				return;
+			}
+			
 			var temp:NetStream = player;
 			player = altPlayer;
 			altPlayer = temp;
@@ -132,14 +135,13 @@ package Musics {
 			altPlayer.pause();
 			
 			looping = false;
-			C.log("Finishing loop");
 		}
 		
 		protected function setToBody(player:NetStream):void {
 			if (track.intro == -1)
 				player.seek(0);
 			else
-				player.seek(track.intro);
+				player.seek(track.intro - LOOP_GAP);
 		}
 		
 		
@@ -163,7 +165,7 @@ package Musics {
 			
 			loadMusic(MUSIC_VOLUME, track.body, altPlayer);
 			if (track.intro != -1) 
-				altPlayer.seek(track.intro);
+				altPlayer.seek(track.intro - LOOP_GAP);
 			altPlayer.pause();
 		}
 		
@@ -231,7 +233,8 @@ package Musics {
 			return musicVolume;
 		}
 		
-		private static const FADE_TIME:Number = 1;
+		private const FADE_TIME:Number = 1;
+		private const LOOP_GAP:Number = 5.0 / 60;
 		
 	}
 
