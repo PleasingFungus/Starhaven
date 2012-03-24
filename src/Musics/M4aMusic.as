@@ -216,8 +216,12 @@ package Musics {
 			}
 		} 
 		
-		public const OLD_PLAY_MUSIC:MusicTrack = new MusicTrack("http://pleasingfungus.com/starhaven/music/2-4-2012_2.m4a");
-		public const MENU_MUSIC:MusicTrack = new MusicTrack("http://pleasingfungus.com/starhaven/music/Menu_rough.m4a", -1, -1);
+		public const OLD_PLAY_MUSIC:MusicTrack = new MusicTrack("UNUSED", MUSIC_PREFIX + "2-4-2012_2.m4a");
+		
+		public const MENU_MUSIC:MusicTrack = new MusicTrack("Starhaven", MUSIC_PREFIX + "Menu_rough.m4a", -1, -1);
+		public const MOON_MUSIC:MusicTrack = new MusicTrack("Surface Tension", MUSIC_PREFIX + "st.m4a", 12.307692307692, 160);
+		public const SEA_MUSIC:MusicTrack = new MusicTrack("Surface Tension (Azure Depths)", MUSIC_PREFIX + "st.m4a", 12.307692307692, 160);
+		
 		public const MUSIC_PREFIX:String = "http://pleasingfungus.com/starhaven/music/";
 		
 		private function get MUSIC_VOLUME():Number {

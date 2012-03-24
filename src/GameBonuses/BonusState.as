@@ -2,6 +2,7 @@ package GameBonuses {
 	import GameBonuses.Attack.AttackScenario;
 	import GameBonuses.Attack.AttackState;
 	import GameBonuses.Collect.CollectScenario;
+	import GameBonuses.Music.MusicTestState;
 	import MainMenu.MysteryThing;
 	import org.flixel.*;
 	import MainMenu.MemoryThing;
@@ -27,6 +28,7 @@ package GameBonuses {
 			addBonus("Reverse Mode!", AttackState);
 			if (C.DEBUG)
 				addBonus("Collect Mode!", CollectScenario);
+			addBonus("Music Test", MusicTestState);
 			add(new MemoryThing("Back", MenuState));
 		}
 		

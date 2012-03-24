@@ -52,7 +52,7 @@ package Options {
 			rightArrow = new KeyHelper(ControlSet.RIGHT_KEY);
 			leftArrow.x = bars[0].x - 20 - leftArrow.width;
 			rightArrow.x = bars[bars.length - 1].x + bars[bars.length - 1].width + 20;
-			leftArrow.y = rightArrow.y = bars[0].y + 9;
+			leftArrow.y = rightArrow.y = bars[0].y + 2;
 			add(leftArrow);
 			add(rightArrow);
 		}
