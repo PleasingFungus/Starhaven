@@ -20,8 +20,8 @@ package MainMenu {
 			}
 			C.IN_TUTORIAL = false;
 			
-			if (!C.music.intendedMusic && C.newMusicOK)
-				C.music.forceSwap(C.music.MENU_MUSIC);
+			//if (!C.music.intendedMusic && C.newMusicOK)
+				//C.music.forceSwap(C.music.MENU_MUSIC);
 			
 			super.create();
 			

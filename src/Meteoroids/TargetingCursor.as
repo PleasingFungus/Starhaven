@@ -26,11 +26,13 @@ package Meteoroids {
 			lastMouse = new Point(x, y);
 			
 			hints = new FlxGroup;
-			hints.add(new KeyHelper(ControlSet.LEFT_KEY));
-			hints.add(new KeyHelper(ControlSet.UP_KEY));
-			hints.add(new KeyHelper(ControlSet.RIGHT_KEY));
-			hints.add(new KeyHelper(ControlSet.DOWN_KEY));
-			hints.add(new KeyHelper(ControlSet.BOMB_KEY));
+			if (ControlSet.KEYBOARD_TARGETING_OK) {
+				hints.add(new KeyHelper(ControlSet.LEFT_KEY));
+				hints.add(new KeyHelper(ControlSet.UP_KEY));
+				hints.add(new KeyHelper(ControlSet.RIGHT_KEY));
+				hints.add(new KeyHelper(ControlSet.DOWN_KEY));
+				hints.add(new KeyHelper(ControlSet.BOMB_KEY));
+			}
 			hints.add(mouse = new FlxSprite().loadGraphic(_mouse));
 			mouse.alpha = 0.5;
 			useTime = 0;
@@ -40,7 +42,7 @@ package Meteoroids {
 			super.update();
 			if (lastMouse.x != FlxG.mouse.x + FlxG.quake.x || lastMouse.y != FlxG.mouse.y + FlxG.quake.y)
 				moveToMouse();
-			else
+			else if (ControlSet.KEYBOARD_TARGETING_OK)
 				checkKeyboard();
 			
 			if (useTime >= 1.6)
@@ -82,12 +84,14 @@ package Meteoroids {
 		}
 		
 		protected function updateHints():void {
-			for (var i:int = LEFT; i <= DOWN; i++) {
-				hints.members[i].x = x - hints.members[i].width/2 + DIRECTIONS[i].x * HINT_SPACING;
-				hints.members[i].y = y - hints.members[i].height/2 + DIRECTIONS[i].y * HINT_SPACING;
+			if (ControlSet.KEYBOARD_TARGETING_OK) {
+				for (var i:int = LEFT; i <= DOWN; i++) {
+					hints.members[i].x = x - hints.members[i].width/2 + DIRECTIONS[i].x * HINT_SPACING;
+					hints.members[i].y = y - hints.members[i].height/2 + DIRECTIONS[i].y * HINT_SPACING;
+				}
+				hints.members[i].x = x - hints.members[i].width/2; //bomb
+				hints.members[i].y = y - hints.members[i].height / 2 + HINT_SPACING * 2;
 			}
-			hints.members[i].x = x - hints.members[i].width/2; //bomb
-			hints.members[i].y = y - hints.members[i].height / 2 + HINT_SPACING * 2;
 			mouse.x = x + HINT_SPACING * 2;
 			mouse.y = y + height / 2 - mouse.height / 2;
 			hints.update();

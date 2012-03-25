@@ -11,6 +11,7 @@ package Options {
 	public class ControlsState extends FadeState {
 		
 		private var inertiaButton:MenuThing;
+		private var keyTargetButton:MenuThing;
 		override public function create():void {
 			super.create();
 			loadBackground(BG, 0.75);
@@ -42,8 +43,13 @@ package Options {
 			
 			add(inertiaButton = new MenuThing("Rotation Inertia: " + (ControlSet.ROTATE_INERTIA ? "On" : "Off"), setRotateInertia, false));
 			inertiaButton.setFormat(C.FONT, 12);
-			MenuThing.addColumn([inertiaButton], FlxG.width / 4);
+			MenuThing.addColumn([inertiaButton], FlxG.width * 1 / 16);
 			inertiaButton.setY(FlxG.height * 3 / 4);
+			
+			add(keyTargetButton = new MenuThing("Keyboard Targeting: " + (ControlSet.KEYBOARD_TARGETING_OK ? "On" : "Off"), setKeyboardTargeting, false));
+			keyTargetButton.setFormat(C.FONT, 12);
+			MenuThing.addColumn([keyTargetButton], FlxG.width * 9 / 16);
+			keyTargetButton.setY(FlxG.height * 3 / 4);
 			
 			
 			MenuThing.menuThings[0].select();
@@ -59,6 +65,13 @@ package Options {
 			ControlSet.ROTATE_INERTIA = !ControlSet.ROTATE_INERTIA;
 			inertiaButton.init("Rotation Inertia: " + (ControlSet.ROTATE_INERTIA ? "On" : "Off"));
 			inertiaButton.setY(FlxG.height * 3 / 4);
+			ControlSet.save();
+		}
+		
+		protected function setKeyboardTargeting(_:String):void {
+			ControlSet.KEYBOARD_TARGETING_OK = !ControlSet.KEYBOARD_TARGETING_OK;
+			keyTargetButton.init("Keyboard Targeting: " + (ControlSet.KEYBOARD_TARGETING_OK ? "On" : "Off"));
+			keyTargetButton.setY(FlxG.height * 3 / 4);
 			ControlSet.save();
 		}
 		

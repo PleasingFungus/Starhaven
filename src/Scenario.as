@@ -567,7 +567,7 @@ package
 		}
 		
 		protected function checkCombatInput():void {
-			if (FlxG.mouse.justPressed() || ControlSet.BOMB_KEY.justPressed())
+			if (FlxG.mouse.justPressed() || (ControlSet.KEYBOARD_TARGETING_OK && ControlSet.BOMB_KEY.justPressed()))
 				fireRocket(C.B.screenToBlocks(targetCursor.x, targetCursor.y));
 		}
 		
