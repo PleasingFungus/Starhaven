@@ -30,14 +30,15 @@ package GameBonuses.Music
 			switch (track.name) {
 				case "Starhaven": return _menu;
 				case "Surface Tension": return _moon;
-				case "Surface Tension (Aquatic Tension)": return _placeholder;
+				case "Surface Tension (Azure Depths)": return _sea;
 				default: return _placeholder;
 			}
 		}
 		
 		[Embed(source = "../../../lib/art/track art/placeholder.png")] private const _placeholder:Class;
 		[Embed(source = "../../../lib/art/track art/menu.jpg")] private const _menu:Class;
-		[Embed(source = "../../../lib/art/track art/moon2.png")] private const _moon:Class;
+		[Embed(source = "../../../lib/art/track art/moon3.png")] private const _moon:Class;
+		[Embed(source = "../../../lib/art/track art/sea.png")] private const _sea:Class;
 	}
 
 }

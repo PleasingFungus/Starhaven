@@ -139,7 +139,7 @@ package Scenarios {
 		}
 		
 		protected function getLandColor(skyHue:Number):uint {
-			return C.HSVToRGB(skyHue, .25, 0.72);
+			return C.HSVToRGB(skyHue, .5, 0.8);
 		}
 		
 		[Embed(source = "../../lib/art/backgrounds/skyline_mtn.png")] private const _skyline:Class;
