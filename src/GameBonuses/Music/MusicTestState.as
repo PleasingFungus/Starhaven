@@ -21,6 +21,12 @@ package GameBonuses.Music
 			tracks.push(C.music.MENU_MUSIC);
 			tracks.push(C.music.MOON_MUSIC);
 			tracks.push(C.music.SEA_MUSIC);
+			tracks.push(C.music.LAND_COMBAT_MUSIC);
+			tracks.push(C.music.AST_MUSIC);
+			tracks.push(C.music.DUST_MUSIC);
+			tracks.push(C.music.SPACE_COMBAT_MUSIC);
+			//tracks.push(C.music.VICTORY_MUSIC);
+			//tracks.push(C.music.DEFEAT_MUSIC);
 		}
 		
 		override public function create():void {
@@ -60,9 +66,12 @@ package GameBonuses.Music
 			if (ControlSet.CANCEL_KEY.justPressed())
 				fadeBackTo(BonusState);
 			else if (ControlSet.LEFT_KEY.justPressed())
-				C.music.forceSwap(tracks[(tracks.indexOf(C.music.intendedMusic) + tracks.length - 1) % tracks.length]);
+				C.music.forceSwap(tracks[(tracks.indexOf(C.music.normalMusic) + tracks.length - 1) % tracks.length]);
 			else if (ControlSet.RIGHT_KEY.justPressed())
-				C.music.forceSwap(tracks[(tracks.indexOf(C.music.intendedMusic) + 1) % tracks.length]);
+				C.music.forceSwap(tracks[(tracks.indexOf(C.music.normalMusic) + 1) % tracks.length]);
+			
+			if (C.music.done)
+				C.music.forceSwap(tracks[tracks.indexOf(C.music.normalMusic)]);
 		}
 	}
 

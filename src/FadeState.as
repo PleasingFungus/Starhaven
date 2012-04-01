@@ -16,9 +16,9 @@ package  {
 			loadBackground(DEFAULT_BG);
 			
 			if (C.newMusicOK)
-				C.music.intendedMusic = C.music.MENU_MUSIC;
+				C.music.normalMusic = C.music.MENU_MUSIC;
 			else
-				C.music.intendedMusic = null;
+				C.music.normalMusic = null;
 			C.music.combatMusic = null;
 		}
 		

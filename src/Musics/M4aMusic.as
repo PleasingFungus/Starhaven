@@ -12,8 +12,9 @@ package Musics {
 	 */
 	public class M4aMusic extends FlxObject {
 		
-		public var intendedMusic:MusicTrack;
+		public var normalMusic:MusicTrack;
 		public var combatMusic:MusicTrack;
+		private function get intendedMusic():MusicTrack { return combatMusic ? combatMusic : normalMusic }
 		
 		private var track:MusicTrack; //todo
 		private var music:String;
@@ -21,6 +22,8 @@ package Musics {
 		private var altPlayer:NetStream;
 		private var paused:Boolean;
 		private var looping:Boolean;
+		private var _done:Boolean;
+		public function get done():Boolean { return _done }
 		
 		public var musicVolume:Number;
 		public function M4aMusic() {
@@ -70,6 +73,7 @@ package Musics {
 				if (intendedMusic)
 					loadTrack();
 			} else if (!checkPause()) {
+				checkCombat();
 				checkVolume();
 				checkLoop();
 			}
@@ -89,6 +93,13 @@ package Musics {
 				paused = false;
 			} 
 			return false;
+		}
+		
+		protected function checkCombat():void {
+			if (combatMusic && track != combatMusic)
+				forceSwap(combatMusic);
+			//else if (!combatMusic && track == combatMusic)
+				//forceSwap(normalMusic);
 		}
 		
 		protected function checkVolume():void {
@@ -122,6 +133,11 @@ package Musics {
 		}
 		
 		protected function swapPlayers():void {
+			if (track.loopTime == -1) {
+				_done = true;
+				return;
+			}
+			
 			if (!looping) {
 				setToBody(player);
 				return;
@@ -147,7 +163,7 @@ package Musics {
 		
 		
 		public function forceSwap(newMusic:MusicTrack):void {
-			intendedMusic = newMusic;
+			normalMusic = newMusic;
 			if (intendedMusic)
 				loadTrack();
 			else
@@ -162,6 +178,7 @@ package Musics {
 				loadMusic(MUSIC_VOLUME, track.body);
 			else
 				loadMusic(0, track.body);
+			_done = false;
 			
 			loadMusic(MUSIC_VOLUME, track.body, altPlayer);
 			if (track.intro != -1) 
@@ -216,13 +233,29 @@ package Musics {
 			}
 		} 
 		
+		private const STUTTER:Number = 0.25;
+		public const MUSIC_PREFIX:String = "http://pleasingfungus.com/starhaven/music/";
 		public const OLD_PLAY_MUSIC:MusicTrack = new MusicTrack("UNUSED", MUSIC_PREFIX + "2-4-2012_2.m4a");
 		
-		public const MENU_MUSIC:MusicTrack = new MusicTrack("Starhaven", MUSIC_PREFIX + "Menu_rough.m4a", -1, -1);
-		public const MOON_MUSIC:MusicTrack = new MusicTrack("Surface Tension", MUSIC_PREFIX + "st.m4a", 12.307692307692, 160);
-		public const SEA_MUSIC:MusicTrack = new MusicTrack("Surface Tension (Azure Depths)", MUSIC_PREFIX + "st_ad.m4a", 12.307692307692, 160);
 		
-		public const MUSIC_PREFIX:String = "http://pleasingfungus.com/starhaven/music/";
+		public const MENU_MUSIC:MusicTrack = new MusicTrack("Starhaven", MUSIC_PREFIX + "starhaven.m4a",
+															42.667 + STUTTER, 170.667 + STUTTER);
+		public const TUT_MUSIC:MusicTrack = new MusicTrack("Resonance", MUSIC_PREFIX + "resonance.m4a",
+															41.739 + STUTTER, 146.087 + STUTTER);
+		public const MOON_MUSIC:MusicTrack = new MusicTrack("Surface Tension", MUSIC_PREFIX + "st.m4a",
+															12.307692307692 + STUTTER, 160 + STUTTER);
+		public const SEA_MUSIC:MusicTrack = new MusicTrack("Surface Tension (Azure Depths)", MUSIC_PREFIX + "st_ad.m4a",
+															12.307692307692 + STUTTER, 160 + STUTTER);
+		public const AST_MUSIC:MusicTrack = new MusicTrack("Lucid Void", MUSIC_PREFIX + "lv.m4a",
+														   17.615 + STUTTER, 158.532 + STUTTER);
+		public const DUST_MUSIC:MusicTrack = new MusicTrack("Lucid Void (Forgotten Sector)", MUSIC_PREFIX + "lv_fs.m4a",
+															17.615 + STUTTER, 158.532 + STUTTER);
+		public const SPACE_COMBAT_MUSIC:MusicTrack = new MusicTrack("Lucid Void (Hull Breach)", MUSIC_PREFIX + "lv_hb.m4a",
+																	18.783 + STUTTER, 152.369 + STUTTER);
+		public const LAND_COMBAT_MUSIC:MusicTrack = new MusicTrack("Surface Tension (Red Alert)", MUSIC_PREFIX + "st_ra.m4a",
+																	33.684 + STUTTER, 123.509 + STUTTER);
+		public const DEFEAT_MUSIC:MusicTrack = new MusicTrack("Collapse", MUSIC_PREFIX + "defeat.m4a");
+		public const VICTORY_MUSIC:MusicTrack = new MusicTrack("I Am The Greatest (VGTG)", MUSIC_PREFIX + "victory.m4a");
 		
 		private function get MUSIC_VOLUME():Number {
 			return FlxG.getMuteValue() * musicVolume * FlxG.volume * 2;

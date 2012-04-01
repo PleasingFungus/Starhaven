@@ -19,7 +19,7 @@ package GameBonuses.Music
 		override public function update():void {
 			super.update();
 			
-			var art:Class = findArt(C.music.intendedMusic);
+			var art:Class = findArt(C.music.normalMusic);
 			if (art != currentArt) {
 				loadGraphic(art);
 				currentArt = art;
@@ -31,6 +31,10 @@ package GameBonuses.Music
 				case "Starhaven": return _menu;
 				case "Surface Tension": return _moon;
 				case "Surface Tension (Azure Depths)": return _sea;
+				case "Surface Tension (Red Alert)": return _redalert;
+				case "Lucid Void": return _ast;
+				case "Lucid Void (Forgotten Sector)": return _dust;
+				case "Lucid Void (Hull Breach)": return _hullbreach;
 				default: return _placeholder;
 			}
 		}
@@ -39,6 +43,10 @@ package GameBonuses.Music
 		[Embed(source = "../../../lib/art/track art/menu.jpg")] private const _menu:Class;
 		[Embed(source = "../../../lib/art/track art/moon3.png")] private const _moon:Class;
 		[Embed(source = "../../../lib/art/track art/sea.png")] private const _sea:Class;
+		[Embed(source = "../../../lib/art/track art/lucid.png")] private const _ast:Class;
+		[Embed(source = "../../../lib/art/track art/dust.jpg")] private const _dust:Class;
+		[Embed(source = "../../../lib/art/track art/redalert.png")] private const _redalert:Class;
+		[Embed(source = "../../../lib/art/track art/hullbreach.png")] private const _hullbreach:Class;
 	}
 
 }

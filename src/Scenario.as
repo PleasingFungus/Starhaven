@@ -173,10 +173,10 @@ package
 			//else
 				FlxG.mouse.hide();
 			if (buildMusic && C.newMusicOK)
-				C.music.intendedMusic = buildMusic;
+				C.music.normalMusic = buildMusic;
 			else
-				C.music.intendedMusic = C.music.OLD_PLAY_MUSIC;
-			C.log("Setting intent to " + C.music.intendedMusic);
+				C.music.normalMusic = C.music.OLD_PLAY_MUSIC;
+			C.log("Setting intent to " + C.music.normalMusic);
 			registerStart();
 		}
 		
@@ -852,7 +852,7 @@ package
 			registerEnd(false);
 			
 			var endText:FlxText = new FlxText(20, FlxG.height / 2 - 30, FlxG.width - 40, " ");
-			endText.setFormat(C.FONT, 48, 0xffffff, 'center');
+			endText.setFormat(C.FONT, 48, 0xffffff, 'center', 0x1);
 			
 			if (won()) {
 				endText.text = "Victory!";
@@ -869,6 +869,7 @@ package
 			
 			hudLayer.add(new BlinkText(0, FlxG.height - 25, "Press "+ControlSet.CONFIRM_KEY+" To Continue", 16));
 			
+			C.music.forceSwap(won() ? C.music.VICTORY_MUSIC : C.music.DEFEAT_MUSIC);
 			contemplateShaking();
 		}
 		

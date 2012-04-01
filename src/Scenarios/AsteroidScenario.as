@@ -22,7 +22,7 @@ package Scenarios {
 			goalMultiplier = 0.75;
 			mapBuffer = 20;
 			missionType = AsteroidMission;
-			//buildMusic = new MusicTrack(C.music.MUSIC_PREFIX + "ST_Intro.m4a"); //just for testing
+			buildMusic = C.music.AST_MUSIC;
 		}
 		
 		override protected function repositionLevel():void {

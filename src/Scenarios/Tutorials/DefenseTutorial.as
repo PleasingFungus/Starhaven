@@ -27,6 +27,7 @@ package Scenarios.Tutorials {
 			
 			spawnerType = PlanetSpawner;
 			victoryText = "Survived all waves!";
+			buildMusic = C.music.TUT_MUSIC;
 		}
 		
 		override public function create():void {

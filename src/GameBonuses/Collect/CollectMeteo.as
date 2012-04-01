@@ -79,10 +79,11 @@ package GameBonuses.Collect {
 			}
 			
 			asteroid.forceSpriteReset();
-			Mino.resetGrid();
-			for each (var mino:Mino in Mino.all_minos)
-				if (mino.exists && !mino.dangerous)
-					mino.addToGrid();
+			//Mino.resetGrid();
+			//for each (var mino:Mino in Mino.all_minos)
+				//if (mino.exists && !mino.dangerous)
+					//mino.addToGrid();
+			asteroid.addToGrid();
 			
 			FlxG.quake.start(0.045, 0.25);
 			C.sound.play(C.randomChoice(THUD_ROCKS), 1);

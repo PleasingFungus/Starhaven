@@ -25,6 +25,10 @@ package Musics {
 			if (loopTime != -1) str +=  loopTime;
 			return str + "]";
 		}
+		
+		public function clone():MusicTrack {
+			return new MusicTrack(name, body, intro, loopTime);
+		}
 	}
 
 }

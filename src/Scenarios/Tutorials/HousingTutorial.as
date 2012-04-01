@@ -21,6 +21,7 @@ package Scenarios.Tutorials {
 			super(NaN);
 			
 			goalMultiplier = 1;
+			buildMusic = C.music.TUT_MUSIC;
 		}
 		
 		override public function create():void {

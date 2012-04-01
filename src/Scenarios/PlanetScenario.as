@@ -28,6 +28,7 @@ package Scenarios {
 			rotateable = false;
 			conduitLimit = 9;
 			buildMusic = C.music.MOON_MUSIC;
+			combatMusic = C.music.LAND_COMBAT_MUSIC;
 		}
 		
 		override protected function repositionLevel():void {

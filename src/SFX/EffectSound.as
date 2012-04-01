@@ -59,7 +59,7 @@ package SFX {
 		
 		
 		[Embed(source = "../../lib/sound/menu/unchoose.mp3")] public const BACK_SOUND:Class;
-		[Embed(source = "../../lib/sound/error.mp3")] public const ERROR_SOUND:Class;
+		[Embed(source = "../../lib/sound/errorn.mp3")] public const ERROR_SOUND:Class;
 		[Embed(source = "../../lib/sound/game/crew_1.mp3")] private const _CREW_SOUND_1:Class;
 		[Embed(source = "../../lib/sound/game/crew_2.mp3")] private const _CREW_SOUND_2:Class;
 		[Embed(source = "../../lib/sound/game/crew_3.mp3")] private const _CREW_SOUND_3:Class;

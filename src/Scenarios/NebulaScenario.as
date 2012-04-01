@@ -20,7 +20,8 @@ package Scenarios {
 			mapBuffer = 20;
 			goalMultiplier = 0.52;
 			minoLimitMultiplier = 0.4;
-			meteoSpeedMultiplier = 4/5;
+			meteoSpeedMultiplier = 4 / 5;
+			buildMusic = C.music.DUST_MUSIC;
 		}
 		
 		override protected function buildLevel():void {

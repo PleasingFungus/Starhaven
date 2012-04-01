@@ -24,6 +24,7 @@ package Scenarios {
 			bgMissionType = AsteroidMission;
 			//goalMultiplier = 0.65;
 			minoLimitMultiplier = 0.7;
+			buildMusic = C.music.DUST_MUSIC;
 		}
 		
 		override protected function createMission():void {

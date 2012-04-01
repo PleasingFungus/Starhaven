@@ -14,6 +14,7 @@ package Scenarios {
 			super(Seed);
 			bg_sprites = _bgs;
 			mapBuffer = 20;
+			combatMusic = C.music.SPACE_COMBAT_MUSIC;
 		}
 		
 		
