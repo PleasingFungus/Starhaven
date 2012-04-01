@@ -35,6 +35,8 @@ package GameBonuses.Music
 				case "Lucid Void": return _ast;
 				case "Lucid Void (Forgotten Sector)": return _dust;
 				case "Lucid Void (Hull Breach)": return _hullbreach;
+				case "I Am The Greatest (VGTG)": return _victory;
+				case "Collapse": return _defeat;
 				default: return _placeholder;
 			}
 		}
@@ -47,6 +49,8 @@ package GameBonuses.Music
 		[Embed(source = "../../../lib/art/track art/dust.jpg")] private const _dust:Class;
 		[Embed(source = "../../../lib/art/track art/redalert.png")] private const _redalert:Class;
 		[Embed(source = "../../../lib/art/track art/hullbreach.png")] private const _hullbreach:Class;
+		[Embed(source = "../../../lib/art/track art/victory.png")] private const _victory:Class;
+		[Embed(source = "../../../lib/art/track art/defeat.png")] private const _defeat:Class;
 	}
 
 }

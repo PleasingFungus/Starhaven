@@ -25,8 +25,8 @@ package GameBonuses.Music
 			tracks.push(C.music.AST_MUSIC);
 			tracks.push(C.music.DUST_MUSIC);
 			tracks.push(C.music.SPACE_COMBAT_MUSIC);
-			//tracks.push(C.music.VICTORY_MUSIC);
-			//tracks.push(C.music.DEFEAT_MUSIC);
+			tracks.push(C.music.VICTORY_MUSIC);
+			tracks.push(C.music.DEFEAT_MUSIC);
 		}
 		
 		override public function create():void {
