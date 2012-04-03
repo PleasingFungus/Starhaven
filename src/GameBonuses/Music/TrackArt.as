@@ -29,6 +29,7 @@ package GameBonuses.Music
 		private function findArt(track:MusicTrack):Class {
 			switch (track.name) {
 				case "Starhaven": return _menu;
+				case "Resonance": return _tut;
 				case "Surface Tension": return _moon;
 				case "Surface Tension (Azure Depths)": return _sea;
 				case "Surface Tension (Red Alert)": return _redalert;
@@ -42,6 +43,7 @@ package GameBonuses.Music
 		}
 		
 		[Embed(source = "../../../lib/art/track art/placeholder.png")] private const _placeholder:Class;
+		[Embed(source = "../../../lib/art/track art/resonance.png")] private const _tut:Class;
 		[Embed(source = "../../../lib/art/track art/menu.jpg")] private const _menu:Class;
 		[Embed(source = "../../../lib/art/track art/moon3.png")] private const _moon:Class;
 		[Embed(source = "../../../lib/art/track art/sea.png")] private const _sea:Class;

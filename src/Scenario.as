@@ -697,7 +697,7 @@ package
 				//_rotation -= Math.PI / 2;
 			//}
 			
-			if (ControlSet.DISABLE_HUD_KEY.justPressed())
+			if (C.DEBUG && ControlSet.DISABLE_HUD_KEY.justPressed())
 				C.HUD_ENABLED = !C.HUD_ENABLED;
 			if (ControlSet.ZOOM_KEY.justPressed())
 				zoomToggled = !zoomToggled;

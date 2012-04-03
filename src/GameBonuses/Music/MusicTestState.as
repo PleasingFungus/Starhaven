@@ -19,6 +19,7 @@ package GameBonuses.Music
 		public function MusicTestState() {
 			tracks = new Vector.<MusicTrack>;
 			tracks.push(C.music.MENU_MUSIC);
+			tracks.push(C.music.TUT_MUSIC);
 			tracks.push(C.music.MOON_MUSIC);
 			tracks.push(C.music.SEA_MUSIC);
 			tracks.push(C.music.LAND_COMBAT_MUSIC);
@@ -66,12 +67,14 @@ package GameBonuses.Music
 			if (ControlSet.CANCEL_KEY.justPressed())
 				fadeBackTo(BonusState);
 			else if (ControlSet.LEFT_KEY.justPressed())
-				C.music.forceSwap(tracks[(tracks.indexOf(C.music.normalMusic) + tracks.length - 1) % tracks.length]);
+				C.music.normalMusic = (tracks[(tracks.indexOf(C.music.normalMusic) + tracks.length - 1) % tracks.length]);
+				//C.music.forceSwap(tracks[(tracks.indexOf(C.music.normalMusic) + tracks.length - 1) % tracks.length]);
 			else if (ControlSet.RIGHT_KEY.justPressed())
-				C.music.forceSwap(tracks[(tracks.indexOf(C.music.normalMusic) + 1) % tracks.length]);
+				C.music.normalMusic = (tracks[(tracks.indexOf(C.music.normalMusic) + 1) % tracks.length]);
+				//C.music.forceSwap(tracks[(tracks.indexOf(C.music.normalMusic) + 1) % tracks.length]);
 			
 			if (C.music.done)
-				C.music.forceSwap(tracks[tracks.indexOf(C.music.normalMusic)]);
+				C.music.forceSwap(tracks[tracks.indexOf(C.music.normalMusic)]); //force loop for otherwise non-looping tracks
 		}
 	}
 
