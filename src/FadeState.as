@@ -16,10 +16,9 @@ package  {
 			loadBackground(DEFAULT_BG);
 			
 			if (C.newMusicOK)
-				C.music.normalMusic = C.music.MENU_MUSIC;
+				C.music.intendedMusic = C.music.MENU_MUSIC;
 			else
-				C.music.normalMusic = null;
-			C.music.combatMusic = null;
+				C.music.intendedMusic = null;
 		}
 		
 		protected function loadBackground(rawSpr:Class, Color:Number = 0.5):void {

@@ -173,10 +173,10 @@ package
 			//else
 				FlxG.mouse.hide();
 			if (buildMusic && C.newMusicOK)
-				C.music.normalMusic = buildMusic;
+				C.music.intendedMusic = buildMusic;
 			else
-				C.music.normalMusic = C.music.OLD_PLAY_MUSIC;
-			C.log("Setting intent to " + C.music.normalMusic);
+				C.music.intendedMusic = C.music.OLD_PLAY_MUSIC;
+			C.log("Setting intent to " + C.music.intendedMusic);
 			registerStart();
 		}
 		
@@ -315,14 +315,14 @@ package
 			checkGoal();
 			checkEndConditions();
 			
-			if (!missionOver)
+			if (!missionOver) {
 				checkArrowHint();
-			
-			if (tracker.safe == dangeresque) { //mismatch!
-				if (tracker.safe)
-					endCombat();
-				else
-					initCombat();
+				if (tracker.safe == dangeresque) { //mismatch!
+					if (tracker.safe)
+						endCombat();
+					else
+						initCombat();
+				}
 			}
 		}
 		
@@ -449,7 +449,7 @@ package
 				stationHint.visible = false;
 			dangeresque = true;
 			if (combatMusic && C.newMusicOK)
-				C.music.combatMusic = combatMusic;
+				C.music.intendedMusic = combatMusic;
 			
 			hudLayer.add(targetCursor = new TargetingCursor);
 			//NewPlayerEvent.fire(NewPlayerEvent.METEOROIDS);
@@ -462,7 +462,7 @@ package
 			if (stationHint && stationHint.exists && !C.NO_COMBAT_ROTATING)
 				stationHint.visible = true;
 			dangeresque = false;
-			C.music.combatMusic = null;
+			C.music.intendedMusic = buildMusic;
 			
 			targetCursor.exists = false;
 			targetCursor = null;
@@ -844,8 +844,6 @@ package
 					if (mino.dangerous)
 						mino.exists = false;
 				dangeresque = false;
-				C.music.combatMusic = null;
-				C.log("Turned off combat music: " + C.music.combatMusic);
 			} else if (currentMino) { //FIXME: this seems to do nothing
 				killCurrentMino();
 				currentMino = null;
@@ -870,8 +868,7 @@ package
 			
 			hudLayer.add(new BlinkText(0, FlxG.height - 25, "Press "+ControlSet.CONFIRM_KEY+" To Continue", 16));
 			
-			C.music.normalMusic = won() ? C.music.VICTORY_MUSIC : C.music.DEFEAT_MUSIC;
-			C.log("Music now is: " + C.music.normalMusic, C.music.combatMusic, C.music.intendedMusic);
+			C.music.intendedMusic = won() ? C.music.VICTORY_MUSIC : C.music.DEFEAT_MUSIC;
 			//C.music.forceSwap(won() ? C.music.VICTORY_MUSIC : C.music.DEFEAT_MUSIC);
 			contemplateShaking();
 		}

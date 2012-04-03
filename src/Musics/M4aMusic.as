@@ -12,9 +12,9 @@ package Musics {
 	 */
 	public class M4aMusic extends FlxObject {
 		
-		public var normalMusic:MusicTrack;
-		public var combatMusic:MusicTrack;
-		public function get intendedMusic():MusicTrack { return combatMusic ? combatMusic : normalMusic }
+		private var _intendedMusic:MusicTrack;
+		public function set intendedMusic(m:MusicTrack):void { _intendedMusic = m; C.log('intent = ' + m); }
+		public function get intendedMusic():MusicTrack { return _intendedMusic }
 		
 		private var track:MusicTrack; //todo
 		private var music:String;
@@ -67,6 +67,8 @@ package Musics {
 				firstTimeInit();
 			
 			updateNormalMusic();
+			if (C.DEBUG && FlxG.keys.justPressed("T"))
+				C.log("Intended=" + intendedMusic + ", track=" + track);
 		}
 		
 		protected function updateNormalMusic():void {
@@ -75,7 +77,6 @@ package Musics {
 				if (intendedMusic)
 					loadTrack();
 			} else if (!checkPause()) {
-				checkCombat();
 				checkVolume();
 				checkLoop();
 				if (C.DEBUG && FlxG.keys.justPressed("M") && track.loopTime != -1) {
@@ -101,13 +102,6 @@ package Musics {
 			}
 			
 			return false;
-		}
-		
-		protected function checkCombat():void {
-			//if (combatMusic && track != combatMusic)
-				//forceSwap(combatMusic);
-			//else if (!combatMusic && track == combatMusic)
-				//forceSwap(normalMusic);
 		}
 		
 		protected function checkVolume():void {
@@ -181,7 +175,7 @@ package Musics {
 		
 		
 		public function forceSwap(newMusic:MusicTrack):void {
-			normalMusic = newMusic;
+			intendedMusic = newMusic;
 			if (intendedMusic)
 				loadTrack();
 			else

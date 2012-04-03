@@ -15,7 +15,7 @@ package GameBonuses.Music
 		}
 		
 		override public function update():void {
-			text = C.music.normalMusic.name;
+			text = C.music.intendedMusic.name;
 		}
 	}
 

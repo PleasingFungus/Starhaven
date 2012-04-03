@@ -60,7 +60,7 @@ package GameBonuses.Collect {
 				stationHint.visible = false;
 			dangeresque = true;
 			if (combatMusic && C.newMusicOK)
-				C.music.combatMusic = combatMusic; //???
+				C.music.intendedMusic = combatMusic; //???
 			
 			if (initialMinerals && !won()) 
 				beginEndgame();
@@ -73,7 +73,7 @@ package GameBonuses.Collect {
 			if (stationHint && stationHint.exists)
 				stationHint.visible = true;
 			dangeresque = false;
-			C.music.combatMusic = null;
+			C.music.intendedMusic = buildMusic;
 			
 			initialMinerals = station.mineralsAvailable + station.mineralsMined; //don't add mineralsMined...?
 			mineralsLaunched += station.mineralsLaunched;

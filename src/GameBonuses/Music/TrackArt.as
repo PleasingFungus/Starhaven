@@ -19,7 +19,7 @@ package GameBonuses.Music
 		override public function update():void {
 			super.update();
 			
-			var art:Class = findArt(C.music.normalMusic);
+			var art:Class = findArt(C.music.intendedMusic);
 			if (art != currentArt) {
 				loadGraphic(art);
 				currentArt = art;

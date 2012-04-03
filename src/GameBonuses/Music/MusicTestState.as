@@ -67,14 +67,14 @@ package GameBonuses.Music
 			if (ControlSet.CANCEL_KEY.justPressed())
 				fadeBackTo(BonusState);
 			else if (ControlSet.LEFT_KEY.justPressed())
-				C.music.normalMusic = (tracks[(tracks.indexOf(C.music.normalMusic) + tracks.length - 1) % tracks.length]);
+				C.music.intendedMusic = (tracks[(tracks.indexOf(C.music.intendedMusic) + tracks.length - 1) % tracks.length]);
 				//C.music.forceSwap(tracks[(tracks.indexOf(C.music.normalMusic) + tracks.length - 1) % tracks.length]);
 			else if (ControlSet.RIGHT_KEY.justPressed())
-				C.music.normalMusic = (tracks[(tracks.indexOf(C.music.normalMusic) + 1) % tracks.length]);
+				C.music.intendedMusic = (tracks[(tracks.indexOf(C.music.intendedMusic) + 1) % tracks.length]);
 				//C.music.forceSwap(tracks[(tracks.indexOf(C.music.normalMusic) + 1) % tracks.length]);
 			
 			if (C.music.done)
-				C.music.forceSwap(tracks[tracks.indexOf(C.music.normalMusic)]); //force loop for otherwise non-looping tracks
+				C.music.forceSwap(tracks[tracks.indexOf(C.music.intendedMusic)]); //force loop for otherwise non-looping tracks
 		}
 	}
 
