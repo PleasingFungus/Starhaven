@@ -60,7 +60,7 @@ package GameBonuses.Collect {
 				stationHint.visible = false;
 			dangeresque = true;
 			if (combatMusic && C.newMusicOK)
-				C.music.combatMusic = combatMusic;
+				C.music.combatMusic = combatMusic; //???
 			
 			if (initialMinerals && !won()) 
 				beginEndgame();

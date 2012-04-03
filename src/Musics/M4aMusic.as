@@ -14,15 +14,17 @@ package Musics {
 		
 		public var normalMusic:MusicTrack;
 		public var combatMusic:MusicTrack;
-		private function get intendedMusic():MusicTrack { return combatMusic ? combatMusic : normalMusic }
+		public function get intendedMusic():MusicTrack { return combatMusic ? combatMusic : normalMusic }
 		
 		private var track:MusicTrack; //todo
 		private var music:String;
 		private var player:NetStream;
+		private var altPlayer:NetStream;
 		private var paused:Boolean;
+		private var looping:Boolean;
 		private var _done:Boolean;
+		private var swapTimer:int;
 		public function get done():Boolean { return _done }
-		private var DEBUG_JUST_LOOPED:int;
 		
 		public var musicVolume:Number;
 		public function M4aMusic() {
@@ -41,6 +43,7 @@ package Musics {
 		
 		protected function firstTimeInit():void {
 			player = makePlayer();
+			altPlayer = makePlayer();
 		}
 		
 		protected function makePlayer():NetStream {
@@ -72,14 +75,14 @@ package Musics {
 				if (intendedMusic)
 					loadTrack();
 			} else if (!checkPause()) {
-				if (DEBUG_JUST_LOOPED) {
-					 DEBUG_JUST_LOOPED--;
-					 if (!DEBUG_JUST_LOOPED) C.log("Real loop time: " + player.time);
-				}
 				checkCombat();
 				checkVolume();
-				if (C.DEBUG && FlxG.keys.justPressed("M") && track.loopTime != -1)
+				checkLoop();
+				if (C.DEBUG && FlxG.keys.justPressed("M") && track.loopTime != -1) {
+					if (looping)
+						swapPlayers();
 					player.seek(track.loopTime - 5);
+				}
 			}
 		}
 		
@@ -87,11 +90,13 @@ package Musics {
 			if (FlxG.mute || !MUSIC_VOLUME) {
 				if (!paused) {
 					player.pause();
+					if (looping) altPlayer.pause();
 					paused = true;
 				}
 				return true;
 			} else if (paused) {
 				player.resume();
+				if (looping) altPlayer.resume();
 				paused = false;
 			}
 			
@@ -99,8 +104,8 @@ package Musics {
 		}
 		
 		protected function checkCombat():void {
-			if (combatMusic && track != combatMusic)
-				forceSwap(combatMusic);
+			//if (combatMusic && track != combatMusic)
+				//forceSwap(combatMusic);
 			//else if (!combatMusic && track == combatMusic)
 				//forceSwap(normalMusic);
 		}
@@ -109,17 +114,58 @@ package Musics {
 			if (track != intendedMusic) {
 				incrementVolume(-MUSIC_VOLUME * FlxG.elapsed / FADE_TIME);
 				if (player.soundTransform.volume <= 0) {
-					/*if (intendedMusic) 
+					if (intendedMusic) 
 						loadTrack();
 					else 
-						*/killMusic();
+						killMusic();
 				}
 			} else if (Math.abs(player.soundTransform.volume - MUSIC_VOLUME) > 0.01) {
-				if (player.soundTransform.volume < MUSIC_VOLUME)
+				if (track.intro != -1) {
+					if (swapTimer)
+						swapTimer--;
+					else
+						setVolume(MUSIC_VOLUME);
+				}
+				else if (player.soundTransform.volume < MUSIC_VOLUME)
 					incrementVolume(MUSIC_VOLUME * FlxG.elapsed / FADE_TIME);
 				else if (player.soundTransform.volume > MUSIC_VOLUME)
 					incrementVolume(-MUSIC_VOLUME * FlxG.elapsed / FADE_TIME);
 			}
+		}
+		
+		protected function checkLoop():void {
+			if (track && track.loopTime != -1 && !looping) {
+				var toEOT:Number = track.loopTime - player.time;
+				if (toEOT < LOOP_GAP) {
+					altPlayer.resume(); //implictly set to roughly the right place...?
+					looping = true;
+					C.log("Looping to " + altPlayer.time +" from "+player.time);
+				}
+			}
+		}
+		
+		protected function swapPlayers():void {
+			if (track.loopTime == -1) {
+				_done = true;
+				return;
+			}
+			
+			if (!looping) { //emergency loop
+				setToBody(player);
+				C.log("E-looping to " + player.time);
+				return;
+			}
+			
+			var temp:NetStream = player;
+			player = altPlayer;
+			altPlayer = temp;
+			
+			setToBody(altPlayer);
+			altPlayer.pause();
+			
+			C.log("looped at " + player.time+'; alt at ' + altPlayer.time);
+			
+			looping = false;
 		}
 		
 		protected function setToBody(player:NetStream):void {
@@ -127,7 +173,7 @@ package Musics {
 				player.seek(0);
 				C.log("Sought 0; player at " + player.time);
 			} else {
-				player.seek(track.intro);
+				player.seek(track.intro - LOOP_GAP);
 				C.log("Sought intro; player at " + player.time);
 			}
 		}
@@ -145,12 +191,19 @@ package Musics {
 		protected function loadTrack(newTrack:MusicTrack = null):void {
 			if (!newTrack) newTrack = intendedMusic;
 			C.log("Loading track " + newTrack);
+			if (!track && newTrack.intro != -1)
+				loadMusic(MUSIC_VOLUME, newTrack.body);
+			else {
+				loadMusic(0, newTrack.body);
+				swapTimer = 15; //prevent the stupid piece of scheiss from playing before it's actually loaded
+			}
+			
 			track = newTrack;
-			if (track.intro != -1)
-				loadMusic(MUSIC_VOLUME, track.body);
-			else
-				loadMusic(0, track.body);
 			_done = false;
+			
+			loadMusic(MUSIC_VOLUME, track.body, altPlayer);
+			setToBody(altPlayer);
+			altPlayer.pause();
 		}
 		
 		protected function loadMusic(volume:Number = -1, newMusic:String = null, player:NetStream = null):void {
@@ -169,6 +222,8 @@ package Musics {
 		
 		protected function killMusic():void {
 			player.pause();
+			if (looping) altPlayer.pause();
+			looping = false;
 			music = null;
 			track = null;
 		}
@@ -197,18 +252,13 @@ package Musics {
 					break;
 				case "NetStream.Play.Stop":
 					C.log("DEBUG: MP4 stopped");
-					loop();
+					swapPlayers();
 					break;
 				default: if (p_evt.info.level == "error")
 					C.log("There was some sort of error with the NetStream", p_evt);
 					break;
 			}
 		} 
-		
-		protected function loop():void {
-			setToBody(player);
-			DEBUG_JUST_LOOPED = 5;
-		}
 		
 		private const STUTTER:Number = 0.25;
 		public const MUSIC_PREFIX:String = "http://pleasingfungus.com/starhaven/music/";
@@ -218,7 +268,7 @@ package Musics {
 		public const MENU_MUSIC:MusicTrack = new MusicTrack("Starhaven", MUSIC_PREFIX + "starhaven.m4a",
 															42.667 + STUTTER, 170.667 + STUTTER);
 		public const TUT_MUSIC:MusicTrack = new MusicTrack("Resonance", MUSIC_PREFIX + "resonance.m4a",
-															41.739 + STUTTER, 146.087 + STUTTER);
+															41.739/* + STUTTER*/, 146.087 + STUTTER);
 		public const MOON_MUSIC:MusicTrack = new MusicTrack("Surface Tension", MUSIC_PREFIX + "st.m4a",
 															12.307692307692 + STUTTER, 160 + STUTTER);
 		public const SEA_MUSIC:MusicTrack = new MusicTrack("Surface Tension (Azure Depths)", MUSIC_PREFIX + "st_ad.m4a",
@@ -230,7 +280,7 @@ package Musics {
 		public const SPACE_COMBAT_MUSIC:MusicTrack = new MusicTrack("Lucid Void (Hull Breach)", MUSIC_PREFIX + "lv_hb.m4a",
 																	18.783 + STUTTER, 152.369 + STUTTER);
 		public const LAND_COMBAT_MUSIC:MusicTrack = new MusicTrack("Surface Tension (Red Alert)", MUSIC_PREFIX + "st_ra.m4a",
-																	33.684 + STUTTER, 123.509 + STUTTER);
+																	33.684 /*+ STUTTER*/, 123.509 + STUTTER);
 		public const DEFEAT_MUSIC:MusicTrack = new MusicTrack("Collapse", MUSIC_PREFIX + "defeat.m4a");
 		public const VICTORY_MUSIC:MusicTrack = new MusicTrack("I Am The Greatest (VGTG)", MUSIC_PREFIX + "victory.m4a");
 		
@@ -248,6 +298,7 @@ package Musics {
 		}
 		
 		private const FADE_TIME:Number = 1;
+		private const LOOP_GAP:Number = 5.0 / 60;
 		
 	}
 

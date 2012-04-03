@@ -845,6 +845,7 @@ package
 						mino.exists = false;
 				dangeresque = false;
 				C.music.combatMusic = null;
+				C.log("Turned off combat music: " + C.music.combatMusic);
 			} else if (currentMino) { //FIXME: this seems to do nothing
 				killCurrentMino();
 				currentMino = null;
@@ -869,7 +870,9 @@ package
 			
 			hudLayer.add(new BlinkText(0, FlxG.height - 25, "Press "+ControlSet.CONFIRM_KEY+" To Continue", 16));
 			
-			C.music.forceSwap(won() ? C.music.VICTORY_MUSIC : C.music.DEFEAT_MUSIC);
+			C.music.normalMusic = won() ? C.music.VICTORY_MUSIC : C.music.DEFEAT_MUSIC;
+			C.log("Music now is: " + C.music.normalMusic, C.music.combatMusic, C.music.intendedMusic);
+			//C.music.forceSwap(won() ? C.music.VICTORY_MUSIC : C.music.DEFEAT_MUSIC);
 			contemplateShaking();
 		}
 		
