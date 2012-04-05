@@ -58,19 +58,28 @@ package Metagame {
 			return value;
 		}
 		
-		public function createDisplay(Y:int, Comparator:Statblock = null):FlxGroup {
+		public function createDisplay(Y:int, Comparator:Statblock = null, RenderWon:Boolean = true):FlxGroup {
 			colGroup = new FlxGroup;
 			
 			colY = Y;
 			colIndex = colHeight = 0;
 			
-			var titledCol:TitledColumn = new TitledColumn(FlxG.width/2, colY, "Score");
-			//titledCol.setWidth(FlxG.width);
-			titledCol.addCol(score + " pts");
-			colGroup.add(titledCol);
-			colY += titledCol.height + 30;
-			
-			addStat("Missions Won", MISSIONS_WON, Comparator);
+			if (RenderWon) {
+				var titledCol:TitledColumn = new TitledColumn(FlxG.width/2, colY-5, "Score");
+				//titledCol.setWidth(FlxG.width);
+				titledCol.addCol(score + " pts");
+				colGroup.add(titledCol);
+				colY += titledCol.height + 35;
+				
+				var BestScore:int = Comparator ? Comparator.score : -1;
+				if (BestScore != -1) {
+					var bestText:String = "Best: " + C.decimalize(BestScore);
+					titledCol.addCol(bestText);
+				}
+				
+				addStat("Missions Won", MISSIONS_WON, Comparator);
+			} else
+				addStat("Score", SCORE, Comparator);
 			addStat("Blocks Dropped", BLOCKS_DROPPED, Comparator);
 			addStat("Minerals Launched", MINERALS_LAUNCHED, Comparator);
 			addStat("Meteoroids Destroyed", METEOROIDS_DESTROYED, Comparator);

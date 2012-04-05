@@ -12,9 +12,10 @@ package Musics {
 	 */
 	public class M4aMusic extends FlxObject {
 		
-		private var _intendedMusic:MusicTrack;
-		public function set intendedMusic(m:MusicTrack):void { _intendedMusic = m; C.log('intent = ' + m); }
-		public function get intendedMusic():MusicTrack { return _intendedMusic }
+		public var intendedMusic:MusicTrack;
+		//private var _intendedMusic:MusicTrack;
+		//public function set intendedMusic(m:MusicTrack):void { _intendedMusic = m; C.log('intent = ' + m); }
+		//public function get intendedMusic():MusicTrack { return _intendedMusic }
 		
 		private var track:MusicTrack; //todo
 		private var music:String;
@@ -24,6 +25,7 @@ package Musics {
 		private var looping:Boolean;
 		private var _done:Boolean;
 		private var swapTimer:int;
+		private var preparingAlt:Boolean;
 		public function get done():Boolean { return _done }
 		
 		public var musicVolume:Number;
@@ -79,6 +81,7 @@ package Musics {
 			} else if (!checkPause()) {
 				checkVolume();
 				checkLoop();
+				checkAlt();
 				if (C.DEBUG && FlxG.keys.justPressed("M") && track.loopTime != -1) {
 					if (looping)
 						swapPlayers();
@@ -131,10 +134,25 @@ package Musics {
 			if (track && track.loopTime != -1 && !looping) {
 				var toEOT:Number = track.loopTime - player.time;
 				if (toEOT < LOOP_GAP) {
-					altPlayer.resume(); //implictly set to roughly the right place...?
-					looping = true;
-					C.log("Looping to " + altPlayer.time +" from "+player.time);
+					if (preparingAlt) //alt isn't ready to loop!
+						setToBody(player); //e-loop
+					else {
+						altPlayer.resume(); //implictly set to roughly the right place...?
+						looping = true;
+						C.log("Looping to " + altPlayer.time +" from " + player.time);
+					}
 				}
+			}
+		}
+		
+		protected function checkAlt():void {
+			if (!preparingAlt) return;
+			
+			if (altPlayer.time >= track.intro) {
+				altPlayer.seek(track.intro);
+				altPlayer.pause();
+				setVolume(MUSIC_VOLUME, altPlayer);
+				preparingAlt = false;
 			}
 		}
 		
@@ -195,9 +213,14 @@ package Musics {
 			track = newTrack;
 			_done = false;
 			
-			loadMusic(MUSIC_VOLUME, track.body, altPlayer);
-			setToBody(altPlayer);
-			altPlayer.pause();
+			if (track.intro != -1) {
+				loadMusic(0, newTrack.body, altPlayer);
+				altPlayer.resume();
+				preparingAlt = true;
+			} else {
+				loadMusic(MUSIC_VOLUME, track.body, altPlayer);
+				altPlayer.pause();
+			}
 		}
 		
 		protected function loadMusic(volume:Number = -1, newMusic:String = null, player:NetStream = null):void {
@@ -211,7 +234,7 @@ package Musics {
 			setVolume(volume, player);
 			
 			music = newMusic;
-			C.log(music + " loaded into " + (player == this.player ? "primary" : "alternate"));
+			//C.log(music + " loaded into " + (player == this.player ? "primary" : "alternate"));
 		}
 		
 		protected function killMusic():void {
@@ -262,17 +285,17 @@ package Musics {
 		public const MENU_MUSIC:MusicTrack = new MusicTrack("Starhaven", MUSIC_PREFIX + "starhaven.m4a",
 															42.667 + STUTTER, 170.667 + STUTTER);
 		public const TUT_MUSIC:MusicTrack = new MusicTrack("Resonance", MUSIC_PREFIX + "resonance.m4a",
-															41.739/* + STUTTER*/, 146.087 + STUTTER);
+															41.839 + STUTTER, 146.087 + STUTTER);
 		public const MOON_MUSIC:MusicTrack = new MusicTrack("Surface Tension", MUSIC_PREFIX + "st.m4a",
 															12.307692307692 + STUTTER, 160 + STUTTER);
 		public const SEA_MUSIC:MusicTrack = new MusicTrack("Surface Tension (Azure Depths)", MUSIC_PREFIX + "st_ad.m4a",
 															12.307692307692 + STUTTER, 160 + STUTTER);
 		public const AST_MUSIC:MusicTrack = new MusicTrack("Lucid Void", MUSIC_PREFIX + "lv.m4a",
-														   17.615/* + STUTTER*/, 158.532 + STUTTER);
+														   17.885 + STUTTER, 158.532 + STUTTER);
 		public const DUST_MUSIC:MusicTrack = new MusicTrack("Lucid Void (Forgotten Sector)", MUSIC_PREFIX + "lv_fs.m4a",
-															17.615/* + STUTTER*/, 158.532 + STUTTER);
+															17.885 + STUTTER, 158.532 + STUTTER);
 		public const SPACE_COMBAT_MUSIC:MusicTrack = new MusicTrack("Lucid Void (Hull Breach)", MUSIC_PREFIX + "lv_hb.m4a",
-																	18.783 + STUTTER, 152.369 + STUTTER);
+																	18.833 + STUTTER, 152.369 + STUTTER);
 		public const LAND_COMBAT_MUSIC:MusicTrack = new MusicTrack("Surface Tension (Red Alert)", MUSIC_PREFIX + "st_ra.m4a",
 																	33.684 /*+ STUTTER*/, 123.509 + STUTTER);
 		public const DEFEAT_MUSIC:MusicTrack = new MusicTrack("Collapse", MUSIC_PREFIX + "defeat.m4a");

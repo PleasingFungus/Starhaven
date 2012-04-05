@@ -176,7 +176,6 @@ package
 				C.music.intendedMusic = buildMusic;
 			else
 				C.music.intendedMusic = C.music.OLD_PLAY_MUSIC;
-			C.log("Setting intent to " + C.music.intendedMusic);
 			registerStart();
 		}
 		
