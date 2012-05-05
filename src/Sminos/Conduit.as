@@ -16,9 +16,7 @@ package Sminos {
 			waterproofed = true;
 			
 			cladeName = "Conduit";
-			description = "Conduits transmit power from the station core, powering other modules.";
-			audioDescription = _desc;
-		}
+			description = "Conduits transmit power from the station core, powering other modules.";		}
 		
 		override protected function executeCycle():void {
 			super.executeCycle();
@@ -57,8 +55,6 @@ package Sminos {
 			glowsprite.y = block.y * C.BLOCK_SIZE + C.B.drawShift.y;
 			glowsprite.render();
 		}
-		
-		[Embed(source = "../../lib/sound/vo/conduits.mp3")] public static const _desc:Class;
 	}
 
 }

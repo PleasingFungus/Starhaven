@@ -12,7 +12,7 @@ package Startup {
 		override public function create():void {
 			lock = new Timelock;
 			
-			var waiting:FlxText = new FlxText(FlxG.width / 8, FlxG.height / 2, FlxG.width * 3/4, "Waiting...");
+			var waiting:FlxText = new FlxText(FlxG.width / 8, FlxG.height / 2, FlxG.width * 3/4, "Authenticating...");
 			waiting.setFormat(C.FONT, 18, 0xffffff, 'center');
 			waiting.y -= waiting.height / 2;
 			add(waiting);
@@ -23,7 +23,7 @@ package Startup {
 			if (lock.loaded) {
 				if (lock.locked)
 					FlxG.state = new LockState(lock.lockMessage);
-				else if (C.netStats.allowed == -1)
+				else if (C.netStats.allowed == -1 && C.ASK_FOR_STATS)
 					FlxG.state = new NetPermissionState;
 				else
 					FlxG.state = new MenuState;

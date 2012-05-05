@@ -13,9 +13,7 @@ package Sminos {
 		public function Bomb(Parent:Smino) {
 			uncle = Parent;
 			super(uncle.absoluteCenter.x, uncle.absoluteCenter.y, [new Block], new Point, 0xff201818, 0xff403030, _sprite, _sprite);
-			description = "Bombs explode when you press "+ControlSet.BOMB_KEY+" or on impact. Use them to expose buried mineral pockets!";
-			audioDescription = _desc;
-			genResourceShroud();
+			description = "Bombs explode when you press "+ControlSet.BOMB_KEY+" or on impact. Use them to expose buried mineral pockets!";			genResourceShroud();
 		}
 		
 		protected function genResourceShroud():void {
@@ -48,7 +46,6 @@ package Sminos {
 		}
 		
 		[Embed(source = "../../lib/art/sminos/bomb.png")] private static const _sprite:Class;
-		[Embed(source = "../../lib/sound/vo/bombs.mp3")] public static const _desc:Class;
 		[Embed(source = "../../lib/sound/game/explosion_bomb.mp3")] private static const GROUND_BOOM:Class;
 		[Embed(source = "../../lib/sound/game/explosion_rocket.mp3")] private static const SKY_BOOM:Class;
 	}

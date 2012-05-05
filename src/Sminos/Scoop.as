@@ -19,7 +19,6 @@ package Sminos {
 			cladeName = "Scoop";
 			name = "Scoop";
 			description = "Use scoops to smash into mineral clusters and dislodge them; then use conduits to collect the minerals when they bob to the surface!";
-			audioDescription = _desc;
 		}
 		
 		override protected function drillOne(_:Boolean = true):Boolean {
@@ -95,7 +94,6 @@ package Sminos {
 		
 		[Embed(source = "../../lib/art/sminos/scoop.png")] private static const _sprite:Class;
 		[Embed(source = "../../lib/art/sminos/scoop_in.png")] private static const _sprite_in:Class;
-		[Embed(source = "../../lib/sound/vo/scoops.mp3")] public static const _desc:Class;
 	}
 
 }

@@ -25,8 +25,7 @@ package Sminos {
 			capacityText = new Icontext(0, 0, 100, launchCapacity + "", C.ICONS[C.GOODS]);
 			
 			cladeName = "Launcher";
-			description = "Power and fully crew Launchers to send minerals you've gathered back to your home base!";
-			audioDescription = _desc;
+			description = "Power and fully crew Launchers to send minerals you've gathered back to your home base!";		
 		}
 		
 		override protected function executeCycle():void {
@@ -95,7 +94,6 @@ package Sminos {
 		
 		public static const LAUNCH_SIZE:int = 25; //10 for pre-multiminerals
 		[Embed(source = "../../lib/art/other/rocket_unlit.png")] private static const _rocket_sprite:Class;
-		[Embed(source = "../../lib/sound/vo/launchers.mp3")] public static const _desc:Class;
 		[Embed(source = "../../lib/sound/game/launch_mineral_1.mp3")] protected const _LAUNCH_NOISE_1:Class;
 		[Embed(source = "../../lib/sound/game/launch_mineral_2.mp3")] protected const _LAUNCH_NOISE_2:Class;
 		protected const LAUNCH_NOISES:Array = [_LAUNCH_NOISE_1, _LAUNCH_NOISE_2];

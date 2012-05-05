@@ -20,9 +20,7 @@ package Sminos {
 		public function Drill(X:int, Y:int, Blocks:Array, Center:Point, OpSprite:Class=null, InopSprite:Class=null) {
 			super(X, Y, Blocks, Center, 0xff64448f, 0xff9348f4, OpSprite, InopSprite);
 			cladeName = "Drill";
-			description = "Drill point-first into purpleish mineral clusters to harvest them; then hook up the drill to power to collect the minerals!";
-			audioDescription = _desc;
-			bombCarrying = true;
+			description = "Drill point-first into purpleish mineral clusters to harvest them; then hook up the drill to power to collect the minerals!";			bombCarrying = true;
 			waterproofed = true;
 			//if (!C.BEAM_DEFENSE)
 				//crewReq = 1;
@@ -189,7 +187,6 @@ package Sminos {
 			super.anchorTo(station.core);
 		}
 		
-		[Embed(source = "../../lib/sound/vo/drills.mp3")] public static const _desc:Class;
 		[Embed(source = "../../lib/sound/game/drill.mp3")] protected const DRILL_NOISE:Class;
 		
 	}

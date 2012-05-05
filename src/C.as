@@ -21,11 +21,12 @@ package  {
 	 * @author Nicholas Feinberg
 	 */
 	public class C {
-		public static const VERSION:String = "1.0";
+		public static const VERSION:String = "1.0FGL";
 		public static const DEBUG:Boolean = false;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;
-		public static const BETA:Boolean = false;
+		public static const AUTH:String = "http://pleasingfungus.com/starhaven/fgl_auth.txt";
+		public static const ASK_FOR_STATS:Boolean = false;
 		public static const MUSIC_LOCKED:Boolean = false;
 		
 		public static const DISPLAY_BOUNDS:Boolean = false;
@@ -158,7 +159,7 @@ package  {
 		}
 		
 		public static function get newMusicOK():Boolean {
-			return !BETA || !MUSIC_LOCKED || DEBUG;
+			return true;
 		}
 		
 		

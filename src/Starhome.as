@@ -19,15 +19,21 @@ package {
 	{
 		public function Starhome()
 		{
-			super(480, 480, C.BETA ? WaitState : MenuState, 1);
+			super(480, 480, C.AUTH ? WaitState : MenuState, 1);
 			useDefaultHotKeys = false;
-			init();
+			
+			if(stage) init()
+			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
-		private function init():void {
+		private function init(event:Event = null):void{
+			if (event) removeEventListener(Event.ADDED_TO_STAGE, init);
+			
 			C.init(); //needs to be first!
 			C.load();
 		}
+		
+		
 		
 		override protected function onKeyUp(event:KeyboardEvent):void {
 			super.onKeyUp(event);

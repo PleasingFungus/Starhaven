@@ -15,7 +15,7 @@ package Globals {
 			loader = new URLLoader(); 
 			loader.addEventListener(Event.COMPLETE, on_complete);
 			
-			var request : URLRequest = new URLRequest("http://pleasingfungus.com/starhaven/beta.txt"); 
+			var request : URLRequest = new URLRequest(C.AUTH); 
 			request.method = URLRequestMethod.GET;
 			request.data = new URLVariables;
 			

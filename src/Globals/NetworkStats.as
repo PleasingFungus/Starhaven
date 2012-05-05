@@ -15,7 +15,7 @@ package Globals {
 		public function NetworkStats() {
 			loader = new URLLoader(); 
 			loader.addEventListener(Event.COMPLETE, on_complete);
-			allowed = C.BETA ? -1 : 0;
+			allowed = -1;
 		}
 		
 		public function init():void {
@@ -23,6 +23,8 @@ package Globals {
 			variables.func = "startup";
 			variables.version = C.VERSION;
 			sendRequest(variables);
+			
+			if (!C.ASK_FOR_STATS) allowed = 0;
 		}
 		
 		public function load():void {
@@ -120,9 +122,15 @@ package Globals {
 			
 			var request : URLRequest = new URLRequest("http://pleasingfungus.com/starhaven/stats.php"); 
 			request.method = URLRequestMethod.POST;  
-			request.data = variables;  
+			request.data = variables;
 			
-			loader.load(request); 
+			C.log("Sent request: " + request);
+			
+			try {
+				loader.load(request); 
+			} catch (error:Error) {
+				C.log("Request failed: " + error);
+			}
 		}
 		
 		private function canSend():Boolean {
