@@ -16,6 +16,7 @@ package Scenarios.Tutorials {
 	import Sminos.Conduit;
 	import InfoScreens.NewPlayerEvent;
 	import Mining.PlanetMaterial;
+	import Globals.GlobalCycleTimer;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -77,14 +78,14 @@ package Scenarios.Tutorials {
 		
 		
 		
-		private var seenIntro:Boolean;
+		/*private var seenIntro:Boolean;
 		override protected function checkPlayerEvents():void {
 			super.checkPlayerEvents();
 			if (!seenIntro) {
 				hudLayer.add(NewPlayerEvent.miningTutorial());
 				seenIntro = true;
 			}
-		}
+		}*/
 		
 		override protected function get goalPercent():int {
 			return station.mineralsMined * 100 / (initialMinerals * goalMultiplier);
@@ -110,6 +111,23 @@ package Scenarios.Tutorials {
 			if (won() || station.core.damaged)
 				return super.getEndText();
 			return "Insufficient minerals remain!";
+		}
+		
+		override protected function shouldZoomOut():Boolean
+		{
+			return true;
+		}
+		
+		override protected function getMinoChoice():Class
+		{
+			if (GlobalCycleTimer.minosDropped < 1)
+			{
+				return LongDrill;
+			}
+			else
+			{
+				return super.getMinoChoice();
+			}
 		}
 		
 		[Embed(source = "../../../lib/missions/tutorial_mining.png")] private static const _mission_image:Class;

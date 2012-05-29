@@ -8,6 +8,7 @@ package MainMenu {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import Globals.Bounds;
+	import Missions.LoadedMission;
 	
 	/**
 	 * ...
@@ -50,7 +51,7 @@ package MainMenu {
 		protected function spawn():void {
 			var X:int = FlxU.random() * C.B.BASE_AREA.width;
 			
-			var sminoType:Class = C.randomChoice(ALL_SMINOS);
+			var sminoType:Class = C.randomChoice(LoadedMission.ALL_SMINOS);
 			var newSmino:Smino = new sminoType(X, 0);
 			
 			newSmino.gridLoc.y -= newSmino.blockDim.y + 1;
@@ -108,9 +109,9 @@ package MainMenu {
 		
 		public static var instantiated:int;
 		
-		protected const ALL_SMINOS:Array = [HookConduit, LeftHookConduit, LongConduit, LongDrill,
+		/*protected const ALL_SMINOS:Array = [HookConduit, LeftHookConduit, LongConduit, LongDrill,
 											MediumBarracks, MediumLauncher, NebularAccumulator, RocketGun,
-											Scoop, SmallBarracks, SmallLauncher];
+											Scoop, SmallBarracks, SmallLauncher];*/
 	}
 
 }

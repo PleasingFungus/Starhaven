@@ -64,7 +64,7 @@ package {
 		}
 		
 		override protected function onFocusLost(event:Event = null):void {
-			if (FlxG.state is Scenario)
+			if (C.AUTOPAUSE && FlxG.state is Scenario)
 				(FlxG.state as Scenario).enterPauseState();
 		}
 		
