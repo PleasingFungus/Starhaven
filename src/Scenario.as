@@ -79,7 +79,7 @@ package
 		protected var bag:GrabBag;
 		protected var bagType:BagType;
 		
-		private var arrowHint:ArrowHelper;
+		protected var arrowHint:ArrowHelper;
 		protected var stationHint:StationHint;
 		private var targetCursor:TargetingCursor;
 		protected var combatMinoPool:Array;

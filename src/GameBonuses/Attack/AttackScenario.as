@@ -29,7 +29,7 @@ package GameBonuses.Attack {
 			mapBuffer = 0;
 		}
 		
-		private var arrowHint:AttackHelper;
+		private var meteorHint:AttackHelper;
 		protected var aggregate:Aggregate;
 		protected var stations:Vector.<Station>
 		protected var lives:int;
@@ -203,10 +203,10 @@ package GameBonuses.Attack {
 			currentMino.gridLoc.y -= currentMino.blockDim.y + 1;
 			//currentMino.current = true;
 			
-			if (!arrowHint)
-				minoLayer.add(arrowHint = new AttackHelper(currentMino));
-			else if (arrowHint.exists)
-				arrowHint.parent = currentMino;
+			if (!meteorHint)
+				minoLayer.add(meteorHint = new AttackHelper(currentMino));
+			else if (meteorHint.exists)
+				meteorHint.parent = currentMino;
 			
 			spawnTimer = SPAWN_TIME;
 			setGunTimers();
