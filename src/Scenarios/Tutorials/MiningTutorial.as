@@ -31,6 +31,8 @@ package Scenarios.Tutorials {
 			
 			goalMultiplier = 0.5;
 			buildMusic = C.music.TUT_MUSIC;
+			
+			spawnTimer = 1;
 		}
 		
 		override public function create():void {
@@ -145,16 +147,18 @@ package Scenarios.Tutorials {
 		
 		protected var ghostSminos:Vector.<Smino>;
 		protected var currentGhostSmino:Smino;
+		protected var currentGhostSminoLocation:FlxPoint;
 		protected var currentGhostSminoDestination:FlxPoint;
 		protected var increasingAlpha:Boolean;
 		protected const GHOST_MAX_ALPHA:Number = .7;
 		protected const GHOST_MIN_ALPHA:Number = 0;
 		protected const GHOST_PULSE_TIME:Number = .6;
-		protected const GHOST_MOVE_TIME:Number = 1.5;
+		protected const GHOST_MOVE_TIME:Number = 2.25;
 		protected var ghostSminoSpawn:FlxPoint;
 		protected const GHOST_SMINO_DESTINATIONS:Vector.<FlxPoint> = new Vector.<FlxPoint>;
-		//[Embed(source = "../../../lib/art/sminos/drillglow.png")] protected const drillGlowImage:Class;
 		protected var ghostMovementFinished:Boolean;
+		
+		protected const MOVE_SMOOTHLY:Boolean = true;
 		
 		protected function addGhostSminos():void
 		{
@@ -214,26 +218,10 @@ package Scenarios.Tutorials {
 			arrowHint.active = arrowHint.visible = true;
 		}
 		
-		/*override protected function checkCurrentMino():void
-		{
-			var bears:Boolean = ghostMovementFinished;
-			if (!bears)
-				C.log(bears, currentMino, currentGhostSmino);
-			if (ghostMovementFinished || !currentGhostSmino)
-			{
-				super.checkCurrentMino();
-			}
-		}*/
-		
-		/*override protected function spawnNextMino():void
-		{
-			super.spawnNextMino();
-			ghostMovementFinished = false;
-		}*/
-		
 		override protected function popNextMino():Smino
 		{
 			ghostMovementFinished = false;
+			currentGhostSminoLocation = new FlxPoint(ghostSminoSpawn.x, ghostSminoSpawn.y);
 			return super.popNextMino();
 		}
 		
@@ -303,8 +291,18 @@ package Scenarios.Tutorials {
 		{
 			if (currentGhostSmino.gridLoc.x > currentGhostSminoDestination.x || currentGhostSmino.gridLoc.y < currentGhostSminoDestination.y)
 			{
-				currentGhostSmino.gridLoc.x -= (FlxG.elapsed / GHOST_MOVE_TIME) * (ghostSminoSpawn.x - currentGhostSminoDestination.x);
-				currentGhostSmino.gridLoc.y -= (FlxG.elapsed / GHOST_MOVE_TIME) * (ghostSminoSpawn.y - currentGhostSminoDestination.y);
+				if (MOVE_SMOOTHLY)
+				{
+					currentGhostSmino.gridLoc.x -= (FlxG.elapsed / GHOST_MOVE_TIME) * (ghostSminoSpawn.x - currentGhostSminoDestination.x);
+					currentGhostSmino.gridLoc.y -= (FlxG.elapsed / GHOST_MOVE_TIME) * (ghostSminoSpawn.y - currentGhostSminoDestination.y);
+				}
+				else
+				{
+					currentGhostSminoLocation.x -= (FlxG.elapsed / GHOST_MOVE_TIME) * (ghostSminoSpawn.x - currentGhostSminoDestination.x);
+					currentGhostSminoLocation.y -= (FlxG.elapsed / GHOST_MOVE_TIME) * (ghostSminoSpawn.y - currentGhostSminoDestination.y);
+					currentGhostSmino.gridLoc.x = Math.floor(currentGhostSminoLocation.x);
+					currentGhostSmino.gridLoc.y = Math.floor(currentGhostSminoLocation.y);
+				}
 			}
 			else
 			{
