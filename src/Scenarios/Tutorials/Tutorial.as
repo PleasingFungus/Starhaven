@@ -14,7 +14,7 @@ package Scenarios.Tutorials
 			
 			buildMusic = C.music.TUT_MUSIC;
 			
-			tutorials.push(_drill_tutorial_image);
+			tutorials.push(_conduit_tutorial_image, _drill_tutorial_image);
 			
 			levelImage = tutorials[tutorialIndex];
 		}
@@ -71,7 +71,8 @@ package Scenarios.Tutorials
 			return true;
 		}
 		
-		[Embed(source = "../../../lib/missions/new_tutorial_drills.png")] protected static const _drill_tutorial_image:Class;
+		[Embed(source = "../../../lib/missions/conduit_tutorial.png")] protected static const _conduit_tutorial_image:Class;
+		[Embed(source = "../../../lib/missions/drill_tutorial.png")] protected static const _drill_tutorial_image:Class;
 		
 		protected const tutorials:Vector.<Class> = new Vector.<Class>;
 	}

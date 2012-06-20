@@ -3,16 +3,15 @@ package Scenarios.Tutorials
 	import GrabBags.BagType;
 	import Sminos.Conduit;
 	import Sminos.Drill;
-	import Sminos.LongDrill;
 	import Missions.LoadedMission;
 	
-	public class DrillTutorial extends Tutorial
+	public class ConduitTutorial extends Tutorial
 	{
-		public function DrillTutorial()
+		public function ConduitTutorial()
 		{
-			super(1);
+			super(0);
 			
-			goalMultiplier = .85;
+			goalMultiplier = 1;
 			
 			spawnTimer = 1;
 		}
@@ -27,7 +26,7 @@ package Scenarios.Tutorials
 	
 		override protected function setupBags():void
 		{
-			bagType = new BagType([Conduit, Conduit, Conduit, LongDrill, LongDrill]);
+			bagType = new BagType([Conduit]);
 			C.difficulty.bagSize = bagType.length;
 		}
 		
@@ -35,6 +34,7 @@ package Scenarios.Tutorials
 		{
 			super.buildLevel();
 			initialMinerals = station.mineralsAvailable;
+			station.mineralsMined = 50;
 		}
 		
 		override protected function addSminos():void
@@ -51,7 +51,7 @@ package Scenarios.Tutorials
 		
 		override protected function get goalPercent():int
 		{
-			return station.mineralsMined * 100 / (initialMinerals * goalMultiplier);
+			return station.mineralsMined * 100 / 200;
 		}
 	}
 }
