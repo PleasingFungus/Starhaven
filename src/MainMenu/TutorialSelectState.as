@@ -23,6 +23,7 @@ package MainMenu {
 			add(new StateThing("1 - Mining & Power", MiningTutorial));
 			add(new StateThing("2 - Housing & Launching", HousingTutorial));
 			add(new StateThing("3 - Asteroids & Meteoroids", DefenseTutorial));
+			add(new StateThing("Drill Tutorial", DrillTutorial));
 			if (!C.accomplishments.tutorialDone)
 				add(new StateThing("Skip Remaining Tutorials", SkipTutorialState));
 			MenuThing.menuThings[0].select();
