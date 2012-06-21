@@ -27,13 +27,12 @@ package Scenarios.Tutorials
 		override protected function setupBags():void
 		{
 			bagType = new BagType([Conduit]);
-			C.difficulty.bagSize = bagType.length;
+			super.setupBags();
 		}
 		
 		override protected function buildLevel():void
 		{
 			super.buildLevel();
-			initialMinerals = station.mineralsAvailable;
 			station.mineralsMined = 50;
 		}
 		

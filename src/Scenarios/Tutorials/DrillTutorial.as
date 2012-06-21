@@ -28,25 +28,7 @@ package Scenarios.Tutorials
 		override protected function setupBags():void
 		{
 			bagType = new BagType([Conduit, Conduit, Conduit, LongDrill, LongDrill]);
-			C.difficulty.bagSize = bagType.length;
-		}
-		
-		override protected function buildLevel():void
-		{
-			super.buildLevel();
-			initialMinerals = station.mineralsAvailable;
-		}
-		
-		override protected function addSminos():void
-		{
-			for each (var smino:Smino in (mission as LoadedMission).loadPieces(levelImage))
-			{
-				smino.stealthAnchor(station);
-				Mino.layer.add(smino);
-				Mino.all_minos.push(smino);
-				if (smino is Drill && !smino.powered)
-					smino.storedMinerals = 50;
-			}
+			super.setupBags();
 		}
 		
 		override protected function get goalPercent():int

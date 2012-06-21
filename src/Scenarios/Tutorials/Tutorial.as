@@ -14,7 +14,7 @@ package Scenarios.Tutorials
 			
 			buildMusic = C.music.TUT_MUSIC;
 			
-			tutorials.push(_conduit_tutorial_image, _drill_tutorial_image);
+			tutorials.push(_conduit_tutorial_image, _drill_tutorial_image, _launcher_tutorial_image);
 			
 			levelImage = tutorials[tutorialIndex];
 		}
@@ -22,6 +22,11 @@ package Scenarios.Tutorials
 		override public function create():void {
 			C.IN_TUTORIAL = true;
 			super.create();
+		}
+		
+		override protected function setupBags():void
+		{
+			C.difficulty.bagSize = bagType.length;
 		}
 		
 		override protected function createMission():void {
@@ -45,6 +50,7 @@ package Scenarios.Tutorials
 			station.core.addToGrid();
 			
 			station.resourceSource = planet;
+			initialMinerals = station.mineralsAvailable;
 			
 			var planet_bg:Mino = new Mino(planet.gridLoc.x, planet.gridLoc.y, mission.rawMap.map, mission.rawMap.center, 0xff23170f);
 			
@@ -73,6 +79,7 @@ package Scenarios.Tutorials
 		
 		[Embed(source = "../../../lib/missions/conduit_tutorial.png")] protected static const _conduit_tutorial_image:Class;
 		[Embed(source = "../../../lib/missions/drill_tutorial.png")] protected static const _drill_tutorial_image:Class;
+		[Embed(source = "../../../lib/missions/launcher_tutorial.png")] protected static const _launcher_tutorial_image:Class;
 		
 		protected const tutorials:Vector.<Class> = new Vector.<Class>;
 	}

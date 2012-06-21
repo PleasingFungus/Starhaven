@@ -25,6 +25,7 @@ package MainMenu {
 			add(new StateThing("3 - Asteroids & Meteoroids", DefenseTutorial));
 			add(new StateThing("Conduit Tutorial", ConduitTutorial));
 			add(new StateThing("Drill Tutorial", DrillTutorial));
+			add(new StateThing("Launcher Tutorial", LauncherTutorial));
 			if (!C.accomplishments.tutorialDone)
 				add(new StateThing("Skip Remaining Tutorials", SkipTutorialState));
 			MenuThing.menuThings[0].select();
