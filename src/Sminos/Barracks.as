@@ -15,7 +15,7 @@ package Sminos {
 			crew = crewCapacity;
 			
 			cladeName = "Barracks";
-			description = "Barracks are used to provide crew to adjacent modules. Each has room for as many crewmembers as it has blocks.";		}
+			description = "This is a barracks.\n\nBarracks crew adjacent launchers.";		}
 	}
 
 }

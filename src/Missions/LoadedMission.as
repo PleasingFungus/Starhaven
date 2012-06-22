@@ -67,14 +67,18 @@ package Missions {
 		protected function findPieceFromColor(color:uint, colorList:Object, log:Boolean = false):Class
 		{
 			var pixelColor:uint = 0xffffff & color;
-			if ((0xff & (color >> 24)) == 191) 			// correction for weirdass opacity reading bugthing
+			if ((0xff & (color >> 24)) == 191 && pixelColor == 0xfe00)
+				pixelColor += 0x0100;
+			if ((0xff & (color >> 24)) == 63)
+				pixelColor += 0x020200;	
+			if ((0xff & (color >> 24)) == 191 && pixelColor == 0xbebe00) 			// correction for weirdass opacity reading bugthing
 				pixelColor += 0x010100;
 			var pieceNameIndex:int = SMINO_NAMES.indexOf(colorList[pixelColor]);
 			
 			if (log)
 				C.log(color, colorList, SMINO_NAMES, pieceNameIndex, pixelColor);
 			
-			if (pieceNameIndex)
+			if (pieceNameIndex != -1)
 			{
 				return ALL_SMINOS[pieceNameIndex];
 			}
@@ -128,7 +132,7 @@ package Missions {
 					var pixelColor:uint = image.getPixel32(x, y)
 					var pieceType:Class = findPieceFromColor(pixelColor, pieceColorList);
 					var rotation:int = findPieceRotationFromColor(pixelColor);
-					if (x == 8 && y == 17)
+					if (x == 7 && y == 17)
 						//C.log(pixelColor, pieceType, rotation, pieceColorList);
 						findPieceFromColor(pixelColor, pieceColorList, true);
 					if (pieceType)

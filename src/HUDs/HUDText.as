@@ -18,9 +18,12 @@ package HUDs {
 		}
 		
 		public function loadIcon(Icon:Class):HUDText {
-			icon = new FlxSprite();
+			if (!icon)
+			{
+				icon = new FlxSprite();
+				x += icon.width + 4;
+			}
 			icon.loadGraphic(Icon);
-			x += icon.width + 4;
 			return this;
 		}
 		

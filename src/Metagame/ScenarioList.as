@@ -14,16 +14,16 @@ package Metagame {
 		public var all:Array;
 		public var names:Array;
 		public const FIRST_TUTORIAL_INDEX:int = 0;
-		public const LAST_TUTORIAL_INDEX:int = 5;
-		public const FIRST_SCENARIO_INDEX:int = 6;
-		public const LAST_SCENARIO_INDEX:int = 11;
+		public const LAST_TUTORIAL_INDEX:int = 4;
+		public const FIRST_SCENARIO_INDEX:int = 5;
+		public const LAST_SCENARIO_INDEX:int = 10;
 		public function ScenarioList() {
-			all = [MiningTutorial, HousingTutorial, DefenseTutorial, ConduitTutorial, DrillTutorial, LauncherTutorial,
+			all = [ConduitTutorial, DrillTutorial, LauncherTutorial, BarracksTutorial, MissileTutorial,
 				   PlanetScenario, AsteroidScenario, MountainScenario, NebulaScenario,
 				   WaterScenario, DustScenario,
 				   AttackLevelOne,
 				   CollectScenario];
-			names = ["Mining & Power", "Housing & Launching", "Asteroids & Meteoroids", "Conduits", "Drills", "Launchers",
+			names = ["Conduits", "Drills", "Launchers", "Barracks", "Missiles",
 					 "Moon", "Asteroid", "Mountain", "Nebula",
 					 "Sea", "Dust",
 					 "Attack-1!",

@@ -8,15 +8,13 @@ package Scenarios.Tutorials
 	{
 		protected var levelImage:Class;
 		
-		public function Tutorial(tutorialIndex:int)
+		public function Tutorial(mapImage:Class)
 		{
 			super();
 			
 			buildMusic = C.music.TUT_MUSIC;
 			
-			tutorials.push(_conduit_tutorial_image, _drill_tutorial_image, _launcher_tutorial_image);
-			
-			levelImage = tutorials[tutorialIndex];
+			levelImage = mapImage;
 		}
 		
 		override public function create():void {
@@ -31,10 +29,6 @@ package Scenarios.Tutorials
 		
 		override protected function createMission():void {
 			mission = new LoadedMission(levelImage);
-		}
-		
-		override protected function createTracker(_:Number = 0):void {
-			super.createTracker(0);
 		}
 		
 		override protected function createGCT(_:int):void {
@@ -76,11 +70,5 @@ package Scenarios.Tutorials
 		{
 			return true;
 		}
-		
-		[Embed(source = "../../../lib/missions/conduit_tutorial.png")] protected static const _conduit_tutorial_image:Class;
-		[Embed(source = "../../../lib/missions/drill_tutorial.png")] protected static const _drill_tutorial_image:Class;
-		[Embed(source = "../../../lib/missions/launcher_tutorial.png")] protected static const _launcher_tutorial_image:Class;
-		
-		protected const tutorials:Vector.<Class> = new Vector.<Class>;
 	}
 }

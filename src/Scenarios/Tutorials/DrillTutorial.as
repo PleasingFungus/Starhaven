@@ -5,12 +5,15 @@ package Scenarios.Tutorials
 	import Sminos.Drill;
 	import Sminos.LongDrill;
 	import Missions.LoadedMission;
+	import Globals.GlobalCycleTimer;
 	
 	public class DrillTutorial extends Tutorial
 	{
+		[Embed(source = "../../../lib/missions/drill_tutorial.png")] protected static const _map_image:Class;
+		
 		public function DrillTutorial()
 		{
-			super(1);
+			super(_map_image);
 			
 			goalMultiplier = .85;
 			
@@ -29,6 +32,18 @@ package Scenarios.Tutorials
 		{
 			bagType = new BagType([Conduit, Conduit, Conduit, LongDrill, LongDrill]);
 			super.setupBags();
+		}
+		
+		override protected function getMinoChoice():Class
+		{
+			if (GlobalCycleTimer.minosDropped < 1)
+				return LongDrill;
+			else
+				return super.getMinoChoice();
+		}
+		
+		override protected function createTracker(_:Number = 0):void {
+			super.createTracker(0);
 		}
 		
 		override protected function get goalPercent():int

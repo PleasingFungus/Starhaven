@@ -2,4 +2,5 @@ Long-Conduit:191,191,0
 Long Drill:127,0,255
 Small Barracks:0,0,255
 Hook-Conduit:127,127,0
+LeftHook-Conduit:63,63,0
 Small Launcher:0,255,0

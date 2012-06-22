@@ -5,14 +5,15 @@ package Scenarios.Tutorials
 	import Missions.LoadedMission;
 	import Sminos.Drill;
 	import Sminos.Conduit;
+	import Sminos.SmallBarracks;
 	
-	public class LauncherTutorial extends Tutorial
+	public class BarracksTutorial extends Tutorial
 	{
-		[Embed(source = "../../../lib/missions/launcher_tutorial2.png")] protected static const _map_image:Class;
+		[Embed(source = "../../../lib/missions/barracks_tutorial.png")] protected static const _map_image:Class;
 		
-		protected const STORED_MINERALS:int = 100;
+		protected const STORED_MINERALS:int = 300;
 		
-		public function LauncherTutorial()
+		public function BarracksTutorial()
 		{
 			super(_map_image);
 			
@@ -30,7 +31,7 @@ package Scenarios.Tutorials
 	
 		override protected function setupBags():void
 		{
-			bagType = new BagType([Conduit]);
+			bagType = new BagType([SmallBarracks]);
 			super.setupBags();
 		}
 		
@@ -44,21 +45,9 @@ package Scenarios.Tutorials
 			station.mineralsMined = STORED_MINERALS;
 		}
 		
-		override protected function addSminos():void
-		{
-			for each (var smino:Smino in (mission as LoadedMission).loadPieces(levelImage))
-			{
-				smino.stealthAnchor(station);
-				Mino.layer.add(smino);
-				Mino.all_minos.push(smino);
-				if (smino is Drill && !smino.powered)
-					smino.storedMinerals = 25;
-			}
-		}
-		
 		override protected function get goalPercent():int
 		{
-			return station.mineralsLaunched * 100 / (STORED_MINERALS * goalMultiplier + 50);
+			return station.mineralsLaunched * 100 / (STORED_MINERALS * goalMultiplier);
 		}
 	}
 }

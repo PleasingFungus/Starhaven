@@ -7,9 +7,11 @@ package Scenarios.Tutorials
 	
 	public class ConduitTutorial extends Tutorial
 	{
+		[Embed(source = "../../../lib/missions/conduit_tutorial.png")] protected static const _map_image:Class;
+		
 		public function ConduitTutorial()
 		{
-			super(0);
+			super(_map_image);
 			
 			goalMultiplier = 1;
 			
@@ -28,6 +30,10 @@ package Scenarios.Tutorials
 		{
 			bagType = new BagType([Conduit]);
 			super.setupBags();
+		}
+		
+		override protected function createTracker(_:Number = 0):void {
+			super.createTracker(0);
 		}
 		
 		override protected function buildLevel():void

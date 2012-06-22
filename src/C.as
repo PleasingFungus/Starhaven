@@ -22,7 +22,7 @@ package  {
 	 */
 	public class C {
 		public static const VERSION:String = "1.0FGL";
-		public static const DEBUG:Boolean = true;
+		public static const DEBUG:Boolean = false;
 		public static const DEBUG_INFO_LAYER:Boolean = false;
 		public static const DEBUG_COLOR:uint = 0xffff00ff;
 		public static const DEBUG_SEED:Number = NaN;

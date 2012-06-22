@@ -15,8 +15,8 @@ package Sminos {
 		protected var combatRocket:FlxSprite;
 		protected var tracer:RocketGunTracer;
 		public function RocketGun(X:int, Y:int) {
-			var blocks:Array = [new Block(0, 0), new Block(1, 0), new Block(2, 0),
-												 new Block(1, 1)];
+			var blocks:Array = [				 new Block(1, -1),
+								new Block(0, 0), new Block(1, 0), new Block(2, 0)];
 			
 			crewReq = 1;
 			powerReq = 100;
@@ -25,7 +25,7 @@ package Sminos {
 			rocketCapacity = blocks.length;
 			
 			name = "Rocket Gun";
-			description = "Rocket Guns shoot down dangerous incoming meteoroids! Crew and power them, point them outward and keep their fields of fire clear for best effect.";			
+			description = "This is a rocket gun.\n\nRocket Guns shoot down incoming meteoroids.";			
 			tracer = new RocketGunTracer(this);
 			tracer.visible = false;
 		}
@@ -63,7 +63,7 @@ package Sminos {
 		protected function withinArc(target:Point):Boolean {
 			var delta:Point = target.subtract(fireOrigin);
 			var angle:Number = Math.atan2(delta.y, delta.x);
-			angle -= Math.PI / 2; //offset segments by 90 degrees
+			angle += Math.PI / 2; //offset segments by 90 degrees
 			if (angle < 0) angle = angle + Math.PI * 2;
 			var segment:int = Math.floor(angle / (Math.PI / 2));
 			return segment == facing || segment == ((facing + 1) & 3);

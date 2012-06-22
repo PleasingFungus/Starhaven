@@ -17,7 +17,7 @@ package HUDs {
 		
 		private var trackerText:FlxText;
 		private var blockText:FlxText;
-		private var goalText:FlxText;
+		private var goalText:HUDText;
 		private var HUDBar:FlxSprite;
 		
 		public var minimap:Minimap;
@@ -161,6 +161,11 @@ package HUDs {
 			super.alpha = a;
 			bounds.alpha = a;
 			HUDBar.alpha = 0.4 * a;
+		}
+		
+		public function setGoalIcon(icon:Class):void
+		{
+			goalText.loadIcon(icon);
 		}
 		
 		protected const FLICKERSTATE_TO_FIRST_ON:int = 0;
