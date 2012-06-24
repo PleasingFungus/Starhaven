@@ -17,7 +17,7 @@ package HUDs {
 		
 		private var trackerText:FlxText;
 		private var blockText:FlxText;
-		private var goalText:FlxText;
+		private var goalText:HUDText;
 		private var HUDBar:FlxSprite;
 		
 		public var minimap:Minimap;
@@ -35,7 +35,7 @@ package HUDs {
 			mineralText = new HUDText(5, 220, 100).loadIcon(C.ICONS[C.MINERALS]);
 			lifeText = new HUDText(FlxG.width - 90, 20, 85, "TIME: 0:00");
 			
-			if (C.DEBUG) {
+			if (C.DEBUG && C.DEBUG_INFO_LAYER) {
 				add(mineralText);
 				add(lifeText);
 			}
@@ -47,9 +47,12 @@ package HUDs {
 			
 			goalText = new HUDText(10, FlxG.height - 18, 160, goalName+": 0%", C.ICONS[C.MINERALS]);
 			goalText.color = 0xffd000;
-			trackerText = new HUDText(FlxG.width - 190, FlxG.height - 18, 170, " ", C.ICONS[C.METEOROIDS]);
-			trackerText.color = 0xdf0000;
-			trackerText.alignment = "right";
+			if (C.DEBUG && C.DEBUG_INFO_LAYER)
+			{
+				trackerText = new HUDText(FlxG.width - 190, FlxG.height - 18, 170, " ", C.ICONS[C.METEOROIDS]);
+				trackerText.color = 0xdf0000;
+				trackerText.alignment = "right";
+			}
 			
 			//var menuText:FlxText = new HUDText(FlxG.width - 190, 5, 185, "ESC=MENU");
 			//menuText.alignment = "right";
@@ -59,7 +62,7 @@ package HUDs {
 			add(goalText);
 			add(trackerText);
 			
-			if (GlobalCycleTimer.miningTime || C.DEBUG) {				
+			if (GlobalCycleTimer.miningTime || (C.DEBUG && C.DEBUG_INFO_LAYER)) {				
 				blockText = new HUDText(FlxG.width / 2, FlxG.height - 18, 160, " ", C.ICONS[C.MINOS]);
 				add(blockText);
 			}
@@ -96,10 +99,13 @@ package HUDs {
 				blockText.x = FlxG.width / 2 - blockText.textWidth / 2;
 			}
 			
-			if (trackerText.active && tracker.dangerText)
-				trackerText.text = tracker.dangerText/* + " ("+tracker.waveMeteos+")"*/;
-			else
-				trackerText.text = " ";
+			if (trackerText)
+			{
+				if (trackerText.active && tracker.dangerText)
+					trackerText.text = tracker.dangerText/* + " ("+tracker.waveMeteos+")"*/;
+				else
+					trackerText.text = " ";
+			}
 			
 			if (C.HUD_FLICKERS)
 				updateFlicker();
@@ -155,6 +161,11 @@ package HUDs {
 			super.alpha = a;
 			bounds.alpha = a;
 			HUDBar.alpha = 0.4 * a;
+		}
+		
+		public function setGoalIcon(icon:Class):void
+		{
+			goalText.loadIcon(icon);
 		}
 		
 		protected const FLICKERSTATE_TO_FIRST_ON:int = 0;

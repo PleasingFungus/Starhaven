@@ -39,9 +39,10 @@ package Mining {
 		}
 		
 		public static function typeOfColor(color:uint):int {
-			return COLORS.indexOf(color) - 1;
+			return COLORS.indexOf(color) + BEDROCK;
 		}
 		
+		public static const NIL:int = -2;
 		public static const BEDROCK:int = -1;
 		public static const ROCK:int = 0;
 		public static const WEAK_MINERALS:int = 1;

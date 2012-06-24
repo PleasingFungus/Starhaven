@@ -1,5 +1,6 @@
 package Editor {
 	import Sminos.*;
+	import Missions.LoadedMission;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -21,12 +22,12 @@ package Editor {
 				var y:int = details[2];
 				var facing:int = details[3];
 				
-				var sminoIndex:int = SMINO_NAMES.indexOf(name);
+				var sminoIndex:int = LoadedMission.SMINO_NAMES.indexOf(name);
 				if (sminoIndex == -1) {
 					C.log("Couldn't spawn smino " + name);
 					continue;
 				}
-				var sminoType:Class = ALL_SMINOS[sminoIndex];
+				var sminoType:Class = LoadedMission.ALL_SMINOS[sminoIndex];
 				
 				var smino:Smino = new sminoType(x, y);
 				while (smino.facing != facing)
@@ -36,7 +37,7 @@ package Editor {
 			}
 		}
 		
-		public const ALL_SMINOS:Array = [HookConduit, LeftHookConduit, LongConduit,
+		/*public const ALL_SMINOS:Array = [HookConduit, LeftHookConduit, LongConduit,
 										 MediumBarracks, SmallBarracks, MediumLauncher, SmallLauncher,
 										 NebularAccumulator, Scoop, LongDrill,
 										 RocketGun];
@@ -44,7 +45,7 @@ package Editor {
 		public const SMINO_NAMES:Array = ["Hook-Conduit", "LeftHook-Conduit", "Long-Conduit",
 										  "Barracks", "Small Barracks", "Launcher", "Small Launcher",
 										  "Nebular Accumulator", "Scoop", "Long Drill",
-										  "Rocket Gun"]; 
+										  "Rocket Gun"]; */
 	}
 
 }

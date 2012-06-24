@@ -1,6 +1,7 @@
 package InfoScreens {
 	import Controls.ControlSet;
 	import org.flixel.*;
+	import Sminos.LongDrill;
 	/**
 	 * ...
 	 * @author Nicholas Feinberg
@@ -65,7 +66,8 @@ package InfoScreens {
 		
 		public static function miningTutorial():NewPlayerEvent {
 			var tut:NewPlayerEvent = new NewPlayerEvent(" ", " ");
-			tut.add(new FlxSprite().loadGraphic(_mining_glyphs));
+			tut.add(Mino.layer.add(new LongDrill(3, 3)));
+			
 			return tut;
 		}
 		
@@ -149,6 +151,7 @@ package InfoScreens {
 			EVENTS[WATER] = waterMinitutorial;
 		}
 		
+		//[Embed(source = "../../lib/art/tutorial/mining_tutorial_drill.png")] private static const _mining_tutorial_drill:Class;
 		[Embed(source = "../../lib/art/tutorial/mining_glyphs.png")] private static const _mining_glyphs:Class;
 		[Embed(source = "../../lib/art/tutorial/launching_glyphs.png")] private static const _launching_glyphs:Class;
 		[Embed(source = "../../lib/art/tutorial/meteo_glyphs.png")] private static const _meteo_glyphs:Class;
