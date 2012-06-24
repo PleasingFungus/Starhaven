@@ -20,7 +20,7 @@ package Sminos {
 		public function Drill(X:int, Y:int, Blocks:Array, Center:Point, OpSprite:Class=null, InopSprite:Class=null) {
 			super(X, Y, Blocks, Center, 0xff64448f, 0xff9348f4, OpSprite, InopSprite);
 			cladeName = "Drill";
-			description = "Drill point-first into purpleish mineral clusters to harvest them; then hook up the drill to power to collect the minerals!";			bombCarrying = true;
+			description = "This is a drill.\n\nDrills collect purple minerals.";			bombCarrying = true;
 			waterproofed = true;
 			//if (!C.BEAM_DEFENSE)
 				//crewReq = 1;

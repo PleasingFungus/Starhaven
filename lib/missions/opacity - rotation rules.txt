@@ -1,0 +1,7 @@
+63 = left
+127 = up
+191 = right
+255 = down
+other values = down
+
+color values are in lib/data/piece_colors

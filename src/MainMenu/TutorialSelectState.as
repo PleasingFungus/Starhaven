@@ -20,9 +20,11 @@ package MainMenu {
 			
 			MenuThing.resetThings();
 			//add(new StateThing("README", HelpState));
-			add(new StateThing("1 - Mining & Power", MiningTutorial));
-			add(new StateThing("2 - Housing & Launching", HousingTutorial));
-			add(new StateThing("3 - Asteroids & Meteoroids", DefenseTutorial));
+			add(new StateThing("Conduits", ConduitTutorial));
+			add(new StateThing("Drills", DrillTutorial));
+			add(new StateThing("Launchers", LauncherTutorial));
+			add(new StateThing("Barracks", BarracksTutorial));
+			add(new StateThing("Missiles", MissileTutorial));
 			if (!C.accomplishments.tutorialDone)
 				add(new StateThing("Skip Remaining Tutorials", SkipTutorialState));
 			MenuThing.menuThings[0].select();

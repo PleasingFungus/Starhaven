@@ -1,5 +1,4 @@
 package Scenarios.Tutorials {
-	import Editor.StationLoader;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import Mining.*
@@ -61,19 +60,16 @@ package Scenarios.Tutorials {
 			Mino.all_minos.push(planet);
 			planet.addToGrid();
 			
-			addDrills();
+			addSminos();
 		}
 		
-		protected function addDrills():void {
-			new StationLoader(station, ["Long Drill,4,6,3", "Long Drill,10,4,3", "Long Drill,16,3,3", "Long Drill,-6,5,3", "Long Drill,-11,4,3", "Long Drill,-17,5,3", "Long-Conduit,3,5,0", "Long-Conduit,6,4,0", "Long-Conduit,9,3,0", "Long-Conduit,12,2,0", "Long-Conduit,16,2,0", "Long-Conduit,-6,4,0", "Long-Conduit,-9,3,0", "Long-Conduit,-13,3,0", "Long-Conduit,-16,4,0"]);
-		}
-		
-		protected function addSmino(X:int, Y:int, minoType:Class, Facing:int = FlxSprite.DOWN):void {
-			var smino:Smino = new minoType(X, Y);
-			while (smino.facing != Facing)
-				smino.rotateClockwise(true);
-			smino.stealthAnchor(station);
-			minoLayer.add(smino);
+		protected function addSminos():void {
+			for each (var smino:Smino in (mission as LoadedMission).loadPieces(_mission_image))
+			{
+				smino.stealthAnchor(station);
+				Mino.layer.add(smino);
+				Mino.all_minos.push(smino);
+			}
 		}
 		
 		
@@ -93,6 +89,11 @@ package Scenarios.Tutorials {
 				hudLayer.add(NewPlayerEvent.housingTutorial());
 				seenIntro = true;
 			}
+		}
+		
+		override protected function shouldZoomOut():Boolean
+		{
+			return true;
 		}
 		
 		[Embed(source = "../../../lib/missions/tutorial_housing.png")] private static const _mission_image:Class;

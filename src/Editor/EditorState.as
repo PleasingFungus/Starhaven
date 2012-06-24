@@ -99,7 +99,7 @@ package Editor {
 					currentMino.exists = false;
 					killCurrentMino();
 				}
-				minoIndex = (minoIndex + loader.ALL_SMINOS.length - 1) % loader.ALL_SMINOS.length;
+				minoIndex = (minoIndex + LoadedMission.ALL_SMINOS.length - 1) % LoadedMission.ALL_SMINOS.length;
 				spawnNextMino();
 			}
 			
@@ -108,13 +108,13 @@ package Editor {
 					currentMino.exists = false;
 					killCurrentMino();
 				}
-				minoIndex = (minoIndex + 1) % loader.ALL_SMINOS.length;
+				minoIndex = (minoIndex + 1) % LoadedMission.ALL_SMINOS.length;
 				spawnNextMino();
 			}
 		}
 		
 		override protected function getMinoChoice():Class {
-			return loader.ALL_SMINOS[minoIndex];
+			return LoadedMission.ALL_SMINOS[minoIndex];
 		}
 		
 		protected function loadStation():void {

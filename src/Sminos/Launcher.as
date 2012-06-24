@@ -25,7 +25,7 @@ package Sminos {
 			capacityText = new Icontext(0, 0, 100, launchCapacity + "", C.ICONS[C.GOODS]);
 			
 			cladeName = "Launcher";
-			description = "Power and fully crew Launchers to send minerals you've gathered back to your home base!";		
+			description = "This is a launcher.\n\nLaunchers send collected minerals to your home base.";		
 		}
 		
 		override protected function executeCycle():void {

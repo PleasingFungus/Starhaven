@@ -5,6 +5,8 @@ package Scenarios.Tutorials {
 	import Mining.MineralBlock;
 	import Mining.Terrain;
 	import Missions.LoadedMission;
+	import org.flixel.data.FlxPanel;
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxU;
 	import Meteoroids.PlanetSpawner;
@@ -12,10 +14,12 @@ package Scenarios.Tutorials {
 	import Scenarios.DefaultScenario;
 	import GrabBags.BagType;
 	import Scenarios.PlanetScenario;
+	import Sminos.LongConduit;
 	import Sminos.LongDrill;
 	import Sminos.Conduit;
 	import InfoScreens.NewPlayerEvent;
 	import Mining.PlanetMaterial;
+	import Globals.GlobalCycleTimer;
 	/**
 	 * ...
 	 * @author Nicholas "PleasingFungus" Feinberg
@@ -27,6 +31,8 @@ package Scenarios.Tutorials {
 			
 			goalMultiplier = 0.5;
 			buildMusic = C.music.TUT_MUSIC;
+			
+			spawnTimer = 1;
 		}
 		
 		override public function create():void {
@@ -72,19 +78,21 @@ package Scenarios.Tutorials {
 			station.add(planet);
 			Mino.all_minos.push(planet);
 			planet.addToGrid();
+			
+			addGhostSminos();
 		}
 		
 		
 		
 		
-		private var seenIntro:Boolean;
+		/*private var seenIntro:Boolean;
 		override protected function checkPlayerEvents():void {
 			super.checkPlayerEvents();
 			if (!seenIntro) {
 				hudLayer.add(NewPlayerEvent.miningTutorial());
 				seenIntro = true;
 			}
-		}
+		}*/
 		
 		override protected function get goalPercent():int {
 			return station.mineralsMined * 100 / (initialMinerals * goalMultiplier);
@@ -110,6 +118,198 @@ package Scenarios.Tutorials {
 			if (won() || station.core.damaged)
 				return super.getEndText();
 			return "Insufficient minerals remain!";
+		}
+		
+		override protected function shouldZoomOut():Boolean
+		{
+			return true;
+		}
+		
+		override protected function getMinoChoice():Class
+		{
+			if (GlobalCycleTimer.minosDropped < 1)
+			{
+				return LongDrill;
+			}
+			else if (GlobalCycleTimer.minosDropped == 1)
+			{
+				return LongConduit;
+			}
+			else
+			{
+				return super.getMinoChoice();
+			}
+		}
+		
+		/************************************
+		 * 		  ghost smino code			*
+		 ***********************************/
+		
+		protected var ghostSminos:Vector.<Smino>;
+		protected var currentGhostSmino:Smino;
+		protected var currentGhostSminoLocation:FlxPoint;
+		protected var currentGhostSminoDestination:FlxPoint;
+		protected var increasingAlpha:Boolean;
+		protected const GHOST_MAX_ALPHA:Number = .7;
+		protected const GHOST_MIN_ALPHA:Number = 0;
+		protected const GHOST_PULSE_TIME:Number = .6;
+		protected const GHOST_MOVE_TIME:Number = 2.25;
+		protected var ghostSminoSpawn:FlxPoint;
+		protected const GHOST_SMINO_DESTINATIONS:Vector.<FlxPoint> = new Vector.<FlxPoint>;
+		protected var ghostMovementFinished:Boolean;
+		
+		protected const MOVE_SMOOTHLY:Boolean = true;
+		
+		protected function addGhostSminos():void
+		{
+			ghostSminos = new Vector.<Smino>;
+			ghostSminoSpawn = new FlxPoint(0, C.B.PlayArea.top - 20);
+			ghostSminos.push(new LongDrill(ghostSminoSpawn.x, ghostSminoSpawn.y), new LongConduit(ghostSminoSpawn.x, ghostSminoSpawn.y));
+			GHOST_SMINO_DESTINATIONS.push(new FlxPoint(-6, 5), new FlxPoint(-5, 4));
+			for each (var ghostSmino:Smino in ghostSminos)
+			{
+				Mino.layer.add(ghostSmino);
+				Mino.all_minos.push(ghostSmino);
+				ghostSmino.active = false;
+				ghostSmino.solid = false;
+				ghostSmino.visible = false;
+				ghostSmino.alpha = .8;
+			}
+			ghostSminos[1].rotateClockwise(true);
+			
+			ghostMovementFinished = false;
+		}
+		
+		override public function update():void
+		{
+			super.update();
+			
+			for each (var ghostSmino:Smino in ghostSminos)
+				ghostSmino.visible = false;
+			
+			setCurrentGhostSmino();
+			if (currentGhostSmino)
+			{
+				updateGhostMino();
+				if (!ghostMovementFinished)
+					disableMino();
+			}
+			if (currentMino && (ghostMovementFinished || !currentGhostSmino))
+			{
+				enableMino();
+			}
+		}
+		
+		override protected function checkInput():void
+		{
+			if (ghostMovementFinished || !currentGhostSmino)
+				super.checkInput();
+		}
+		
+		protected function disableMino():void
+		{
+			currentMino.active = false;
+			arrowHint.active = arrowHint.visible = false;
+		}
+		
+		protected function enableMino():void
+		{
+			currentMino.active = true;
+			arrowHint.active = arrowHint.visible = true;
+		}
+		
+		override protected function popNextMino():Smino
+		{
+			ghostMovementFinished = false;
+			currentGhostSminoLocation = new FlxPoint(ghostSminoSpawn.x, ghostSminoSpawn.y);
+			return super.popNextMino();
+		}
+		
+		protected function setCurrentGhostSmino():void
+		{
+			if (GlobalCycleTimer.minosDropped < 2)
+			{
+				if (currentMino is LongDrill)
+				{
+					currentGhostSmino = ghostSminos[0];
+					currentGhostSminoDestination = GHOST_SMINO_DESTINATIONS[0];
+				}
+				else if (currentMino is Conduit)
+				{
+					currentGhostSmino = ghostSminos[1];
+					currentGhostSminoDestination = GHOST_SMINO_DESTINATIONS[1];
+				}
+				else
+				{
+					currentGhostSmino = null;
+				}
+			}
+			else
+			{
+				currentGhostSmino = null;
+			}
+		}
+		
+		protected function updateGhostMino():void
+		{
+			currentGhostSmino.visible = true;
+			if (ghostMovementFinished)
+				pulseGhostSmino(currentGhostSmino);
+			else
+				moveGhostSmino();
+		}
+		
+		protected function pulseGhostSmino(smino:Smino):void
+		{
+			if (increasingAlpha)
+			{
+				if (smino.alpha < GHOST_MAX_ALPHA)
+				{
+					smino.alpha += (FlxG.elapsed / GHOST_PULSE_TIME) * (GHOST_MAX_ALPHA - GHOST_MIN_ALPHA);
+				}
+				else
+				{
+					increasingAlpha = false;
+					smino.alpha = GHOST_MAX_ALPHA;
+				}
+			}
+			else
+			{
+				if (smino.alpha > GHOST_MIN_ALPHA)
+				{
+					smino.alpha -= (FlxG.elapsed / GHOST_PULSE_TIME) * (GHOST_MAX_ALPHA - GHOST_MIN_ALPHA);
+				}
+				else
+				{
+					increasingAlpha = true;
+					smino.alpha = GHOST_MIN_ALPHA;
+				}
+			}
+		}
+		
+		protected function moveGhostSmino():void
+		{
+			if (currentGhostSmino.gridLoc.x > currentGhostSminoDestination.x || currentGhostSmino.gridLoc.y < currentGhostSminoDestination.y)
+			{
+				if (MOVE_SMOOTHLY)
+				{
+					currentGhostSmino.gridLoc.x -= (FlxG.elapsed / GHOST_MOVE_TIME) * (ghostSminoSpawn.x - currentGhostSminoDestination.x);
+					currentGhostSmino.gridLoc.y -= (FlxG.elapsed / GHOST_MOVE_TIME) * (ghostSminoSpawn.y - currentGhostSminoDestination.y);
+				}
+				else
+				{
+					currentGhostSminoLocation.x -= (FlxG.elapsed / GHOST_MOVE_TIME) * (ghostSminoSpawn.x - currentGhostSminoDestination.x);
+					currentGhostSminoLocation.y -= (FlxG.elapsed / GHOST_MOVE_TIME) * (ghostSminoSpawn.y - currentGhostSminoDestination.y);
+					currentGhostSmino.gridLoc.x = Math.floor(currentGhostSminoLocation.x);
+					currentGhostSmino.gridLoc.y = Math.floor(currentGhostSminoLocation.y);
+				}
+			}
+			else
+			{
+				currentGhostSmino.gridLoc.x = currentGhostSminoDestination.x;
+				currentGhostSmino.gridLoc.y = currentGhostSminoDestination.y;
+				ghostMovementFinished = true;
+			}
 		}
 		
 		[Embed(source = "../../../lib/missions/tutorial_mining.png")] private static const _mission_image:Class;

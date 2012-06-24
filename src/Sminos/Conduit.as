@@ -16,7 +16,7 @@ package Sminos {
 			waterproofed = true;
 			
 			cladeName = "Conduit";
-			description = "Conduits transmit power from the station core, powering other modules.";		}
+			description = "This is a conduit.\n\nConduits power modules.";		}
 		
 		override protected function executeCycle():void {
 			super.executeCycle();
