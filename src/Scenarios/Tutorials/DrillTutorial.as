@@ -48,7 +48,7 @@ package Scenarios.Tutorials
 		
 		override protected function get goalPercent():int
 		{
-			return station.mineralsMined * 100 / (initialMinerals * goalMultiplier);
+			return (station.mineralsMined + station.mineralsLaunched) * 100 / (initialMinerals * goalMultiplier);
 		}
 	}
 }
