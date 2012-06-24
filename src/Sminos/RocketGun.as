@@ -91,7 +91,7 @@ package Sminos {
 		override protected function renderSupply():void {			
 			if (!combatRocket)
 				combatRocket = new FlxSprite().loadRotatedGraphic(_combat_rocket_sprite, 4);
-			combatRocket.frame = (facing + 2) & 3;
+			combatRocket.frame = facing;
 			renderOnBlocks(combatRocket, rocketsLoaded);
 			
 			super.renderSupply();
