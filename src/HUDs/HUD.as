@@ -1,4 +1,5 @@
 package HUDs {
+	import Helpers.KeyHelper;
 	import Meteoroids.MeteoroidTracker;
 	import org.flixel.*;
 	import Controls.ControlSet;
@@ -54,10 +55,11 @@ package HUDs {
 				trackerText.alignment = "right";
 			}
 			
-			//var menuText:FlxText = new HUDText(FlxG.width - 190, 5, 185, "ESC=MENU");
-			//menuText.alignment = "right";
-			//add(menuText);
-			
+			var menuHelper:KeyHelper = new KeyHelper(ControlSet.CANCEL_KEY);
+			menuHelper.loadGraphic(escKey);
+			menuHelper.x = FlxG.width - (menuHelper.width + 10);
+			menuHelper.y = 10;
+			add(menuHelper);
 			
 			add(goalText);
 			add(trackerText);
@@ -178,6 +180,8 @@ package HUDs {
 		protected const FLICKER_OFF_TIME:Number = 0.1;
 		protected const FLICKER_OFF_INTENSITY:Number = 0.2;
 		protected const FULL_FLICKER_ON_TIME:Number = 1.0;
+		
+		[Embed(source = "../../lib/art/help/esc.png")] private static const escKey:Class;
 	}
 
 }

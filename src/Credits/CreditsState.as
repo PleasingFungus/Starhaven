@@ -26,14 +26,13 @@ package Credits {
 			background.y = colY;
 			
 			addCredit("Design", "Nicholas Feinberg");
-			addCredit("Programming", "Nicholas Feinberg");
+			addCredit("Programming", "Nicholas Feinberg", "Ethan Feinberg");
 			addCredit("Art Lead", "Jackson Potter 'Jr.'");
 			addCredit("Additional Art", "Nicholas Feinberg");
 			addCredit("Sound", "Nicholas Feinberg", "w/ Stephen Lavelle's bfxr", "www.soundrangers.com");
 			addCredit("Music", "Jeremy Iamurri (Solatrus)", "Nick Smalley (OMGTSN)");
 			colIsWide = true;
-			addCredit("Playtesting", "Alexander 'Droqen' Martin - 'Dropen'",
-									 "Ethan 'BIG MAN' Feinberg - 'not even big'",
+			addCredit("Playtesting", "Alexander 'Droqen' Martin",
 									 "James 'Bobo' Higgins",
 									 "Nik 'goog' Dorff - 'ugggggh'",
 									 "Nataniel 'tridgor' Butt",
@@ -44,6 +43,7 @@ package Credits {
 									 "Jeffrey 'Jiefu' McGannigan",
 									 "James 'Nagilfar' Draskovic",
 									 "'Kiwi'",
+									 "'Dazzling Adder'",
 									 "The TIGSource Feedback forum");
 			colIsWide = true;
 			addCredit("Additional Thanks");
