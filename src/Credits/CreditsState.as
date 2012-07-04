@@ -25,7 +25,7 @@ package Credits {
 			colY = titleBar.y + titleBar.height + 9; //90
 			background.y = colY;
 			
-			addCredit("Design", "Nicholas Feinberg");
+			addCredit("Design", "Nicholas Feinberg", "Kelsey Higham");
 			addCredit("Programming", "Nicholas Feinberg", "Ethan Feinberg");
 			addCredit("Art Lead", "Jackson Potter 'Jr.'");
 			addCredit("Additional Art", "Nicholas Feinberg");
