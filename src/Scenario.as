@@ -785,15 +785,28 @@ package
 		protected function checkCamera():void {
 			C.B.buffer = mapBuffer;
 			var shouldZoomOut:Boolean = this.shouldZoomOut();
-			if ((!shouldZoomOut && zoomToggled) ||
+			if (substate == SUBSTATE_MISSOVER ||
+				(!shouldZoomOut && zoomToggled) ||
 				(shouldZoomOut && !zoomToggled)) {
 				if (_scale == 1)
 					adjustScale(true);
 				centerOnStation();
+				DEBUG_UPDATE_CAM_STATUS(true);
 			} else {
 				if (_scale != 1)
 					adjustScale(false);
+				DEBUG_UPDATE_CAM_STATUS(false);
 			}
+		}
+		
+		private var DEBUG_CAM_STATUS:FlxText;
+		private function DEBUG_UPDATE_CAM_STATUS(onStation:Boolean):void {
+			if (!C.DEBUG)
+				return;
+			
+			if (!DEBUG_CAM_STATUS)
+				C.hudLayer.add(DEBUG_CAM_STATUS = new FlxText(5, 5, 500, "beaefs"));
+			DEBUG_CAM_STATUS.text = (onStation ? "S" : "Z") + ":" + C.B.drawShift;
 		}
 		
 		protected function shouldZoomOut():Boolean {
