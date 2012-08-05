@@ -14,9 +14,11 @@ package Sminos {
 		protected var rocketCapacity:int;
 		protected var combatRocket:FlxSprite;
 		protected var tracer:RocketGunTracer;
+		protected var muzzle:Block;
 		public function RocketGun(X:int, Y:int) {
-			var blocks:Array = [				 new Block(1, -1),
-								new Block(0, 0), new Block(1, 0), new Block(2, 0)];
+			muzzle = new Block(1, 0);
+			var blocks:Array = [				      muzzle,
+								new Block(0, 1), new Block(1, 1), new Block(2, 1)];
 			
 			crewReq = 1;
 			powerReq = 100;
@@ -77,7 +79,7 @@ package Sminos {
 		}
 		
 		public function get fireOrigin():Point {
-			return absoluteCenter.add(blocks[blocks.length - 1]);
+			return absoluteCenter.add(muzzle);
 		}
 		
 		override public function renderTop(_:Boolean, force:Boolean = false):void {

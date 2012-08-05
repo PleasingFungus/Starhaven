@@ -89,7 +89,7 @@ package GameBonuses.Attack {
 		
 		
 		override protected function makeStations():void {
-			makeStation( -1, 4, ["Hook-Conduit,-4,4,0", "Long-Conduit,-9,4,0", "Long-Conduit,1,4,0", "LeftHook-Conduit,3,2,2", "LeftHook-Conduit,8,2,0", "Long-Conduit,8,-1,3", "LeftHook-Conduit,9,-4,2", "LeftHook-Conduit,6,-4,2", "LeftHook-Conduit,-11,2,3", "Long-Conduit,-11,0,3", "LeftHook-Conduit,-11,-4,2", "Small Barracks,8,-6,3", "Small Barracks,1,2,3", "Small Barracks,-11,-6,3", "Rocket Gun,-8,-6,1", "Rocket Gun,6,-6,1", "Rocket Gun,2,0,1", "Hook-Conduit,-12,-5,0"]);
+			makeStation( -1, 4, ["Hook-Conduit,-4,4,0", "Long-Conduit,-9,4,0", "Long-Conduit,1,4,0", "LeftHook-Conduit,3,2,2", "LeftHook-Conduit,8,2,0", "Long-Conduit,8,-1,3", "LeftHook-Conduit,9,-4,2", "LeftHook-Conduit,6,-4,2", "LeftHook-Conduit,-11,2,3", "Long-Conduit,-11,0,3", "LeftHook-Conduit,-11,-4,2", "Small Barracks,8,-6,3", "Small Barracks,1,2,3", "Small Barracks,-11,-6,3", "Rocket Gun,-8,-5,3", "Rocket Gun,6,-5,3", "Rocket Gun,2,1,3", "Hook-Conduit,-12,-5,0"]);
 		}
 		
 		[Embed(source = "../../../lib/art/backgrounds/skyline_mtn.png")] private const _skyline:Class;
