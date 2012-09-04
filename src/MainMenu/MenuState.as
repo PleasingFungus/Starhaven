@@ -38,7 +38,7 @@ package MainMenu {
 			MenuThing.resetThings();
 			if (C.accomplishments.tutorialDone) {
 				add(new MemoryThing("Tutorials", TutorialSelectState));
-				add(new MemoryThing("Full Game", FullGameState));
+				add(new MemoryThing("Serial Play", FullGameState));
 				add(new MemoryThing("Single Levels", QuickPlayState));
 			} else
 				add(new MemoryThing("Play", C.accomplishments.nextUnbeaten()));
