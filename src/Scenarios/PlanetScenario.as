@@ -58,18 +58,6 @@ package Scenarios {
 			var sky:FlxSprite = new FlxSprite().createGraphic(FlxG.width, FlxG.height, 0xff000000, true, "sky");
 			sky.fill(0xff000000);
 			
-			//generate 'sun'
-			var stamp:FlxSprite = new FlxSprite().createGraphic(C.BLOCK_SIZE, C.BLOCK_SIZE);
-			stamp.color = 0xfffd00;
-			var sunAngle:Number = FlxU.random() * Math.PI / 2 + Math.PI * 5/4;
-			var sunPoint:Point = new Point((Math.cos(sunAngle) * .8 + 1) * FLXW / 2, 
-										   (Math.sin(sunAngle) * .8 + 1) * FLXH / 2
-										   /*FLXW / 2, FLXH / 4*/);
-			var sunRad:int = FlxU.random() * 3;
-			for (x = sunPoint.x - sunRad; x <= sunPoint.x + sunRad; x++)
-				for (y = sunPoint.y - sunRad; y <= sunPoint.y + sunRad; y++)
-					sky.draw(stamp, x * C.BLOCK_SIZE, y * C.BLOCK_SIZE);
-			
 			//basic sky color
 			
 			var hue:Number = FlxU.random();
@@ -82,6 +70,19 @@ package Scenarios {
 				strip.alpha = brightness;
 				sky.draw(strip, 0, y * C.BLOCK_SIZE);
 			}
+			
+			//generate 'sun'
+			var stamp:FlxSprite = new FlxSprite().createGraphic(C.BLOCK_SIZE, C.BLOCK_SIZE);
+			stamp.color = (0xffffff ^ C.HSVToRGB(hue, 1, 1))//0xfffd00;
+			stamp.alpha = 0.5;
+			var sunAngle:Number = FlxU.random() * Math.PI / 2 + Math.PI * 5/4;
+			var sunPoint:Point = new Point((Math.cos(sunAngle) * .8 + 1) * FLXW / 2, 
+										   (Math.sin(sunAngle) * .8 + 1) * FLXH / 2
+										   /*FLXW / 2, FLXH / 4*/);
+			var sunRad:int = FlxU.random() * 3;
+			for (x = sunPoint.x - sunRad; x <= sunPoint.x + sunRad; x++)
+				for (y = sunPoint.y - sunRad; y <= sunPoint.y + sunRad; y++)
+					sky.draw(stamp, x * C.BLOCK_SIZE, y * C.BLOCK_SIZE);
 			
 			//clouds
 			
